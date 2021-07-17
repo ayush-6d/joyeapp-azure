@@ -1,0 +1,151 @@
+@import "../../styles/constants.scss";
+.burger-menu-container {
+  span {
+    display: block;
+    width: 33px;
+    height: 3px;
+    margin-bottom: 5px;
+    position: relative;
+    background: $baseGreen;
+    border-radius: 3px;
+    z-index: 1;
+    transform-origin: 4px 0px;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    background: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    opacity: 0.55s ease;
+  }
+  span:first-child {
+    transform-origin: 0% 0%;
+  }
+  input {
+    display: block;
+    width: 26px;
+    height: 26px;
+    position: absolute;
+    box-shadow: 0 0 0 36px #fff;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 2;
+    -webkit-touch-callout: none;
+  }
+  .burger {
+    box-shadow: 0 0 0 4px #fff;
+    border-radius: 15px;
+    padding: 9px 0px 0px 4px;
+    opacity: 0.5;
+    height: 40px;
+    text-align: center;
+    width: 40px;
+  } // input:checked~span {
+  //     opacity: 1;
+  //     transform: rotate(45deg) translate(-2px, -1px);
+  //     background: #232323;
+  // }
+  // input:checked~span:nth-last-child(3) {
+  //     opacity: 0;
+  //     transform: rotate(0deg) scale(0.2, 0.2);
+  // }
+  // input:checked~span:nth-last-child(2) {
+  //     transform: rotate(-45deg) translate(0, -1px);
+  // }
+  // span:nth-last-child(2) {
+  //     transform-origin: 0% 100%;
+  // }
+  .sidenav {
+    font-size: 12.54px;
+    height: 100%;
+    width: 320px;
+    position: relative;
+    z-index: 1;
+    top: -70px;
+    left: -30px;
+    color: #6a7883;
+    background-color: #ffffff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding: 20px 40px;
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      width: 66%;
+      left: 40px;
+      margin: auto;
+      hr {
+        border-color: #d8d8d8;
+      }
+      .footer-content {
+        cursor: pointer;
+        padding: 10px 0px;
+      }
+    }
+    .motivation-container {
+      .motivation-title {
+        font-size: 16.67px;
+        font-weight: bold;
+        padding: 10px 0px;
+        margin-top: 20px;
+        color: $baseBlack;
+      }
+    }
+  }
+  .sidenav-hidden {
+    width: 0;
+    padding: 0;
+  }
+  .sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+  .sidenav a:hover {
+    cursor: pointer;
+    color: $baseGreen;
+  }
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+  .logo-container {
+    display: flex;
+    padding: 30px 0;
+  }
+  .sidebar-container {
+    .sidebar-item {
+      padding: 5% 0px;
+      display: flex;
+      align-items: center;
+      &:hover {
+        color: $baseGreen;
+        cursor: pointer;
+        path {
+          fill: $baseGreen;
+        }
+        rect {
+          fill: $baseGreen;
+        }
+      }
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+    .active {
+      font-weight: bold;
+      color: $baseGreen;
+    }
+  }
+  @media screen and (max-height: 450px) {
+    .sidenav {
+      padding-top: 15px;
+    }
+    .sidenav a {
+      font-size: 18px;
+    }
+  }
+}

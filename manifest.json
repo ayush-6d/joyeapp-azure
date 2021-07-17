@@ -1,0 +1,35 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.9",
+    "version": "1.0.0",
+    "showLoadingIndicator": true,
+    "id": "b3f83557-ab4a-4025-8b95-4c14122117f2",
+    "packageName": "com.joye.ai",
+    "developer": {
+      "name": "joye",
+      "websiteUrl": "https://joye.ai/",
+      "privacyUrl": "https://joyeapp-gjbx9q85d-sumit-ssingh.vercel.app/#/prvacy",
+      "termsOfUseUrl": "https://joyeapp-gjbx9q85d-sumit-ssingh.vercel.app/#/termsofservice"
+    },
+    "icons": {
+      "color": "color.png",
+      "outline": "outline.png"
+    },
+    "name": {
+      "short": "joye",
+      "full": "joye microoft team app"
+    },
+    "description": {
+      "short": "joyeapp",
+      "full": "feature"
+    },
+    "accentColor": "#FFFFFF",
+    "permissions": [
+      "identity",
+      "messageTeamMembers"
+    ],
+    "validDomains": [],
+    "devicePermissions": [
+      "media"
+    ]
+  }

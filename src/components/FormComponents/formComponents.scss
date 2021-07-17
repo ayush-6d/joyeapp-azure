@@ -1,0 +1,92 @@
+@import '../../styles/constants.scss';
+.button-container {
+    position: relative;
+    .btn-default-green {
+        border-radius: 26px;
+        color: white;
+        border: none;
+        &:focus,
+        &:hover,
+        &:active {
+            outline: none;
+            cursor: pointer;
+        }
+    }
+}
+
+.container {
+    display: block;
+    position: relative;
+    // padding-left: 33px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+/* Create a custom checkbox */
+
+.checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 16px;
+    width: 16px;
+    background-color: #ffffff;
+    border: 2px solid $baseBlack;
+    border-radius: 50%;
+}
+
+.container:hover input~.checkmark {
+    border: 2px solid $baseGreen;
+}
+
+.container input:checked~.checkmark {
+    border: 2px solid $baseBlack;
+}
+
+.checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+}
+
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    border: solid $baseGreen;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.nameProp {
+    font-size: 14px;
+    display: flex;
+    flex-wrap: nowrap; // margin-top: 3px;
+    color: $baseBlack;
+}
+
+.btn-default-green {
+    box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    transition: all ease-in-out 300ms;
+}
+
+.btn-default-green:hover {
+    box-shadow: 0px 28px 15px -15px rgba(0, 0, 0, 0.2);
+    transform: translate(0px, -2px) scale(1);
+    transition: all ease-in-out 300ms;
+}
