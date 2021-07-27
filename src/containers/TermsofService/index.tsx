@@ -14,16 +14,19 @@ export class TermsofService extends React.PureComponent {
           style={{
             background: "#ffffff",
             color: "#808080",
-            padding: "10px",
+            padding: "20px",
             textAlign: "center",
-            minHeight: "700px",
+            minHeight: "600px",
             height: "auto",
-            width: "70%",
-            marginLeft: "16.5%",
+            width: "100%",
             alignContent: "center",
             fontFamily: "Nunito-Regular",
             fontSize: "16px",
-            lineHeight: "24px"
+            lineHeight: "24px", 
+            maxWidth:"748px",
+              margin: "0 auto",           
+            wordBreak:"break-all",
+            position:"relative"
           }}
         >
           <div style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>

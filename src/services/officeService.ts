@@ -71,7 +71,7 @@ export const getEvents =(startDate, endDate, accessToken) => {
         console.log(response.data.value);
         sendNotification()
     }).catch(function (err) {
-        debugger
+      //  debugger
         if (hasAccessTokenExpired(err.response)) {
             // let refreshToken = req.cookies.OFFICE_REFRESH_TOKEN;
             // getTokenFromRefreshToken(refreshToken, function (error, newAccessToken, newRefreshToken) {

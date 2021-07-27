@@ -154,23 +154,21 @@ textarea {
 .font-green {
   color: $baseGreen;
 }
-
+.bottom-container
+{
+  margin-top:50px;
+}
 @media (max-width: 768px) {
   .joye {
     width: 60% !important;
     margin: auto;
   }
-  .score-point {
-    // margin: 45px auto;
-    padding: 12% !important;
-  }
-  // .circular_counter {
-  //     top: 363px !important;
-  //     margin-left: 100px
-  // }
+
+
 }
 @media (max-width: 425px) {
   .circular_counter {
-    top: 468px !important;
+    /*top: 306px !important;
+    left: 40px;*/
   }
 }

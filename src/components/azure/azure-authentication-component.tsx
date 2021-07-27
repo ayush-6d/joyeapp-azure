@@ -14,7 +14,7 @@ const isIE = msie > 0 || msie11 > 0;
 // Log In, Log Out button
 const AzureAuthenticationButton = ({ userDetail, onAuthenticated }: any): JSX.Element => {
   // Azure client context
-  debugger;
+  //debugger;
   const authenticationModule: AzureAuthenticationContext = new AzureAuthenticationContext();
 
   const [authenticated, setAuthenticated] = useState<Boolean>(false);

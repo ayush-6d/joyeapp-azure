@@ -34,12 +34,15 @@
       // padding: 5px 0px;
       text-align: center;
       color: $baseGreen;
-      font-size: 16.67px;
-      margin: 43px 0px 10px 0px;
+      font-size:20px !important;
+      margin:30px 0px 10px 0px;
       font-family: Nunito-Regular;
+      line-height:27px;
       &.bold {
         color: $baseDarkBlack;
       }
+      p{margin:0;}
+      h3{font-size:18px;color:#343434}
     }
     .desc-text {
       padding: 5px 0px;
@@ -95,11 +98,11 @@
 
 .dont-have-account-text {
   text-align: center;
-  margin-top: 47px;
+  margin-top:5px;
   font-size: 12.5px;
   color: $baseDarkBlack;
   font-weight: 400;
-}
+} 
 
 .align-field {
   font-size: 12.5px;
@@ -109,7 +112,7 @@
   align-items: center;
   cursor: pointer;
   margin-top: 20px;
-  .nameProp {
+  .nameProp { 
     margin-top: 0px;
     margin-left: -7px;
   }
@@ -138,3 +141,4 @@
   align-self: center;
   text-align: center;
 }
+

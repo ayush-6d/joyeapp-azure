@@ -170,7 +170,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   // }
   handleSubmit = async user => {
-    debugger;
+    //debugger;
     console.log("userdasda*******", user);
     const config = {
       auth: {
@@ -179,9 +179,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
         postLogoutRedirectUri: "http://localhost:8080"
       }
     };
-    debugger;
+   // debugger;
     let userId = await createHash(user["tenantId"]);
-    debugger;
+    //debugger;
     let self = this;
     axios
       .post(
@@ -200,22 +200,22 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
         }
       )
       .then(function (res) {
-        debugger;
+       // debugger;
         console.log("response", res);
         self.setState({ isLoading: false });
         if (!res.data.status && res.data.StatusCode === 401) {
           removeAlert("loginError");
         } else {
-          debugger;
+        //  debugger;
           const token = res.data.token;
-          debugger;
+         // debugger;
           console.log(token);
           const userInstance = parseJwt(token);
           let data = {
             ...userInstance,
             token: token
           };
-          debugger;
+         // debugger;
           console.log("data", data);
           new UserModel({
             ...userInstance,
@@ -240,14 +240,14 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             .then(async userCredential => {
               // Signed in
               var user = userCredential.user;
-              debugger;
+              //debugger;
               console.log(user);
               try {
                 const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
-                debugger;
+               // debugger;
                 console.log("firebase", data);
               } catch (e) {
-                debugger;
+               // debugger;
                 console.log(e);
               }
               //         // ...
@@ -255,7 +255,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             .catch(error => {
               var errorCode = error.code;
               var errorMessage = error.message;
-              debugger;
+             // debugger;
               //           // ...
             });
           self.props.history.push(`/dashboard`);
@@ -285,11 +285,11 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     const { isLoading } = this.state;
     return (
       <div>
-        <BasePage className="login-form">
+        <BasePage withMenu className="login-form">
           <Logo height="76px" width="76px" marginTop="72px" />
           <Brand fontSize="42px" />
           <div className="text-container">
-            <div className="advertise-text" style={{ fontSize: "18px", lineHeight: "20px" }}>
+            <div className="advertise-text">
               <p>Speak your mind and Joye will keep you</p>
               <p>positive and productive amidst your emotional flux</p>
             </div>
@@ -298,25 +298,24 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
-        <span className="dont-have-account-text">You have our promise for your privacy protection. We will use only an encrypted idenity as your unique identifier. We do not need any of your other personal details - no email address, no profile picture, no employee ID.</span>
-        <div className="text-container">
+     {/*<span className="dont-have-account-text">
+          You have our promise for your privacy protection. We will use only an encrypted idenity as your unique 
+          identifier. We do not need any of your other personal details - no email address, no profile picture, no
+           employee ID.</span> */}
+        {/* <div className="text-container">
           <div className="advertise-text">
             <h3 className="advertise-text">Privacy poilicy</h3>
           </div>
-          </div>
+          </div> */}
 
           {/* <div className="button-wrapper">
             <AzureAuthenticationButton onAuthenticated={this.handleSubmit} />
           </div> */}
 
-          <div className="text-container">
-            <div className="advertise-text" style={{ color: "#808080", fontSize: "16px", marginTop: "15px", marginLeft: "-15px" }}>
-              Easy and secure sign in with your Microsoft account
-            </div>
-          </div>
+          
         </BasePage>
 
-        <BasePage>
+        <BasePage className="login-form">
           <div
             className="render-component"
             style={{
@@ -324,17 +323,23 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               color: "#808080",
               padding: "10px",
               textAlign: "center",
-              minHeight: "700px",
+              minHeight: "600px",
               height: "auto",
-              width: "70%",
-              marginLeft: "16.5%",
+             // width: "70%",
+             // marginLeft: "16.5%",
               alignContent: "center",
               fontFamily: "Nunito-Regular",
               fontSize: "16px",
-              lineHeight: "24px"
+              lineHeight: "24px",
+              position:"relative"
             }}
           >
-            <div style={{ alignContent: "center", marginTop: "40px", marginBottom: "10px", marginLeft: "-62px" }}>
+          <div className="text-container">
+            <div className="advertise-text" style={{ color: "#808080", fontSize: "16px", marginTop: "15px",}}>
+              Easy and secure sign in with your Microsoft account
+            </div>
+        </div>
+            <div style={{ alignContent: "center"}}>
               <img height="125px" width="93px" src={privacy} />
             </div>
 
@@ -343,20 +348,20 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
             <div className="text-container">
               <div className="advertise-text">
-                <h3 className="advertise-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "80px", marginLeft: "-62px" }}>
-                  Privacy poilicy
+                <h3 className="advertise-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px",}}>
+                  <a href="#" style={{ color: "#1E00A3" }}>Privacy poilicy</a> &nbsp;|&nbsp; <a href="#" style={{ color: "#1E00A3" }}>Terms of service</a>
                 </h3>
               </div>
             </div>
 
-            <div className="text-container">
+            {/* <div className="text-container">
               <div className="advertise-text">
                 <h3 className="advertise-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "10px", marginLeft: "-62px" }}>
-                  Terms of service
+                 
                 </h3>
               </div>
-            </div>
-            <div className="copy-right-text" style={{ marginTop: "50px", marginLeft: "-62px" }}>
+            </div> */}
+            <div className="copy-right-text" style={{ marginTop: "20px" }}>
               <a href="www.joye.ai" style={{ color: "#1E00A3" }}>
                 www.joye.ai
               </a>

@@ -17,7 +17,7 @@ export class BasePage extends React.Component<{
     !withMenu ? style.height = 'auto' : style.height = '100%';
     return (
       <div
-        className={`base-page-main ${className || ``}`}
+        className={`base-page-main login-form ${className || ``}`}
       >
         {withMenu ? <BurgerMenu /> : ''}
         <div className="layout-children">{children}</div>

@@ -1,0 +1,208 @@
+.dis-flex{display: flex;justify-content: space-between;}
+.dis-flex-menu {
+   display: flex;
+   justify-content: space-between;
+   flex-direction: row;
+ }
+.rel{position: relative;    width: 223px;
+   margin: 0 auto;
+   display: block;
+   height: 223px;
+.logo-container{
+  /* position:absolute;top: 338px;margin-top: -15%;left: 50%;margin-left: -13%;*/
+  position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+}
+}
+.margin-top-10
+{
+   margin-top:10px;
+}
+
+.skip-txt
+{
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.btn-play
+{
+
+   background: #5CC900;
+   padding: 15px;
+   border-radius: 42%;
+   width: 70px;
+   height:70px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 0 auto;
+}
+.checkbox-text{
+   color: #444;
+   font-size: 16px;
+}
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+   position: absolute;
+   margin-left: 0; 
+   width: 30px;
+   height: 20px;
+   border-radius: 15px;
+}
+.btn{
+   font-size: 16px;
+   color: #fff;
+   font-weight: 600;
+   border-radius: 40px;
+   min-width: 200px;
+   padding: 5px 20px;
+}
+.btn-primary
+{
+   background-color:#1E00A3;  
+   border-color: #1E00A3;
+}
+.btn-secondary{
+   background-color:#8E7AEC; 
+   border-color:#8E7AEC; 
+}
+.n-btn
+{
+   border-radius: 40px;
+   border: 1px solid #444;
+   padding: 3px 15px;
+   font-weight: 600;
+   color: #444;
+   min-width: 100px;
+   display: inline-block;
+}
+.circlesmalls{height:96px;width:96px;padding:0;padding-top:25px;}
+.circles.ripple img{
+   position: absolute;
+   top: 50%;
+   right: 50%;
+   transform: translate(50%, -50%);}
+.advertise-text{font-size:14px;font-weight:400px;
+  }
+.index-advertise-text
+   { color: #594E8B;
+      font-weight: 600;}
+.width300{max-width:300px;margin:0 auto}
+.position-relative
+{
+   position:relative;
+}
+.journal-container .logo-container
+{
+   position: absolute;
+   top: 50%;
+   right: 50%;
+   transform: translate(50%, -47%);
+}
+.advertise-text-journal{
+   font-size: 17px;
+   margin: 30px 0px 10px 0px;
+   font-family: Nunito-Regular;
+   text-align:center;
+}
+.advertise-text-journal p{
+   margin:0 0 2px 0;
+}
+.journal-checkbox{
+   margin-top: 1px;
+    display: flex;
+    flex-direction: row;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+}
+.journal-checkbox div{
+
+   display: flex;
+    flex-direction: column;
+    text-align: left;
+    justify-content: center;
+    align-items: center;
+}
+.journal-checkbox input[type=checkbox], input[type=radio] {
+   margin: 4px 0 0;
+   margin-top: 1px\9;
+   line-height: normal;
+   width: 40px;
+   height: 25px;
+   display: block;
+}
+.base-page-main.login-form{padding: 20px;}
+.about-textarea{
+   width: 100%;
+   max-width: 300px;
+}
+.congrats-sub-txt
+{
+   position: fixed;
+   left: 10px;
+   right: 10px;
+   top: 32%;
+   z-index: 500; 
+}
+.contrats-boom-img
+{
+   position: fixed;
+   left: 0px;
+   right: 0px;
+   bottom: 0px;
+   z-index: -1;
+}
+.congrats-txt
+{
+   margin-top:20px;
+   font-weight: 600;
+    font-size: 20px;
+    color: #808080;
+}
+.bold
+{
+   font-weight: 600;
+}
+.base-font
+{
+   font-size: 20px !important;
+    margin: 30px 0px 10px 0px;
+    font-family: Nunito-Regular;
+    line-height: 27px;
+    color: #444;
+}
+.do-not-txt
+{
+   font-size: 16px;
+   color: #808080;
+}
+.yes-no-icon-group 
+{
+   display: flex;
+   flex-direction: row;
+   justify-content: space-around;
+   margin: 20px auto; 
+
+}
+@media (min-width: 768px) {
+   .render-component >div 
+{
+   margin: 7px auto;
+}
+.render-component > div.bottom-container
+{
+   margin: 70px 0 0 0;
+}
+
+   .about-textarea{
+      max-width: 400px;
+   }
+}
+@media (max-width: 480px) {
+   
+   .width300{max-width:250px;}
+}

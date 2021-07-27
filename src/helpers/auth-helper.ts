@@ -29,19 +29,19 @@ export default class AuthHelper {
      * be logged in.
      */
     public static async Login(): Promise<void> {
-        debugger
+      //  debugger
         let accessToken: string = '';
 
         try {
             accessToken = await AuthHelper.getAccessToken();
             console.log('accessToken', accessToken)
             if (accessToken.length > 0) {
-                debugger
+               // debugger
                 window.location.replace(window.location.origin + '/');
             }
-            debugger
+          //  debugger
         } catch (err) {
-            debugger
+           // debugger
             let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
             if (cachedToken.length > 0) {
                 window.location.replace(window.location.origin);
@@ -66,12 +66,12 @@ export default class AuthHelper {
      * if it is there, or notifies of failure otherwise.
      */
     public static EndSignIn(): void {
-        debugger
+       // debugger
         if (authenticationContext.isCallback(window.location.hash)) {
             authenticationContext.handleWindowCallback(window.location.hash);
 
             if (window.opener) {
-                debugger
+             //   debugger
                 if (authenticationContext.getCachedUser()) {
                     authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
                         console.log('token', token)
@@ -107,12 +107,12 @@ export default class AuthHelper {
                 width: 600,
                 height: 535,
                 successCallback: (accessToken: string | undefined) => {
-                    debugger
+                   // debugger
                     console.log(accessToken)
                     resolve(accessToken);
                 },
                 failureCallback: (reason) => {
-                    debugger
+                  //  debugger
                     reject(reason);
                 }
             })

@@ -2,13 +2,13 @@
 .burger-menu-container {
   span {
     display: block;
-    width: 33px;
+    width: 30px;
     height: 3px;
     margin-bottom: 5px;
     position: relative;
     background: $baseGreen;
     border-radius: 3px;
-    z-index: 1;
+    z-index: 500;
     transform-origin: 4px 0px;
     transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
     background: 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
@@ -28,10 +28,15 @@
     z-index: 2;
     -webkit-touch-callout: none;
   }
+  .dis-flex-menu {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+  }
   .burger {
     box-shadow: 0 0 0 4px #fff;
     border-radius: 15px;
-    padding: 9px 0px 0px 4px;
+    padding: 2px 0px 0px 4px;
     opacity: 0.5;
     height: 40px;
     text-align: center;
@@ -52,18 +57,22 @@
   //     transform-origin: 0% 100%;
   // }
   .sidenav {
+    display: block;
     font-size: 12.54px;
     height: 100%;
     width: 320px;
-    position: relative;
+    position: absolute;
     z-index: 1;
-    top: -70px;
-    left: -30px;
+    top: 0px;
+    left: 0px;
     color: #6a7883;
-    background-color: #ffffff;
+    box-shadow: 0 6px 10px 7px #dddddd;
     overflow-x: hidden;
     transition: 0.5s;
-    padding: 20px 40px;
+    padding: 20px 25px;
+    background: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
     .footer {
       position: absolute;
       bottom: 20px;
@@ -89,6 +98,7 @@
     }
   }
   .sidenav-hidden {
+    display: none;
     width: 0;
     padding: 0;
   }

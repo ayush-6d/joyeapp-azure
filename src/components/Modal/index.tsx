@@ -47,7 +47,7 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
         snapshot.forEach(data => {
           const dataVal = data.val();
           console.log("dataVal", dataVal);
-          this.setState({ emergencyData: dataVal });
+          //this.setState({ emergencyData: dataVal });
         });
       });
 

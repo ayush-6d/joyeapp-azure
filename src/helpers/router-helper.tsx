@@ -48,7 +48,7 @@ export default class RouterHelper {
         return <div className='joye' style={{ height: '100%' }} >{children}</div>;
       }
     };
-    debugger
+    //debugger
     return (
       <Router>
         <Switch>

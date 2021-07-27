@@ -23,7 +23,7 @@ export class Button extends React.Component<IButtonProps, {}> {
   }
 
   static defaultProps = {
-    bgColor: '#9A8CD6',
+    bgColor: '#8e7aec',
     height: '41px',
     width: '212px'
   };
@@ -31,13 +31,12 @@ export class Button extends React.Component<IButtonProps, {}> {
   render() {
     const { isLoading, Loader, bgColor, height, width, onClick, type, id, fontWeight, marginBottom, fontSize, marginRight, fontFamily } = this.props;
     return (
-      <div id={id} className="button-container">
+      <div id={id} className="margin-top-10">
         {Loader}
         <button
           onClick={e => onClick(e)}
-          className="btn-default-green"
-          style={{ backgroundColor: bgColor, height, width, fontWeight, marginBottom, fontSize, marginRight, fontFamily }}
-        >
+          className="btn btn-primary"
+          >
           {this.props.children}
         </button>
       </div>

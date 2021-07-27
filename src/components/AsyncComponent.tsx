@@ -12,7 +12,7 @@ export default function asyncComponent(importComponent, componentName) {
         }
         static defaultProps: {};
         async componentDidMount() {
-            debugger
+           // debugger
             const component = await importComponent();
             this.setState({
                 component: component[componentName]

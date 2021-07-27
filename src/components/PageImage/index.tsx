@@ -21,7 +21,7 @@ export class PageImage extends React.PureComponent<IPageImageProps, {}> {
 
   render() {
     const { height, width, logo, marginTop, marginLeft, style, setCounter, marginBottom, OnClick, isFromMain } = this.props;
-    let styles = { ...style, ...{ display: "flex", position: "absolute", zIndex: "1", textAlign: "center", marginTop: "-50px", marginBottom: "0px", margin: "auto" } };
+    let styles = { ...style, ...{  } };
     return (
       <div className="logo-container" onClick={setCounter} style={isFromMain ? {} : styles}>
         <div style={{ marginTop: marginTop, marginLeft: marginLeft, alignSelf: "center" }}>

@@ -9,26 +9,26 @@ $color: #7866c8;
 }
 @font-face {
   font-family: Lato-Regular;
-  src: url("../../../resources/fonts/Lato-Regular.ttf");
+  src: url("../../resources/fonts/Lato-Regular.ttf");
 }
 
 @font-face {
   font-family: Poppins-ExtraBold;
-  src: url("../../../resources/fonts/Poppins-ExtraBold.ttf");
+  src: url("../../resources/fonts/Poppins-ExtraBold.ttf");
 }
 
 @font-face {
   font-family: Nunito-Regular;
-  src: url("../../../resources/fonts/Nunito-Regular.ttf");
+  src: url("../../resources/fonts/Nunito-Regular.ttf");
 }
 
 @font-face {
   font-family: Nunito-Bold;
-  src: url("../../../resources/fonts/Nunito-Bold.ttf");
+  src: url("../../resources/fonts/Nunito-Bold.ttf");
 }
 @font-face {
   font-family: Poppins-Bold;
-  src: url("../../../resources/fonts/Poppins-Bold.ttf");
+  src: url("../../resources/fonts/Poppins-Bold.ttf");
 }
 
 .base-page-main {
@@ -40,19 +40,7 @@ $color: #7866c8;
    /* overflow-y: scroll;
     overflow-x: hidden;*/
     width: 100%;
-   
-  }
-  .circle-box-container .circle-box
-  {
-    height: 225px;
-    display: block;
-  }
-  .check-arrow
-  {
-    position: absolute;
-    top: 47%;
-    right: 50%;
-    transform: translate(50%, -50%);
+    
   }
   .pageHeader {
     display: flex;
@@ -149,25 +137,14 @@ $color: #7866c8;
   text-align: center;
   letter-spacing: -1.32504px;
 }
-/*.checkbox {
-  margin-top: -150px;
-}*/
 
-.burger-menu-container
-{
-  z-index: 500;
-}
-
-.home-screen .home-shield
-{
-  position: fixed;
-  right:60px;
-}
-.right-arrow-sec
-{
+.player-wrapper {
   position: relative;
-    z-index: 100;
+  /*padding-top: 60.25%; 
+  margin-top: -120px;*/
 }
+
+
 .text-container {
   margin-bottom: 30px;
 }
@@ -219,7 +196,7 @@ $color: #7866c8;
   border-radius: 50px;
 }
 .circe-text {
-  margin: 11px 0;
+      margin: 11px 0;
   p {
     color: #7866c8;
     font-size: 19px;
@@ -247,13 +224,8 @@ $color: #7866c8;
   .columnContainer {
     flex-direction: "column";
   }
-  .dis-flex-menu {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-  }
+
   @media (min-width: 480px) {
-    
     .circle__content {
       // font-size: 2em;
     }
@@ -265,6 +237,8 @@ $color: #7866c8;
 @media (min-width: 768px) {
   .score-point {
     padding: 4%;
+    // margin: 70px auto;
+    // padding: 100px !important;
   }
   .modal__container {
     width: 90%;

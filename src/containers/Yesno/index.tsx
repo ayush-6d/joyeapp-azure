@@ -11,6 +11,7 @@ import * as firebase from "firebase";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import { Modal } from "src/components/Modal";
+import { Congratulation } from "src/containers/congratulation";
 
 export interface IYesnoProps {
   route?: any;
@@ -26,6 +27,7 @@ export interface IYesnoState {
   openModal?: any;
   modalData?: any;
   HelpLine?: any;
+  ShowCongratulation?: boolean;
 }
 
 export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
@@ -34,9 +36,14 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
     this.state = {
       modalData: {},
       HelpLine: ["SOS", "HelpLine", "Cancel"],
-      openModal: false
+      openModal: false,
+      ShowCongratulation: false
     };
   }
+
+  handleCongratulation = () => {
+    this.setState({ ShowCongratulation: true });
+  };
 
   handleModal = () => {
     this.setState({
@@ -51,49 +58,83 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
     }));
   };
 
+  renderYesnoContent = () => {
+    if (this.state.ShowCongratulation) {
+      return <Congratulation />;
+    }
+  };
+
   render() {
-    const { openModal, modalData } = this.state;
+    const { openModal, modalData, ShowCongratulation } = this.state;
     return (
       <>
-        <BasePage withMenu className="login-form">
-          <div className="pageHeader">
-            <img src={pageHeader} />
-          </div>
-          {openModal && (
-            <div style={{ textAlign: "center", justifyContent: "space-around", display: "flex" }}>
-              <Modal openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
-            </div>
-          )}
-          <div
-            className="render-component"
-            style={{
-              background: "#1f00a4",
-              color: "#fff",
-              padding: "40px",
-              textAlign: "center",
-              minHeight: "700px",
-              height: "auto",
-              width: "100%",
-              justifyContent: "space-around",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
-            <>
-              <div className="advertise-text bold" style={{ fontSize: "16px", marginTop: "-114px", color: "ffffff", lineHeight: "13px" }}>
-                <p>Express freely in a few sentences </p>
-                <p>Express freely in a few sentences </p>
-                <p>Do not hold back</p>
+        {ShowCongratulation ? (
+          this.renderYesnoContent()
+        ) : (
+          <BasePage withMenu className="login-form">
+           {/*<div className="pageHeader">
+              <img src={pageHeader} />
+            </div>*/} 
+            {openModal && (
+              <div style={{ textAlign: "center", justifyContent: "space-around", display: "flex" }}>
+                <Modal openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <div className="RowContainer">
-                  <PageImage height="82px" width="82px" marginTop="-472px" marginLeft="-117px" logo={wrong} OnClick={e => this.handleModal()} />
-                  <PageImage height="82px" width="82px" marginTop="-472px" marginLeft="33px" setCounter={e => this.props.history.push("congratulation")} logo={right} />
+            )}
+            <div
+              className="render-component"
+              style={{
+              /*  background: "#1f00a4",
+                color: "#fff",
+                padding: "40px",
+                textAlign: "center",
+                minHeight: "600px",*/
+                height: "88vh",
+                width: "100%",
+                justifyContent: "space-around",
+                display: "flex",
+                alignItems:"center",
+                WebkitJustifyContent:"center",
+                flexDirection: "column",
+                position: "relative"
+              }}
+            >
+              <>
+               {/*<div className="advertise-text bold">
+                  <p>Express freely in a few sentences </p>
+                  <p>Do not hold back</p>
+                </div> */} 
+                <div
+                  className="render-component"
+                  style={{
+                 /*   background: "#1f00a4",
+                    color: "#fff",
+                    padding: "40px",
+                    textAlign: "center",
+                    minHeight: "700px",
+                    height: "auto",
+                    width: "100%",
+                    justifyContent: "space-around",
+                    display: "flex",
+                    flexDirection: "column"*/
+                  }}
+                >
+                  <>
+                    <div className="base-font">
+                     <p>Express freely in a few sentences </p>
+                      <p className="do-not-txt">Do not hold back</p>
+                    </div>
+                    <div>
+                      <div className="yes-no-icon-group"  style={{marginTop: "35px" }}>
+                        <PageImage height="82px" width="82px"  logo={wrong} OnClick={e => this.handleModal()} />
+                        <PageImage height="82px" width="82px"  setCounter={e => this.handleCongratulation()} logo={right} />
+                      </div>
+                    </div>
+                  </>
                 </div>
-              </div>
-            </>
-          </div>
-        </BasePage>
+              </>
+            </div>
+          </BasePage>
+        )}
       </>
     );
   }

@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { Route } from "react-router-dom";
 import { BasePage, PageImage, Circle } from "src/components";
 import processCompleted from "src/resources/icons/speakingcircle.png";
@@ -8,6 +9,8 @@ export interface ITellUsAboutProps {
   route?: any;
   history?: any;
   openModal?: any;
+  saveData?: any;
+  setIsTellusabout?: any;
 }
 export interface ITellUsAboutState {
   todaysFeeling?: string;
@@ -29,22 +32,19 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
     }
   };
 
-  setRoute = () => {
-    console.log(this.props);
-    this.props.route(`main`);
-  };
   render() {
     const { todaysFeeling } = this.state;
+    const { saveData, setIsTellusabout } = this.props;
     return (
       <>
         <div className="text-container">
           {todaysFeeling.length <= 240 ? (
-            <div className="advertise-text bold" style={{ fontSize: "16px", marginTop: "-44px", color: "ffffff", lineHeight: "13px" }}>
+            <div className="base-font">
               <p>Express freely in a few sentences </p>
-              <p>Do not hold back</p>
+              <p className="do-not-txt">Do not hold back</p>
             </div>
           ) : (
-            <div className="advertise-text bold" style={{ fontSize: "18px", marginTop: "-44px" }}>
+            <div className="advertise-text bold" style={{ fontSize: "18px" }}>
               <p style={{ fontWeight: "bold", letterSpacing: "1.7px" }}>Excellent!</p>
               <p>
                 Tap &nbsp;&nbsp;
@@ -54,19 +54,23 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
             </div>
           )}
         </div>
-        <div className="target__body" style={{ marginBottom: "90px", marginTop: "-142px" }}>
-          <textarea value={todaysFeeling} rows={9} cols={40} placeholder="Tap here and start writing" style={{ borderRadius: "25px", width: "300px", marginLeft: "-10px", fontSize: "16px" }} onChange={this.handleChange} className="target__textarea" />
+        <div className="target__body">
+          <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing" style={{ borderRadius: "25px", fontSize: "16px" }} onChange={this.handleChange} className="target__textarea about-textarea" />
         </div>
-        <div>
-          {todaysFeeling.length >= 15 && (
-            <div style={{ marginLeft: "-4px" }}>
-              <Circle showImg={true} imgStyle={{ width: "203px", marginTop: "-186px" }} style={{ cursor: "pointer" }} img={processCompleted} />
-              <div style={{ marginLeft: "115px" }}>
-                <PageImage setCounter={() => this.props.route("analysis")} height="41.6px" width="52.8px" marginTop="71px" style={{ top: "623px" }} logo={rightTick} />
+        <div className="circle-box-container">
+          <div className="circle-box">
+            {todaysFeeling.length >= 15 && (
+              <div className="rel">
+                <Circle showImg={true} imgStyle={{ width: "203px" }} style={{ cursor: "pointer" }} img={processCompleted} />
+                <div style={{ marginLeft: "115px" }} className="check-arrow">
+                  <PageImage height="41.6px" width="52.8px" logo={rightTick} OnClick={e => saveData(todaysFeeling)} />
+                </div>
               </div>
-            </div>
-          )}
-          <span onClick={this.setRoute}>Cancel</span>
+            )}
+          </div>
+          <span className="n-btn" onClick={setIsTellusabout}>
+            Cancel
+          </span>
         </div>
       </>
     );

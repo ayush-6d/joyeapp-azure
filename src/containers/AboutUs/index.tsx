@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BasePage } from "components/BasePage/index";
 import "../Dashboards/Categories/index.scss";
+import { relative } from "path";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
 const shield = require("../../resources/icons/shield.png");
 
@@ -14,16 +15,15 @@ export class AboutUs extends React.PureComponent {
           style={{
             background: "#ffffff",
             color: "#808080",
-            padding: "10px",
             textAlign: "center",
-            minHeight: "700px",
+            minHeight: "600px",
             height: "auto",
-            width: "70%",
-            marginLeft: "16.5%",
+            width: "100%",
             alignContent: "center",
             fontFamily: "Nunito-Regular",
             fontSize: "16px",
-            lineHeight: "24px"
+            lineHeight: "24px",
+            position:"relative"
           }}
         >
           <div style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>

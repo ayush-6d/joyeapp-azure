@@ -17,7 +17,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
   }
   
   render() {
-    debugger
+   // debugger
     return (
       <Provider theme={teamsTheme}>
         { this.state.loggedIn ? <RouterHelper.AuthenticatedRoutes /> : <RouterHelper.UnauthenticatedRoutes />}

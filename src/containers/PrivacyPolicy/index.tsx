@@ -2,7 +2,7 @@ import * as React from "react";
 import { BasePage } from "src/components";
 import "../Dashboards/Categories/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
-const shield = require("../../resources/icons/shield.png");
+const shield = require("../../resources/icons/Newshield.svg");
 
 export class PrivacyPolicy extends React.PureComponent {
   render() {
@@ -14,16 +14,17 @@ export class PrivacyPolicy extends React.PureComponent {
           style={{
             background: "#ffffff",
             color: "#808080",
-            padding: "10px",
+            padding: "20px",
             textAlign: "center",
-            minHeight: "700px",
+            minHeight: "600px",
             height: "auto",
-            width: "70%",
-            marginLeft: "16.5%",
+            width: "100%",
             alignContent: "center",
             fontFamily: "Nunito-Regular",
             fontSize: "16px",
-            lineHeight: "24px"
+            lineHeight: "24px",            
+            wordBreak:"break-all",
+            position:"relative"
           }}
         >
           <div style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>

@@ -10,6 +10,9 @@ const termsofService = require("../../resources/icons/TermsofService.png");
 const faq = require("../../resources/icons/faq.png");
 const aboutUs = require("../../resources/icons/aboutus.svg");
 const heart = require("../../resources/icons/Heart.svg");
+import Shield from "../../resources/icons/Privacyshield.png";
+import InfoIcon from "../../resources/icons/infoIcon.png";
+import { PageImage } from "src/components";
 
 export interface IBurgerMenuProps extends RouteComponentProps {}
 
@@ -30,17 +33,20 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
   handleSelect = activeKey => {
     this.setState({ activeKey });
   };
+  onClickHandle = () => {};
 
   render() {
     return (
-      <div className="burger-menu-container">
-        <div className="burger">
-          <input onClick={() => this.setState({ isOpen: !this.state.isOpen })} type="checkbox" />
-          <span></span>
-          <span></span>
-          <span style={{ marginBottom: "0px" }}></span>
-        </div>
-        {/* Privacy policy
+      <div className="dis-flex-menu">
+        <div className="burger-menu-container">
+          <div className="burger">
+            <input onClick={() => this.setState({ isOpen: !this.state.isOpen })} type="checkbox" />
+            <span></span>
+            <span></span>
+            <span style={{ marginBottom: "0px" }}></span>
+          </div>
+
+          {/* Privacy policy
 
 Terms of service
 
@@ -49,53 +55,70 @@ FAQ
 Feedback
 
 About us */}
-        <div id="mySidenav" className={`${this.state.isOpen ? "sidenav" : "sidenav sidenav-hidden"}`}>
-          {/* <div id="mySidenav" className={`${this.state.isOpen ? 'sidenav' : 'sidenav'}`}> */}
-          {/* <div className="logo-container" >
+          <div id="mySidenav" className={`${this.state.isOpen ? "sidenav" : "sidenav sidenav-hidden"}`}>
+            {/* <div id="mySidenav" className={`${this.state.isOpen ? 'sidenav' : 'sidenav'}`}> */}
+            {/* <div className="logo-container" >
                         <img src={tdLogo} alt="" className="" />
                     </div> */}
-          <a onClick={() => this.setState({ isOpen: !this.state.isOpen })} className="closebtn">
-            &times;
-          </a>
-          <div className="sidebar-container">
-            <Tab onClick={() => this.props.history.push("/journal")} name="main">
-              <div className="item-label" style={{ fontSize: "18px" }}>
-                Journal
-              </div>
-            </Tab>
+            <a onClick={() => this.setState({ isOpen: !this.state.isOpen })} className="closebtn">
+              &times;
+            </a>
+            <div className="sidebar-container">
+              <Tab onClick={() => this.props.history.push("/")} name="main">
+                <div className="item-label" style={{ fontSize: "18px" }}>
+                  Home
+                </div>
+              </Tab>
 
-            <Tab onClick={() => this.props.history.push("/privacypolicy")} name="reports">
-              <img height="30px" width="28px" src={shield} />
-              <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
-                Privacy Policy
-              </div>
-            </Tab>
-            <Tab onClick={() => this.props.history.push("/termsofservice")} name="reports">
-              <img height="30px" width="28px" src={termsofService} />
-              <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
-                Terms of Service
-              </div>
-            </Tab>
-            <Tab onClick={() => this.props.history.push("/faq")} name="reports">
-              <img height="25px" width="25px" src={faq} />
-              <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
-                FAQ
-              </div>
-            </Tab>
-            <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
-              <img height="30px" width="28px" src={heart} />
-              <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
-                Feedback
-              </div>
-            </Tab>
-            <Tab onClick={() => this.props.history.push("/aboutus")} name="reports">
-              <img height="24px" width="24px" src={aboutUs} />
-              <div className="item-label" style={{ marginLeft: "27px", fontSize: "18px" }}>
-                About us
-              </div>
-            </Tab>
+              <Tab onClick={() => this.props.history.push("/deepBreath")} name="main">
+                <div className="item-label" style={{ fontSize: "18px" }}>
+                  433 Deep Breath
+                </div>
+              </Tab>
+
+              <Tab onClick={() => this.props.history.push("/journal")} name="main">
+                <div className="item-label" style={{ fontSize: "18px" }}>
+                  Journal
+                </div>
+              </Tab>
+
+              <Tab onClick={() => this.props.history.push("/privacypolicy")} name="reports">
+                <img height="30px" width="28px" src={shield} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
+                  Privacy Policy
+                </div>
+              </Tab>
+              <Tab onClick={() => this.props.history.push("/termsofservice")} name="reports">
+                <img height="30px" width="28px" src={termsofService} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
+                  Terms of Service
+                </div>
+              </Tab>
+              <Tab onClick={() => this.props.history.push("/faq")} name="reports">
+                <img height="25px" width="25px" src={faq} />
+                <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
+                  FAQ
+                </div>
+              </Tab>
+              <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
+                <img height="30px" width="28px" src={heart} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
+                  Feedback
+                </div>
+              </Tab>
+              <Tab onClick={() => this.props.history.push("/aboutus")} name="reports">
+                <img height="24px" width="24px" src={aboutUs} />
+                <div className="item-label" style={{ marginLeft: "27px", fontSize: "18px" }}>
+                  About us
+                </div>
+              </Tab>
+            </div>
           </div>
         </div>
+        <div className="home-shield">
+          <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.onClickHandle()} />
+          </div>
+        <PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.onClickHandle()} />
       </div>
     );
   }
