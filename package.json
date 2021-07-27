@@ -120,6 +120,7 @@
     "object-assign": "^4.1.1",
     "react-adal": "^0.5.2",
     "react-burger-menu": "^2.5.4",
+    "react-lazily": "^0.9.0",
     "react-mic": "^12.4.6",
     "react-player": "^2.9.0",
     "react-router-dom": "^5.2.0",
