@@ -1,8 +1,9 @@
 import * as React from "react";
 import "./CircularCounter.scss";
 import { useState, useEffect } from "react";
-
 import MicRecorder from "mic-recorder-to-mp3";
+
+
 
 export interface ICircularCounterProps {
   OnClick?: any;
@@ -15,15 +16,7 @@ export const CircularCounter = props => {
 
   useEffect(() => {
     if (seconds === 10) {
-      navigator.getUserMedia(
-        { audio: true },
-        () => {
-          start();
-        },
-        () => {
-          setIsBlocked(true);
-        }
-      );
+      start();
     }
 
     timer = setInterval(() => {
@@ -48,11 +41,12 @@ export const CircularCounter = props => {
     Mp3Recorder.stop()
       .getMp3()
       .then(([buffer, blob]) => {
+        
         const file = new File(buffer, "me-at-thevoice.mp3", {
-          type: "FLAC",
+          type: blob.type,
           lastModified: Date.now()
         });
-
+        
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
