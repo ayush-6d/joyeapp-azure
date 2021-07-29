@@ -17,6 +17,8 @@ import { UserModel } from "src/Models/UserModel";
 import { parseJwt, saveUserDataForSession } from "src/utilities/generalUtils";
 import { SVGData } from "src/components/Loader/SVGData";
 import { TellUsAbout } from "../Tellusabout";
+
+
 import "./index.scss";
 
 export interface IMainProps {
@@ -133,7 +135,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         showCounter: !prevState.showCounter
       }));
     } else {
-      await this.saveData("");
+      await this.saveData("" ,false);
     }
 
     this.setState({ iconHeight: "-207px" });
@@ -142,16 +144,19 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   resetCounter = () => {};
 
   convertBase64 = async Base64String => {
-    let pureBase64String = Base64String.split("//")[1];
+    let pureBase64String = Base64String.split("base64,")[1];
+    var self = this;
+    self.setState({ isLoading: true, isTellusabout: false });
     axios
       .post(
         `https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
         {
+          version: "v1p1beta1",
           audio: { content: pureBase64String },
           config: {
             sampleRateHertz: 8000,
             enableAutomaticPunctuation: true,
-            encoding: "FLAC",
+            encoding: "MP3",
             languageCode: "en-US"
           }
         },
@@ -162,14 +167,20 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
         }
       )
-      .then(function (res) {
-        const data = res.data;
-        console.log("res", data);
-        //res.data.map(() => {})
+      .then(async function (res) {
+        const responce = res.data.results;
+        let todaysFeeling='';
+        responce.map((data, index) => {
+          data.alternatives.map((data, index) => {
+            todaysFeeling += data.transcript;
+          })
+        });
+        await self.saveData(todaysFeeling, true);
       });
   };
 
-  saveData = async todaysFeeling => {
+
+  saveData = async (todaysFeeling, isFromBase64) => {
     var self = this;
     axios
       .post(
@@ -179,7 +190,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           subOrganisationId: "596ef7d8-f109-4c4e-9c91-81896baa9da5",
           empId: "b172c03f-be43-42e9-b17a-34fe50574266",
           uid: "-MHUPaNmo_p85_DR3ABC || 596ef7d8-f109-4c4e-9c91-81896baa9da5 || b172c03f-be43-42e9-b17a-34fe50574266",
-          text: { todaysFeeling }
+          text: todaysFeeling 
         },
         {
           headers: {
@@ -214,8 +225,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         console.log(error);
         throw error;
       });
-
-    this.setState({ isTellusabout: false });
+   
+      if(isFromBase64) {
+        window.location.reload();
+      }
+      else{
+        this.setState({ isTellusabout: false });
+      }
+    
   };
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout } = this.state;
@@ -288,7 +305,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         )}
       </>
     ) : (
-      <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
+      isLoading?<ImportLoader /> : <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
     );
+    
   }
 }

@@ -63,7 +63,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
               <div className="rel">
                 <Circle showImg={true} imgStyle={{ width: "203px" }} style={{ cursor: "pointer" }} img={processCompleted} />
                 <div style={{ marginLeft: "115px" }} className="check-arrow">
-                  <PageImage height="41.6px" width="52.8px" logo={rightTick} OnClick={e => saveData(todaysFeeling)} />
+                  <PageImage height="41.6px" width="52.8px" logo={rightTick} OnClick={e => saveData(todaysFeeling, false)} />
                 </div>
               </div>
             )}
