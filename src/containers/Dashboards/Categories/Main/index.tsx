@@ -147,6 +147,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   convertBase64 = async Base64String => {
+    alert("test");
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
@@ -175,13 +176,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           .then(async function (res) {
             const responce = res.data.results;
             let todaysFeeling = "";
-            alert("Test");
             responce.map((data, index) => {
               data.alternatives.map((data, index) => {
                 todaysFeeling += data.transcript;
               });
             });
-            alert(todaysFeeling);
+
             await self.saveData(todaysFeeling, true);
           });
       }
