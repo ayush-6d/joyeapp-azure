@@ -34,9 +34,9 @@ export default class AuthHelper {
 
         try {
             // msTeams.authentication.getAccessToken
-            // accessToken = await AuthHelper.getClientSideToken();
+            accessToken = await AuthHelper.getClientSideToken();
 
-            accessToken = await AuthHelper.getAccessToken();
+            // accessToken = await AuthHelper.getAccessToken();
             console.log('accessToken', accessToken)
             if (accessToken.length > 0) {
                // debugger
@@ -121,7 +121,7 @@ export default class AuthHelper {
             })
         })
     }
-          private static getClientSideToken() {
+          private static getClientSideToken(): Promise<string> {
 
            return new Promise((resolve, reject) => {
             msTeams.authentication.getAuthToken({
