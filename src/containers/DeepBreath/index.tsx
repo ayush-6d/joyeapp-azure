@@ -88,9 +88,9 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
     return (
       <>
         <BasePage withMenu className="login-form">
-         {/*<div className="pageHeader">
+          {/*<div className="pageHeader">
             <img src={pageHeader} />
-          </div> */} 
+          </div> */}
           <div
             className="render-component"
             style={{
@@ -103,47 +103,38 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
               flexDirection: "column"
             }}
           >
-         
+            {counter > 0 && !analysisPage ? (
+              <>
+                <div>
+                  <div className="advertise-text bold" style={{ fontSize: "18px" }}>
+                    {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
+                  </div>
+                </div>
+                <div className="player-wrapper">
+                  <ReactPlayer className="react-player" playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" light="https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/Thumbnail.jpg?alt=media&token=d2243049-dc3f-429c-9a0a-3dcedecdd55e" />
+                  <div className="checkbox" style={{ marginTop: "10px" }}>
+                    <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
+                    <label className="checkbox-text">Turn audio on</label>
+                  </div>
+                </div>
 
-          {counter > 0 && !analysisPage ? (
-            <>
-             <div>
-            <div className="advertise-text bold" style={{ fontSize: "18px" }}>
-              {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
-            </div>          
-         
-          </div>
-              <div className="player-wrapper">
-                <ReactPlayer className="react-player" playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" />
-                <div className="checkbox" style={{ marginTop: "10px" }}>
-            <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
-            <label className="checkbox-text">Turn audio on</label>
-          </div>
-              </div> 
-            
-              <div className="btn-play">
-              {this.state.isPlaying ? 
-             
-              <PageImage setCounter={e => this.setPuse()} height="32px" width="32px"  logo={stop} /> : 
-              <PageImage setCounter={e => this.setPlay()} height="32px" width="32px"  logo={play} />}
-</div>
-              <div className="skip-txt" onClick={e => route("congratulation")} >
-               <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >Skip </div> 
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <PageImage height="82px" width="82px" marginTop="72px" logo={wrong} />
-                <PageImage height="82px" width="82px" marginTop="72px" setCounter={e => this.props.route("congratulation")} logo={right} />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <span>No</span>
-                <span>Yes</span>
-              </div>
-            </>
-          )}
-          
+                <div className="btn-play">{this.state.isPlaying ? <PageImage setCounter={e => this.setPuse()} height="32px" width="32px" logo={stop} /> : <PageImage setCounter={e => this.setPlay()} height="32px" width="32px" logo={play} />}</div>
+                <div className="skip-txt" onClick={e => route("congratulation")}>
+                  <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10">Skip </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div style={{ display: "flex", justifyContent: "space-around" }}>
+                  <PageImage height="82px" width="82px" marginTop="72px" logo={wrong} />
+                  <PageImage height="82px" width="82px" marginTop="72px" setCounter={e => this.props.route("congratulation")} logo={right} />
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-around" }}>
+                  <span>No</span>
+                  <span>Yes</span>
+                </div>
+              </>
+            )}
           </div>
         </BasePage>
       </>
