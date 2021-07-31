@@ -35,7 +35,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
       counterStart: false,
       timer: null,
       audioMute: true,
-      isPlaying: false,
+      isPlaying: true,
       isStop: false,
       viedoUrl: "https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/saysomething.mp4?alt=media&token=4248bc6f-5671-4c1e-af93-2f51982b5bdc"
     };
