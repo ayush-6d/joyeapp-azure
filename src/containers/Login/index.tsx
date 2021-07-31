@@ -281,6 +281,28 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     return queryParams;
   };
 
+
+  getToken = () => {
+    var bodyFormData = new FormData();
+    bodyFormData.append('client_id', 'ab45d798-3c52-48ff-aa67-25b573787182');
+    bodyFormData.append('scope', 'api://4cc988691c50.ngrok.io/ab45d798-3c52-48ff-aa67-25b573787182/.default');
+    bodyFormData.append('client_secret', '9.KOur_jK2CXIh1nNV5.VAuEr5Nt.2tXtE');
+    bodyFormData.append('grant_type', 'client_credentials');
+    axios({
+      method: "post",
+      url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" ,"Origin":"http://localhost"},
+    })
+      .then(function (response) {
+        //handle success
+        console.warn(response);
+      })
+      .catch(function (response) {
+        //handle error
+        console.error(response);
+      });
+  }
   render() {
     const { isLoading } = this.state;
     return (
@@ -295,7 +317,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-          <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+        {/* <Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
+        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">

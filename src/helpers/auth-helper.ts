@@ -30,10 +30,13 @@ export default class AuthHelper {
      */
     public static async Login(): Promise<void> {
       //  debugger
-        let accessToken: string = '';
+        let accessToken;
 
         try {
-            accessToken = await AuthHelper.getAccessToken();
+            // msTeams.authentication.getAccessToken
+            accessToken = await AuthHelper.getClientSideToken();
+
+            // accessToken = await AuthHelper.getAccessToken();
             console.log('accessToken', accessToken)
             if (accessToken.length > 0) {
                // debugger
@@ -117,5 +120,21 @@ export default class AuthHelper {
                 }
             })
         })
+    }
+          private static getClientSideToken() {
+
+           return new Promise((resolve, reject) => {
+            msTeams.authentication.getAuthToken({
+                successCallback: (result) => {
+                    alert(result)
+                    resolve(result);
+                },
+                failureCallback: function (error) {
+                    alert(error)
+                    reject("Error getting token: " + error);
+                }
+            });
+
+        });
     }
 }
