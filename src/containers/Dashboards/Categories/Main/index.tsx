@@ -20,7 +20,6 @@ import { TellUsAbout } from "../Tellusabout";
 import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
 
-
 import "./index.scss";
 
 export interface IMainProps {
@@ -63,7 +62,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       isClickHandle: true,
       isTellusabout: false,
       isModalOpen: false,
-      modalData:{}
+      modalData: {}
     };
   }
 
@@ -94,11 +93,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     window.location.reload();
   };
   speakAgain = () => {
-    this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }), () => {
-      this.onClickHandle(true);
-    });
- };
- 
+    this.setState(
+      prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }),
+      () => {
+        this.onClickHandle(true);
+      }
+    );
+  };
+
   onClickGesture = () => {
     this.setState({ isTellusabout: true, isLoading: true });
   };
@@ -138,57 +140,56 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         showCounter: !prevState.showCounter
       }));
     } else {
-      await this.saveData("" ,false);
+      await this.saveData("", false);
     }
 
     this.setState({ iconHeight: "-207px" });
   };
 
-  
-
   convertBase64 = async Base64String => {
-
-    this.setState(prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false}), () => {
-    
-    let pureBase64String = Base64String.split("base64,")[1];
-    var self = this;
-    self.setState({ isLoading: true, isTellusabout: false });
-    axios
-      .post(
-        `https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-        {
-          version: "v1p1beta1",
-          audio: { content: pureBase64String },
-          config: {
-            sampleRateHertz: 8000,
-            enableAutomaticPunctuation: true,
-            encoding: "MP3",
-            languageCode: "en-US"
-          }
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          }
-        }
-      )
-      .then(async function (res) {
-        const responce = res.data.results;
-        let todaysFeeling='';
-        responce.map((data, index) => {
-          data.alternatives.map((data, index) => {
-            todaysFeeling += data.transcript;
-          })
-        });
-        await self.saveData(todaysFeeling, true);
-      });
-    });
+    this.setState(
+      prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
+      () => {
+        let pureBase64String = Base64String.split("base64,")[1];
+        var self = this;
+        axios
+          .post(
+            `https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+            {
+              version: "v1p1beta1",
+              audio: { content: pureBase64String },
+              config: {
+                sampleRateHertz: 8000,
+                enableAutomaticPunctuation: true,
+                encoding: "MP3",
+                languageCode: "en-US"
+              }
+            },
+            {
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              }
+            }
+          )
+          .then(async function (res) {
+            const responce = res.data.results;
+            let todaysFeeling = "";
+            alert("Test");
+            responce.map((data, index) => {
+              data.alternatives.map((data, index) => {
+                todaysFeeling += data.transcript;
+              });
+            });
+            alert(todaysFeeling);
+            await self.saveData(todaysFeeling, true);
+          });
+      }
+    );
   };
 
-
   saveData = async (todaysFeeling, isFromBase64) => {
-    console.log('todaysFeeling:', todaysFeeling);
+    console.log("todaysFeeling:", todaysFeeling);
     var self = this;
     axios
       .post(
@@ -198,7 +199,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           subOrganisationId: "596ef7d8-f109-4c4e-9c91-81896baa9da5",
           empId: "b172c03f-be43-42e9-b17a-34fe50574266",
           uid: "-MHUPaNmo_p85_DR3ABC || 596ef7d8-f109-4c4e-9c91-81896baa9da5 || b172c03f-be43-42e9-b17a-34fe50574266",
-          text: todaysFeeling 
+          text: todaysFeeling
         },
         {
           headers: {
@@ -208,13 +209,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
       )
       .then(function (res) {
-        console.log('predictionService:',res);
+        console.log("predictionService:", res);
         if (!res.data.status && res.data.StatusCode === 401) {
           setAlert("verify", "Please verify your email first");
           removeAlert("loginError");
         } else {
           const data = res.data;
-          
+
           if (data["gibberish"]) {
             self.setState({
               seconds: 10,
@@ -225,7 +226,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 gibberish: 1,
                 gesture: 0
               },
-              isClickHandle: true, 
+              isClickHandle: true,
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: false
@@ -233,11 +234,11 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
 
           if (data["caution"]) {
-             self.setState({ 
+            self.setState({
               seconds: 10,
               isCounterStarted: false,
               showCounter: false,
-              isClickHandle: true, 
+              isClickHandle: true,
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: true,
@@ -247,27 +248,24 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 header: "A random uote from database",
                 content: "Please contact below services"
               }
-              })
+            });
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false })
+            self.setState({ isLoading: false });
           }
-
         }
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
-   
-      if(isFromBase64) {
-        //this.setState({isClickHandle: true, isTellusabout: false, seconds: 10, showCounter: false, isCounterEnd: false})
-      }
-      else{
-        this.setState({ isTellusabout: false });
-      }
-    
+
+    if (isFromBase64) {
+      //this.setState({isClickHandle: true, isTellusabout: false, seconds: 10, showCounter: false, isCounterEnd: false})
+    } else {
+      this.setState({ isTellusabout: false });
+    }
   };
 
   start = () => {
@@ -277,16 +275,15 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   stop = () => {
-   var self = this;
+    var self = this;
     Mp3Recorder.stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        
         const file = new File(buffer, "me-at-thevoice.mp3", {
           type: blob.type,
           lastModified: Date.now()
         });
-        
+
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -296,12 +293,15 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
       .catch(e => console.log(e));
   };
-  
-  HardStop=() => {
-    this.setState(prevState => ({ isCounterEnd: true}), () => {
-      this.stop();
-    });
-  }
+
+  HardStop = () => {
+    this.setState(
+      prevState => ({ isCounterEnd: true }),
+      () => {
+        this.stop();
+      }
+    );
+  };
 
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData } = this.state;
@@ -337,7 +337,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         <div className="rel">
           <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} OnClick={e => this.onClickHandle(!showCounter)} showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
           {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onClickHandle(!showCounter)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
-          {isCounterStarted || isCounterEnd ? <CircularCounter  OnClick={e => this.onClickHandle(!showCounter)} start={this.start} stop={this.stop} /> : ""}
+          {isCounterStarted || isCounterEnd ? <CircularCounter OnClick={e => this.onClickHandle(!showCounter)} start={this.start} stop={this.stop} /> : ""}
         </div>
         {!isCounterStarted && !showCounter ? (
           <div className="bottom-container">
@@ -372,9 +372,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           </div>
         )}
       </>
-    ) : (
-      isTellusabout ? (<TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />): isLoading ? (<ImportLoader />) : isModalOpen ? (<Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>): null
-    );
-    
+    ) : isTellusabout ? (
+      <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
+    ) : isLoading ? (
+      <ImportLoader />
+    ) : isModalOpen ? (
+      <Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
+    ) : null;
   }
 }
