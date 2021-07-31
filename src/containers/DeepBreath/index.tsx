@@ -9,6 +9,7 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 
+
 export interface IDeepBreathProps {
   route?: any;
   openModal?: any;
@@ -37,7 +38,6 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
       audioMute: true,
       isPlaying: false,
       isStop: false,
-      viedoUrl: "https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/saysomething.mp4?alt=media&token=4248bc6f-5671-4c1e-af93-2f51982b5bdc"
     };
   }
   setCounter(startCounter) {
@@ -65,10 +65,10 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
     }
   }
   setPlay() {
-    this.setState({ isPlaying: !this.state.isPlaying, viedoUrl: "https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/saysomething.mp4?alt=media&token=4248bc6f-5671-4c1e-af93-2f51982b5bdc" });
+    this.setState({ isPlaying: !this.state.isPlaying });
   }
   setPuse() {
-    this.setState({ isPlaying: !this.state.isPlaying, viedoUrl: "https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/saysomething%20-%202.mp4?alt=media&token=97a7a73a-0371-4bb9-aaf9-3345fdccd2f8" });
+    this.setState({ isPlaying: !this.state.isPlaying });
   }
 
   handleChange = e => {
@@ -88,9 +88,9 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
     return (
       <>
         <BasePage withMenu className="login-form">
-          {/*<div className="pageHeader">
+         {/*<div className="pageHeader">
             <img src={pageHeader} />
-          </div> */}
+          </div> */} 
           <div
             className="render-component"
             style={{
@@ -103,38 +103,56 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
               flexDirection: "column"
             }}
           >
-            {counter > 0 && !analysisPage ? (
-              <>
-                <div>
-                  <div className="advertise-text bold" style={{ fontSize: "18px" }}>
-                    {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
-                  </div>
-                </div>
-                <div className="player-wrapper">
-                  <ReactPlayer className="react-player" light={true} muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" />
-                  <div className="checkbox" style={{ marginTop: "10px" }}>
-                    <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
-                    <label className="checkbox-text">Turn audio on</label>
-                  </div>
-                </div>
+         
 
-                <div className="btn-play">{this.state.isPlaying ? <PageImage setCounter={e => this.setPuse()} height="32px" width="32px" logo={stop} /> : <PageImage setCounter={e => this.setPlay()} height="32px" width="32px" logo={play} />}</div>
-                <div className="skip-txt" onClick={e => route("congratulation")}>
-                  <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10">Skip </div>
-                </div>
-              </>
-            ) : (
-              <>
-                <div style={{ display: "flex", justifyContent: "space-around" }}>
-                  <PageImage height="82px" width="82px" marginTop="72px" logo={wrong} />
-                  <PageImage height="82px" width="82px" marginTop="72px" setCounter={e => this.props.route("congratulation")} logo={right} />
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-around" }}>
-                  <span>No</span>
-                  <span>Yes</span>
-                </div>
-              </>
-            )}
+          {counter > 0 && !analysisPage ? (
+            <>
+             <div>
+            <div className="advertise-text bold" style={{ fontSize: "18px" }}>
+              {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
+            </div>          
+         
+          </div>
+              <div className="player-wrapper">
+                <ReactPlayer 
+                className="react-player" 
+                playsinline 
+                muted={!this.state.audioMute} 
+                playing={this.state.isPlaying} 
+                pip={false} 
+                stopOnUnmount={this.state.isStop} 
+                url={[ { src: 'src/resources/saysomething.mp4', type: 'video/mp4'} ]} 
+                width="100%" 
+                height="100%" />
+                <div className="checkbox" style={{ marginTop: "10px" }}>
+            <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
+            <label className="checkbox-text">Turn audio on</label>
+          </div>
+              </div> 
+            
+              <div className="btn-play">
+              {this.state.isPlaying ? 
+             
+              <PageImage setCounter={e => this.setPuse()} height="32px" width="32px"  logo={stop} /> : 
+              <PageImage setCounter={e => this.setPlay()} height="32px" width="32px"  logo={play} />}
+</div>
+              <div className="skip-txt" onClick={e => route("congratulation")} >
+               <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >Skip </div> 
+              </div>
+            </>
+          ) : (
+            <>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <PageImage height="82px" width="82px" marginTop="72px" logo={wrong} />
+                <PageImage height="82px" width="82px" marginTop="72px" setCounter={e => this.props.route("congratulation")} logo={right} />
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-around" }}>
+                <span>No</span>
+                <span>Yes</span>
+              </div>
+            </>
+          )}
+          
           </div>
         </BasePage>
       </>
