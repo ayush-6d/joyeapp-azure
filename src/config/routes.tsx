@@ -1,21 +1,18 @@
 import * as React from "react";
-import { lazily } from 'react-lazily';
-
+import { AboutUs } from "src/containers/AboutUs";
+import { Dashboard } from "src/containers/Dashboards/Categories";
+import { FAQS } from "src/containers/FAQS";
+import { Journal } from "src/containers/journal";
+import { Yesno } from "src/containers/Yesno";
+import { DeepBreath } from "src/containers/DeepBreath";
+import { Congratulation } from "src/containers/congratulation";
+import { Login } from "src/containers/Login";
 import SignInEnd from "src/containers/Login/sign-in-end";
 import SignInStart from "src/containers/Login/sign-in-start";
+import { PrivacyPolicy } from "src/containers/PrivacyPolicy";
+import { TermsofService } from "src/containers/TermsofService";
 import { RouteDefinition } from "src/Models/route-definition";
-
-const { AboutUs } = lazily(() => import("src/containers/AboutUs"));
-const { Dashboard } = lazily(() => import("src/containers/Dashboards/Categories"));
-const { FAQS } = lazily(() => import("src/containers/FAQS"));
-const { Journal } = lazily(() => import("src/containers/journal"));
-const { Yesno } = lazily(() => import("src/containers/Yesno"));
-const { DeepBreath } = lazily(() => import("src/containers/DeepBreath"));
-const { Congratulation } = lazily(() => import("src/containers/congratulation"));
-const { PrivacyPolicy } = lazily(() => import("src/containers/PrivacyPolicy"));
-const { TermsofService } = lazily(() => import("src/containers/TermsofService"));
-const { Configure } = lazily(() => import("src/routes"));
-const { Login } = lazily(() => import("../containers/Login/index"));
+import { Configure } from "src/routes";
 // import { Home, Configure } from '../pages';
 // import { Login, SignInStart, SignInEnd } from '../pages/auth';
 

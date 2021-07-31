@@ -43,7 +43,7 @@ export default class AuthHelper {
         } catch (err) {
            // debugger
             let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
-            if (cachedToken && cachedToken.length > 0) {
+            if (cachedToken.length > 0) {
                 window.location.replace(window.location.origin);
             } else {
                 console.error(err)

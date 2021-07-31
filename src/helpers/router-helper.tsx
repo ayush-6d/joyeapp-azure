@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import * as React from 'react';
 // import { Dashboard, Login, NotFound, WelcomeScreen, SignInStart, Journal, Configure, SignInEnd } from 'src/routes';
 import 'src/styles/importer.scss';
 import { routes as routeDefinitions} from 'src/config';
@@ -8,10 +8,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { lazily } from 'react-lazily';
 
 import { RouteDefinition } from 'src/Models/route-definition';
-const { Login } = lazily(() => import("../containers/Login/index"));
+import { Login } from 'src/containers/Login';
+
 
 export default class RouterHelper {
   public static AuthenticatedRoutes(): JSX.Element {
@@ -51,15 +51,13 @@ export default class RouterHelper {
     //debugger
     return (
       <Router>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Switch>
-            {routes.map(route =>
-              <Route path={route.route} exact={route.route === '/'}>
-                {route.component}
-              </Route>
-            )}
-          </Switch>
-        </Suspense>
+        <Switch>
+          {routes.map(route =>
+            <Route path={route.route} exact={route.route === '/'}>
+              {route.component}
+            </Route>
+          )}
+        </Switch>
       </Router>
     );
     // return (

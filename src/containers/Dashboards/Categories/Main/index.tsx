@@ -17,6 +17,8 @@ import { UserModel } from "src/Models/UserModel";
 import { parseJwt, saveUserDataForSession } from "src/utilities/generalUtils";
 import { SVGData } from "src/components/Loader/SVGData";
 import { TellUsAbout } from "../Tellusabout";
+import MicRecorder from "mic-recorder-to-mp3";
+import { Modal } from "src/components/Modal";
 
 
 import "./index.scss";
@@ -26,7 +28,7 @@ export interface IMainProps {
   openModal?: any;
 }
 let timer = null;
-
+const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 export interface IMainState {
   speachStarted?: boolean;
   showCounter?: boolean;
@@ -39,6 +41,8 @@ export interface IMainState {
   iconHeight?: any;
   isClickHandle?: boolean;
   isTellusabout?: boolean;
+  isModalOpen?: boolean;
+  modalData?: any;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -57,7 +61,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       seconds: 10,
       iconHeight: "-171px",
       isClickHandle: true,
-      isTellusabout: false
+      isTellusabout: false,
+      isModalOpen: false,
+      modalData:{}
     };
   }
 
@@ -88,20 +94,17 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     window.location.reload();
   };
   speakAgain = () => {
-    this.setState(prevState => ({
-      showCounter: !prevState.showCounter,
-      isCounterEnd: !prevState.isCounterEnd,
-      seconds: 10
-    }));
-    this.onClickHandle(true);
-  };
-
+    this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }), () => {
+      this.onClickHandle(true);
+    });
+ };
+ 
   onClickGesture = () => {
-    this.setState({ isTellusabout: true });
+    this.setState({ isTellusabout: true, isLoading: true });
   };
 
   setIsTellusabout = () => {
-    this.setState({ isTellusabout: false });
+    this.setState({ isTellusabout: false, isLoading: false });
   };
 
   onClickHandle = async showCounter => {
@@ -141,9 +144,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     this.setState({ iconHeight: "-207px" });
   };
 
-  resetCounter = () => {};
+  
 
   convertBase64 = async Base64String => {
+
+    this.setState(prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false}), () => {
+    
     let pureBase64String = Base64String.split("base64,")[1];
     var self = this;
     self.setState({ isLoading: true, isTellusabout: false });
@@ -177,10 +183,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         });
         await self.saveData(todaysFeeling, true);
       });
+    });
   };
 
 
   saveData = async (todaysFeeling, isFromBase64) => {
+    console.log('todaysFeeling:', todaysFeeling);
     var self = this;
     axios
       .post(
@@ -200,11 +208,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
       )
       .then(function (res) {
+        console.log('predictionService:',res);
         if (!res.data.status && res.data.StatusCode === 401) {
           setAlert("verify", "Please verify your email first");
           removeAlert("loginError");
         } else {
           const data = res.data;
+          
           if (data["gibberish"]) {
             self.setState({
               seconds: 10,
@@ -214,11 +224,36 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 mic: 2,
                 gibberish: 1,
                 gesture: 0
-              }
+              },
+              isClickHandle: true, 
+              isTellusabout: false,
+              isCounterEnd: false,
+              isLoading: false
             });
-          } else {
-            self.props.route("analysis");
           }
+
+          if (data["caution"]) {
+             self.setState({ 
+              seconds: 10,
+              isCounterStarted: false,
+              showCounter: false,
+              isClickHandle: true, 
+              isTellusabout: false,
+              isCounterEnd: false,
+              isLoading: true,
+              isModalOpen: true,
+              modalData: {
+                title: "Take Charge!",
+                header: "A random uote from database",
+                content: "Please contact below services"
+              }
+              })
+          }
+
+          if (data["success"]) {
+            self.setState({ isLoading: false })
+          }
+
         }
       })
       .catch(function (error) {
@@ -227,18 +262,51 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       });
    
       if(isFromBase64) {
-        window.location.reload();
+        //this.setState({isClickHandle: true, isTellusabout: false, seconds: 10, showCounter: false, isCounterEnd: false})
       }
       else{
         this.setState({ isTellusabout: false });
       }
     
   };
-  render() {
-    const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout } = this.state;
 
+  start = () => {
+    Mp3Recorder.start()
+      .then(() => {})
+      .catch(e => console.error(e));
+  };
+
+  stop = () => {
+   var self = this;
+    Mp3Recorder.stop()
+      .getMp3()
+      .then(([buffer, blob]) => {
+        
+        const file = new File(buffer, "me-at-thevoice.mp3", {
+          type: blob.type,
+          lastModified: Date.now()
+        });
+        
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function () {
+          self.convertBase64(reader.result);
+        };
+      })
+      .catch(e => console.log(e));
+  };
+  
+  HardStop=() => {
+    this.setState(prevState => ({ isCounterEnd: true}), () => {
+      this.stop();
+    });
+  }
+
+  render() {
+    const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData } = this.state;
     let icons = [Mic, Gibberish, Gesture];
-    return !isTellusabout ? (
+    return !isLoading ? (
       <>
         {seconds >= 8 && isClickHandle ? (
           <div className="text-container">
@@ -268,8 +336,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 
         <div className="rel">
           <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} OnClick={e => this.onClickHandle(!showCounter)} showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
-          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onClickHandle(!showCounter)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={e => this.onClickHandle(!showCounter)} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
-          {isCounterStarted || isCounterEnd ? <CircularCounter OnClick={e => this.onClickHandle(!showCounter)} convertBase64={this.convertBase64} /> : ""}
+          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onClickHandle(!showCounter)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
+          {isCounterStarted || isCounterEnd ? <CircularCounter  OnClick={e => this.onClickHandle(!showCounter)} start={this.start} stop={this.stop} /> : ""}
         </div>
         {!isCounterStarted && !showCounter ? (
           <div className="bottom-container">
@@ -305,7 +373,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         )}
       </>
     ) : (
-      isLoading?<ImportLoader /> : <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
+      isTellusabout ? (<TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />): isLoading ? (<ImportLoader />) : isModalOpen ? (<Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>): null
     );
     
   }
