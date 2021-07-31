@@ -284,9 +284,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   getToken = () => {
     var bodyFormData = new FormData();
-    bodyFormData.append('client_id', 'ab45d798-3c52-48ff-aa67-25b573787182');
-    bodyFormData.append('scope', 'api://4cc988691c50.ngrok.io/ab45d798-3c52-48ff-aa67-25b573787182/.default');
-    bodyFormData.append('client_secret', '9.KOur_jK2CXIh1nNV5.VAuEr5Nt.2tXtE');
+    bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
+    bodyFormData.append('scope', 'api://b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
+    bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
     bodyFormData.append('grant_type', 'client_credentials');
     axios({
       method: "post",
@@ -295,13 +295,14 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
       headers: { "Content-Type": "multipart/form-data"},
     })
       .then(function (response) {
-
+        alert("response");
         alert(JSON.stringify(response))
         //handle success
         console.warn(response);
       })
       .catch(function (error) {
         //handle error
+        alert("error");
         alert(JSON.stringify(error))
         console.error(error);
       });
@@ -320,8 +321,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-         {/*<Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
-        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+         <Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> 
+        {/*<Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>*/}
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
