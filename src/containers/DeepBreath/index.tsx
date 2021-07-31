@@ -111,7 +111,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                   </div>
                 </div>
                 <div className="player-wrapper">
-                  <ReactPlayer className="react-player" light playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={[{ src: saysomethingVideo, type: "video/mp4" }]} width="100%" height="100%" />
+                  <ReactPlayer controls className="react-player" light playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={[{ src: saysomethingVideo, type: "video/mp4" }]} width="100%" height="100%" />
                   <div className="checkbox" style={{ marginTop: "10px" }}>
                     <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
                     <label className="checkbox-text">Turn audio on</label>
