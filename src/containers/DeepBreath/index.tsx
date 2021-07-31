@@ -9,6 +9,8 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomethingVideo from "src/resources/saysomething.mp4";
+import Video from "react-native-video";
+import { isMobile } from "react-device-detect";
 
 export interface IDeepBreathProps {
   route?: any;
@@ -111,7 +113,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                   </div>
                 </div>
                 <div className="player-wrapper">
-                  <ReactPlayer className="react-player" light playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={[{ src: saysomethingVideo, type: "video/mp4" }]} width="100%" height="100%" />
+                  {isMobile ? <Video posterResizeMode={"cover"} paused={this.state.isStop} resizeMode={"cover"} source={saysomethingVideo} /> : <ReactPlayer className="react-player" playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={[{ src: saysomethingVideo, type: "video/mp4" }]} width="100%" height="100%" />}
+
                   <div className="checkbox" style={{ marginTop: "10px" }}>
                     <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
                     <label className="checkbox-text">Turn audio on</label>
