@@ -35,7 +35,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
       counterStart: false,
       timer: null,
       audioMute: true,
-      isPlaying: true,
+      isPlaying: false,
       isStop: false,
       viedoUrl: "https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/saysomething.mp4?alt=media&token=4248bc6f-5671-4c1e-af93-2f51982b5bdc"
     };
@@ -111,7 +111,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                   </div>
                 </div>
                 <div className="player-wrapper">
-                  <ReactPlayer className="react-player" muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" />
+                  <ReactPlayer className="react-player" light={true} muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" />
                   <div className="checkbox" style={{ marginTop: "10px" }}>
                     <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
                     <label className="checkbox-text">Turn audio on</label>
