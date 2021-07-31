@@ -292,7 +292,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
       method: "post",
       url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
       data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data" ,"Origin":"http://localhost"},
+      headers: { "Content-Type": "multipart/form-data"},
     })
       .then(function (response) {
 
