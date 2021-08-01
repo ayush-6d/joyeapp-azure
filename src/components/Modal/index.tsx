@@ -27,7 +27,7 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
     super(props);
     this.state = {
       modalOpened: props.openModal,
-      emergencyData: ["SOS", "HelpLine", "Cancel"]
+      emergencyData: ["SOS", "HelpLine"]
     };
   }
   async componentDidMount() {
@@ -113,29 +113,26 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
               {modalData["title"]}
             </div>
             <div
-              className="advertise-text bold"
+              className="advertise-text bold journal-title"
               style={{
-                fontSize: "16px",
-                lineHeight: "24px",
-                textAlign: "center",
-                color: "#1E00A3"
               }}
             >
               {modalData["header"]}
             </div>
             <div
-              className="advertise-text bold"
+              className="advertise-text bold journal-title"
               style={{
-                fontSize: "16px",
-                lineHeight: "24px",
-                textAlign: "center",
-                color: "#1E00A3",
                 marginBottom: "20px"
               }}
             >
               {modalData["content"]}
             </div>
             <div className="modal-btn-dasd">{emergency}</div>
+            <div className="cancel-btn margin-top-10" >
+                <Button  Loader={null} type="button" onClick={this.handleSubmit} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                  Cancel
+                </Button>
+            </div>
           </div>
         </div>
         <div className={coverClass} onClick={this.modalToggle}></div>

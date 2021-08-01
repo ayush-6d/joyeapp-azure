@@ -1,3 +1,10 @@
+:root{
+   --text-blue:#1E00A3;
+}
+.text-blue
+{
+   color:var(--text-blue) !important;
+}
 .dis-flex{display: flex;justify-content: space-between;}
 .dis-flex-menu {
    display: flex;
@@ -31,7 +38,7 @@
 .btn-play
 {
 
-   background: #5CC900;
+   background: #8E7AEC;
    padding: 15px;
    border-radius: 42%;
    width: 70px;
@@ -55,19 +62,39 @@
 .btn{
    font-size: 16px;
    color: #fff;
-   font-weight: 600;
-   border-radius: 40px;
-   min-width: 200px;
-   padding: 5px 20px;
+   font-weight: 600 !important;
+   border-radius: 40px !important;
+   min-width: 200px !important;
+   padding: 5px 20px !important;
 }
 .btn-primary
 {
-   background-color:#1E00A3;  
-   border-color: #1E00A3;
+   background-color:#8E7AEC !important;  
+   border-color: #8E7AEC !important;
+}
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover
+{
+   background-color:#705cca !important;  
+   border-color: #705cca !important;
 }
 .btn-secondary{
    background-color:#8E7AEC; 
    border-color:#8E7AEC; 
+}
+
+textarea
+{
+   resize: none;
+   line-height: 23px !important;
+   font-size: 17px !important;
+   border-radius: 25px;
+}
+textarea:focus
+{
+   box-shadow:0 0px 10px 0px #ce57ff;
+}
+:focus-visible {
+   outline: -webkit-focus-ring-color auto 0px;
 }
 .n-btn
 {
@@ -79,7 +106,26 @@
    min-width: 100px;
    display: inline-block;
 }
-.circlesmalls{height:96px;width:96px;padding:0;padding-top:25px;}
+.cancel-btn .margin-top-10
+{
+   margin-top:0px !important;
+}
+.cancel-btn .margin-top-10 .btn.btn-primary
+{
+   border-radius: 40px !important;
+   border: 1px solid #444 !important;
+   font-weight: 600 !important;
+   color: #444 !important;
+  background-color: #fff !important;
+   display: inline-block !important;
+   min-width: 200px !important;
+    padding: 5px 20px !important;
+}
+.circlesmalls{height:96px;width:96px;padding:0;
+   padding-top: 0;
+   display: flex;
+   justify-content: center;
+   align-items: center;}
 .circles.ripple img{
    position: absolute;
    top: 50%;
@@ -174,7 +220,7 @@
     margin: 30px 0px 10px 0px;
     font-family: Nunito-Regular;
     line-height: 27px;
-    color: #444;
+    color: var(--text-blue);
 }
 .do-not-txt
 {
@@ -187,16 +233,39 @@
    flex-direction: row;
    justify-content: space-around;
    margin: 20px auto; 
-
+   width: 300px;
+   font-weight: 600;
+}
+.font-size{
+   font-size: 24px;
+   font-weight: 600;
+}
+.yes-no-week-txt
+{
+   background: var(--text-blue);
+   border-radius: 50px;
+   width: 250px;
+   height: 95px;
+   padding: 10px;
+   color: #fff;
+   margin: 0 auto
+}
+.joye-logo img
+{
+   box-shadow: 0 0 30px 1px #808080;
 }
 @media (min-width: 768px) {
+   .render-component
+   {
+      min-height: 55vh !important;
+   }
    .render-component >div 
 {
    margin: 7px auto;
 }
 .render-component > div.bottom-container
 {
-   margin: 70px 0 0 0;
+   margin: 40px 0 0 0;
 }
 
    .about-textarea{

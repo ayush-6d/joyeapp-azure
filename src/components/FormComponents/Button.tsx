@@ -35,8 +35,7 @@ export class Button extends React.Component<IButtonProps, {}> {
         {Loader}
         <button
           onClick={e => onClick(e)}
-          className="btn btn-primary"
-          >
+          className="btn btn-primary">
           {this.props.children}
         </button>
       </div>

@@ -87,8 +87,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
                 color: "#fff",
                 padding: "40px",
                 textAlign: "center",
-                minHeight: "600px",*/
-                height: "88vh",
+                minHeight: "600px",
+                height: "88vh",*/
                 width: "100%",
                 justifyContent: "space-around",
                 display: "flex",
@@ -119,15 +119,17 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
                   }}
                 >
                   <>
-                    <div className="base-font">
+                  <div className="text-container">
+                  <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
                      <p>Express freely in a few sentences </p>
-                      <p className="do-not-txt">Do not hold back</p>
+                      {/* <p className="do-not-txt">Do not hold back</p> */}
                     </div>
                     <div>
-                      <div className="yes-no-icon-group"  style={{marginTop: "35px" }}>
+                      <div className="yes-no-icon-group"  style={{marginTop: "150px" }}>
                         <PageImage height="82px" width="82px"  logo={wrong} OnClick={e => this.handleModal()} />
                         <PageImage height="82px" width="82px"  setCounter={e => this.handleCongratulation()} logo={right} />
                       </div>
+                    </div>
                     </div>
                   </>
                 </div>

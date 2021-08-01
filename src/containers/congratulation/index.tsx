@@ -132,16 +132,17 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                 position: "relative"
               }}
             >
-              <div className="base-font bold" style={{ marginBottom: "100px" }}>
+              <div className="base-font bold" style={{ marginBottom: "10px" }}>
                 <p >Congrats for taking charge</p>
                 <p>of your happiness!</p>
               </div>
               <div className="do-not-txt ">
-                <div> Week to date: {happinessCounter}</div>
-                <div>Lifetime: {happinessCounterLifetime}</div>
-              
+               <div className="yes-no-week-txt"> 
+               <div> Week to date: <span className="font-size">{happinessCounter}</span></div>
+                <div>Lifetime:<span className="font-size"> {happinessCounterLifetime}</span></div>
+                </div>
               <div>
-                  <PageImage height="82px" width="82px" marginTop="20px"  logo={rightArrow} setCounter={e => this.handleCongratulation()} />
+                  <PageImage height="82px" width="82px" marginTop="54px"  logo={rightArrow} setCounter={e => this.handleCongratulation()} />
                 </div>
                 </div>
               <div className="contrats-boom-img">

@@ -15,7 +15,7 @@ export class Logo extends React.PureComponent<ILogoProps, {}> {
   render() {
     const { height, width, marginTop } = this.props;
     return (
-      <div className="logo-container" style={{ textAlign: "center", marginTop, marginBottom: "20px" }}>
+      <div className="logo-container joye-logo" style={{ textAlign: "center", marginTop, marginBottom: "20px" }}>
         <img src={logo} height={height} width={width} />
       </div>
     );
