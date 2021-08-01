@@ -38,7 +38,6 @@ import { loginUser } from 'src/actions/loginActions';
 // let authorizeEndpoint = '/oauth2/v2.0/authorize';
 // let tokenEndpoint = '/oauth2/v2.0/token';
 // let scope = 'Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access';
-import * as Msal from "msal";
 
 export interface ILoginProps {
   OnClick?: any;
@@ -56,9 +55,7 @@ export interface ILoginState {
 
 class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   _isMounted = false;
-    msalConfig 
-
-    msalInstance
+   
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
@@ -66,16 +63,6 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
       currentUser: {},
       userDetails: {}
     };
-     this.msalConfig = {
-        auth: {
-            clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-            // redirectUri: "https://joyeapp.netlify.app",
-            navigateToLoginRequestUrl: true
-
-        }
-    };
-       this.msalInstance = new Msal.UserAgentApplication(this.msalConfig);
-
   }
 
   isLoading = false;
@@ -319,101 +306,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     //     alert(JSON.stringify(error))
     //     console.error(error);
     //   });
-
-      this.msalInstance.handleRedirectCallback((error, response) => {
-        alert(response);
-        alert(JSON.stringify(error));
-        // handle redirect response or error
-    });
-       var loginRequest = {
-       scopes: ["user.read", "mail.send"] // optional Array<string>
-   };
-
-    // this.msalInstance.loginPopup(loginRequest)
-    //     .then(response => {
-    //         // handle response
-    //          alert(JSON.stringify(response));
-        
-    //     })
-    //     .catch(err => {
-    //         // handle error
-    //         alert(JSON.stringify(err));
-    //     });
-     var tokenRequest = {
-            scopes: ["user.read", "mail.send"]
-        };
-        if (this.msalInstance.getAccount()) {
-       
-        this.msalInstance.acquireTokenSilent(tokenRequest)
-            .then(response => {
-              alert("dharmesh");
-              alert(JSON.stringify(response));
-              console.info(response);
-                // get access token from response
-                // response.accessToken
-
-                 var headers = new Headers();
-                    var bearer = "Bearer " + response.accessToken;
-                    headers.append("Authorization", bearer);
-                    headers.append("Content-type", "application/json");
-                    var options = {
-                         method: "GET",
-                         headers: headers
-                    };
-                    var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-
-                    fetch(graphEndpoint, options)
-                       .then(function(response) {
-                        return response.json();
-                      }).then(function(data) {
-                      console.info(data);
-                      });
-            })
-            .catch(err => {
-                // could also check if err instance of InteractionRequiredAuthError if you can import the class.
-                if (err.name === "InteractionRequiredAuthError") {
-                    return this.msalInstance.acquireTokenPopup(tokenRequest)
-                        .then(res => {
-                          alert("res");
-                          alert(JSON.stringify(res));
-                          
-                            // get access token from response
-                            // response.accessToken
-                        })
-                        .catch(err => {
-                            // handle error
-                        });
-                }
-            });
-    } else {
-        alert("user not log in");
-        this.msalInstance.loginPopup(loginRequest)
-        .then(response => {
-            // handle response
-              alert(response.accessToken);
-                    var headers = new Headers();
-                    var bearer = "Bearer " + response.accessToken;
-                    headers.append("Authorization", bearer);
-                    headers.append("Content-type", "application/json");
-                    var options = {
-                         method: "GET",
-                         headers: headers
-                    };
-                    var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-
-                      fetch(graphEndpoint, options)
-                       .then(function(response) {
-                        return response.json();
-                      }).then(function(data) {
-                      console.info(data);
-                      });
-        })
-        .catch(err => {
-            // handle error
-        });
-        // user is not logged in, you will need to log them in to acquire a token
-    }
   }
+
+
   render() {
     const { isLoading } = this.state;
     return (
@@ -428,8 +323,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-         {/*<Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
-        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+         <Button Loader={null} type="button" onClick={AuthHelper.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> 
+        {/*<Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>*/}
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
