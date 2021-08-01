@@ -84,12 +84,6 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   componentDidMount() {
     firebaseInit;
-    var authTokenRequest = {
-      successCallback: function(result) { console.error("Success: " + result); },
-      failureCallback: function(error) { console.error("Failure: " + error); }
-    };
-    console.warn(authTokenRequest);
-    microsoftTeams.authentication.getAuthToken(authTokenRequest);
   }
 
   componentWillMount() {
@@ -434,8 +428,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-         <Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> 
-        {/*<Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>*/}
+         {/*<Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
+        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
