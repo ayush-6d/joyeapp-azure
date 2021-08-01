@@ -82,6 +82,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   handleChangeChk = () => {
     this.setState({ audioMute: !this.state.audioMute });
   };
+
   render() {
     const { route, analysisPage } = this.props;
     const { todaysFeeling, counter, counterStart } = this.state;
@@ -111,7 +112,20 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                   </div>
                 </div>
                 <div className="player-wrapper">
-                  <ReactPlayer controls className="react-player" light playsinline muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={[{ src: saysomethingVideo, type: "video/mp4" }]} width="100%" height="100%" />
+                  <ReactPlayer
+                    className="react-player"
+					playsinline
+                    muted={!this.state.audioMute}
+                    playing={this.state.isPlaying}
+                    url={[{ src: saysomethingVideo, type: "video/mp4" }]}
+                    width="100%"
+                    height="100%"
+                    config={{
+                      file: {
+                        forceVideo: true
+                      }
+                    }}
+                  />
                   <div className="checkbox" style={{ marginTop: "10px" }}>
                     <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
                     <label className="checkbox-text">Turn audio on</label>
