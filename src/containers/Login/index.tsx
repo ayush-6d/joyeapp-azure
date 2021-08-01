@@ -38,7 +38,7 @@ import { loginUser } from 'src/actions/loginActions';
 // let authorizeEndpoint = '/oauth2/v2.0/authorize';
 // let tokenEndpoint = '/oauth2/v2.0/token';
 // let scope = 'Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access';
-
+import * as Msal from "msal";
 
 export interface ILoginProps {
   OnClick?: any;
@@ -56,6 +56,9 @@ export interface ILoginState {
 
 class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   _isMounted = false;
+    msalConfig 
+
+    msalInstance
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
@@ -63,6 +66,16 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
       currentUser: {},
       userDetails: {}
     };
+     this.msalConfig = {
+        auth: {
+            clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
+            // redirectUri: "http://localhost:8080/",
+            navigateToLoginRequestUrl: true
+
+        }
+    };
+       this.msalInstance = new Msal.UserAgentApplication(this.msalConfig);
+
   }
 
   isLoading = false;
@@ -71,6 +84,12 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   componentDidMount() {
     firebaseInit;
+    var authTokenRequest = {
+      successCallback: function(result) { console.error("Success: " + result); },
+      failureCallback: function(error) { console.error("Failure: " + error); }
+    };
+    console.warn(authTokenRequest);
+    microsoftTeams.authentication.getAuthToken(authTokenRequest);
   }
 
   componentWillMount() {
@@ -283,29 +302,110 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
 
   getToken = () => {
-    var bodyFormData = new FormData();
-    bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
-    bodyFormData.append('scope', 'api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
-    bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
-    bodyFormData.append('grant_type', 'client_credentials');
-    axios({
-      method: "post",
-      url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
-      data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data"},
-    })
-      .then(function (response) {
-        alert("response");
-        alert(JSON.stringify(response))
-        //handle success
-        console.warn(response);
-      })
-      .catch(function (error) {
-        //handle error
-        alert("error");
-        alert(JSON.stringify(error))
-        console.error(error);
-      });
+    // var bodyFormData = new FormData();
+    // bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
+    // bodyFormData.append('scope', 'api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
+    // bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
+    // bodyFormData.append('grant_type', 'client_credentials');
+    // axios({
+    //   method: "post",
+    //   url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
+    //   data: bodyFormData,
+    //   // headers: { "Content-Type": "multipart/form-data"},
+    // })
+    //   .then(function (response) {
+    //     alert("response");
+    //     alert(JSON.stringify(response))
+    //     //handle success
+    //     console.warn(response);
+    //   })
+    //   .catch(function (error) {
+    //     //handle error
+    //     alert("error");
+    //     alert(JSON.stringify(error))
+    //     console.error(error);
+    //   });
+    
+      this.msalInstance.handleRedirectCallback((error, response) => {
+        alert(response);
+        alert(JSON.stringify(error));
+        // handle redirect response or error
+    });
+       var loginRequest = {
+       scopes: ["user.read", "mail.send"] // optional Array<string>
+   };
+
+    // this.msalInstance.loginPopup(loginRequest)
+    //     .then(response => {
+    //         // handle response
+    //          alert(JSON.stringify(response));
+        
+    //     })
+    //     .catch(err => {
+    //         // handle error
+    //         alert(JSON.stringify(err));
+    //     });
+     var tokenRequest = {
+            scopes: ["user.read", "mail.send"]
+        };
+        if (this.msalInstance.getAccount()) {
+       
+        this.msalInstance.acquireTokenSilent(tokenRequest)
+            .then(response => {
+              alert("dharmesh");
+              alert(JSON.stringify(response));
+              console.info(response);
+                // get access token from response
+                // response.accessToken
+
+                 var headers = new Headers();
+                    var bearer = "Bearer " + response.accessToken;
+                    headers.append("Authorization", bearer);
+                    var options = {
+                         method: "GET",
+                         headers: headers
+                    };
+                    var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
+
+                    fetch(graphEndpoint, options)
+                        .then(resp => {
+                           alert("resp");
+                           console.info(resp);
+                             //do something with response
+                        });
+            })
+            .catch(err => {
+                // could also check if err instance of InteractionRequiredAuthError if you can import the class.
+                if (err.name === "InteractionRequiredAuthError") {
+                    return this.msalInstance.acquireTokenPopup(tokenRequest)
+                        .then(res => {
+                          alert("res");
+                          alert(JSON.stringify(res));
+                          
+                            // get access token from response
+                            // response.accessToken
+                        })
+                        .catch(err => {
+                            // handle error
+                        });
+                }
+            });
+    } else {
+      this.msalInstance.acquireTokenPopup(tokenRequest)
+                        .then(res => {
+                          alert("res");
+                          alert(JSON.stringify(res));
+                          
+                            // get access token from response
+                            // response.accessToken
+                        })
+                        .catch(err => {
+                          alert("err");
+                          alert(JSON.stringify(err));
+                            // handle error
+                        });
+        // user is not logged in, you will need to log them in to acquire a token
+    }
   }
   render() {
     const { isLoading } = this.state;
@@ -321,8 +421,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-         {/*<Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
-        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+         <Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> 
+        {/*<Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>*/}
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
