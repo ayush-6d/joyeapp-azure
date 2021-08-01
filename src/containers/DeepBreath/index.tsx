@@ -111,7 +111,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                     {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
                   </div>
                 </div>
-                <div className="player-wrapper">
+                <div>
                   <ReactPlayer
                     className="react-player"
 					playsinline
