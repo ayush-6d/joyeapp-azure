@@ -157,7 +157,8 @@ export default class AuthHelper {
                 // response.accessToken
               })
               .catch(err => {
-                // handle error
+                 alert("network error acquireTokenPopup");
+                 alert(JSON.stringify(err));
               });
           }
         }
@@ -172,7 +173,8 @@ export default class AuthHelper {
            AuthHelper.getUserProfile(response.accessToken)
         })
         .catch(err => {
-          alert("network error");
+          alert("network error loginPopup");
+          alert(JSON.stringify(err));
         });
       // user is not logged in, you will need to log them in to acquire a token
     }
@@ -203,7 +205,8 @@ export default class AuthHelper {
           }
           
         }).catch(err => {
-          alert("network error");
+          alert("network error getUserProfile");
+          alert(JSON.stringify(err));
         });
     })
   }
