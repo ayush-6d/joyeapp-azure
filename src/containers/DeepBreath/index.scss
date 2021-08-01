@@ -226,21 +226,17 @@ $color: #7866c8;
   }
 
   @media (min-width: 480px) {
-    .circle__content {
-      // font-size: 2em;
-    }
+   
     .modal__container {
-      width: 80%;
+      width: 75%;
     }
   }
 }
 @media (min-width: 768px) {
   .score-point {
-    padding: 4%;
-    // margin: 70px auto;
-    // padding: 100px !important;
+    padding: 4%;  
   }
   .modal__container {
-    width: 90%;
+    width: 40%;
   }
 }

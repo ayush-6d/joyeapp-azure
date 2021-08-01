@@ -22,7 +22,6 @@ import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
 
-
 import "./index.scss";
 
 export interface IMainProps {
@@ -67,7 +66,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       isClickHandle: true,
       isTellusabout: false,
       isModalOpen: false,
-      modalData:{},
+      modalData: {},
       isHardStop: false
     };
   }
@@ -99,11 +98,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     window.location.reload();
   };
   speakAgain = () => {
-    this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }), () => {
-      this.startCounter(true, false);
-    });
- };
- 
+    this.setState(
+      prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }),
+      () => {
+        this.startCounter(true, false);
+      }
+    );
+  };
+
   onClickGesture = () => {
     this.setState({ isTellusabout: true, isLoading: true });
   };
@@ -117,110 +119,101 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     let geture = self.state.iconIndex["mic"];
     this.setState({ isClickHandle: false });
 
-    if(geture === 2 && isFromGesture){
-      this.setCounter(showCounter)
-    }else{
+    if (geture === 2 && isFromGesture) {
+      this.setCounter(showCounter);
+    } else {
       this.setState({ seconds: 10, isClickHandle: true, isTellusabout: false, isCounterEnd: false });
     }
 
-    if( geture != 2 && !isFromGesture){
-      this.setCounter(showCounter)
-      }
-      else{
-        this.setState({ seconds: 10, isClickHandle: true });
-      }
-    
+    if (geture != 2 && !isFromGesture) {
+      this.setCounter(showCounter);
+    } else {
+      this.setState({ seconds: 10, isClickHandle: true });
+    }
   };
 
   setCounter = async showCounter => {
     const self = this;
-    
-    if (showCounter) 
-    {
+
+    if (showCounter) {
+      this.setState(prevState => ({
+        showCounter: !prevState.showCounter,
+        isCounterStarted: !prevState.isCounterStarted,
+        isCounterEnd: !prevState.isCounterEnd,
+        iconIndex: { mic: 0, gibberish: 1, gesture: 2 }
+      }));
+
+      timer = setInterval(() => {
+        if (this.state.seconds > 0) {
           this.setState(prevState => ({
-            showCounter: !prevState.showCounter,
-            isCounterStarted: !prevState.isCounterStarted,
-            isCounterEnd: !prevState.isCounterEnd,
-            iconIndex: { mic: 0, gibberish: 1, gesture: 2 },
+            seconds: prevState.seconds - 1
           }));
-
-          timer = setInterval(() => {
-            if (this.state.seconds > 0) {
-              this.setState(prevState => ({
-                seconds: prevState.seconds - 1
-              }));
-            } else {
-              if(!self.state.isHardStop)
-                {
-                  this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: !prevState.isCounterStarted}), () => {
-                    clearInterval(timer);
-                    self.stop();
-                  })
-                }
-              else {
+        } else {
+          if (!self.state.isHardStop) {
+            this.setState(
+              prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: !prevState.isCounterStarted }),
+              () => {
                 clearInterval(timer);
-                this.setState({ isClickHandle: true, seconds: 10, isCounterStarted: false, isCounterEnd: false})
+                self.stop();
               }
-             }
-          }, 1000);
-          self.setState(prevState => ({ seconds: 10, showCounter: !prevState.showCounter }));
-      } 
-      else 
-        {
-          await this.saveData("" ,false);
-        }
-  }
-  
-
-  convertBase64 = async Base64String => {
-
-    this.setState(prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false}), () => {
-    let todaysFeeling='';
-    let pureBase64String = Base64String.split("base64,")[1];
-    var self = this;
-    self.setState({ isLoading: true, isTellusabout: false });
-    axios
-      .post(
-        `https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-        {
-          version: "v1p1beta1",
-          audio: { content: pureBase64String },
-          config: {
-            sampleRateHertz: 8000,
-            enableAutomaticPunctuation: true,
-            encoding: "MP3",
-            languageCode: "en-US"
-          }
-        },
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            );
+          } else {
+            clearInterval(timer);
+            this.setState({ isClickHandle: true, seconds: 10, isCounterStarted: false, isCounterEnd: false });
           }
         }
-      )
-      .then(async function (res) {
-        const responce = res.data.results;
-        console.log('responce:',responce)
-        if(responce)
-        {
-          responce.map((data, index) => {
-            data.alternatives.map((data, index) => {
-              todaysFeeling += data.transcript;
-            })
-          });
-          await self.saveData(todaysFeeling, true);
-        }
-        else{
-          self.setState({ isLoading: false, isCounterEnd: false, isCounterStarted: false })
-
-        }
-        
-        
-      });
-    });
+      }, 1000);
+      self.setState(prevState => ({ seconds: 10, showCounter: !prevState.showCounter }));
+    } else {
+      await this.saveData("", false);
+    }
   };
 
+  convertBase64 = async Base64String => {
+    this.setState(
+      prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
+      () => {
+        let todaysFeeling = "";
+        let pureBase64String = Base64String.split("base64,")[1];
+        var self = this;
+        self.setState({ isLoading: true, isTellusabout: false });
+        axios
+          .post(
+            `https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+            {
+              version: "v1p1beta1",
+              audio: { content: pureBase64String },
+              config: {
+                sampleRateHertz: 8000,
+                enableAutomaticPunctuation: true,
+                encoding: "MP3",
+                languageCode: "en-US"
+              }
+            },
+            {
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+              }
+            }
+          )
+          .then(async function (res) {
+            const responce = res.data.results;
+            console.log("responce:", responce);
+            if (responce) {
+              responce.map((data, index) => {
+                data.alternatives.map((data, index) => {
+                  todaysFeeling += data.transcript;
+                });
+              });
+              await self.saveData(todaysFeeling, true);
+            } else {
+              self.setState({ isLoading: false, isCounterEnd: false, isCounterStarted: false });
+            }
+          });
+      }
+    );
+  };
 
   saveData = async (todaysFeeling, isFromBase64) => {
     var self = this;
@@ -232,7 +225,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           subOrganisationId: "596ef7d8-f109-4c4e-9c91-81896baa9da5",
           empId: "b172c03f-be43-42e9-b17a-34fe50574266",
           uid: "-MHUPaNmo_p85_DR3ABC || 596ef7d8-f109-4c4e-9c91-81896baa9da5 || b172c03f-be43-42e9-b17a-34fe50574266",
-          text: todaysFeeling 
+          text: todaysFeeling
         },
         {
           headers: {
@@ -242,13 +235,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
       )
       .then(function (res) {
-        console.log('predictionService', res)
+        console.log("predictionService", res);
         if (!res.data.status && res.data.StatusCode === 401) {
           setAlert("verify", "Please verify your email first");
           removeAlert("loginError");
         } else {
           const data = res.data;
-          
+
           if (data["gibberish"]) {
             self.setState({
               seconds: 10,
@@ -259,7 +252,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 gibberish: 1,
                 gesture: 0
               },
-              isClickHandle: true, 
+              isClickHandle: true,
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: false
@@ -267,11 +260,11 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
 
           if (data["caution"]) {
-             self.setState({ 
+            self.setState({
               seconds: 10,
               isCounterStarted: false,
               showCounter: false,
-              isClickHandle: true, 
+              isClickHandle: true,
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: false,
@@ -281,89 +274,83 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 header: "A random uote from database",
                 content: "Please contact below services"
               }
-              })
+            });
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
+            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false });
           }
-
         }
       })
       .catch(function (error) {
         console.log(error);
         throw error;
       });
-   
-      if(isFromBase64) {
-        //this.setState({isClickHandle: true, isTellusabout: false, seconds: 10, showCounter: false, isCounterEnd: false})
-      }
-      else{
-        this.setState({ isTellusabout: false });
-      }
 
-      //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
+    if (isFromBase64) {
+      //this.setState({isClickHandle: true, isTellusabout: false, seconds: 10, showCounter: false, isCounterEnd: false})
+    } else {
+      this.setState({ isTellusabout: false });
+    }
+
+    //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
-    if(isMobile)
-    {
+    if (isMobile) {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: {maxDuration: 10}
-    };
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[],) => {
-        
-      if (error) {
-            if (error.message) {
-                alert(" ErrorCode: " + error.errorCode + error.message);
-            } else {
-                alert(" ErrorCode: " + error.errorCode);
-            }
+        audioProps: { maxDuration: 10 }
+      };
+      microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+        if (error) {
+          if (error.message) {
+            alert(" ErrorCode: " + error.errorCode + error.message);
+          } else {
+            alert(" ErrorCode: " + error.errorCode);
+          }
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        
+
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
           if (blob) {
             if (blob.type.includes("video")) {
-                videoElement.setAttribute("src", URL.createObjectURL(blob));
+              videoElement.setAttribute("src", URL.createObjectURL(blob));
             }
           }
-        })
-        
-       if (error) {
-            if (error.message) {
-                alert(" ErrorCode: " + error.errorCode + error.message);
-            } else {
-                alert(" ErrorCode: " + error.errorCode);
-            }
+        });
+
+        if (error) {
+          if (error.message) {
+            alert(" ErrorCode: " + error.errorCode + error.message);
+          } else {
+            alert(" ErrorCode: " + error.errorCode);
+          }
         }
-    });
-    }
-    else{
+      });
+    } else {
       Mp3Recorder.start()
-      .then(() => {
-        this.startCounter(showCounter, isFromGesture)
-      })
-      .catch(e => console.error(e));
+        .then(() => {
+          this.startCounter(showCounter, isFromGesture);
+        })
+        .catch(e => console.error(e));
     }
   };
 
   stop = () => {
-   var self = this;
+    var self = this;
     Mp3Recorder.stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        
         const file = new File(buffer, "me-at-thevoice.mp3", {
           type: blob.type,
           lastModified: Date.now()
         });
-        
+
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -373,58 +360,69 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
       .catch(e => console.log(e));
   };
-  
-  HardStop=() => {
+
+  HardStop = () => {
     clearInterval(timer);
-    this.setState(prevState => ({ isLoading: true ,isCounterEnd: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }), () => {
-      this.stop();
-    });
-  }
+    this.setState(
+      prevState => ({ isLoading: true, isCounterEnd: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+      () => {
+        this.stop();
+      }
+    );
+  };
 
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData } = this.state;
-    
+
     return !isLoading ? (
       <>
         {seconds >= 8 && isClickHandle ? (
           <div className="text-container">
-            <div className="advertise-text bold" style={{ fontSize: "20px", marginTop: "35px" }}>
-              How are you feeling today?
+            <div className="advertise-text bold text-blue" style={{ fontSize: "17px", marginTop: "35px" }}>
+              <p>How are you feeling today?</p>
+              <p className="do-not-txt">&nbsp;</p>
             </div>
           </div>
         ) : seconds <= 6 ? (
           <div className="text-container">
-            <div className="advertise-text bold" style={{ marginTop: "35px" }}>
-              <p style={{ fontSize: "20px" }}>Excellent!</p>
-              <p>
-                Tap &nbsp;&nbsp;
-                <img height="17.9px" width="18px" src={ExcellentTick} />
-                &nbsp;&nbsp; to proceed
-              </p>
+            <div>
+              <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
+                <p>Express freely for upto 10 sec</p>
+                <p className="do-not-txt">
+                  Tap &nbsp;&nbsp;
+                  <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                  &nbsp;&nbsp; to proceed
+                </p>
+              </div>
             </div>
           </div>
         ) : (
-          <div>
-            <div style={{ fontSize: "17px", marginTop: "35px" }}>
+          <div className="text-container">
+            <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
               <p>Express freely for upto 10 sec</p>
-              <p className="do-not-txt">Do not hold back</p>
+              <p className="do-not-txt">
+                Tap &nbsp;&nbsp;
+                <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                &nbsp;&nbsp; to proceed
+              </p>
             </div>
           </div>
         )}
 
         <div className="rel">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`}  showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
-          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
+          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
+          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
           {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
         </div>
         {!isCounterStarted && !showCounter ? (
-          <div className="bottom-container">
+          <div className="bottom-container" style={{ height: "201px" }}>
             <div className="width300" style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
                 <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "47px" }} showImg={true} OnClick={e => this.onClickGesture()} img={icons[iconIndex["gibberish"]]} />
                 <div className="advertise-text bold index-advertise-text">
-                  Sometimes it is <br />
-                  good to write
+                  It is good
+                  <br />
+                  to write
                 </div>
               </div>
               <div>
@@ -437,7 +435,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             </div>
           </div>
         ) : (
-          <div className="bottom-container">
+          <div className="bottom-container" style={{ height: "201px" }}>
             <div>
               <img width="30px" height="30px" src={recycle} alt="" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-30px" }} />
               <p className="index-advertise-text" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-3px", marginLeft: "5px" }}>
@@ -450,9 +448,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           </div>
         )}
       </>
-    ) : (
-      isTellusabout ? (<TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />): isLoading ? (<ImportLoader />) : isModalOpen ? (<Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>): null
-    );
-    
+    ) : isTellusabout ? (
+      <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
+    ) : isLoading ? (
+      <ImportLoader />
+    ) : isModalOpen ? (
+      <Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
+    ) : null;
   }
 }

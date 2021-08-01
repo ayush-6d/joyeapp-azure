@@ -4,12 +4,14 @@ import { BasePage, Circle, PageImage } from "src/components";
 //import pageHeader from "src/resources/icons/pageHeader2.png";
 import processCompleted from "src/resources/icons/speakingcircle.png";
 import rightTick from "src/resources/icons/rightTick.png";
+
+import ExcellentTick from "src/resources/icons/ExcellentTick.png";
 import "../Dashboards/Categories/index.scss";
 import axios from "axios";
 import { createHash } from "src/utilities/generalUtils";
 import { firebaseInit } from "src/services/firebase";
 import * as firebase from "firebase";
-import  moment from "moment";
+import * as moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 
 export interface IJournalProps {
@@ -183,25 +185,31 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
               }}
             >
               <>
-                <div>
+              <div className="text-container">
                   {todaysFeeling.length <= 240 ? (
-                    <div className="base-font">
+                    <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
                       <p>Express freely in a few sentences </p>
-                      <p className="do-not-txt">Do not hold back</p>
-                    </div>
-                  ) : (
-                    <div className="advertise-text bold" style={{ fontSize: "18px", marginTop: "18px" }}>
-                      <p style={{ fontWeight: "bold", letterSpacing: "1.7px" }}>Excellent!</p>
-                      <p>
+                      {/* <p className="do-not-txt">
                         Tap &nbsp;&nbsp;
-                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={rightTick} />
+                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
                         &nbsp;&nbsp; to proceed
-                      </p>
+                          </p>                 */}
                     </div>
-                  )}
+                  ) : 
+                  (
+                    <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
+                    <p>Express freely in a few sentences </p>
+                      {/* <p className="do-not-txt">
+                        Tap &nbsp;&nbsp;
+                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                        &nbsp;&nbsp; to proceed
+                          </p>                 */}
+                  </div>
+                  )
+                  }
                 </div>
                 <div className="target__body">
-                  <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing" style={{ borderRadius: "25px", fontSize: "16px" }} onChange={this.handleChange} className="target__textarea about-textarea" />
+                  <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing"  onChange={this.handleChange} className="target__textarea about-textarea" />
                 </div>
                 <div className="circle-box-container">
                 <div className="circle-box">
@@ -216,17 +224,17 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
                     <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                       <div>
                         <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
-                        <span className="index-advertise-text"> Show this less often</span>
+                        <span className="index-advertise-text"> Show less often</span>
                       </div>
                       <div>
                         <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" />
-                        <span className="index-advertise-text"> Show this often</span>
+                        <span className="index-advertise-text"> Show often</span>
                       </div>
                     </div>
                   )}
  </div>
                   <div className="n-btn" onClick={this.setRoute} >
-                    Skip
+                    skip
                   </div>
                 </div>
               </>

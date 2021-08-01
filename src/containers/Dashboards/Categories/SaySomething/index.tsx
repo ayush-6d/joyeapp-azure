@@ -101,7 +101,7 @@ export class SaySomething extends React.PureComponent<ISaySomethingProps, ISaySo
               <ReactPlayer className="react-player" muted={!this.state.audioMute} playing={this.state.isPlaying} pip={false} stopOnUnmount={this.state.isStop} url={this.state.viedoUrl} width="100%" height="100%" />
             </div>
 
-            {this.state.isPlaying ? <PageImage setCounter={e => this.setPuse()} height="32px" width="32px" marginTop="100px" logo={stop} /> : <PageImage setCounter={e => this.setPlay()} height="32px" width="32px" marginTop="100px" logo={play} />}
+            {this.state.isPlaying ? <PageImage setCounter={e => this.setPuse()} height="20px" width="20px" marginTop="100px" logo={stop} /> : <PageImage setCounter={e => this.setPlay()} height="20px" width="20px" marginTop="100px" logo={play} />}
 
             <div className="advertise-text bold" onClick={e => route("congratulation")} style={{ fontSize: "18px" }}>
               Skip to <img src={brew} style={{ width: "20px" }} />

@@ -108,8 +108,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
 
           {counter > 0 && !analysisPage ? (
             <>
-             <div>
-            <div className="advertise-text bold" style={{ fontSize: "18px" }}>
+             <div className="text-container">
+             <div  className="advertise-text bold text-blue" style={{  marginTop: "35px" }}>
               {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
             </div>          
          
@@ -140,11 +140,11 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
               <div className="btn-play">
               {this.state.isPlaying ? 
              
-              <PageImage setCounter={e => this.setPuse()} height="32px" width="32px"  logo={stop} /> : 
-              <PageImage setCounter={e => this.setPlay()} height="32px" width="32px"  logo={play} />}
+              <PageImage setCounter={e => this.setPuse()} height="20px" width="20px"  logo={stop} /> : 
+              <PageImage setCounter={e => this.setPlay()} height="20px" width="20px"  logo={play} />}
 </div>
               <div className="skip-txt" onClick={e => route("congratulation")} >
-               <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >Skip </div> 
+               <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >skip </div> 
               </div>
             </>
           ) : (

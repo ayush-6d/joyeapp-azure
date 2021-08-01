@@ -28,11 +28,11 @@ export class FAQS extends React.PureComponent {
             position:"relative"
           }}
         >
-          <div style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>
+          <div className="joye-logo" style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>
             <img height="75px" width="75px" src={logo} />
           </div>
 
-          <div style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
+          <div  style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
             <img height="42px" width="42px" src={shield} />
           </div>
           <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>

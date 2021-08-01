@@ -5,6 +5,8 @@ import { BasePage, PageImage, Circle } from "src/components";
 import processCompleted from "src/resources/icons/speakingcircle.png";
 import rightTick from "src/resources/icons/rightTick.png";
 
+import ExcellentTick from "src/resources/icons/ExcellentTick.png";
+
 export interface ITellUsAboutProps {
   route?: any;
   history?: any;
@@ -39,23 +41,33 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
       <>
         <div className="text-container">
           {todaysFeeling.length <= 240 ? (
-            <div className="base-font">
-              <p>Express freely in a few sentences </p>
-              <p className="do-not-txt">Do not hold back</p>
+            <div>
+              <div>
+                <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
+                  <p>Express freely for upto 10 sec</p>
+                  <p className="do-not-txt">
+                    Tap &nbsp;&nbsp;
+                    <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                    &nbsp;&nbsp; to proceed
+                  </p>
+                </div>
+              </div>
             </div>
           ) : (
-            <div className="advertise-text bold" style={{ fontSize: "18px" }}>
-              <p style={{ fontWeight: "bold", letterSpacing: "1.7px" }}>Excellent!</p>
-              <p>
-                Tap &nbsp;&nbsp;
-                <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={rightTick} />
-                &nbsp;&nbsp; to proceed
-              </p>
+            <div className="text-container">
+              <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
+                <p>Express freely for upto 10 sec</p>
+                <p className="do-not-txt">
+                  Tap &nbsp;&nbsp;
+                  <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                  &nbsp;&nbsp; to proceed
+                </p>
+              </div>
             </div>
           )}
         </div>
         <div className="target__body">
-          <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing" style={{ borderRadius: "25px", fontSize: "16px" }} onChange={this.handleChange} className="target__textarea about-textarea" />
+          <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing" onChange={this.handleChange} className="target__textarea about-textarea" />
         </div>
         <div className="circle-box-container">
           <div className="circle-box">

@@ -27,7 +27,7 @@ export class PrivacyPolicy extends React.PureComponent {
             position:"relative"
           }}
         >
-          <div style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>
+          <div className="joye-logo" style={{ alignContent: "center", marginTop: "72px", marginBottom: "60px" }}>
             <img height="75px" width="75px" src={logo} />
           </div>
 
