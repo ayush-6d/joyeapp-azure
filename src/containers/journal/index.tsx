@@ -9,7 +9,7 @@ import axios from "axios";
 import { createHash } from "src/utilities/generalUtils";
 import { firebaseInit } from "src/services/firebase";
 import * as firebase from "firebase";
-import * as moment from "moment";
+import  moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 
 export interface IJournalProps {

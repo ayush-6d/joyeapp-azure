@@ -69,7 +69,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
      this.msalConfig = {
         auth: {
             clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-            // redirectUri: "http://localhost:8080/",
+            redirectUri: "http://localhost:8080/",
             navigateToLoginRequestUrl: true
 
         }
@@ -325,7 +325,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     //     alert(JSON.stringify(error))
     //     console.error(error);
     //   });
-    
+
       this.msalInstance.handleRedirectCallback((error, response) => {
         alert(response);
         alert(JSON.stringify(error));
@@ -361,6 +361,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
                  var headers = new Headers();
                     var bearer = "Bearer " + response.accessToken;
                     headers.append("Authorization", bearer);
+                    headers.append("Content-type", "application/json");
                     var options = {
                          method: "GET",
                          headers: headers
@@ -368,11 +369,11 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
                     var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
 
                     fetch(graphEndpoint, options)
-                        .then(resp => {
-                           alert("resp");
-                           console.info(resp);
-                             //do something with response
-                        });
+                       .then(function(response) {
+                        return response.json();
+                      }).then(function(data) {
+                      console.info(data);
+                      });
             })
             .catch(err => {
                 // could also check if err instance of InteractionRequiredAuthError if you can import the class.
@@ -391,19 +392,31 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
                 }
             });
     } else {
-      this.msalInstance.acquireTokenPopup(tokenRequest)
-                        .then(res => {
-                          alert("res");
-                          alert(JSON.stringify(res));
-                          
-                            // get access token from response
-                            // response.accessToken
-                        })
-                        .catch(err => {
-                          alert("err");
-                          alert(JSON.stringify(err));
-                            // handle error
-                        });
+        alert("user not log in");
+        this.msalInstance.loginPopup(loginRequest)
+        .then(response => {
+            // handle response
+              alert(response.accessToken);
+                    var headers = new Headers();
+                    var bearer = "Bearer " + response.accessToken;
+                    headers.append("Authorization", bearer);
+                    headers.append("Content-type", "application/json");
+                    var options = {
+                         method: "GET",
+                         headers: headers
+                    };
+                    var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
+
+                      fetch(graphEndpoint, options)
+                       .then(function(response) {
+                        return response.json();
+                      }).then(function(data) {
+                      console.info(data);
+                      });
+        })
+        .catch(err => {
+            // handle error
+        });
         // user is not logged in, you will need to log them in to acquire a token
     }
   }
