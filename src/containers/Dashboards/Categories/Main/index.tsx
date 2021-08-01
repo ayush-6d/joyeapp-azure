@@ -30,6 +30,7 @@ export interface IMainProps {
   openModal?: any;
 }
 let timer = null;
+let icons = [Mic, Gibberish, Gesture];
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 export interface IMainState {
   speachStarted?: boolean;
@@ -45,6 +46,7 @@ export interface IMainState {
   isTellusabout?: boolean;
   isModalOpen?: boolean;
   modalData?: any;
+  isHardStop?: boolean;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -65,7 +67,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       isClickHandle: true,
       isTellusabout: false,
       isModalOpen: false,
-      modalData:{}
+      modalData:{},
+      isHardStop: false
     };
   }
 
@@ -97,7 +100,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
   speakAgain = () => {
     this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }), () => {
-      this.onClickHandle(true);
+      this.startCounter(true, false);
     });
  };
  
@@ -109,49 +112,70 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     this.setState({ isTellusabout: false, isLoading: false });
   };
 
-  onClickHandle = async showCounter => {
+  startCounter = async (showCounter, isFromGesture) => {
     const self = this;
+    let geture = self.state.iconIndex["mic"];
     this.setState({ isClickHandle: false });
 
-    if (showCounter) {
-      this.setState(prevState => ({
-        showCounter: !prevState.showCounter,
-        isCounterStarted: !prevState.isCounterStarted,
-        isCounterEnd: !prevState.isCounterEnd
-      }));
-
-      timer = setInterval(() => {
-        if (this.state.seconds > 0) {
-          this.setState(prevState => ({
-            seconds: prevState.seconds - 1
-          }));
-        } else {
-          this.setState(prevState => ({
-            showCounter: !prevState.showCounter,
-            isCounterStarted: !prevState.isCounterStarted
-          }));
-          clearInterval(timer);
-          console.log(this.state.seconds);
-        }
-      }, 1000);
-      console.log("vcfgxd", this.state.seconds);
-      self.setState(prevState => ({
-        seconds: 10,
-        showCounter: !prevState.showCounter
-      }));
-    } else {
-      await this.saveData("" ,false);
+    if(geture === 2 && isFromGesture){
+      this.setCounter(showCounter)
+    }else{
+      this.setState({ seconds: 10, isClickHandle: true, isTellusabout: false, isCounterEnd: false });
     }
 
-    this.setState({ iconHeight: "-207px" });
+    if( geture != 2 && !isFromGesture){
+      this.setCounter(showCounter)
+      }
+      else{
+        this.setState({ seconds: 10, isClickHandle: true });
+      }
+    
   };
 
+  setCounter = async showCounter => {
+    const self = this;
+    
+    if (showCounter) 
+    {
+          this.setState(prevState => ({
+            showCounter: !prevState.showCounter,
+            isCounterStarted: !prevState.isCounterStarted,
+            isCounterEnd: !prevState.isCounterEnd,
+            iconIndex: { mic: 0, gibberish: 1, gesture: 2 },
+          }));
+
+          timer = setInterval(() => {
+            if (this.state.seconds > 0) {
+              this.setState(prevState => ({
+                seconds: prevState.seconds - 1
+              }));
+            } else {
+              if(!self.state.isHardStop)
+                {
+                  this.setState(prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: !prevState.isCounterStarted}), () => {
+                    clearInterval(timer);
+                    self.stop();
+                  })
+                }
+              else {
+                clearInterval(timer);
+                this.setState({ isClickHandle: true, seconds: 10, isCounterStarted: false, isCounterEnd: false})
+              }
+             }
+          }, 1000);
+          self.setState(prevState => ({ seconds: 10, showCounter: !prevState.showCounter }));
+      } 
+      else 
+        {
+          await this.saveData("" ,false);
+        }
+  }
   
 
   convertBase64 = async Base64String => {
 
     this.setState(prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false}), () => {
-    
+    let todaysFeeling='';
     let pureBase64String = Base64String.split("base64,")[1];
     var self = this;
     self.setState({ isLoading: true, isTellusabout: false });
@@ -177,20 +201,28 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       )
       .then(async function (res) {
         const responce = res.data.results;
-        let todaysFeeling='';
-        responce.map((data, index) => {
-          data.alternatives.map((data, index) => {
-            todaysFeeling += data.transcript;
-          })
-        });
-        await self.saveData(todaysFeeling, true);
+        console.log('responce:',responce)
+        if(responce)
+        {
+          responce.map((data, index) => {
+            data.alternatives.map((data, index) => {
+              todaysFeeling += data.transcript;
+            })
+          });
+          await self.saveData(todaysFeeling, true);
+        }
+        else{
+          self.setState({ isLoading: false, isCounterEnd: false, isCounterStarted: false })
+
+        }
+        
+        
       });
     });
   };
 
 
   saveData = async (todaysFeeling, isFromBase64) => {
-    console.log('todaysFeeling:', todaysFeeling);
     var self = this;
     axios
       .post(
@@ -210,7 +242,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
       )
       .then(function (res) {
-        console.log('predictionService:',res);
+        console.log('predictionService', res)
         if (!res.data.status && res.data.StatusCode === 401) {
           setAlert("verify", "Please verify your email first");
           removeAlert("loginError");
@@ -242,7 +274,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
               isClickHandle: true, 
               isTellusabout: false,
               isCounterEnd: false,
-              isLoading: true,
+              isLoading: false,
               isModalOpen: true,
               modalData: {
                 title: "Take Charge!",
@@ -253,7 +285,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false })
+            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
           }
 
         }
@@ -269,19 +301,22 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       else{
         this.setState({ isTellusabout: false });
       }
-    
+
+      //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
-  start = () => {
+  onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     if(isMobile)
     {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
+        audioProps: {maxDuration: 10}
     };
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
-        if (error) {
+    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[],) => {
+        
+      if (error) {
             if (error.message) {
                 alert(" ErrorCode: " + error.errorCode + error.message);
             } else {
@@ -311,7 +346,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     }
     else{
       Mp3Recorder.start()
-      .then(() => {})
+      .then(() => {
+        this.startCounter(showCounter, isFromGesture)
+      })
       .catch(e => console.error(e));
     }
   };
@@ -338,14 +375,15 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
   
   HardStop=() => {
-    this.setState(prevState => ({ isCounterEnd: true}), () => {
+    clearInterval(timer);
+    this.setState(prevState => ({ isLoading: true ,isCounterEnd: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }), () => {
       this.stop();
     });
   }
 
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData } = this.state;
-    let icons = [Mic, Gibberish, Gesture];
+    
     return !isLoading ? (
       <>
         {seconds >= 8 && isClickHandle ? (
@@ -375,9 +413,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         )}
 
         <div className="rel">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} OnClick={e => this.onClickHandle(!showCounter)} showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
-          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onClickHandle(!showCounter)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
-          {isCounterStarted || isCounterEnd ? <CircularCounter  OnClick={e => this.onClickHandle(!showCounter)} start={this.start} stop={this.stop} /> : ""}
+          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`}  showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
+          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="58px" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 6 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
+          {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
         </div>
         {!isCounterStarted && !showCounter ? (
           <div className="bottom-container">
@@ -390,7 +428,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 </div>
               </div>
               <div>
-                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.onClickHandle(!showCounter)} img={icons[iconIndex["gesture"]]} />
+                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.onStartRecodring(!showCounter, true)} img={icons[iconIndex["gesture"]]} />
                 <div className="advertise-text bold index-advertise-text">
                   A little deeper
                   <br /> reflection
