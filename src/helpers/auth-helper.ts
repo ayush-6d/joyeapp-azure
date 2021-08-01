@@ -1,7 +1,8 @@
 import * as constants from 'src/constants';
 import * as msTeams from '@microsoft/teams-js';
 import AuthenticationContext from 'adal-angular';
-// import * as Msal from "msal";
+import * as Msal from "msal";
+import * as msal from "@azure/msal-browser";
 
 const authenticationContext = new AuthenticationContext({
   clientId: constants.Auth.appId,
@@ -11,19 +12,22 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-// const msalConfig = {
-//   auth: {
-//     clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-//     // redirectUri: "https://joyeapp.netlify.app",
-//     authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
-//     navigateToLoginRequestUrl: true
+const msalConfig = {
+  auth: {
+    clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
+    // redirectUri: "https://joyeapp.netlify.app",
+    authority: 'https://login.microsoftonline.com/common',
+    // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
+    navigateToLoginRequestUrl: true
 
-//   }
-// };
-// const msalInstance = new Msal.UserAgentApplication(msalConfig);
-// var loginRequest = {
-//   scopes: ["user.read", "mail.send"] // optional Array<string>
-// };
+  }
+};
+const msalInstance = new Msal.UserAgentApplication(msalConfig);
+// const msalInstance = new msal.PublicClientApplication(msalConfig);
+
+var loginRequest = {
+  scopes: ["user.read", "mail.send"] // optional Array<string>
+};
 export default class AuthHelper {
   /**
    * Uses the current authetication context to check if a user
@@ -34,9 +38,9 @@ export default class AuthHelper {
     let cachedUser = authenticationContext.getCachedUser();
     let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
 
-    return !!cachedUser && cachedToken?.length > 0;
+    // return !!cachedUser && cachedToken?.length > 0;
 
-     // return localStorage.getItem("userDetails")?true:false;
+     return localStorage.getItem("userDetails")?true:false;
   }
 
   /**
@@ -134,52 +138,55 @@ export default class AuthHelper {
       })
     })
   }
-  // public static async userLogin() {
+  public static async userLogin() {
 
-  //   alert(JSON.stringify(msalInstance.getAccount()));
-  //   if (msalInstance.getAccount()) {
-  //       try{
-  //           var response= await  msalInstance.acquireTokenSilent(loginRequest);
-  //           alert(JSON.stringify(response));
-  //           if(response.accessToken){
-  //               await AuthHelper.getUserProfile(response.accessToken);
-  //           }
+    alert(JSON.stringify(msalInstance.getAccount()));
+    if (msalInstance.getAccount()) {
+        AuthHelper.getAccessSSOToken();
+    } else {
+      alert("user not log in");
+      msalInstance.loginPopup(loginRequest)
+        .then(response => {
+          // handle response
+           AuthHelper.getAccessSSOToken();
+        })
+        .catch(err => {
+          alert("network error loginPopup");
+          alert(JSON.stringify(err));
+        });
+      // user is not logged in, you will need to log them in to acquire a token
+    }
+  }
+
+    private static async getAccessSSOToken() {
+        try{
+            var response= await  msalInstance.acquireTokenSilent(loginRequest);
+            alert(JSON.stringify(response));
+            if(response.accessToken){
+             AuthHelper.getUserProfile(response.accessToken);
+            }
             
-  //       }
-  //       catch (err) {
-  //        if (err.name === "InteractionRequiredAuthError") {
-  //           return msalInstance.acquireTokenPopup(loginRequest)
-  //             .then(res => {
-  //               alert("res");
-  //               alert(JSON.stringify(res));
+        }
+        catch (err) {
+         if (err.name === "InteractionRequiredAuthError") {
+            return msalInstance.acquireTokenPopup(loginRequest)
+              .then(res => {
+                alert("res");
+                alert(JSON.stringify(res));
+                    if(res.accessToken){
+                    AuthHelper.getUserProfile(res.accessToken);
+                }
+                // get access token from response
+                // response.accessToken
+              })
+              .catch(err => {
+                 alert("network error acquireTokenPopup");
+                 alert(JSON.stringify(err));
+              });
+          }
+        }
 
-  //               // get access token from response
-  //               // response.accessToken
-  //             })
-  //             .catch(err => {
-  //                alert("network error acquireTokenPopup");
-  //                alert(JSON.stringify(err));
-  //             });
-  //         }
-  //       }
-  //   } else {
-  //     alert("user not log in");
-  //     msalInstance.loginPopup(loginRequest)
-  //       .then(response => {
-  //         // handle response
-  //         alert(JSON.stringify(response));
-
-  //         console.log(response)
-  //          AuthHelper.getUserProfile(response.accessToken)
-  //       })
-  //       .catch(err => {
-  //         alert("network error loginPopup");
-  //         alert(JSON.stringify(err));
-  //       });
-  //     // user is not logged in, you will need to log them in to acquire a token
-  //   }
-  // }
-
+    }
 
   private static getUserProfile(token): Promise < string > {
     return new Promise < string > ((resolve, reject) => {
