@@ -69,7 +69,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
      this.msalConfig = {
         auth: {
             clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-            redirectUri: "https://joyeapp.netlify.app",
+            // redirectUri: "https://joyeapp.netlify.app",
             navigateToLoginRequestUrl: true
 
         }
