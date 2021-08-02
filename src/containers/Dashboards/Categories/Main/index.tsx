@@ -310,7 +310,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
       .then(function (res){
            let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
-            console.log('mobileBase64:' , mobileBase64);
+            console.log('mobileBase6:' , mobileBase64);
       })
   }
 
