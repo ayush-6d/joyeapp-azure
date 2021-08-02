@@ -312,7 +312,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
       .then(function (res){
         clearInterval(timer);
-        this.setState(
+        self.setState(
           prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
           () => {
             let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
@@ -339,7 +339,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        this.startCounter(showCounter, isFromGesture);
+        self.startCounter(showCounter, isFromGesture);
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
         
@@ -347,7 +347,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           var videoElement = document.createElement("video");
           if (blob) {
             let url = URL.createObjectURL(blob)
-            this.getMobileBase64(url);
+            self.getMobileBase64(url);
           }
         });
 
