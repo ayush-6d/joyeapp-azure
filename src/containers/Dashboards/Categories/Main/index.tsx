@@ -170,6 +170,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   convertBase64 = async Base64String => {
+    console.log('Base64String', Base64String)
     let pureBase64String=''
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
@@ -206,7 +207,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           )
           .then(async function (res) {
             const responce = res.data.results;
-            console.log("responce:", responce);
+            console.log("responce:", res);
             if (responce) {
               responce.map((data, index) => {
                 data.alternatives.map((data, index) => {
@@ -347,6 +348,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
+          console.log('attachments', attachments)
         let audioResult = attachments[0];
         self.startCounter(showCounter, isFromGesture);
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
