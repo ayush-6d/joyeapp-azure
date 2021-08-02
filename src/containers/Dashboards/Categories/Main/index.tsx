@@ -170,11 +170,18 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   convertBase64 = async Base64String => {
+    let pureBase64String=''
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        let pureBase64String = Base64String.split("base64,")[1];
+        if(this.state.isHardStop)
+        {
+          pureBase64String = Base64String;
+        }else {
+          pureBase64String = Base64String.split("base64,")[1];
+        }
+         
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
@@ -339,10 +346,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        self.startCounter(showCounter, isFromGesture);
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        
+        self.startCounter(showCounter, isFromGesture);
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
           if (blob) {
@@ -378,9 +384,6 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           type: blob.type,
           lastModified: Date.now()
         });
-
-        console.log('buffer', file);
-
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
