@@ -206,6 +206,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                   todaysFeeling += data.transcript;
                 });
               });
+              console.log('todaysFeeling', todaysFeeling);
               await self.saveData(todaysFeeling, true);
             } else {
               self.setState({ 
@@ -304,13 +305,21 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   getMobileBase64 = async url =>  {
+    var self = this;
     return axios
       .get(url, {
         responseType: 'arraybuffer'
       })
       .then(function (res){
-           let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
-            console.log('mobileBase6:' , mobileBase64);
+        clearInterval(timer);
+        this.setState(
+          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+          () => {
+            let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
+            self.convertBase64(mobileBase64);
+          }
+        );
+           
       })
   }
 
@@ -330,16 +339,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
+        this.startCounter(showCounter, isFromGesture);
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        alert(JSON.stringify(audioResult));
-
-
-
+        
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
-          console.log('videoElement:', videoElement);
-          console.log('blob:', blob);
           if (blob) {
             let url = URL.createObjectURL(blob)
             this.getMobileBase64(url);
