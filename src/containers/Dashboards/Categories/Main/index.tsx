@@ -321,7 +321,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        alert( JSON.Stringify(audioResult) );
+        console.log( "audioResult:", audioResult );
+		console.log( JSON.Stringify(audioResult) );
 
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
