@@ -1,8 +1,12 @@
 import * as constants from 'src/constants';
 import * as msTeams from '@microsoft/teams-js';
 import AuthenticationContext from 'adal-angular';
+import {  parseJwt} from '../utilities/generalUtils';
+import axios from "axios";
+import { API_ROOT } from "../config";
+import { firebaseInit } from '../services/firebase';
+
 // import * as Msal from "msal";
-// import * as msal from "@azure/msal-browser";
 
 const authenticationContext = new AuthenticationContext({
   clientId: constants.Auth.appId,
@@ -16,6 +20,7 @@ const authenticationContext = new AuthenticationContext({
 //   auth: {
 //     clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
 //     // redirectUri: "https://joyeapp.netlify.app",
+//     // redirectUri: "http://localhost:8080",
 //     authority: 'https://login.microsoftonline.com/common',
 //     // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
 //     navigateToLoginRequestUrl: true
@@ -23,7 +28,6 @@ const authenticationContext = new AuthenticationContext({
 //   }
 // };
 // const msalInstance = new Msal.UserAgentApplication(msalConfig);
-// // const msalInstance = new msal.PublicClientApplication(msalConfig);
 
 var loginRequest = {
   scopes: ["user.read", "mail.send"] // optional Array<string>
@@ -85,7 +89,7 @@ export default class AuthHelper {
    * of the AD token, and notifies teams of a successful log in
    * if it is there, or notifies of failure otherwise.
    */
-  public static EndSignIn(): void {
+  public static  EndSignIn(): void {
     // debugger
     if (authenticationContext.isCallback(window.location.hash)) {
       authenticationContext.handleWindowCallback(window.location.hash);
@@ -94,11 +98,11 @@ export default class AuthHelper {
         //   debugger
         if (authenticationContext.getCachedUser()) {
           authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
-            console.log('token', token)
-            console.log('error', err)
             if (token) {
-              msTeams.authentication.notifySuccess(token);
-              window.location.href.replace('auth/signinend#', '')
+              // msTeams.authentication.notifySuccess(token);
+               AuthHelper.getUserProfile(token);
+
+              // window.location.href.replace('auth/signinend#', '')
               // window.opener.close('true')
             } else if (err) {
               msTeams.authentication.notifySuccess(token);
@@ -145,6 +149,12 @@ export default class AuthHelper {
   //       AuthHelper.getAccessSSOToken();
   //   } else {
   //     alert("user not log in");
+  //     //  msalInstance.handleRedirectCallback((error, response) => {
+  //     //   // handle redirect response or error
+  //     //   alert(JSON.stringify(response))
+  //     //   console.log(error);
+  //     //   console.log(response);
+  //     // });
   //     msalInstance.loginPopup(loginRequest)
   //       .then(response => {
   //         // handle response
@@ -188,33 +198,83 @@ export default class AuthHelper {
 
     // }
 
-  // private static getUserProfile(token): Promise < string > {
-  //   return new Promise < string > ((resolve, reject) => {
-  //     var headers = new Headers();
-  //     var bearer = "Bearer " + token;
-  //     headers.append("Authorization", bearer);
-  //     headers.append("Content-type", "application/json");
-  //     var options = {
-  //       method: "GET",
-  //       headers: headers
-  //     };
-  //     var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
+  private static  getUserProfile(token): Promise < string > {
+    return new Promise < string > ((resolve, reject) => {
+      var headers = new Headers();
+      var bearer = "Bearer " + token;
+      headers.append("Authorization", bearer);
+      headers.append("Content-type", "application/json");
+      var options = {
+        method: "GET",
+        headers: headers
+      };
+      var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
 
-  //     fetch(graphEndpoint, options)
-  //       .then(function(response) {
-  //         return response.json();
-  //       }).then(function(data) {
-  //         console.info(data);
-  //         if(data.displayName){
-  //           localStorage.setItem("userDetails",JSON.stringify(data))
-  //          alert ("Hello "+ data.displayName)
-  //          window.location.replace(window.location.origin + '/');
-  //         }
+      fetch(graphEndpoint, options)
+        .then(function(response) {
+          return response.json();
+        }).then(function(data) {
+          if(data.displayName){
+            localStorage.setItem("userDetails",JSON.stringify(data))
+           var decoded = parseJwt(token);
+           
+           if(decoded.tid && data.id ){
+             AuthHelper.createTokenId(data.id,decoded.tid,token)
+           }
+           // alert (JSON.stringify(decoded));
+           // window.location.replace(window.location.origin + '/');
           
-  //       }).catch(err => {
-  //         alert("network error getUserProfile");
-  //         alert(JSON.stringify(err));
-  //       });
-  //   })
-  // }
+          }
+          
+        }).catch(err => {
+          alert("network error getUserProfile");
+          alert(JSON.stringify(err));
+        });
+    })
+  }
+
+  private static async createTokenId(userId, tanentId, SSOtoken) {
+
+  try {
+    const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
+      organisationId: "-MHUPaNmo_p85_DR3ABC",
+      subOrganisationId: tanentId,
+      empId: userId,
+      uid: `-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266`
+    }, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+    if (createTokenId.data.token) {
+      firebaseInit
+        .auth()
+        .signInWithCustomToken(createTokenId.data.token)
+        .then(async userCredential => {
+          // Signed in
+          localStorage.setItem("userCredential", JSON.stringify(userCredential));
+          try {
+            const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
+            // debugger;
+            msTeams.authentication.notifySuccess(SSOtoken);
+            // window.location.href.replace('auth/signinend#', '')
+          } catch (e) {
+            alert("network error at firebaseInit.database");
+            alert(JSON.stringify(e));
+          }
+          //         // ...
+        })
+        .catch(e => {
+          alert("network error at signInWithCustomToken");
+          alert(JSON.stringify(e));
+        });
+    }
+  } catch (err) {
+    alert("network error at createTokenId");
+    alert(JSON.stringify(err));
+  };
+
+}
+
 }
