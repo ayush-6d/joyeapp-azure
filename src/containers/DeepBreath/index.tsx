@@ -8,6 +8,7 @@ import stop from "src/resources/icons/stop.png";
 import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
+import saysomething from "src/resources/saysomething.mp4";
 
 
 
@@ -122,7 +123,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                 playing={this.state.isPlaying} 
                 pip={false} 
                 stopOnUnmount={this.state.isStop} 
-                url={[ { src: 'src/resources/saysomething.mp4', type: 'video/mp4'} ]} 
+                url={[ { src: saysomething, type: 'video/mp4'} ]} 
                 width="100%" 
                 height="100%"
                 config={{

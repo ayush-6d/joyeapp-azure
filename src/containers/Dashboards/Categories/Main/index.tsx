@@ -309,7 +309,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: { maxDuration: 1 }
+        audioProps: { maxDuration: 1 },
       };
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
@@ -321,14 +321,16 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        console.log( "audioResult:", audioResult );
-		console.log( JSON.stringify(audioResult) );
+        alert(JSON.stringify(audioResult));
 
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
+          console.log('videoElement:', videoElement);
+          console.log('blob:', blob);
           if (blob) {
             if (blob.type.includes("video")) {
               videoElement.setAttribute("src", URL.createObjectURL(blob));
+              console.log('videoElement_2', videoElement)
             }
           }
         });
