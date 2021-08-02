@@ -352,10 +352,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         let audioResult = attachments[0];
         self.startCounter(showCounter, isFromGesture);
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+          let newBlob = {
+            "size": blob.size,
+            "type": "MP3",
+            "arrayBuffer": blob.arrayBuffer
+          }
           var videoElement = document.createElement("video");
-          console.log("blob", blob)
-		  if (blob) {
-            let url = URL.createObjectURL(blob)
+          if (blob) {
+            let url = URL.createObjectURL(newBlob)
             self.getMobileBase64(url);
           }
         });
