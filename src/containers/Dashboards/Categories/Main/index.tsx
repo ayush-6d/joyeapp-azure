@@ -303,12 +303,15 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
-  getMobileBase64(url) {
+  getMobileBase64 = async url =>  {
     return axios
       .get(url, {
         responseType: 'arraybuffer'
       })
-      .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+      .then(function (res){
+           let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
+            console.log('mobileBase64:' , mobileBase64);
+      })
   }
 
   onStartRecodring = (showCounter, isFromGesture) => {
@@ -339,8 +342,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           console.log('blob:', blob);
           if (blob) {
             let url = URL.createObjectURL(blob)
-            let mobileBase64 = this.getMobileBase64(url);
-            console.log('mobileBase64:' , mobileBase64);
+            this.getMobileBase64(url);
           }
         });
 
