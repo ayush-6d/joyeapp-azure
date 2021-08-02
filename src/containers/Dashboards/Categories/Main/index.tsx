@@ -303,6 +303,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
+  getMobileBase64(url) {
+    return axios
+      .get(url, {
+        responseType: 'arraybuffer'
+      })
+      .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+  }
+
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     if (isMobile) {
@@ -323,15 +331,16 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         let audioResult = attachments[0];
         alert(JSON.stringify(audioResult));
 
+
+
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
           console.log('videoElement:', videoElement);
           console.log('blob:', blob);
           if (blob) {
-            if (blob.type.includes("video")) {
-              videoElement.setAttribute("src", URL.createObjectURL(blob));
-              console.log('videoElement_2', videoElement)
-            }
+            let url = URL.createObjectURL(blob)
+            let mobileBase64 = this.getMobileBase64(url);
+            console.log('mobileBase64:' , mobileBase64);
           }
         });
 
@@ -357,10 +366,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     Mp3Recorder.stop()
       .getMp3()
       .then(([buffer, blob]) => {
+        
         const file = new File(buffer, "me-at-thevoice.mp3", {
           type: blob.type,
           lastModified: Date.now()
         });
+
+        console.log('buffer', file);
 
         var reader = new FileReader();
         reader.readAsDataURL(file);
