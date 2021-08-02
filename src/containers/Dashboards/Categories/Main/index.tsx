@@ -170,11 +170,18 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   convertBase64 = async Base64String => {
+    let pureBase64String=''
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        let pureBase64String = Base64String.split("base64,")[1];
+        if(this.state.isHardStop)
+        {
+          pureBase64String = Base64String;
+        }else {
+          pureBase64String = Base64String.split("base64,")[1];
+        }
+         
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
@@ -206,6 +213,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                   todaysFeeling += data.transcript;
                 });
               });
+              console.log('todaysFeeling', todaysFeeling);
               await self.saveData(todaysFeeling, true);
             } else {
               self.setState({ 
@@ -303,12 +311,23 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
-  getMobileBase64(url) {
+  getMobileBase64 = async url =>  {
+    var self = this;
     return axios
       .get(url, {
         responseType: 'arraybuffer'
       })
-      .then(response => Buffer.from(response.data, 'binary').toString('base64'))
+      .then(function (res){
+        clearInterval(timer);
+        self.setState(
+          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+          () => {
+            let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
+            self.convertBase64(mobileBase64);
+          }
+        );
+           
+      })
   }
 
   onStartRecodring = (showCounter, isFromGesture) => {
@@ -329,18 +348,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
-        alert(JSON.stringify(audioResult));
-
-
-
+        self.startCounter(showCounter, isFromGesture);
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
-          console.log('videoElement:', videoElement);
-          console.log('blob:', blob);
           if (blob) {
             let url = URL.createObjectURL(blob)
-            let mobileBase64 = this.getMobileBase64(url);
-            console.log('mobileBase64:' , mobileBase64);
+            self.getMobileBase64(url);
           }
         });
 
@@ -371,9 +384,6 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           type: blob.type,
           lastModified: Date.now()
         });
-
-        console.log('buffer', file);
-
         var reader = new FileReader();
         reader.readAsDataURL(file);
 
