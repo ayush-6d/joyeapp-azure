@@ -309,7 +309,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: { maxDuration: 1 }
+        audioProps: { maxDuration: 0.17 }
       };
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
