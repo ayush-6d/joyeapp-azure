@@ -134,7 +134,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 
   setCounter = async showCounter => {
     const self = this;
-
+    this.setState({ isClickHandle: false });
     if (showCounter) {
       this.setState(prevState => ({
         showCounter: !prevState.showCounter,
@@ -208,7 +208,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
               });
               await self.saveData(todaysFeeling, true);
             } else {
-              self.setState({ isLoading: false, isCounterEnd: false, isCounterStarted: false });
+              self.setState({ 
+                isClickHandle: true,
+                seconds: 10,
+                iconIndex: { mic: 2, gibberish: 1, gesture: 0 } , 
+                isLoading: false, 
+                isCounterEnd: false, 
+                isCounterStarted: false,
+                showCounter: false, });
             }
           });
       }
@@ -302,7 +309,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: { maxDuration: 10 }
+        audioProps: { maxDuration: .17 }
       };
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
@@ -314,6 +321,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         let audioResult = attachments[0];
+        alert(audioResult);
 
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           var videoElement = document.createElement("video");
@@ -364,7 +372,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   HardStop = () => {
     clearInterval(timer);
     this.setState(
-      prevState => ({ isLoading: true, isCounterEnd: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+      prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
       () => {
         this.stop();
       }
