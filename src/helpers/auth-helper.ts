@@ -16,22 +16,7 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-// const msalConfig = {
-//   auth: {
-//     clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-//     // redirectUri: "https://joyeapp.netlify.app",
-//     // redirectUri: "http://localhost:8080",
-//     authority: 'https://login.microsoftonline.com/common',
-//     // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
-//     navigateToLoginRequestUrl: true
 
-//   }
-// };
-// const msalInstance = new Msal.UserAgentApplication(msalConfig);
-
-var loginRequest = {
-  scopes: ["user.read", "mail.send"] // optional Array<string>
-};
 export default class AuthHelper {
   /**
    * Uses the current authetication context to check if a user
@@ -142,61 +127,62 @@ export default class AuthHelper {
       })
     })
   }
-  // public static async userLogin() {
+  public static async userLogin() {
+        alert("window.location.origin  ="+window.location.origin)
+       AuthHelper.getAccessSSOToken()
+        .then((clientSideToken) => {
+            alert("clientSideToken");
+            alert(clientSideToken);
+            return AuthHelper.getServerSideToken(clientSideToken);
+        })
+    
+  }
+  public static async getServerSideToken(clientSideToken) {
+      return new Promise((resolve, reject) => {
+                  microsoftTeams.getContext(async (context) => {
+                         alert("context");
+                          alert(JSON.stringify(context));
+                        var data = new URLSearchParams();
+                        data.append('client_id', process.env.REACT_APP_APP_ID);
+                        data.append('scope', 'https://graph.microsoft.com/User.Read');
+                        data.append('client_secret', process.env.client_secret);
+                        data.append('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer');
+                        data.append('assertion', '');
+                        data.append('requested_token_use', 'on_behalf_of');
+                        try{
+                            const ssoToken= await axios.post("https://login.microsoftonline.com/" + context.tid + "/oauth2/v2.0/token",data, {
+                              headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/x-www-form-urlencoded"
+                              }
+                          })
+                          alert("getServerSideToken");
+                           alert(JSON.stringify(ssoToken));
+                        }
+                        catch(error){
 
-  //   alert(JSON.stringify(msalInstance.getAccount()));
-  //   if (msalInstance.getAccount()) {
-  //       AuthHelper.getAccessSSOToken();
-  //   } else {
-  //     alert("user not log in");
-  //     //  msalInstance.handleRedirectCallback((error, response) => {
-  //     //   // handle redirect response or error
-  //     //   alert(JSON.stringify(response))
-  //     //   console.log(error);
-  //     //   console.log(response);
-  //     // });
-  //     msalInstance.loginPopup(loginRequest)
-  //       .then(response => {
-  //         // handle response
-  //          AuthHelper.getAccessSSOToken();
-  //       })
-  //       .catch(err => {
-  //         alert("network error loginPopup");
-  //         alert(JSON.stringify(err));
-  //       });
-  //     // user is not logged in, you will need to log them in to acquire a token
-  //   }
-  // }
+                           alert("getServerSideToken error");
+                            alert(JSON.stringify(error));
+                        }
+                      
+                   
+                  })
+        });
+    
+  }
+    private static async getAccessSSOToken() {
+       return new Promise((resolve, reject) => {
+            microsoftTeams.authentication.getAuthToken({
+                successCallback: (result) => {
+                    resolve(result);
+                },
+                failureCallback: function (error) {
+                    reject("Error getting token: " + error);
+                }
+            });
+        });
 
-    // private static async getAccessSSOToken() {
-    //     try{
-    //         var response= await  msalInstance.acquireTokenSilent(loginRequest);
-    //         alert(JSON.stringify(response));
-    //         if(response.accessToken){
-    //          AuthHelper.getUserProfile(response.accessToken);
-    //         }
-            
-    //     }
-    //     catch (err) {
-    //      if (err.name === "InteractionRequiredAuthError") {
-    //         return msalInstance.acquireTokenPopup(loginRequest)
-    //           .then(res => {
-    //             alert("res");
-    //             alert(JSON.stringify(res));
-    //                 if(res.accessToken){
-    //                 AuthHelper.getUserProfile(res.accessToken);
-    //             }
-    //             // get access token from response
-    //             // response.accessToken
-    //           })
-    //           .catch(err => {
-    //              alert("network error acquireTokenPopup");
-    //              alert(JSON.stringify(err));
-    //           });
-    //       }
-    //     }
-
-    // }
+    }
 
   private static  getUserProfile(token): Promise < string > {
     return new Promise < string > ((resolve, reject) => {
