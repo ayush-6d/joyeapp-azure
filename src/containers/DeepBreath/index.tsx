@@ -120,7 +120,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                 className="react-player" 
                 playsinline 
                 muted={!this.state.audioMute} 
-                playing={this.state.isPlaying} 
+                playing 
                 pip={false} 
                 stopOnUnmount={this.state.isStop} 
                 url={[ { src: saysomething, type: 'video/mp4'} ]} 
