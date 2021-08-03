@@ -289,7 +289,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     var bodyFormData = new FormData();
     bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
     bodyFormData.append('scope', 'api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
-    bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
+    // bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
+    bodyFormData.append('client_secret', 'Apj~KvuHf_g2Lx1X.LN884.bi9q1.A0CJF');
     bodyFormData.append('grant_type', 'client_credentials');
     axios({
       method: "post",
