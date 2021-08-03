@@ -370,7 +370,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             var data = new Blob([blob], {type: 'audio/mp3'});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
-            self.getMobileBase64(url);
+            self.stop();
           }
         });
 
