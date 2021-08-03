@@ -13,7 +13,19 @@ export default class App extends React.Component<IAppProps, IAppState> {
 
     msTeams.initialize();
     msTeams.registerOnThemeChangeHandler(this.updateTheme.bind(this));
-    msTeams.getContext(context => { this.updateTheme(context.theme) });
+    msTeams.getContext(context => { 
+      alert(JSON.stringify(context));
+      this.updateTheme(context.theme) 
+
+    });
+    msTeams.authentication.getAuthToken({
+                successCallback: (result) => {
+                    alert(result)
+                },
+                failureCallback: function (error) {
+                    alert(error)
+      }
+  });
   }
   
   render() {

@@ -38,6 +38,7 @@ import { loginUser } from 'src/actions/loginActions';
 // let authorizeEndpoint = '/oauth2/v2.0/authorize';
 // let tokenEndpoint = '/oauth2/v2.0/token';
 // let scope = 'Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access';
+import * as msTeams from '@microsoft/teams-js';
 
 
 export interface ILoginProps {
@@ -285,29 +286,38 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   getToken = () => {
     
-    // var bodyFormData = new FormData();
-    // bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
-    // bodyFormData.append('scope', 'api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
-    // bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
-    // bodyFormData.append('grant_type', 'client_credentials');
-    // axios({
-    //   method: "post",
-    //   url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
-    //   data: bodyFormData,
-    //   // headers: { "Content-Type": "multipart/form-data"},
-    // })
-    //   .then(function (response) {
-    //     alert("response");
-    //     alert(JSON.stringify(response))
-    //     //handle success
-    //     console.warn(response);
-    //   })
-    //   .catch(function (error) {
-    //     //handle error
-    //     alert("error");
-    //     alert(JSON.stringify(error))
-    //     console.error(error);
-    //   });
+    var bodyFormData = new FormData();
+    bodyFormData.append('client_id', 'b083d035-a374-45ea-911c-5ddf8569b0f5');
+    bodyFormData.append('scope', 'api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5/.default');
+    bodyFormData.append('client_secret', 'M.BX.JE-KvjS6.83~rt_1PtwiOuX1D9T2U');
+    bodyFormData.append('grant_type', 'client_credentials');
+    axios({
+      method: "post",
+      url: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073/oauth2/v2.0/token',
+      data: bodyFormData,
+      // headers: { "Content-Type": "multipart/form-data"},
+    })
+      .then(function (response) {
+        alert("response");
+        alert(JSON.stringify(response))
+        //handle success
+        console.warn(response);
+      })
+      .catch(function (error) {
+        //handle error
+        alert("error");
+        alert(JSON.stringify(error))
+        console.error(error);
+      });
+
+      msTeams.authentication.getAuthToken({
+                successCallback: (result) => {
+                    alert(result)
+                },
+                failureCallback: function (error) {
+                    alert(error)
+      }
+  });
   }
 
 
@@ -325,8 +335,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             </div>
           </div>
         <div className="button-wrapper">
-         {/*<Button Loader={null} type="button" onClick={AuthHelper.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> */}
-        <Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+         <Button Loader={null} type="button" onClick={this.getToken} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button> 
+        {/*<Button Loader={null} type="button" onClick={AuthHelper.Login} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>*/}
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">

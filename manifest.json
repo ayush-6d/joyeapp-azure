@@ -28,7 +28,7 @@
       "identity",
       "messageTeamMembers"
     ],
-    "validDomains": [],
+    "validDomains": ["https://joyeapp.netlify.app"],
     "devicePermissions": [
       "media"
     ],
