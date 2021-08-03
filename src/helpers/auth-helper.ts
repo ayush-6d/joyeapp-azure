@@ -6,7 +6,7 @@ import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit } from '../services/firebase';
 
-// import * as Msal from "msal";
+import * as Msal from "msal";
 
 const authenticationContext = new AuthenticationContext({
   clientId: constants.Auth.appId,
@@ -16,18 +16,18 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-// const msalConfig = {
-//   auth: {
-//     clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-//     // redirectUri: "https://joyeapp.netlify.app",
-//     // redirectUri: "http://localhost:8080",
-//     authority: 'https://login.microsoftonline.com/common',
-//     // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
-//     navigateToLoginRequestUrl: true
+const msalConfig = {
+  auth: {
+    clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
+    // redirectUri: "https://joyeapp.netlify.app",
+    // redirectUri: "http://localhost:8080",
+    authority: 'https://login.microsoftonline.com/common',
+    // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
+    navigateToLoginRequestUrl: true
 
-//   }
-// };
-// const msalInstance = new Msal.UserAgentApplication(msalConfig);
+  }
+};
+const msalInstance = new Msal.UserAgentApplication(msalConfig);
 
 var loginRequest = {
   scopes: ["user.read", "mail.send"] // optional Array<string>
@@ -168,35 +168,35 @@ export default class AuthHelper {
   //   }
   // }
 
-    // private static async getAccessSSOToken() {
-    //     try{
-    //         var response= await  msalInstance.acquireTokenSilent(loginRequest);
-    //         alert(JSON.stringify(response));
-    //         if(response.accessToken){
-    //          AuthHelper.getUserProfile(response.accessToken);
-    //         }
+    public static async getAccessSSOToken() {
+        try{
+            var response= await  msalInstance.acquireTokenSilent(loginRequest);
+            alert(JSON.stringify(response));
+            if(response.accessToken){
+             AuthHelper.getUserProfile(response.accessToken);
+            }
             
-    //     }
-    //     catch (err) {
-    //      if (err.name === "InteractionRequiredAuthError") {
-    //         return msalInstance.acquireTokenPopup(loginRequest)
-    //           .then(res => {
-    //             alert("res");
-    //             alert(JSON.stringify(res));
-    //                 if(res.accessToken){
-    //                 AuthHelper.getUserProfile(res.accessToken);
-    //             }
-    //             // get access token from response
-    //             // response.accessToken
-    //           })
-    //           .catch(err => {
-    //              alert("network error acquireTokenPopup");
-    //              alert(JSON.stringify(err));
-    //           });
-    //       }
-    //     }
+        }
+        catch (err) {
+         if (err.name === "InteractionRequiredAuthError") {
+            return msalInstance.acquireTokenPopup(loginRequest)
+              .then(res => {
+                alert("res");
+                alert(JSON.stringify(res));
+                    if(res.accessToken){
+                    AuthHelper.getUserProfile(res.accessToken);
+                }
+                // get access token from response
+                // response.accessToken
+              })
+              .catch(err => {
+                 alert("network error acquireTokenPopup");
+                 alert(JSON.stringify(err));
+              });
+          }
+        }
 
-    // }
+    }
 
   private static  getUserProfile(token): Promise < string > {
     return new Promise < string > ((resolve, reject) => {
