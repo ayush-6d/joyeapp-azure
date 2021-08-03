@@ -143,9 +143,9 @@ export default class AuthHelper {
                          alert("context");
                           alert(JSON.stringify(context));
                         var data = new URLSearchParams();
-                        data.append('client_id', process.env.REACT_APP_APP_ID);
+                        data.append('client_id', "b083d035-a374-45ea-911c-5ddf8569b0f5");
                         data.append('scope', 'https://graph.microsoft.com/User.Read');
-                        data.append('client_secret', process.env.client_secret);
+                        data.append('client_secret', "Apj~KvuHf_g2Lx1X.LN884.bi9q1.A0CJF");
                         data.append('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer');
                         data.append('assertion', '');
                         data.append('requested_token_use', 'on_behalf_of');
