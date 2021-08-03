@@ -176,7 +176,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-       pureBase64String = Base64String.split("base64,")[1];
+        if(isMobile)
+        {
+          pureBase64String = Base64String;
+        }else {
+          pureBase64String = Base64String.split("base64,")[1];
+        }
+         
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
@@ -354,7 +360,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        Mp3Recorder.start().then(() => {})
+        
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         console.log('attachments', attachments)
         let audioResult = attachments[0];
@@ -364,7 +370,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             var data = new Blob([blob], {type: 'audio/mp3'});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
-            self.stop();
+            self.getMobileBase64(url);
           }
         });
 
