@@ -360,7 +360,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        
+        Mp3Recorder.start().then(() => {})
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         console.log('attachments', attachments)
         let audioResult = attachments[0];
