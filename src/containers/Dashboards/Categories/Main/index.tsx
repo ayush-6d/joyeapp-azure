@@ -336,7 +336,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     
     if (isMobile) {
       
-      
+      self.startCounter(showCounter, isFromGesture);
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
@@ -360,13 +360,24 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
         }
         
-		
-		Mp3Recorder.start()
-        .then(() => {
-          self.startCounter(showCounter, isFromGesture);
-        })
-        .catch(e => console.error(e));
+        // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
+        console.log('attachments', attachments)
+        let audioResult = attachments[0];
         
+        audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+          if (blob) {
+            let url = URL.createObjectURL(blob)
+            self.getMobileBase64(url);
+          }
+        });
+
+        if (error) {
+          if (error.message) {
+            alert(" ErrorCode: " + error.errorCode + error.message);
+          } else {
+            alert(" ErrorCode: " + error.errorCode);
+          }
+        }
       });
     } else {
       Mp3Recorder.start()
