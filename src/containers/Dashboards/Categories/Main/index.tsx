@@ -336,7 +336,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     
     if (isMobile) {
       
-      self.startCounter(showCounter, isFromGesture);
+      
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
@@ -363,7 +363,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 		
 		Mp3Recorder.start()
         .then(() => {
-          this.startCounter(showCounter, isFromGesture);
+          self.startCounter(showCounter, isFromGesture);
         })
         .catch(e => console.error(e));
         
