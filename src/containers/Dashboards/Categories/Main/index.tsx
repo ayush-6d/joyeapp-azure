@@ -176,7 +176,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        if(this.state.isHardStop)
+        if(isMobile)
         {
           pureBase64String = Base64String;
         }else {
@@ -367,7 +367,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
-            var data = new Blob([blob], {type: 'mp3'});
+            var data = new Blob([blob], {type: 'audio/mp3'});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
             self.getMobileBase64(url);
@@ -396,7 +396,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     Mp3Recorder.stop()
       .getMp3()
       .then(([buffer, blob]) => {
-        
+        console.log('blob', blob);
         const file = new File(buffer, "me-at-thevoice.mp3", {
           type: blob.type,
           lastModified: Date.now()
