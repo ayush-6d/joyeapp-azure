@@ -128,11 +128,9 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.location.origin  ="+window.location.origin)
+        alert("window.location  ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
-            alert("clientSideToken");
-            alert(clientSideToken);
             return AuthHelper.getServerSideToken(clientSideToken);
         })
     
@@ -140,20 +138,11 @@ export default class AuthHelper {
   public static async getServerSideToken(clientSideToken) {
       return new Promise((resolve, reject) => {
                   msTeams.getContext(async (context) => {
-                         alert("context");
-                          alert(JSON.stringify(context));
-                        var data = new URLSearchParams();
-                        data.append('client_id', "b083d035-a374-45ea-911c-5ddf8569b0f5");
-                        data.append('scope', 'https://graph.microsoft.com/User.Read');
-                        data.append('client_secret', "Apj~KvuHf_g2Lx1X.LN884.bi9q1.A0CJF");
-                        data.append('grant_type', 'urn:ietf:params:oauth:grant-type:jwt-bearer');
-                        data.append('assertion', '');
-                        data.append('requested_token_use', 'on_behalf_of');
+                         
                         try{
-                            const ssoToken= await axios.post("https://login.microsoftonline.com/" + context.tid + "/oauth2/v2.0/token",data, {
+                            const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
                               headers: {
-                                Accept: "application/json",
-                                "Content-Type": "application/x-www-form-urlencoded"
+                                "Content-Type":"application/json"
                               }
                           })
                           alert("getServerSideToken");
