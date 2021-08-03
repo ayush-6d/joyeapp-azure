@@ -333,13 +333,25 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
+    
     if (isMobile) {
+      
+      self.startCounter(showCounter, isFromGesture);
+
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
         audioProps: { maxDuration: 1 },
       };
-      microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+      
+      new microsoftTeams.media.File()
+      {
+        mimeType: "mp3"
+      }
+     
+
+    
+    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
@@ -351,10 +363,6 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
         console.log('attachments', attachments)
         let audioResult = attachments[0];
-        self.startCounter(showCounter, isFromGesture);
-        var videoElement = document.createElement("video");
-        let test= videoElement.setAttribute("src", ("data:" + "mp3" + ";base64,"));
-        console.log('videoElement:', test);
         
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
