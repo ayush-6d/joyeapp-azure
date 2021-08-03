@@ -128,7 +128,7 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.location UR ="+window.location.origin)
+        alert("window.location ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
             return AuthHelper.getServerSideToken(clientSideToken);
@@ -147,9 +147,7 @@ export default class AuthHelper {
                     body: JSON.stringify({
                         'tid': context.tid,
                         'token': clientSideToken 
-                    }),
-                    mode: 'cors',
-                    cache: 'default'
+                    })
                 })
                 .then((response) => {
                     if (response.ok) {
