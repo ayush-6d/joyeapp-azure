@@ -347,19 +347,18 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
+        
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-          console.log('attachments', attachments)
+        console.log('attachments', attachments)
         let audioResult = attachments[0];
         self.startCounter(showCounter, isFromGesture);
+        var videoElement = document.createElement("video");
+        let test= videoElement.setAttribute("src", ("data:" + "mp3" + ";base64,"));
+        console.log('videoElement:', test);
+        
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-          let newBlob = {
-            "size": blob.size,
-            "type": "MP3",
-            "arrayBuffer": blob.arrayBuffer
-          }
-          var videoElement = document.createElement("video");
           if (blob) {
-            let url = URL.createObjectURL(newBlob)
+            let url = URL.createObjectURL(blob)
             self.getMobileBase64(url);
           }
         });
