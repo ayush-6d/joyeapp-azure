@@ -334,7 +334,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     
-    if (!isMobile) {
+    if (1 != 1) {
       
       self.startCounter(showCounter, isFromGesture);
 
