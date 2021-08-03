@@ -348,7 +348,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       {
         mimeType: "mp3"
       }
-     
+    
+      
 
     
     microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
@@ -366,7 +367,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
-            let url = URL.createObjectURL(blob)
+            var data = new Blob([blob], {type: 'mp3'});
+            console.log('data:', data)
+            let url = URL.createObjectURL(data)
             self.getMobileBase64(url);
           }
         });
