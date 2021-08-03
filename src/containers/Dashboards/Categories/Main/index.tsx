@@ -176,13 +176,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        if(isMobile)
-        {
-          pureBase64String = Base64String;
-        }else {
-          pureBase64String = Base64String.split("base64,")[1];
-        }
-         
+       pureBase64String = Base64String.split("base64,")[1];
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
