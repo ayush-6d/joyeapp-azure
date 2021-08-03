@@ -360,24 +360,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
         }
         
-        // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-        console.log('attachments', attachments)
-        let audioResult = attachments[0];
+		
+		Mp3Recorder.start()
+        .then(() => {
+          this.startCounter(showCounter, isFromGesture);
+        })
+        .catch(e => console.error(e));
         
-        audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-          if (blob) {
-            let url = URL.createObjectURL(blob)
-            self.getMobileBase64(url);
-          }
-        });
-
-        if (error) {
-          if (error.message) {
-            alert(" ErrorCode: " + error.errorCode + error.message);
-          } else {
-            alert(" ErrorCode: " + error.errorCode);
-          }
-        }
       });
     } else {
       Mp3Recorder.start()
