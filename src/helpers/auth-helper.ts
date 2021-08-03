@@ -139,7 +139,7 @@ export default class AuthHelper {
   }
   public static async getServerSideToken(clientSideToken) {
       return new Promise((resolve, reject) => {
-                  microsoftTeams.getContext(async (context) => {
+                  msTeams.getContext(async (context) => {
                          alert("context");
                           alert(JSON.stringify(context));
                         var data = new URLSearchParams();
@@ -172,7 +172,7 @@ export default class AuthHelper {
   }
     private static async getAccessSSOToken() {
        return new Promise((resolve, reject) => {
-            microsoftTeams.authentication.getAuthToken({
+            msTeams.authentication.getAuthToken({
                 successCallback: (result) => {
                     resolve(result);
                 },
