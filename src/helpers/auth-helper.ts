@@ -128,7 +128,7 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.location  ="+window.location.origin)
+        alert("window.location URL ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
             return AuthHelper.getServerSideToken(clientSideToken);
@@ -138,21 +138,56 @@ export default class AuthHelper {
   public static async getServerSideToken(clientSideToken) {
       return new Promise((resolve, reject) => {
                   msTeams.getContext(async (context) => {
-                         
-                        try{
-                            const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
-                              headers: {
-                                "Content-Type":"application/json"
-                              }
-                          })
-                          alert("getServerSideToken");
-                           alert(JSON.stringify(ssoToken));
-                        }
-                        catch(error){
+                  fetch('https://958b59b101f9.ngrok.io/auth/toke', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'tid': context.tid,
+                        'token': clientSideToken 
+                    }),
+                    mode: 'cors',
+                    cache: 'default'
+                })
+                .then((response) => {
+                    if (response.ok) {
+                      alert("response");
+                        
+                        return response.json();
+                    } else {
+                      alert("not responseJson error");
+                        alert(JSON.stringify(response));
+                        reject(response);
+                    }
+                })
+                .then((responseJson) => {
+                    if (responseJson.error) {
 
-                           alert("getServerSideToken error");
-                            alert(JSON.stringify(error));
-                        }
+                       alert("getServerSideToken error");
+                        alert(JSON.stringify(responseJson));
+                        reject(responseJson.error);
+                    } else {
+                        const serverSideToken = responseJson;
+                        alert("getServerSideToken");
+                        alert(JSON.stringify(serverSideToken));
+                        resolve(serverSideToken);
+                    }
+                }); 
+                        // try{
+                        //     const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
+                        //       headers: {
+                        //         "Content-Type":"application/json"
+                        //       }
+                        //   })
+                        //   alert("getServerSideToken");
+                        //    alert(JSON.stringify(ssoToken));
+                        // }
+                        // catch(error){
+
+                        //    alert("getServerSideToken error");
+                        //     alert(JSON.stringify(error));
+                        // }
                       
                    
                   })
