@@ -16,22 +16,7 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-// const msalConfig = {
-//   auth: {
-//     clientId: 'b083d035-a374-45ea-911c-5ddf8569b0f5',
-//     // redirectUri: "https://joyeapp.netlify.app",
-//     // redirectUri: "http://localhost:8080",
-//     authority: 'https://login.microsoftonline.com/common',
-//     // authority: 'https://login.microsoftonline.com/c93aeb09-e175-49b2-8982-9f00f6f8c073',
-//     navigateToLoginRequestUrl: true
 
-//   }
-// };
-// const msalInstance = new Msal.UserAgentApplication(msalConfig);
-
-var loginRequest = {
-  scopes: ["user.read", "mail.send"] // optional Array<string>
-};
 export default class AuthHelper {
   /**
    * Uses the current authetication context to check if a user
@@ -142,61 +127,85 @@ export default class AuthHelper {
       })
     })
   }
-  // public static async userLogin() {
+  public static async userLogin() {
+        alert("window.location ="+window.location.origin)
+       AuthHelper.getAccessSSOToken()
+        .then((clientSideToken) => {
+            return AuthHelper.getServerSideToken(clientSideToken);
+        })
+    
+  }
+  public static async getServerSideToken(clientSideToken) {
+      return new Promise((resolve, reject) => {
+                  msTeams.getContext(async (context) => {
+                    alert(context.tid)
+                  fetch('https://958b59b101f9.ngrok.io/auth/token', {
+                    method: 'post',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'tid': context.tid,
+                        'token': clientSideToken 
+                    })
+                })
+                .then((response) => {
+                    if (response.ok) {
+                      alert("response");
+                        
+                        return response.json();
+                    } else {
+                      alert("not responseJson error");
+                        alert(JSON.stringify(response));
+                        reject(response);
+                    }
+                })
+                .then((responseJson) => {
+                    if (responseJson.error) {
 
-  //   alert(JSON.stringify(msalInstance.getAccount()));
-  //   if (msalInstance.getAccount()) {
-  //       AuthHelper.getAccessSSOToken();
-  //   } else {
-  //     alert("user not log in");
-  //     //  msalInstance.handleRedirectCallback((error, response) => {
-  //     //   // handle redirect response or error
-  //     //   alert(JSON.stringify(response))
-  //     //   console.log(error);
-  //     //   console.log(response);
-  //     // });
-  //     msalInstance.loginPopup(loginRequest)
-  //       .then(response => {
-  //         // handle response
-  //          AuthHelper.getAccessSSOToken();
-  //       })
-  //       .catch(err => {
-  //         alert("network error loginPopup");
-  //         alert(JSON.stringify(err));
-  //       });
-  //     // user is not logged in, you will need to log them in to acquire a token
-  //   }
-  // }
+                       alert("getServerSideToken error");
+                        alert(JSON.stringify(responseJson));
+                        reject(responseJson.error);
+                    } else {
+                        const serverSideToken = responseJson;
+                        alert("getServerSideToken");
+                        alert(JSON.stringify(serverSideToken));
+                        resolve(serverSideToken);
+                    }
+                }); 
+                        // try{
+                        //     const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
+                        //       headers: {
+                        //         "Content-Type":"application/json"
+                        //       }
+                        //   })
+                        //   alert("getServerSideToken");
+                        //    alert(JSON.stringify(ssoToken));
+                        // }
+                        // catch(error){
 
-    // private static async getAccessSSOToken() {
-    //     try{
-    //         var response= await  msalInstance.acquireTokenSilent(loginRequest);
-    //         alert(JSON.stringify(response));
-    //         if(response.accessToken){
-    //          AuthHelper.getUserProfile(response.accessToken);
-    //         }
-            
-    //     }
-    //     catch (err) {
-    //      if (err.name === "InteractionRequiredAuthError") {
-    //         return msalInstance.acquireTokenPopup(loginRequest)
-    //           .then(res => {
-    //             alert("res");
-    //             alert(JSON.stringify(res));
-    //                 if(res.accessToken){
-    //                 AuthHelper.getUserProfile(res.accessToken);
-    //             }
-    //             // get access token from response
-    //             // response.accessToken
-    //           })
-    //           .catch(err => {
-    //              alert("network error acquireTokenPopup");
-    //              alert(JSON.stringify(err));
-    //           });
-    //       }
-    //     }
+                        //    alert("getServerSideToken error");
+                        //     alert(JSON.stringify(error));
+                        // }
+                      
+                   
+                  })
+        });
+    
+  }
+    private static async getAccessSSOToken() {
+       return new Promise((resolve, reject) => {
+            msTeams.authentication.getAuthToken({
+                successCallback: (result) => {
+                    resolve(result);
+                },
+                failureCallback: function (error) {
+                    reject("Error getting token: " + error);
+                }
+            });
+        });
 
-    // }
+    }
 
   private static  getUserProfile(token): Promise < string > {
     return new Promise < string > ((resolve, reject) => {
