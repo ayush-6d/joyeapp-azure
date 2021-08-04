@@ -26,13 +26,13 @@ export default class AuthHelper {
 
   public static IsUserLoggedIn(): boolean {
 
-    if(window.location.origin=="http://localhost:8080"){
+    // if(window.location.origin=="http://localhost:8080"){
     let cachedUser = authenticationContext.getCachedUser();
     let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
 
     return !!cachedUser && cachedToken?.length > 0;
-    }
-    return localStorage.getItem("userDetails")?true:false;
+    // }
+    // return localStorage.getItem("userDetails")?true:false;
   }
 
   /**
