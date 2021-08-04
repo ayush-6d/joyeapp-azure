@@ -16,20 +16,24 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-
+var prod;
 export default class AuthHelper {
+   
   /**
    * Uses the current authetication context to check if a user
    * is logged in. In this case, this is determined by the presence
    * of a cached user and cached token with length > 0.
    */
+
   public static IsUserLoggedIn(): boolean {
+
+    if(!prod){
     let cachedUser = authenticationContext.getCachedUser();
     let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
 
     return !!cachedUser && cachedToken?.length > 0;
-
-    // return localStorage.getItem("userDetails")?true:false;
+    }
+    return localStorage.getItem("userDetails")?true:false;
   }
 
   /**
@@ -130,8 +134,10 @@ export default class AuthHelper {
   public static async userLogin() {
   
   if(window.location.origin=="http://localhost:8080"){
+      prod=false;
       AuthHelper.Login()
   }else{
+   prod=false;
    AuthHelper.getAccessSSOToken()
     .then((clientSideToken) => {
       return AuthHelper.getServerSideToken(clientSideToken);
@@ -151,7 +157,6 @@ public static async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.sso) {
-          alert("got SSO token");
           AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
         }
 
@@ -237,11 +242,11 @@ private static async createTokenId(userId, tanentId, SSOtoken) {
           try {
             const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
             // debugger;
-
-            alert("data")
-            alert(data)
-            // msTeams.authentication.notifySuccess(SSOtoken);
-            // window.location.href.replace('auth/signinend#', '')
+            alert("dev "+prod)
+            if(!prod)
+            msTeams.authentication.notifySuccess(SSOtoken);
+            else
+              window.location.replace(window.location.origin + '/');
           } catch (e) {
             alert("network error at firebaseInit.database");
             alert(e);
