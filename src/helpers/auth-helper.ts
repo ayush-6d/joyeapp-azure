@@ -139,7 +139,7 @@ export default class AuthHelper {
       return new Promise((resolve, reject) => {
                   msTeams.getContext(async (context) => {
                     alert(context.tid)
-                  fetch('https://31dedba02855.ngrok.io/auth/token', {
+                  fetch('https://8cfa4797de68.ngrok.io/auth/token', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
