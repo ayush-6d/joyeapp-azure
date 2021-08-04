@@ -285,8 +285,11 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
   userLogin =()=>{
         this.setState({ isLoading: true });
-        if(!this.state.isLoading)
-        AuthHelper.userLogin()
+        if(!this.state.isLoading){
+          // AuthHelper.userLogin()
+          AuthHelper.Login()
+        }
+        
   }
 
   render() {

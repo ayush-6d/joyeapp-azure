@@ -87,8 +87,8 @@ export default class AuthHelper {
         if (authenticationContext.getCachedUser()) {
           authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
             if (token) {
-              // msTeams.authentication.notifySuccess(token);
-               AuthHelper.getUserProfile(token,null);
+              msTeams.authentication.notifySuccess(token);
+              //AuthHelper.getUserProfile(token,null);
 
               // window.location.href.replace('auth/signinend#', '')
               // window.opener.close('true')
@@ -136,8 +136,12 @@ export default class AuthHelper {
       AuthHelper.Login()
   }else{
    AuthHelper.getAccessSSOToken()
-    .then((clientSideToken) => {
+    .then((clientSideToken:any) => {
+      localStorage.setItem("accessToken",clientSideToken)
       return AuthHelper.getServerSideToken(clientSideToken);
+    }).catch(err=>{
+      alert("accessToken error")
+      alert(err)
     })
   }
 }
@@ -145,6 +149,7 @@ public static async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
     msTeams.getContext(async (context) => {
       try {
+        alert(context.tid);
         const ssoToken = await axios.post("https://1bb8c079264f.ngrok.io/auth/token", {
           token: clientSideToken,
           tid: context.tid
@@ -154,6 +159,7 @@ public static async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.sso) {
+          localStorage.setItem("SSOtoken",ssoToken.data.sso)
           AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
         }
 
@@ -197,7 +203,7 @@ private static getUserProfile(token, tid): Promise < string > {
       }).then(function(data) {
         if (data.displayName) {
           alert(data.displayName);
-          localStorage.setItem("userDetails", JSON.stringify(data))
+          localStorage.setItem("userProfile", JSON.stringify(data))
           var decoded = parseJwt(token);
 
           if (decoded.tid && data.id) {
