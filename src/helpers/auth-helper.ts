@@ -145,7 +145,7 @@ public static async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
     msTeams.getContext(async (context) => {
       try {
-        const ssoToken = await axios.post("https://a1b172ae9bb6.ngrok.io/auth/token", {
+        const ssoToken = await axios.post(process.env.SSO_BACKEND_URL+"/auth/token", {
           token: clientSideToken,
           tid: context.tid
         }, {
