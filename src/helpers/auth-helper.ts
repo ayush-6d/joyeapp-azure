@@ -152,6 +152,8 @@ export default class AuthHelper {
                      cache: 'default'
                 })
                 .then((response) => {
+                     alert("response");
+                    alert(response);
                     if (response.ok) {
                       alert("response");
                         
