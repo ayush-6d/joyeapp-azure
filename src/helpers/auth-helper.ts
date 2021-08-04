@@ -128,87 +128,92 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-       alert("window.location ="+window.location.origin)
-       AuthHelper.getAccessSSOToken()
-        .then((clientSideToken) => {
-            return AuthHelper.getServerSideToken(clientSideToken);
-        })
-  }
-  public static async getServerSideToken(clientSideToken) {
-      return new Promise((resolve, reject) => {
-                  msTeams.getContext(async (context) => {
-                    alert("context.tid "+context.tid)
-                      try{
-                            const ssoToken= await axios.post("https://8cfa4797de68.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
-                              headers: {
-                                "Content-Type":"application/json"
-                              }
-                          })
-                          if(ssoToken.data.sso){
-                            alert("got SSO token");
-                            AuthHelper.getUserProfile(ssoToken.data.sso,context.tid)
-                          }
-                          
-                        }
-                        catch(error){
-                           alert("sso token error");
-                            alert(JSON.stringify(error));
-                        }
-                  })
-        });
-    
-  }
-    private static async getAccessSSOToken() {
-       return new Promise((resolve, reject) => {
-            msTeams.authentication.getAuthToken({
-                successCallback: (result) => {
-                    resolve(result);
-                },
-                failureCallback: function (error) {
-                    reject("Error getting token: " + error);
-                }
-            });
-        });
-
-    }
-
-  private static  getUserProfile(token,tid): Promise < string > {
-    return new Promise < string > ((resolve, reject) => {
-      var headers = new Headers();
-      var bearer = "Bearer " + token;
-      headers.append("Authorization", bearer);
-      headers.append("Content-type", "application/json");
-      var options = {
-        method: "GET",
-        headers: headers
-      };
-      var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
-
-      fetch(graphEndpoint, options)
-        .then(function(response) {
-          return response.json();
-        }).then(function(data) {
-          if(data.displayName){
-            alert(data.displayName);
-            localStorage.setItem("userDetails",JSON.stringify(data))
-           var decoded = parseJwt(token);
-           
-           if(decoded.tid && data.id ){
-             AuthHelper.createTokenId(data.id,tid?tid:decoded.tid,token)
-           }
-           // alert (JSON.stringify(decoded));
-           // window.location.replace(window.location.origin + '/');
-          
-          }
-          
-        }).catch(err => {
-          alert("network error getUserProfile");
-          alert(JSON.stringify(err));
-        });
+  
+  if(window.location.origin=="http://localhost:8080"){
+      AuthHelper.Login()
+  }else{
+   AuthHelper.getAccessSSOToken()
+    .then((clientSideToken) => {
+      return AuthHelper.getServerSideToken(clientSideToken);
     })
   }
+}
+public static async getServerSideToken(clientSideToken) {
+  return new Promise((resolve, reject) => {
+    msTeams.getContext(async (context) => {
+      try {
+        const ssoToken = await axios.post("https://8cfa4797de68.ngrok.io/auth/token", {
+          token: clientSideToken,
+          tid: context.tid
+        }, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+        if (ssoToken.data.sso) {
+          alert("got SSO token");
+          AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
+        }
 
-  private static async createTokenId(userId, tanentId, SSOtoken) {
+      } catch (error) {
+        alert("sso token error");
+        alert(JSON.stringify(error));
+      }
+    })
+  });
+
+}
+private static async getAccessSSOToken() {
+  return new Promise((resolve, reject) => {
+    msTeams.authentication.getAuthToken({
+      successCallback: (result) => {
+        resolve(result);
+      },
+      failureCallback: function(error) {
+        reject("Error getting token: " + error);
+      }
+    });
+  });
+
+}
+
+private static getUserProfile(token, tid): Promise < string > {
+  return new Promise < string > ((resolve, reject) => {
+    var headers = new Headers();
+    var bearer = "Bearer " + token;
+    headers.append("Authorization", bearer);
+    headers.append("Content-type", "application/json");
+    var options = {
+      method: "GET",
+      headers: headers
+    };
+    var graphEndpoint = "https://graph.microsoft.com/v1.0/me";
+
+    fetch(graphEndpoint, options)
+      .then(function(response) {
+        return response.json();
+      }).then(function(data) {
+        if (data.displayName) {
+          alert(data.displayName);
+          localStorage.setItem("userDetails", JSON.stringify(data))
+          var decoded = parseJwt(token);
+
+          if (decoded.tid && data.id) {
+            AuthHelper.createTokenId(data.id, tid ? tid : decoded.tid, token)
+          }
+          // alert (JSON.stringify(decoded));
+          // window.location.replace(window.location.origin + '/');
+
+        }
+
+      }).catch(err => {
+        alert("network error getUserProfile");
+        alert(JSON.stringify(err));
+      });
+  })
+}
+
+private static async createTokenId(userId, tanentId, SSOtoken) {
 
   try {
     const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
@@ -236,12 +241,12 @@ export default class AuthHelper {
             // window.location.href.replace('auth/signinend#', '')
           } catch (e) {
             alert("network error at firebaseInit.database");
-            alert(JSON.stringify(e));
+            alert(e);
           }
           //         // ...
         })
         .catch(e => {
-          alert("network error at signInWithCustomToken");
+          alert(" error at signInWithCustomToken");
           alert(JSON.stringify(e));
         });
     }
