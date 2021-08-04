@@ -237,7 +237,10 @@ private static async createTokenId(userId, tanentId, SSOtoken) {
           try {
             const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
             // debugger;
-            msTeams.authentication.notifySuccess(SSOtoken);
+
+            alert("data")
+            alert(data)
+            // msTeams.authentication.notifySuccess(SSOtoken);
             // window.location.href.replace('auth/signinend#', '')
           } catch (e) {
             alert("network error at firebaseInit.database");
