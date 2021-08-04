@@ -85,7 +85,7 @@ export default class AuthHelper {
           authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
             if (token) {
               // msTeams.authentication.notifySuccess(token);
-               AuthHelper.getUserProfile(token);
+               AuthHelper.getUserProfile(token,null);
 
               // window.location.href.replace('auth/signinend#', '')
               // window.opener.close('true')
@@ -128,74 +128,32 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.locat ="+window.location.origin)
+       alert("window.location ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
             return AuthHelper.getServerSideToken(clientSideToken);
         })
-    
   }
   public static async getServerSideToken(clientSideToken) {
       return new Promise((resolve, reject) => {
                   msTeams.getContext(async (context) => {
-                    alert(context.tid)
-                  fetch('https://8cfa4797de68.ngrok.io/auth/token', {
-                    method: 'post',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        'tid': context.tid,
-                        'token': clientSideToken 
-                    }),
-                     mode: 'cors',
-                     cache: 'default'
-                })
-                .then((response) => {
-                     alert("response");
-                    alert(response);
-                    if (response.ok) {
-                      alert("response");
-                        
-                        return response.json();
-                    } else {
-                      alert("not responseJson error");
-                        alert(JSON.stringify(response));
-                        reject(response);
-                    }
-                })
-                .then((responseJson) => {
-                    if (responseJson.error) {
-
-                       alert("getServerSideToken error");
-                        alert(JSON.stringify(responseJson));
-                        reject(responseJson.error);
-                    } else {
-                        const serverSideToken = responseJson;
-                        alert("getServerSideToken");
-                        alert(JSON.stringify(serverSideToken));
-                        resolve(serverSideToken);
-                    }
-                }).catch(err => {
-                    alert("error in sso token ");
-                    alert(err);
-                  });; 
-                        // try{
-                        //     const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
-                        //       headers: {
-                        //         "Content-Type":"application/json"
-                        //       }
-                        //   })
-                        //   alert("getServerSideToken");
-                        //    alert(JSON.stringify(ssoToken));
-                        // }
-                        // catch(error){
-
-                        //    alert("getServerSideToken error");
-                        //     alert(JSON.stringify(error));
-                        // }
-                      
-                   
+                    alert("context.tid "+context.tid)
+                      try{
+                            const ssoToken= await axios.post("https://8cfa4797de68.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
+                              headers: {
+                                "Content-Type":"application/json"
+                              }
+                          })
+                          if(ssoToken.data.sso){
+                            alert("got SSO token");
+                            AuthHelper.getUserProfile(ssoToken.data.sso,context.tid)
+                          }
+                          
+                        }
+                        catch(error){
+                           alert("sso token error");
+                            alert(JSON.stringify(error));
+                        }
                   })
         });
     
@@ -214,7 +172,7 @@ export default class AuthHelper {
 
     }
 
-  private static  getUserProfile(token): Promise < string > {
+  private static  getUserProfile(token,tid): Promise < string > {
     return new Promise < string > ((resolve, reject) => {
       var headers = new Headers();
       var bearer = "Bearer " + token;
@@ -231,11 +189,12 @@ export default class AuthHelper {
           return response.json();
         }).then(function(data) {
           if(data.displayName){
+            alert(data.displayName);
             localStorage.setItem("userDetails",JSON.stringify(data))
            var decoded = parseJwt(token);
            
            if(decoded.tid && data.id ){
-             AuthHelper.createTokenId(data.id,decoded.tid,token)
+             AuthHelper.createTokenId(data.id,tid?tid:decoded.tid,token)
            }
            // alert (JSON.stringify(decoded));
            // window.location.replace(window.location.origin + '/');
