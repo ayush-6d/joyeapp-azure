@@ -35,5 +35,15 @@
     "webApplicationInfo": {
       "id": "b083d035-a374-45ea-911c-5ddf8569b0f5",
       "resource": "api://joyeapp.netlify.app/b083d035-a374-45ea-911c-5ddf8569b0f5"
+    },
+    "activities":
+    {
+    "activityTypes": [
+        {
+        "type": "newNotification",
+        "description": "New notification sent by app",
+        "templateText": "{actor} sent you notification: {notification}"
+        }
+    ]
     }
   }
