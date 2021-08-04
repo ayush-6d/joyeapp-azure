@@ -283,6 +283,12 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     return queryParams;
   };
 
+  userLogin =()=>{
+        this.setState({ isLoading: true });
+        if(!this.state.isLoading)
+        AuthHelper.userLogin()
+  }
+
   render() {
     const { isLoading } = this.state;
     return (
@@ -298,7 +304,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           </div>
         <div className="button-wrapper">
         
-        <Button Loader={null} type="button" onClick={AuthHelper.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >Login</Button>
+        <Button Loader={null} type="button" onClick={this.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >{isLoading && <i className="fa fa-refresh fa-spin"></i>}Login</Button>
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
