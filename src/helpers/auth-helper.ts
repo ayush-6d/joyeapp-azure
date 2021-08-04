@@ -88,9 +88,8 @@ export default class AuthHelper {
           authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
             if (token) {
               msTeams.authentication.notifySuccess(token);
-              //AuthHelper.getUserProfile(token,null);
-
-              // window.location.href.replace('auth/signinend#', '')
+              window.location.href.replace('auth/signinend#', '')
+               //AuthHelper.getUserProfile(token,null);
               // window.opener.close('true')
             } else if (err) {
               msTeams.authentication.notifySuccess(token);
