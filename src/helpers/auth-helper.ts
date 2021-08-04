@@ -16,7 +16,6 @@ const authenticationContext = new AuthenticationContext({
   navigateToLoginRequestUrl: false
 });
 
-var prod;
 export default class AuthHelper {
    
   /**
@@ -27,7 +26,7 @@ export default class AuthHelper {
 
   public static IsUserLoggedIn(): boolean {
 
-    if(!prod){
+    if(window.location.origin=="http://localhost:8080"){
     let cachedUser = authenticationContext.getCachedUser();
     let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
 
@@ -134,10 +133,8 @@ export default class AuthHelper {
   public static async userLogin() {
   
   if(window.location.origin=="http://localhost:8080"){
-      prod=false;
       AuthHelper.Login()
   }else{
-   prod=false;
    AuthHelper.getAccessSSOToken()
     .then((clientSideToken) => {
       return AuthHelper.getServerSideToken(clientSideToken);
@@ -148,7 +145,7 @@ public static async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
     msTeams.getContext(async (context) => {
       try {
-        const ssoToken = await axios.post("https://8cfa4797de68.ngrok.io/auth/token", {
+        const ssoToken = await axios.post("https://8a3e77097565.ngrok.io/auth/token", {
           token: clientSideToken,
           tid: context.tid
         }, {
@@ -242,7 +239,6 @@ private static async createTokenId(userId, tanentId, SSOtoken) {
           try {
             const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
             // debugger;
-            alert("dev "+prod)
             if(window.location.origin!=="http://localhost:8080")
               window.location.replace(window.location.origin + '/');
             else
