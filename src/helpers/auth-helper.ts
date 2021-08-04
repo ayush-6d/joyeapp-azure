@@ -128,7 +128,7 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.loc ="+window.location.origin)
+        alert("window.loca ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
             return AuthHelper.getServerSideToken(clientSideToken);
@@ -174,7 +174,7 @@ export default class AuthHelper {
                     }
                 }).catch(err => {
                     alert("error in sso token ");
-                    alert(JSON.stringify(err));
+                    alert(err);
                   });; 
                         // try{
                         //     const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
