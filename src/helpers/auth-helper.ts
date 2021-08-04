@@ -128,7 +128,7 @@ export default class AuthHelper {
     })
   }
   public static async userLogin() {
-        alert("window.location ="+window.location.origin)
+        alert("window.loc ="+window.location.origin)
        AuthHelper.getAccessSSOToken()
         .then((clientSideToken) => {
             return AuthHelper.getServerSideToken(clientSideToken);
@@ -139,7 +139,7 @@ export default class AuthHelper {
       return new Promise((resolve, reject) => {
                   msTeams.getContext(async (context) => {
                     alert(context.tid)
-                  fetch('https://958b59b101f9.ngrok.io/auth/token', {
+                  fetch('https://31dedba02855.ngrok.io/auth/token', {
                     method: 'post',
                     headers: {
                         'Content-Type': 'application/json'
@@ -172,7 +172,10 @@ export default class AuthHelper {
                         alert(JSON.stringify(serverSideToken));
                         resolve(serverSideToken);
                     }
-                }); 
+                }).catch(err => {
+                    alert("error in sso token ");
+                    alert(JSON.stringify(err));
+                  });; 
                         // try{
                         //     const ssoToken= await axios.post("https://958b59b101f9.ngrok.io/auth/token",{token:clientSideToken,tid:context.tid}, {
                         //       headers: {
