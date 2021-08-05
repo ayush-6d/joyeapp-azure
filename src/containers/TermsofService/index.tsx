@@ -8,7 +8,7 @@ export class TermsofService extends React.PureComponent {
   render() {
     let Date = "01 July 2021";
     return (
-      <BasePage withMenu>
+      <BasePage withMenu showInfoIcon>
         <div
           className="render-component"
           style={{
@@ -24,8 +24,7 @@ export class TermsofService extends React.PureComponent {
             fontSize: "16px",
             lineHeight: "24px", 
             maxWidth:"748px",
-              margin: "0 auto",           
-            wordBreak:"break-all",
+            margin: "0 auto",           
             position:"relative"
           }}
         >

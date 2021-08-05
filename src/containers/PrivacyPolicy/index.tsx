@@ -8,7 +8,7 @@ export class PrivacyPolicy extends React.PureComponent {
   render() {
     let Date = "01 July 2021";
     return (
-      <BasePage withMenu>
+      <BasePage withMenu showInfoIcon>
         <div
           className="render-component"
           style={{
@@ -22,8 +22,7 @@ export class PrivacyPolicy extends React.PureComponent {
             alignContent: "center",
             fontFamily: "Nunito-Regular",
             fontSize: "16px",
-            lineHeight: "24px",            
-            wordBreak:"break-all",
+            lineHeight: "24px", 
             position:"relative"
           }}
         >

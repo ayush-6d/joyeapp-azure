@@ -7,7 +7,7 @@ const shield = require("../../resources/icons/shield.png");
 export class FAQS extends React.PureComponent {
   render() {
     return (
-      <BasePage withMenu>
+      <BasePage withMenu showInfoIcon>
         <div
           className="render-component"
           style={{
@@ -23,8 +23,7 @@ export class FAQS extends React.PureComponent {
             fontSize: "16px",
             lineHeight: "24px",  
             maxWidth:"748px",
-              margin: "0 auto",          
-            wordBreak:"break-all",
+            margin: "0 auto",  
             position:"relative"
           }}
         >

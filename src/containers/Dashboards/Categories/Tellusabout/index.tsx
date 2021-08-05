@@ -27,20 +27,22 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
   }
   handleChange = e => {
     const value = e.target.value;
-    if (this.state.todaysFeeling.length <= 240) {
+    if (this.state.todaysFeeling.length <= 150 ) {
       this.setState({
         todaysFeeling: value
       });
-    }
+    } 
+    
+
   };
 
   render() {
     const { todaysFeeling } = this.state;
     const { saveData, setIsTellusabout } = this.props;
     return (
-      <>
+      <BasePage showInfoIcon>
         <div className="text-container">
-          {todaysFeeling.length <= 240 ? (
+          {todaysFeeling.length <= 150 ? (
             <div>
               <div>
                 <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
@@ -67,7 +69,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
           )}
         </div>
         <div className="target__body">
-          <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing" onChange={this.handleChange} className="target__textarea about-textarea" />
+          <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing" onChange={this.handleChange}  className="target__textarea about-textarea" />
         </div>
         <div className="circle-box-container">
           <div className="circle-box">
@@ -84,7 +86,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
             Cancel
           </span>
         </div>
-      </>
+      </BasePage>
     );
   }
 }

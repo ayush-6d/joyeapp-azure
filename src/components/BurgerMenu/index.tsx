@@ -10,11 +10,9 @@ const termsofService = require("../../resources/icons/TermsofService.png");
 const faq = require("../../resources/icons/faq.png");
 const aboutUs = require("../../resources/icons/aboutus.svg");
 const heart = require("../../resources/icons/Heart.svg");
-import Shield from "../../resources/icons/Privacyshield.png";
-import InfoIcon from "../../resources/icons/infoIcon.png";
-import { PageImage } from "src/components";
 
-export interface IBurgerMenuProps extends RouteComponentProps {}
+
+export interface IBurgerMenuProps extends RouteComponentProps{}
 
 export interface IBurgerMenuState {
   activeKey: number;
@@ -38,7 +36,7 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
   render() {
     return (
       <div className="dis-flex-menu">
-        <div className="burger-menu-container">
+      <div className="burger-menu-container">
           <div className="burger">
             <input onClick={() => this.setState({ isOpen: !this.state.isOpen })} type="checkbox" />
             <span></span>
@@ -115,10 +113,6 @@ About us */}
             </div>
           </div>
         </div>
-        <div className="home-shield">
-          <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.onClickHandle()} />
-          </div>
-        <PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.onClickHandle()} />
       </div>
     );
   }

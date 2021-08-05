@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CircularCounter, Circle, ImportLoader, PageImage } from "src/components";
+import { CircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
 import Mic from "../../../../resources/icons/mic.png";
 import rightTick from "../../../../resources/icons/rightTick.png";
 import Gibberish from "../../../../resources/icons/gibberish.png";
@@ -21,6 +21,7 @@ import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
+import VideoToAudio from 'video-to-audio'
 
 import "./index.scss";
 
@@ -46,6 +47,9 @@ export interface IMainState {
   isModalOpen?: boolean;
   modalData?: any;
   isHardStop?: boolean;
+  withMenu?: boolean;
+  showShield?: boolean;
+  showInfoIcon?: boolean;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -67,7 +71,10 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       isTellusabout: false,
       isModalOpen: false,
       modalData: {},
-      isHardStop: false
+      isHardStop: false,
+      withMenu: true,
+      showShield: true,
+      showInfoIcon: true
     };
   }
 
@@ -117,7 +124,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   startCounter = async (showCounter, isFromGesture) => {
     const self = this;
     let geture = self.state.iconIndex["mic"];
-    this.setState({ isClickHandle: false });
+    this.setState({ isClickHandle: false, withMenu: false, showInfoIcon: true, showShield: false });
 
     if (geture === 2 && isFromGesture) {
       this.setCounter(showCounter);
@@ -271,7 +278,10 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
               isClickHandle: true,
               isTellusabout: false,
               isCounterEnd: false,
-              isLoading: false
+              isLoading: false,
+              withMenu: true, 
+              showInfoIcon: true,
+              showShield: true
             });
           }
 
@@ -294,7 +304,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false });
+            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false,  withMenu: true, showInfoIcon: true, showShield: true });
           }
         }
       })
@@ -331,6 +341,13 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
   }
 
+  async  convertToAudio(input) {
+    let sourceVideoFile = input;
+    let targetAudioFormat = 'mp3'
+    let convertedAudioDataObj = await VideoToAudio.convert(sourceVideoFile, targetAudioFormat);
+    console.log('convertedAudioDataObj', convertedAudioDataObj)
+}
+
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     
@@ -348,9 +365,6 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       {
         mimeType: "mp3"
       }
-    
-      
-
     
     microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
@@ -370,9 +384,11 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             var data = new Blob([blob], {type: 'audio/mp3'});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
-            self.getMobileBase64(url);
+            self.convertToAudio(url);
+            //self.getMobileBase64(url);
           }
         });
+        
 
         if (error) {
           if (error.message) {
@@ -422,10 +438,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   };
 
   render() {
-    const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData } = this.state;
+    const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData, withMenu, showShield, showInfoIcon } = this.state;
 
     return !isLoading ? (
       <>
+      <BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
+      {isClickHandle ? (<div className="pageHeader">
+         <Circle className={`circles score-point`} showImg={false} />
+      </div>): null}
         {seconds >= 8 && isClickHandle ? (
           <div className="text-container">
             <div className="advertise-text bold text-blue" style={{ fontSize: "17px", marginTop: "35px" }}>
@@ -497,6 +517,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             </div>
           </div>
         )}
+        </BasePage>
       </>
     ) : isTellusabout ? (
       <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />

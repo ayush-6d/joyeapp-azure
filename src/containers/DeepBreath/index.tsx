@@ -12,6 +12,7 @@ import saysomething from "src/resources/saysomething.mp4";
 
 
 
+
 export interface IDeepBreathProps {
   route?: any;
   openModal?: any;
@@ -86,10 +87,10 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   };
   render() {
     const { route, analysisPage } = this.props;
-    const { todaysFeeling, counter, counterStart } = this.state;
+    const { todaysFeeling, counter, counterStart, isPlaying ,audioMute } = this.state;
     return (
       <>
-        <BasePage withMenu className="login-form">
+        <BasePage withMenu showInfoIcon className="login-form">
          {/*<div className="pageHeader">
             <img src={pageHeader} />
           </div> */} 
@@ -116,22 +117,23 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
          
           </div>
               <div className="player-wrapper">
-                <ReactPlayer 
-                className="react-player" 
-                playsinline 
-                muted={!this.state.audioMute} 
-                playing 
-                pip={false} 
-                stopOnUnmount={this.state.isStop} 
-                url={[ { src: saysomething, type: 'video/mp4'} ]} 
-                width="100%" 
-                height="100%"
-                config={{
-                  file: {
-                    forceVideo: true
-                  }
-                }}
-                />
+              <ReactPlayer 
+                    className="react-player" 
+                    playsinline 
+                    muted={!audioMute} 
+                    playing={isPlaying} 
+                    pip={false} 
+                    stopOnUnmount={this.state.isStop} 
+                    url={[ { src: saysomething, type: 'video/mp4'} ]} 
+                    width="100%" 
+                    height="100%"
+                    config={{
+                      file: {
+                        forceVideo: true
+                      }
+                    }}
+                    />
+                
                 <div className="checkbox" style={{ marginTop: "10px" }}>
             <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
             <label className="checkbox-text">Turn audio on</label>
