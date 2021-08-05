@@ -353,7 +353,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     
     if (isMobile) {
       
-      self.startCounter(showCounter, isFromGesture);
+      //self.startCounter(showCounter, isFromGesture);
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
