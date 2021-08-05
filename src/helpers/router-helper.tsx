@@ -1,17 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 // import { Dashboard, Login, NotFound, WelcomeScreen, SignInStart, Journal, Configure, SignInEnd } from 'src/routes';
-import 'src/styles/importer.scss';
-import { routes as routeDefinitions} from 'src/config';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import "src/styles/importer.scss";
+import { routes as routeDefinitions } from "src/config";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import { RouteDefinition } from 'src/Models/route-definition';
-import { Login } from 'src/containers/Login';
-
+import { RouteDefinition } from "src/Models/route-definition";
+import { Login } from "src/containers/Login";
 
 export default class RouterHelper {
   public static AuthenticatedRoutes(): JSX.Element {
@@ -23,7 +17,7 @@ export default class RouterHelper {
 
     for (let route of copyOfRoutes) {
       if (route.authenticated) {
-        route.component = <Login />
+        route.component = <Login />;
       }
     }
     return RouterHelper.RenderRoutes(copyOfRoutes);
@@ -42,21 +36,29 @@ export default class RouterHelper {
 
   private static RenderRoutes(routes: RouteDefinition[]): JSX.Element {
     const ErrorBoundary = ({ children }) => {
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === "production") {
         return <div>{children}</div>;
       } else {
-        return <div className='joye' style={{ height: '100%' }} >{children}</div>;
+        return (
+          <div className="joye" style={{ height: "100%" }}>
+            {children}
+          </div>
+        );
       }
     };
     //debugger
     return (
       <Router>
         <Switch>
-          {routes.map(route =>
-            <Route path={route.route} exact={route.route === '/'}>
+          {routes.map((route) => (
+            <Route
+              key={route.route}
+              path={route.route}
+              exact={route.route === "/"}
+            >
               {route.component}
             </Route>
-          )}
+          ))}
         </Switch>
       </Router>
     );

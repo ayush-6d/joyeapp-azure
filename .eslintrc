@@ -1,0 +1,15 @@
+{
+  "extends": ["airbnb", "airbnb/hooks"],
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "quotes": ["error", "double"],
+    "import/resolver": false
+  },
+}

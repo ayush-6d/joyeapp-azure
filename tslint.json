@@ -1,34 +1,18 @@
 {
   "defaultSeverity": "warning",
+  "tslint.autoFixOnSave": true,
   "rules": {
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
+    "comment-format": [true, "check-space"],
     "curly": true,
     "eofline": true,
     "forin": false,
-    "indent": [
-      true,
-      "spaces"
-    ],
+    "indent": [true, "spaces"],
     "label-position": true,
-    "max-line-length": [
-      true,
-      180
-    ],
+    "max-line-length": [true, 180],
     "no-arg": true,
     "no-bitwise": true,
-    "no-console": [
-      true,
-      "log",
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "log", "debug", "info", "time", "timeEnd", "trace"],
     "no-construct": true,
     "no-debugger": true,
     "no-duplicate-variable": true,
@@ -52,10 +36,7 @@
     ],
     "radix": false,
     "semicolon": true,
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "triple-equals": [true, "allow-null-check"],
     "whitespace": [
       true,
       "check-branch",
@@ -64,10 +45,6 @@
       "check-separator",
       "check-type"
     ],
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double"
-    ]
+    "quotemark": false
   }
 }
