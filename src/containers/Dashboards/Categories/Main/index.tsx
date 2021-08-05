@@ -342,7 +342,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   }
 
   async  convertToAudio(input) {
-    let sourceVideoFile = input;
+    let sourceVideoFile = input.files[0];
     let targetAudioFormat = 'mp3'
     let convertedAudioDataObj = await VideoToAudio.convert(sourceVideoFile, targetAudioFormat);
     console.log('convertedAudioDataObj', convertedAudioDataObj)
