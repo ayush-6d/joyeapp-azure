@@ -381,9 +381,8 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
-            var data = new Blob([blob], {type: 'audio/mp3'});
-            console.log('data:', data)
-            let url = URL.createObjectURL(data)
+          
+            let url = URL.createObjectURL(blob)
             self.convertToAudio(url);
             //self.getMobileBase64(url);
           }
