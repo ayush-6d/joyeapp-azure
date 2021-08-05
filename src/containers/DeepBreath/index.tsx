@@ -73,6 +73,13 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   setPuse() {
     this.setState({ isPlaying: !this.state.isPlaying });
   }
+  
+  componentDidMount() {
+    console.log('componentDidMount');
+    setTimeout(x=>{
+      document.getElementsByTagName("video")[0].setAttribute("poster","https://naresh-ias.web.app/images/brands.jpg")
+    },1000);
+  }
 
   handleChange = e => {
     const value = e.target.value;
