@@ -383,7 +383,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
           if (blob) {
           
             let url = URL.createObjectURL(blob)
-            self.convertToAudio(url);
+            self.convertToAudio(blob);
             //self.getMobileBase64(url);
           }
         });
