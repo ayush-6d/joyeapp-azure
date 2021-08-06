@@ -228,15 +228,6 @@ const Design = (props: any) => {
 
   React.useEffect(() => {
     props.sliderRef.current.push(React.createRef());
-    console.log("rangeWrapper.current", rangeWrapper.current);
-    console.log("rangeInput.current", rangeInput.current);
-    console.log("rangeValues.current", rangeValues.current);
-    console.log("rangeValueNumberTop.current", rangeValueNumberTop.current);
-    console.log(
-      "rangeValueNumberBottom.current",
-      rangeValueNumberBottom.current
-    );
-    console.log("rangeSliderPaths.current", rangeSliderPaths.current);
     if (
       rangeWrapper.current !== null &&
       rangeInput.current !== null &&
@@ -260,13 +251,13 @@ const Design = (props: any) => {
       setFirstTimeLoadIcon(true);
       setLoadingData(true);
       return () => {
-        rangeWrapper.current.removeEventListener("mousedown");
-        rangeWrapper.current.removeEventListener("touchstart");
-        rangeWrapper.current.removeEventListener("mousemove");
-        rangeWrapper.current.removeEventListener("touchmove");
-        rangeWrapper.current.removeEventListener("mouseup");
-        rangeWrapper.current.removeEventListener("mouseleave");
-        rangeWrapper.current.removeEventListener("touchend");
+        rangeWrapper.current.removeEventListener("mousedown", mouseDown);
+        rangeWrapper.current.removeEventListener("touchstart", mouseDown);
+        rangeWrapper.current.removeEventListener("mousemove", mouseMove);
+        rangeWrapper.current.removeEventListener("touchmove", mouseMove);
+        rangeWrapper.current.removeEventListener("mouseup", mouseUp);
+        rangeWrapper.current.removeEventListener("mouseleave", mouseUp);
+        rangeWrapper.current.removeEventListener("touchend", mouseUp);
       };
     }
   }, [
@@ -757,9 +748,9 @@ const Design = (props: any) => {
       .once("value");
     setScreenMessages(screenMessages.val());
   }
-  if (loading) {
-    return <Loader display="flex" />;
-  }
+  // if (loading) {
+  //   return <Loader display="flex" />;
+  // }
   return (
     <>
       {/* <Popup text='Click "Close Button" to hide popup' /> */}
@@ -781,7 +772,7 @@ const Design = (props: any) => {
           value={props.sliderValue}
           onChange={props.handleSliderValue}
         />
-        <svg className="range__slider" width="100%" height="100%" viewBox="0">
+        <svg className="range__slider" width="100%" height="100%" viewBox='0 0 0 0'>
           <defs>
             <symbol id="range__marks" shapeRendering="crispEdges">
               <path className="range__marks__path" d="M 257 30 l 33 0" />
@@ -814,7 +805,7 @@ const Design = (props: any) => {
           </defs>
           <path
             className="range__slider__path"
-            d="M 0 svgWidth l svgHeight 0 l 0 svgWidth l -svgHeight 0 Z"
+            d={`M 0 ${svgWidth/2} q ${mouseY}  0  ${svgHeight} 0 l 0 ${svgWidth} l -${svgHeight} 0 Z`}
             ref={rangeSliderPaths}
           />
         </svg>

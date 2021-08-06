@@ -261,10 +261,12 @@ export default class AuthHelper {
           },
         }
       );
-      if (createTokenId.data.token) {
+      const { token, uid } = createTokenId.data;
+      if (token) {
+        
         firebaseInit
           .auth()
-          .signInWithCustomToken(createTokenId.data.token)
+          .signInWithCustomToken(token)
           .then(async (userCredential) => {
             // Signed in
             localStorage.setItem(
@@ -272,10 +274,11 @@ export default class AuthHelper {
               JSON.stringify(userCredential)
             );
             try {
+              const paid_subscription = await firebaseInit.database().ref(``)
               const data = await firebaseInit
                 .database()
                 .ref(
-                  `users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`
+                  `users/${uid}/brew/weeks_average/24_2021/happinessCounter`
                 )
                 .once("value");
               // debugger;

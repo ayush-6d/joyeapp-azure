@@ -4,6 +4,7 @@ import SignInEnd from "src/containers/Login/sign-in-end";
 import SignInStart from "src/containers/Login/sign-in-start";
 import { RouteDefinition } from "src/Models/route-definition";
 
+const { PrePie } = lazily(() => import("src/containers/PrePieScreen"));
 const { AboutUs } = lazily(() => import("src/containers/AboutUs"));
 const { Dashboard } = lazily(
   () => import("src/containers/Dashboards/Categories")
@@ -92,7 +93,12 @@ const routes: RouteDefinition[] = [
   {
     route: "/dashboard",
     component: <NewDashboard />,
-    authenticated: false,
+    authenticated: true,
+  },
+  {
+    route: "/pre-pie-chart",
+    component: <PrePie />,
+    authenticated: true,
   },
 ];
 
