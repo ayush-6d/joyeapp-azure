@@ -36,7 +36,7 @@ export default class AuthHelper {
       return true;
     }else{
         if(!localStorage.getItem("active")){
-           setTimeout(AuthHelper.userLogin(), 1000);
+           setTimeout(()=>{AuthHelper.userLogin()}, 1000);
             
           }
             return false;
