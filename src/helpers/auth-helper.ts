@@ -4,7 +4,10 @@ import AuthenticationContext from "adal-angular";
 import { parseJwt } from "../utilities/generalUtils";
 import axios from "axios";
 import { API_ROOT } from "../config";
-import { firebaseInit } from "../services/firebase";
+import { firebaseInit, database } from "../services/firebase";
+import {
+  setCurrentUser, setAuthId, setDbUrl, setDbId,
+} from 'src/services/localStorage.service';
 
 // import * as Msal from "msal";
 
@@ -247,8 +250,10 @@ export default class AuthHelper {
           .auth()
           .signInWithCustomToken(createTokenId.data.token)
           .then(async userCredential => {
+            console.log('userCredential', userCredential);
             // Signed in
             localStorage.setItem("userCredential", JSON.stringify(userCredential));
+            this.setOrgData(userCredential.user)
             try {
               const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
               // debugger;
@@ -269,6 +274,48 @@ export default class AuthHelper {
       }
     } catch(e){
       console.log('error', e);
+    }
+  }
+
+  public static async setOrgData(user: any){
+    let orgdata = await database.ref('master/organisation').once('value');
+    console.log('orgdata', orgdata);
+    orgdata = orgdata.val();
+    debugger;
+    if (orgdata) {
+      const orgKeys = Object.keys(orgdata);
+      for (let ok = 0; ok < orgKeys.length; ok += 1) {
+        const authenticate = orgdata[orgKeys[ok]].auth;
+        if (authenticate) {
+          const authKeys = Object.keys(authenticate);
+          if (authKeys.length > 0) {
+            for (let ak = 0; ak < authKeys.length; ak += 1) {
+              const authArr = authenticate[authKeys[ak]].emails.split(',');
+              if (authArr.indexOf(`${user.email}`) !== -1) {
+                let obj = orgdata[orgKeys[ok]];
+                let dbKey = '';
+                if (authenticate[authKeys[ak]].path) {
+                  const keyPath = authenticate[authKeys[ak]].path.split('.');
+                  for (let p = 0; p < keyPath.length; p += 1) {
+                    const key = keyPath[p];
+                    if (!(key in obj)) {
+                      obj[key] = {};
+                    }
+                    obj = obj[key];
+                  }
+                  dbKey = obj.key;
+                } else {
+                  dbKey = 'all_users_brew_data';
+                }
+                setDbUrl(orgdata[orgKeys[ok]].dbPath);
+                setDbId(dbKey);
+                setCurrentUser(user);
+                setAuthId(user.providerData[0].uid);
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

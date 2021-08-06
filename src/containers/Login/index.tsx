@@ -242,6 +242,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             .then(async userCredential => {
               // Signed in
               var user = userCredential.user;
+              AuthHelper.setOrgData(user)
               //debugger;
               console.log(user);
               try {

@@ -9,10 +9,6 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomething from "src/resources/saysomething.mp4";
-import dbvideo from "src/resources/icons/db-video.jpg";
-
-
-
 
 export interface IDeepBreathProps {
   route?: any;
