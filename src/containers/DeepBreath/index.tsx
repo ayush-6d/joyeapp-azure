@@ -9,6 +9,7 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomething from "src/resources/saysomething.mp4";
+import dbvideo from "src/resources/icons/db-video.jpg";
 
 
 
@@ -72,6 +73,13 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   }
   setPuse() {
     this.setState({ isPlaying: !this.state.isPlaying });
+  }
+  
+  componentDidMount() {
+    console.log('componentDidMount');
+    setTimeout(x=>{
+      document.getElementsByTagName("video")[0].setAttribute("poster","https://naresh-ias.web.app/images/db-video.jpg")
+    },10);
   }
 
   handleChange = e => {
