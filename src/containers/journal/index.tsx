@@ -11,7 +11,7 @@ import axios from "axios";
 import { createHash } from "src/utilities/generalUtils";
 import { firebaseInit } from "src/services/firebase";
 import * as firebase from "firebase";
-import  moment from "moment";
+import * as moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 
 export interface IJournalProps {
@@ -112,7 +112,7 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
 
   handleChange = e => {
     const value = e.target.value;
-    if (this.state.todaysFeeling.length <= 240) {
+    if (this.state.todaysFeeling.length <= 150) {
       this.setState({
         todaysFeeling: value
       });
@@ -167,7 +167,7 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage withMenu className="login-form">
+          <BasePage withMenu showInfoIcon className="login-form">
             <div
               className="render-component"
               style={{
@@ -186,7 +186,7 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
             >
               <>
               <div className="text-container">
-                  {todaysFeeling.length <= 240 ? (
+                  {todaysFeeling.length <= 150 ? (
                     <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
                       <p>Express freely in a few sentences </p>
                       {/* <p className="do-not-txt">
@@ -209,7 +209,7 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
                   }
                 </div>
                 <div className="target__body">
-                  <textarea value={todaysFeeling} rows={6} cols={40} placeholder="Tap here and start writing"  onChange={this.handleChange} className="target__textarea about-textarea" />
+                  <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing"  onChange={this.handleChange} className="target__textarea about-textarea" />
                 </div>
                 <div className="circle-box-container">
                 <div className="circle-box">

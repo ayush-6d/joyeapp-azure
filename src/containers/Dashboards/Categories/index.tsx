@@ -58,7 +58,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
   }
   handleRoute = route => {
     //debugger;
-    this.setState({ renderComponent: route });
+   this.setState({ renderComponent: route });
   };
   handleModal = () => {
     if (this.state.renderComponent === "congratulation") {
@@ -76,6 +76,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
   };
   renderContent = () => {
     const { renderComponent, openModal } = this.state;
+    console.log('renderComponent', renderComponent);
     switch (renderComponent) {
       case "main":
         return <Main route={this.handleRoute} openModal={this.handleModal} />;
@@ -95,13 +96,14 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     const { renderComponent, openModal, modalData, isLoading } = this.state;
     const headers = ["saysomething", "congratulation"];
     const showsSorePoint = ["tellusabout"];
+    const component = ["main"]
     console.log(openModal);
 
     return (
       <>
-        <BasePage withMenu className="login-form home-screen">
+        <BasePage className="login-form home-screen">
           <div className="pageHeader">
-            {!headers.includes(renderComponent) && !showsSorePoint.includes(renderComponent) ? <Circle className={`circles score-point`} showImg={false} /> : null}
+            {/*!headers.includes(renderComponent) && !showsSorePoint.includes(renderComponent) ? <Circle className={`circles score-point`} showImg={false} /> : null */}
             {/* {<img src={headers.includes(renderComponent) ? pageHeader2 : pageHeader} />} */}
           </div>
           <div
