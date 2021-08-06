@@ -36,7 +36,8 @@ export default class AuthHelper {
       return true;
     }else{
         if(!localStorage.getItem("active")){
-             AuthHelper.userLogin()
+           setTimeout(AuthHelper.userLogin(), 1000);
+            
           }
             return false;
           }
@@ -167,6 +168,7 @@ public static async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.sso) {
+          alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
           AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
         }
@@ -213,6 +215,7 @@ private static getUserProfile(token, tid): Promise < string > {
           localStorage.setItem("userProfile", JSON.stringify(data))
           var decoded = parseJwt(token);
           if (decoded.tid && data.id) {
+             alert("user id"+ data.id);
             localStorage.setItem("userId", data.id)
             localStorage.setItem("tid", tid ? tid : decoded.tid)
             AuthHelper.createTokenId()
