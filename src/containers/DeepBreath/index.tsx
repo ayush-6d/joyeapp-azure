@@ -9,7 +9,7 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomething from "src/resources/saysomething.mp4";
-import dbvideo from "src/resources/icons/db-video.jpg";
+import dbvideo from "src/resources/icons/db-video.png";
 
 
 
@@ -76,15 +76,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   }
   
   componentDidMount() {
-    console.log('componentDidMount');
     setTimeout(x=>{
       document.getElementsByTagName("video")[0].setAttribute("poster","https://joyeapp.netlify.app/images/db-video.png");
-      document.getElementsByTagName("video")[0].setAttribute("controls","controls");
-      document.getElementsByTagName("video")[0].setAttribute("webkit-playsinline","webkit-playsinline");
-      setInterval(x=>{
-        (document.getElementsByTagName("video")[0] as any).webkitExitFullScreen();
-        console.log('full screen');
-      },1000);
     },10);
   }
 
@@ -138,7 +131,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                     playing={isPlaying} 
                     pip={false} 
                     stopOnUnmount={this.state.isStop} 
-                    url={[ { src: saysomething+'?playsinline=1', type: 'video/mp4'} ]} 
+                    url={[ { src: saysomething, type: 'video/mp4'} ]} 
                     width="100%" 
                     height="100%"
                     config={{
