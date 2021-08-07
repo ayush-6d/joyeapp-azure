@@ -81,7 +81,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
       document.getElementsByTagName("video")[0].setAttribute("poster","https://joyeapp.netlify.app/images/db-video.png");
       document.getElementsByTagName("video")[0].setAttribute("controls","controls");
       document.getElementsByTagName("video")[0].setAttribute("webkit-playsinline","webkit-playsinline");
-      setTimeout(x=>{
+      setInterval(x=>{
         (document.getElementsByTagName("video")[0] as any).webkitExitFullScreen();
         console.log('full screen');
       },1000);
