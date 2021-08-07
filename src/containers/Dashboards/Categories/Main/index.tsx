@@ -51,6 +51,7 @@ export interface IMainState {
   withMenu?: boolean;
   showShield?: boolean;
   showInfoIcon?: boolean;
+  audio?: any;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -345,7 +346,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
-    const [audio, setAudio] = useState('');
+    
     if (isMobile) {
       self.startCounter(showCounter, isFromGesture);
 
@@ -365,10 +366,14 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
+        console.log('attachments',attachments)
+        
         let audioResult = attachments[0];
-        setAudio("data" + "mp3" + ";base64," + audioResult.preview)
-
-        console.log("audio", audio);
+        
+        console.log('audioResult',audioResult)
+        console.log('audioResult.preview',audioResult.preview)
+        self.setState({ audio: "data" + "mp3" + ";base64," + audioResult.preview})
+        
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
             var data = new Blob([blob], {type: 'audio/mp3'});
