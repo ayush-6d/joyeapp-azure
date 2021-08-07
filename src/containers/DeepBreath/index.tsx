@@ -78,7 +78,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   componentDidMount() {
     console.log('componentDidMount');
     setTimeout(x=>{
-      document.getElementsByTagName("video")[0].setAttribute("poster","https://naresh-ias.web.app/images/db-video.jpg")
+      document.getElementsByTagName("video")[0].setAttribute("poster","https://joyeapp.netlify.app/images/db-video.jpg")
     },10);
   }
 
