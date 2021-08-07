@@ -138,7 +138,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
                     playing={isPlaying} 
                     pip={false} 
                     stopOnUnmount={this.state.isStop} 
-                    url={[ { src: saysomething, type: 'video/mp4'} ]} 
+                    url={[ { src: saysomething+'?playsinline=1', type: 'video/mp4'} ]} 
                     width="100%" 
                     height="100%"
                     config={{
