@@ -347,7 +347,6 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     var self = this;
     const [audio, setAudio] = useState('');
     if (isMobile) {
-      microsoftTeams.initialize()
       self.startCounter(showCounter, isFromGesture);
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
