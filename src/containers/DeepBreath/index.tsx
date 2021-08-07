@@ -155,7 +155,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
               <PageImage setCounter={e => this.setPlay()} height="20px" width="20px"  logo={play} />}
 </div>
               <div className="skip-txt" onClick={e => route("congratulation")} >
-                <img src='{dbvideo}' style={{ display: "none" }}/>
+                <img src={dbvideo} style={{ display: "none" }}/>
                <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >skip </div> 
               </div>
             </>
