@@ -121,6 +121,7 @@
     "react-adal": "^0.5.2",
     "react-burger-menu": "^2.5.4",
     "react-device-detect": "^1.17.0",
+    "react-html5video": "^2.5.1",
     "react-mic": "^12.4.6",
     "react-player": "^2.9.0",
     "react-router-dom": "^5.2.0",

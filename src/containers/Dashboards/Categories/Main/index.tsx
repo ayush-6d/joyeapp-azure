@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { CircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
 import Mic from "../../../../resources/icons/mic.png";
 import rightTick from "../../../../resources/icons/rightTick.png";
@@ -21,7 +22,6 @@ import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
-import VideoToAudio from 'video-to-audio'
 
 import "./index.scss";
 
@@ -31,6 +31,7 @@ export interface IMainProps {
 }
 let timer = null;
 let icons = [Mic, Gibberish, Gesture];
+const [audio, setAudio] = useState('');
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 export interface IMainState {
   speachStarted?: boolean;
@@ -77,6 +78,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       showInfoIcon: true
     };
   }
+
 
   counter = showCounter => {
     if (showCounter) {
@@ -341,19 +343,12 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
   }
 
-  async  convertToAudio(input) {
-    let sourceVideoFile = input.files[0];
-    let targetAudioFormat = 'mp3'
-    let convertedAudioDataObj = await VideoToAudio.convert(sourceVideoFile, targetAudioFormat);
-    console.log('convertedAudioDataObj', convertedAudioDataObj)
-}
-
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     
     if (isMobile) {
       
-      //self.startCounter(showCounter, isFromGesture);
+      self.startCounter(showCounter, isFromGesture);
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
@@ -376,18 +371,18 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-        console.log('attachments', attachments)
         let audioResult = attachments[0];
-        
+        setAudio("data" + "mp3" + ";base64," + audioResult.preview)
+
+        console.log("audio", audio);
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
-          
-            let url = URL.createObjectURL(blob)
-            self.convertToAudio(blob);
-            //self.getMobileBase64(url);
+            var data = new Blob([blob], {type: 'audio/mp3'});
+            console.log('data:', data)
+            let url = URL.createObjectURL(data)
+            self.getMobileBase64(url);
           }
         });
-        
 
         if (error) {
           if (error.message) {
