@@ -347,21 +347,16 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     var self = this;
     const [audio, setAudio] = useState('');
     if (isMobile) {
-      
+      microsoftTeams.initialize()
       self.startCounter(showCounter, isFromGesture);
 
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
-        maxMediaCount: 1,
-        audioProps: { maxDuration: 1 },
+        maxMediaCount: 1
+        //audioProps: { maxDuration: 1 },
       };
       
-      new microsoftTeams.media.File()
-      {
-        mimeType: "mp3"
-      }
-    
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+  microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
