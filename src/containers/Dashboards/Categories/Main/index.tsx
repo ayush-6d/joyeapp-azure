@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { CircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
 import Mic from "../../../../resources/icons/mic.png";
 import rightTick from "../../../../resources/icons/rightTick.png";
@@ -21,7 +22,6 @@ import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
-import VideoToAudio from 'video-to-audio'
 
 import "./index.scss";
 
@@ -32,6 +32,7 @@ export interface IMainProps {
 let timer = null;
 let icons = [Mic, Gibberish, Gesture];
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+
 export interface IMainState {
   speachStarted?: boolean;
   showCounter?: boolean;
@@ -50,6 +51,7 @@ export interface IMainState {
   withMenu?: boolean;
   showShield?: boolean;
   showInfoIcon?: boolean;
+  audio?: any;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -77,6 +79,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       showInfoIcon: true
     };
   }
+
 
   counter = showCounter => {
     if (showCounter) {
@@ -341,32 +344,21 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
       })
   }
 
-  async  convertToAudio(input) {
-    let sourceVideoFile = input.files[0];
-    let targetAudioFormat = 'mp3'
-    let convertedAudioDataObj = await VideoToAudio.convert(sourceVideoFile, targetAudioFormat);
-    console.log('convertedAudioDataObj', convertedAudioDataObj)
-}
-
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
     
     if (isMobile) {
+      self.startCounter(showCounter, isFromGesture);
       
-      //self.startCounter(showCounter, isFromGesture);
-
+      microsoftTeams.initialize()
+      
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
-        maxMediaCount: 1,
-        audioProps: { maxDuration: 1 },
+        maxMediaCount: 1
+        //audioProps: { maxDuration: 1 },
       };
       
-      new microsoftTeams.media.File()
-      {
-        mimeType: "mp3"
-      }
-    
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+  microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
@@ -376,20 +368,24 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-        console.log('attachments', attachments)
+        console.log('attachments',attachments)
+        
         let audioResult = attachments[0];
         
-        audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-          if (blob) {
-          
-            let url = URL.createObjectURL(blob)
-            self.convertToAudio(blob);
-            //self.getMobileBase64(url);
-          }
-        });
+        console.log('audioResult',audioResult)
+        console.log('audioResult.preview',audioResult.preview)
         
-
-        if (error) {
+        
+        self.setState(
+          prevState => ({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview }),
+          () => {
+          
+            console.log('audio', this.state.audio)
+             
+          }
+        );
+        
+       if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
           } else {

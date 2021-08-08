@@ -9,7 +9,7 @@ import brew from "src/resources/icons/brew.png";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomething from "src/resources/saysomething.mp4";
-import dbvideo from "src/resources/icons/db-video.jpg";
+import dbvideo from "src/resources/icons/db-video.png";
 
 
 
@@ -76,9 +76,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   }
   
   componentDidMount() {
-    console.log('componentDidMount');
     setTimeout(x=>{
-      document.getElementsByTagName("video")[0].setAttribute("poster","https://naresh-ias.web.app/images/db-video.jpg")
+      document.getElementsByTagName("video")[0].setAttribute("poster","https://joyeapp.netlify.app/images/db-video.png");
     },10);
   }
 
@@ -155,6 +154,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
               <PageImage setCounter={e => this.setPlay()} height="20px" width="20px"  logo={play} />}
 </div>
               <div className="skip-txt" onClick={e => route("congratulation")} >
+                <img src={dbvideo} style={{ display: "none" }}/>
                <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >skip </div> 
               </div>
             </>
