@@ -93,7 +93,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   };
   handleAudio = () =>{
     console.log('audio');
-    var audio = new Audio('https://joyeapp.netlify.app/images/s.mp3');  
+    var audio = new Audio(sa);  
     audio.play();
   };
   render() {
