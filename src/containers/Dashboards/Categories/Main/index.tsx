@@ -381,7 +381,9 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
             var data = new Blob([blob], {type: blob.type});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
-            self.getMobileBase64(url);
+            let file =  fetch(url).then(r => r.blob()).then(blobFile => new File([blobFile], audioResult.content, { type: "video/mp4" }))
+            console.log('file', file)
+            //self.getMobileBase64(url);
           }
         });
 
