@@ -51,6 +51,7 @@ export interface IMainState {
   withMenu?: boolean;
   showShield?: boolean;
   showInfoIcon?: boolean;
+  audio?: any;
 }
 
 export class Main extends React.PureComponent<IMainProps, IMainState> {
@@ -345,23 +346,19 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
-    const [audio, setAudio] = useState('');
+    
     if (isMobile) {
-      
       self.startCounter(showCounter, isFromGesture);
-
+      
+      microsoftTeams.initialize()
+      
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
-        maxMediaCount: 1,
-        audioProps: { maxDuration: 1 },
+        maxMediaCount: 1
+        //audioProps: { maxDuration: 1 },
       };
       
-      new microsoftTeams.media.File()
-      {
-        mimeType: "mp3"
-      }
-    
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+  microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
@@ -371,16 +368,22 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         }
         
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
+        console.log('attachments',attachments)
+        
         let audioResult = attachments[0];
-        setAudio("data" + "mp3" + ";base64," + audioResult.preview)
-
-        console.log("audio", audio);
+        
+        console.log('audioResult',audioResult);
+        //console.log('audioResult.preview',audioResult.preview)
+        //self.setState({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview})
+        
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           if (blob) {
-            var data = new Blob([blob], {type: 'audio/mp3'});
+            var data = new Blob([blob], {type: blob.type});
             console.log('data:', data)
             let url = URL.createObjectURL(data)
-            self.getMobileBase64(url);
+            let file =  fetch(url).then(r => r.blob()).then(blobFile => new File([blobFile], audioResult.content, { type: "video/mp4" }))
+            console.log('file', file)
+            //self.getMobileBase64(url);
           }
         });
 
