@@ -146,7 +146,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
             <label className="checkbox-text">Turn audio on</label>
           </div>
               </div> 
-            
+            <a href='https://joyeapp.netlify.app/deepBreath' target="_blank">Test</a>
               <div className="btn-play">
               {this.state.isPlaying ? 
              
