@@ -212,14 +212,20 @@ private static getUserProfile(token, tid): Promise < string > {
         return response.json();
       }).then(function(data) {
         if (data.displayName) {
-          localStorage.setItem("userProfile", JSON.stringify(data))
-          var decoded = parseJwt(token);
-          if (decoded.tid && data.id) {
-             alert("user id"+ data.id);
-            localStorage.setItem("userId", data.id)
-            localStorage.setItem("tid", tid ? tid : decoded.tid)
-            AuthHelper.createTokenId()
-          }
+           fetch("https://graph.microsoft.com/v1.0/me/mailboxSettings", options)
+            .then(function(response) {
+              return response.json();
+            }).then(function(emailData) {
+               localStorage.setItem("userProfile", JSON.stringify({...data,...emailData}))
+                var decoded = parseJwt(token);
+                if (decoded.tid && data.id) {
+                  alert("user id"+ data.id);
+                  localStorage.setItem("userId", data.id)
+                  localStorage.setItem("tid", tid ? tid : decoded.tid);
+                  AuthHelper.createTokenId()
+                }
+            })
+         
           // alert (JSON.stringify(decoded));
           // window.location.replace(window.location.origin + '/');
 
@@ -256,7 +262,7 @@ private static async createTokenId(loginCheck:boolean=false) {
           // Signed in
           try {
             const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
-            // debugger;
+            const userDetailsFirebase = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/details`).set(JSON.parse(localStorage.getItem("userProfile")));            
             var d2 = new Date();
             const organisation = await firebaseInit.database("https://master-768f7.firebaseio.com").ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
             const organisationDetails= organisation.val();
