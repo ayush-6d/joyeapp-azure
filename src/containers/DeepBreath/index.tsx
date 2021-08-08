@@ -10,8 +10,7 @@ import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import saysomething from "src/resources/saysomething.mp4";
 import dbvideo from "src/resources/icons/db-video.png";
-
-
+import sa from "src/resources/icons/s.mp3";
 
 
 export interface IDeepBreathProps {
@@ -92,6 +91,11 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   handleChangeChk = () => {
     this.setState({ audioMute: !this.state.audioMute });
   };
+  handleAudio = () =>{
+    console.log('audio');
+    var audio = new Audio('https://joyeapp.netlify.app/images/s.mp3');  
+    audio.play();
+  };
   render() {
     const { route, analysisPage } = this.props;
     const { todaysFeeling, counter, counterStart, isPlaying ,audioMute } = this.state;
@@ -146,6 +150,10 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
             <label className="checkbox-text">Turn audio on</label>
           </div>
               </div> 
+              <audio controls>
+                <source src={sa} type="audio/mpeg"/>
+              </audio>
+              <button onClick={this.handleAudio}>Play</button>
             <a href='https://joyeapp.netlify.app/deepBreath' target="_blank">Test</a>
               <div className="btn-play">
               {this.state.isPlaying ? 
