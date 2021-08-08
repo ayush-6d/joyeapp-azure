@@ -92,9 +92,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
     this.setState({ audioMute: !this.state.audioMute });
   };
   handleAudio = () =>{
-    console.log('audio');
-    var audio = new Audio(sa);  
-    audio.play();
+    console.log('audio');  
+    (document.getElementById('myaudio') as any).play();
   };
   render() {
     const { route, analysisPage } = this.props;
@@ -150,7 +149,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
             <label className="checkbox-text">Turn audio on</label>
           </div>
               </div> 
-              <audio controls>
+              <audio id="myaudio" style={{ display: "none" }} controls>
                 <source src={sa} type="audio/mpeg"/>
               </audio>
               <button onClick={this.handleAudio}>Play</button>
