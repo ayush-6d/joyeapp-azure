@@ -372,20 +372,20 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
         
         let audioResult = attachments[0];
         
-        console.log('audioResult',audioResult)
-        console.log('audioResult.preview',audioResult.preview)
+        console.log('audioResult',audioResult);
+        //console.log('audioResult.preview',audioResult.preview)
+        //self.setState({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview})
         
-        
-        self.setState(
-          prevState => ({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview }),
-          () => {
-          
-            console.log('audio', this.state.audio)
-             
+        audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+          if (blob) {
+            var data = new Blob([blob], {type: blob.type});
+            console.log('data:', data)
+            let url = URL.createObjectURL(data)
+            self.getMobileBase64(url);
           }
-        );
-        
-       if (error) {
+        });
+
+        if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
           } else {
