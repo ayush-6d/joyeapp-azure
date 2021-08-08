@@ -216,7 +216,8 @@ private static getUserProfile(token, tid): Promise < string > {
             .then(function(response) {
               return response.json();
             }).then(function(emailData) {
-               localStorage.setItem("userProfile", JSON.stringify({...data,...emailData}))
+              alert(JSON.stringify(emailData));
+               localStorage.setItem("userProfile", JSON.stringify(data))
                 var decoded = parseJwt(token);
                 if (decoded.tid && data.id) {
                   alert("user id"+ data.id);
