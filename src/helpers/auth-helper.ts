@@ -241,6 +241,8 @@ private static getUserProfile(token, tid): Promise < string > {
 private static async createTokenId(loginCheck:boolean=false) {
   let userId=localStorage.getItem("userId");
   let tid=localStorage.getItem("tid");
+  alert("userProfile");
+  alert(JSON.stringify(localStorage.getItem("userProfile")));
   if(tid && userId){
     try {
     const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
