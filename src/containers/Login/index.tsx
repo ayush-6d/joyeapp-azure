@@ -61,13 +61,13 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       currentUser: {},
       userDetails: {}
     };
   }
 
-  isLoading = false;
+  isLoading = true;
   containerEl = null;
   externalWindow = null;
 
