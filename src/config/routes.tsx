@@ -1,5 +1,6 @@
 import * as React from "react";
 import { lazily } from "react-lazily";
+
 import SignInEnd from "src/containers/Login/sign-in-end";
 import SignInStart from "src/containers/Login/sign-in-start";
 import { RouteDefinition } from "src/Models/route-definition";
@@ -23,6 +24,8 @@ const { TermsofService } = lazily(
 const { NewDashboard } = lazily(() => import("src/containers/newDashboard"));
 const { Configure } = lazily(() => import("src/routes"));
 const { Login } = lazily(() => import("../containers/Login/index"));
+const { Pie } = lazily(() => import("../containers/Pie/index"));
+const { DailyChart } = lazily(() => import("../containers/DailyChart/index"));
 
 const routes: RouteDefinition[] = [
   {
@@ -98,6 +101,16 @@ const routes: RouteDefinition[] = [
   {
     route: "/pre-pie-chart",
     component: <PrePie />,
+    authenticated: true,
+  },
+  {
+    route: "/pie-chart",
+    component: <Pie />,
+    authenticated: true,
+  },
+  {
+    route: "/daily-chart",
+    component: <DailyChart />,
     authenticated: true,
   },
 ];

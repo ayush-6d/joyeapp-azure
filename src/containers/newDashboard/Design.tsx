@@ -454,6 +454,8 @@ const Design = (props: any) => {
   };
 
   const submit = async (slider) => {
+    // debugger;
+    console.log("Submit::: ", slider);
     const userId = getAuthId();
     const date = moment().format("DD-MM-yyyy");
     const weekOfYear = moment().format("w_yyyy");
@@ -468,250 +470,254 @@ const Design = (props: any) => {
     let dayTotal = 0;
     const audio = [];
     console.log("getDbUrl:: ", getDbUrl());
-    const dbRef = firebaseInit.database(getDbUrl());
-    let prevDetail: any = await dbRef
-      .ref(`users/${userId}/brew/brewData/${date}`)
-      .once("value");
-    console.log("Submit::: ", slider);
-    prevDetail = await prevDetail.val();
-    if (prevDetail !== null && prevDetail.day_total) {
-      dayTotal += Number(prevDetail.day_total);
-    }
-    for (let i = 0; i < slider.length; i += 1) {
-      const { value } = slider[i];
-      console.log(slider[i].name, " slider[i].value ", slider[i].value);
-      if (maxval <= value) {
-        dominantemotion = slider[i].name;
-        maxval = slider[i].value;
-        type = mappingMessages[slider[i].name][slider[i].value];
-      }
-      let dayValueSum = 0;
-      if (prevDetail !== null) {
-        if (prevDetail[slider[i].slider]) {
-          dayValueSum +=
-            Number(prevDetail[slider[i].slider].day_value_sum) || 0;
-        }
-      }
-      const weightvalue = await weightedValue(
-        slider[i].weight,
-        slider[i].value
-      );
-      avg += parseInt(weightvalue.toString(), 10);
-      // avg += parseInt(slider[i].value, 10);
-      const brewSlider = {
-        value: slider[i].value,
-        weightvalue,
-        sub_slider: slider[i].name,
-        // day_value_sum: Number(dayValueSum) + Number(slider[i].value),
-      };
-      dayTotal += Number(slider[i].value);
-      // @ts-ignore: Type 'string[]' cannot be used as an index type.
-      brewData[[slider[i].slider]] = brewSlider;
-      brewData.dominantemotion = dominantemotion;
-      brewData.type = type;
-
-      const emotion = EMOTIONS_MASTER.filter(
-        (em) => em.emotion.toLowerCase() === slider[i].slider.toLowerCase()
-      );
-
-      pieData.push({
-        title: slider[i].name,
-        color: emotion[0].color,
-        value: Number.parseInt(pieLogic[slider[i].value], 10),
-        slider_value: Number.parseInt(slider[i].value, 10),
-        desc: await getMessages({
-          x: slider[i].name,
-          y: slider[i].value,
-        }),
-        sColor: emotion[0].sColor,
-        cColor: emotion[0].cColor,
-      });
-    }
-
-    for (let s = 0; s < slider.length; s += 1) {
-      let dayValueSum = 0;
-      if (prevDetail !== null) {
-        if (prevDetail[slider[s].slider]) {
-          dayValueSum +=
-            Number(prevDetail[slider[s].slider].day_value_sum) || 0;
-        }
-      }
-      // const day_value_sum = (brewData[[slider[s].slider]].weightvalue / avg).toFixed(2);
-      // @ts-ignore: Type 'string[]' cannot be used as an index type.
-      const day_value_sum = brewData[[slider[s].slider]].value;
-      // @ts-ignore: Type 'string[]' cannot be used as an index type.
-      brewData[[slider[s].slider]].day_value_sum =
-        Number(day_value_sum) + dayValueSum;
-    }
-
-    pieData.sort((a, b) => {
-      if (a.value > b.value) {
-        return -1;
-      }
-      if (a.value < b.value) {
-        return 1;
-      }
-      return 0;
-    });
-    pieData = pieData.map((o, i) => ({
-      ...o,
-      order: i + 1,
-    }));
-    brewData.pieData = pieData;
-
-    let count: number | object = 1;
-    let avarage: number | string = avg / 7;
-    // let avarage = (avg / 5);
-    let total = avarage;
-    if (prevDetail !== null) {
-      count += prevDetail.count;
-      total += prevDetail.total ? parseFloat(prevDetail.total) : 0;
-    }
-    console.log("current_avarage", avarage);
-    const current_avarage = avarage;
-    avarage = (total / count).toFixed(2);
-    brewData.total = total.toFixed(2);
-    brewData.day_total = dayTotal;
-    brewData.avarage = avarage;
-    brewData.journalText = prevDetail?.journalText || "";
-    brewData.fellingBetter = prevDetail?.fellingBetter || false;
-    brewData.count = count;
-    brewData.current_avarage = current_avarage;
-    brewData.audio = await getAudio({
-      x: dominantemotion,
-      y: maxval,
-    });
-
-    await dbRef
-      .ref(`users/${userId}/brew`)
-      .child("brewData")
-      .update({
-        [date]: brewData,
-      });
-
-    const weekdata = [
-      [
-        "Week",
-        "Avarage",
-        "Anxious",
-        "Irritable",
-        "Joyful",
-        "Motivated",
-        "Social",
-        "Day Avarage",
-        "date",
-      ],
-    ];
-
-    // let allUserDetail = await dbRef.ref('users').once('value');
-    // allUserDetail = await allUserDetail.val();
-    // const avarages = await dateWiseAvarage(allUserDetail);
-
-    // const startOfWeek = moment().startOf('week');
-    const startOfWeek = moment().startOf("isoWeek");
-    let weekAvg = 0;
-    const dominantEmotions = [];
-    let weekDominantEmotion = "";
-    let length = 0;
-    for (let i = 0; i < 7; i += 1) {
-      let barChart = [];
-      const stdate = moment(startOfWeek).add(i, "days").format("DD-MM-yyyy");
-      let weekDetail = await dbRef
-        .ref(`users/${userId}/brew/brewData/${stdate}`)
+    try {    
+      const dbRef = firebaseInit.database(getDbUrl());
+      let prevDetail: any = await dbRef
+        .ref(`users/${userId}/brew/brewData/${date}`)
         .once("value");
-      weekDetail = await weekDetail.val();
-      const currentDetail: any = weekDetail;
-      if (weekDetail !== null) {
-        barChart = [moment(stdate, "DD-MM-yyyy").format("ddd"), avarage];
-        length += 1;
-        let dayAvg = 0;
-        await Object.entries(weekDetail).map((week) => {
-          if (week[0] === "avarage") {
-            barChart[1] = parseFloat(week[1]);
-          }
-          if (week[0] === "Anxious") {
-            // const anxi = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
-            const anxi =
-              Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
-            barChart.push(Number(anxi.toFixed(2)));
-            dayAvg += anxi;
-          }
-          if (week[0] === "Irritable") {
-            // const irrit = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
-            const irrit =
-              Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
-            barChart.push(Number(irrit.toFixed(2)));
-            dayAvg += irrit;
-          }
-          if (week[0] === "Joyful") {
-            // const joy = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
-            const joy =
-              Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
-            barChart.push(Number(joy.toFixed(2)));
-            dayAvg += joy;
-          }
-          if (week[0] === "Motivated") {
-            // const moti = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
-            const moti =
-              Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
-            barChart.push(Number(moti.toFixed(2)));
-            dayAvg += moti;
-          }
-          if (week[0] === "Social") {
-            // const soci = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
-            const soci =
-              Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
-            barChart.push(Number(soci.toFixed(2)));
-            dayAvg += soci;
-          }
-          if (week[0] === "avarage") {
-            weekAvg += parseFloat(week[1]);
-          }
-          if (week[0] === "dominantemotion") {
-            dominantEmotions.push(week[1]);
-          }
-          return week;
-        });
-        // barChart.push(avarages[stdate] ? avarages[stdate].toFixed(2) : 0);
-        // barChart.push(dayAvg / 5);
-        barChart.push(barChart[1]);
-        barChart.push(stdate);
-        count = {};
-        dominantEmotions.forEach((j) => {
-          count[j] = (count[j] || 0) + 1;
-        });
-        const keysSorted = Object.keys(count).sort(
-          (a, b) => count[a] - count[b]
-        );
-        weekDominantEmotion = keysSorted[keysSorted.length - 1];
-      } else {
-        barChart = [
-          moment(stdate, "DD-MM-yyyy").format("ddd"),
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          stdate,
-        ];
+      prevDetail = await prevDetail.val();
+      console.log('prevDetail', prevDetail);
+      if (prevDetail !== null && prevDetail.day_total) {
+        dayTotal += Number(prevDetail.day_total);
       }
-      weekdata.push(barChart);
-    }
-    await dbRef
-      .ref(`users/${userId}/brew`)
-      .child("weeks_average")
-      .update({
-        [weekOfYear]: {
-          avg: (weekAvg /= length).toFixed(2),
-          dominantemotion: weekDominantEmotion,
-          weekdata,
-        },
+      for (let i = 0; i < slider.length; i += 1) {
+        const { value } = slider[i];
+        console.log(slider[i].name, " slider[i].value ", slider[i].value);
+        if (maxval <= value) {
+          dominantemotion = slider[i].name;
+          maxval = slider[i].value;
+          type = mappingMessages[slider[i].name][slider[i].value];
+        }
+        let dayValueSum = 0;
+        if (prevDetail !== null) {
+          if (prevDetail[slider[i].slider]) {
+            dayValueSum +=
+              Number(prevDetail[slider[i].slider].day_value_sum) || 0;
+          }
+        }
+        const weightvalue = await weightedValue(
+          slider[i].weight,
+          slider[i].value
+        );
+        avg += parseInt(weightvalue.toString(), 10);
+        // avg += parseInt(slider[i].value, 10);
+        const brewSlider = {
+          value: slider[i].value,
+          weightvalue,
+          sub_slider: slider[i].name,
+          // day_value_sum: Number(dayValueSum) + Number(slider[i].value),
+        };
+        dayTotal += Number(slider[i].value);
+        // @ts-ignore: Type 'string[]' cannot be used as an index type.
+        brewData[[slider[i].slider]] = brewSlider;
+        brewData.dominantemotion = dominantemotion;
+        brewData.type = type;
+
+        const emotion = EMOTIONS_MASTER.filter(
+          (em) => em.emotion.toLowerCase() === slider[i].slider.toLowerCase()
+        );
+
+        pieData.push({
+          title: slider[i].name,
+          color: emotion[0].color,
+          value: Number.parseInt(pieLogic[slider[i].value], 10),
+          slider_value: Number.parseInt(slider[i].value, 10),
+          desc: await getMessages({
+            x: slider[i].name,
+            y: slider[i].value,
+          }),
+          sColor: emotion[0].sColor,
+          cColor: emotion[0].cColor,
+        });
+      }
+
+      for (let s = 0; s < slider.length; s += 1) {
+        let dayValueSum = 0;
+        if (prevDetail !== null) {
+          if (prevDetail[slider[s].slider]) {
+            dayValueSum +=
+              Number(prevDetail[slider[s].slider].day_value_sum) || 0;
+          }
+        }
+        // const day_value_sum = (brewData[[slider[s].slider]].weightvalue / avg).toFixed(2);
+        // @ts-ignore: Type 'string[]' cannot be used as an index type.
+        const day_value_sum = brewData[[slider[s].slider]].value;
+        // @ts-ignore: Type 'string[]' cannot be used as an index type.
+        brewData[[slider[s].slider]].day_value_sum =
+          Number(day_value_sum) + dayValueSum;
+      }
+
+      pieData.sort((a, b) => {
+        if (a.value > b.value) {
+          return -1;
+        }
+        if (a.value < b.value) {
+          return 1;
+        }
+        return 0;
       });
-    // setLoading(false);
-    // history.push("/pie-chart");
-    // return <Redirect push={false} to="/pie-chart" />;
+      pieData = pieData.map((o, i) => ({
+        ...o,
+        order: i + 1,
+      }));
+      brewData.pieData = pieData;
+
+      let count: number | object = 1;
+      let avarage: number | string = avg / 7;
+      // let avarage = (avg / 5);
+      let total = avarage;
+      if (prevDetail !== null) {
+        count += prevDetail.count;
+        total += prevDetail.total ? parseFloat(prevDetail.total) : 0;
+      }
+      console.log("current_avarage", avarage);
+      const current_avarage = avarage;
+      avarage = (total / count).toFixed(2);
+      brewData.total = total.toFixed(2);
+      brewData.day_total = dayTotal;
+      brewData.avarage = avarage;
+      brewData.journalText = prevDetail?.journalText || "";
+      brewData.fellingBetter = prevDetail?.fellingBetter || false;
+      brewData.count = count;
+      brewData.current_avarage = current_avarage;
+      brewData.audio = await getAudio({
+        x: dominantemotion,
+        y: maxval,
+      });
+
+      await dbRef
+        .ref(`users/${userId}/brew`)
+        .child("brewData")
+        .update({
+          [date]: brewData,
+        });
+
+      const weekdata = [
+        [
+          "Week",
+          "Avarage",
+          "Anxious",
+          "Irritable",
+          "Joyful",
+          "Motivated",
+          "Social",
+          "Day Avarage",
+          "date",
+        ],
+      ];
+
+      // let allUserDetail = await dbRef.ref('users').once('value');
+      // allUserDetail = await allUserDetail.val();
+      // const avarages = await dateWiseAvarage(allUserDetail);
+
+      // const startOfWeek = moment().startOf('week');
+      const startOfWeek = moment().startOf("isoWeek");
+      let weekAvg = 0;
+      const dominantEmotions = [];
+      let weekDominantEmotion = "";
+      let length = 0;
+      for (let i = 0; i < 7; i += 1) {
+        let barChart = [];
+        const stdate = moment(startOfWeek).add(i, "days").format("DD-MM-yyyy");
+        let weekDetail = await dbRef
+          .ref(`users/${userId}/brew/brewData/${stdate}`)
+          .once("value");
+        weekDetail = await weekDetail.val();
+        const currentDetail: any = weekDetail;
+        if (weekDetail !== null) {
+          barChart = [moment(stdate, "DD-MM-yyyy").format("ddd"), avarage];
+          length += 1;
+          let dayAvg = 0;
+          await Object.entries(weekDetail).map((week) => {
+            if (week[0] === "avarage") {
+              barChart[1] = parseFloat(week[1]);
+            }
+            if (week[0] === "Anxious") {
+              // const anxi = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
+              const anxi =
+                Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
+              barChart.push(Number(anxi.toFixed(2)));
+              dayAvg += anxi;
+            }
+            if (week[0] === "Irritable") {
+              // const irrit = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
+              const irrit =
+                Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
+              barChart.push(Number(irrit.toFixed(2)));
+              dayAvg += irrit;
+            }
+            if (week[0] === "Joyful") {
+              // const joy = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
+              const joy =
+                Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
+              barChart.push(Number(joy.toFixed(2)));
+              dayAvg += joy;
+            }
+            if (week[0] === "Motivated") {
+              // const moti = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
+              const moti =
+                Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
+              barChart.push(Number(moti.toFixed(2)));
+              dayAvg += moti;
+            }
+            if (week[0] === "Social") {
+              // const soci = Math.round(parseInt(week[1].day_value_sum || week[1].value, 10) / parseInt(currentDetail.count, 10));
+              const soci =
+                Number(week[1].day_value_sum) / parseInt(currentDetail.count, 10);
+              barChart.push(Number(soci.toFixed(2)));
+              dayAvg += soci;
+            }
+            if (week[0] === "avarage") {
+              weekAvg += parseFloat(week[1]);
+            }
+            if (week[0] === "dominantemotion") {
+              dominantEmotions.push(week[1]);
+            }
+            return week;
+          });
+          // barChart.push(avarages[stdate] ? avarages[stdate].toFixed(2) : 0);
+          // barChart.push(dayAvg / 5);
+          barChart.push(barChart[1]);
+          barChart.push(stdate);
+          count = {};
+          dominantEmotions.forEach((j) => {
+            count[j] = (count[j] || 0) + 1;
+          });
+          const keysSorted = Object.keys(count).sort(
+            (a, b) => count[a] - count[b]
+          );
+          weekDominantEmotion = keysSorted[keysSorted.length - 1];
+        } else {
+          barChart = [
+            moment(stdate, "DD-MM-yyyy").format("ddd"),
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            stdate,
+          ];
+        }
+        weekdata.push(barChart);
+      }
+      await dbRef
+        .ref(`users/${userId}/brew`)
+        .child("weeks_average")
+        .update({
+          [weekOfYear]: {
+            avg: (weekAvg /= length).toFixed(2),
+            dominantemotion: weekDominantEmotion,
+            weekdata,
+          },
+        });
+      // setLoading(false);
+      // history.push("/pie-chart");
+      // return <Redirect push={false} to="/pie-chart" />;
+    } catch(e) {
+      console.log('error', e);
+    }
   };
   let colorFirst = "#00EAFF";
   let colorSecond = "#006CFF";

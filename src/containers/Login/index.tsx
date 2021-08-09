@@ -61,13 +61,13 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       currentUser: {},
       userDetails: {}
     };
   }
 
-  isLoading = true;
+  isLoading = false;
   containerEl = null;
   externalWindow = null;
 
@@ -242,7 +242,6 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             .then(async userCredential => {
               // Signed in
               var user = userCredential.user;
-              AuthHelper.setOrgData(user)
               //debugger;
               console.log(user);
               try {
@@ -285,12 +284,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   };
 
   userLogin =()=>{
-        this.setState({ isLoading: true });
-        if(!this.state.isLoading){
-          // AuthHelper.userLogin()
-          AuthHelper.userLogin()
-        }
-        
+    this.setState({ isLoading: true });
+    AuthHelper.userLogin();
   }
 
   render() {

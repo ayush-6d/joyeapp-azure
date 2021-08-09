@@ -6,7 +6,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swiper from "swiper";
 import Overflow from "react-overflow-indicator";
-import CloudGradient from "./CloudGradientSvg";
+import CloudGradient from "src/components/CloudGradientSvg";
 import cloud1 from "./assets/media/cloud1.png";
 import cloud2 from "./assets/media/cloud2.png";
 import InfoPic from "src/resources/icons/new_I.png";

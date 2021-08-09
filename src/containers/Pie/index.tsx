@@ -5,15 +5,15 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-await-in-loop */
-import React, { useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
 import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import { database, firebaseInit } from 'src/services/firebase';
 import { Loader } from 'src/components/Loader';
-import PrePieApp from './PrePieApp';
+import PieApp from './PieApp';
 import Popup from 'src/components/Popup';
 
-export const PrePie = () => {
+export const Pie = () => {
   const [data, setData] = useState([]);
   const [load, setLoaderPie] = useState(true);
   const [average, setAverage] = useState(0.0);
@@ -29,12 +29,10 @@ export const PrePie = () => {
 
   useEffect(() => {
     setLoaderPie(true);
-    console.log('userId', userId);
     setTimeout(async () => {
       const dbRef = firebaseInit.database(getDbUrl());
       dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
         const brewData = snapshot.val();
-        console.log('brewData', brewData);
         if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
           setAverage(brewData.current_avarage);
           setAudio(brewData.audio);
@@ -79,14 +77,15 @@ export const PrePie = () => {
     <>
       {load && (<Loader display="flex" />)}
       {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
-      {data && data.length > 0
+      {data.length > 0
         && (
-          <PrePieApp
+          <PieApp
             data={data}
             average={average}
             onClickPopup={togglePopup}
             getScreenMessages={getScreenMessages}
-            emotion={emotion}
+            fireBaseUrl={fireBaseUrl}
+            fireBaseStorage={fireBaseStorage}
           />
         )}
     </>

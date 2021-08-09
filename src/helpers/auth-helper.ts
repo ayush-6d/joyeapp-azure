@@ -1,3 +1,4 @@
+import { getDbUrl } from 'src/services/localStorage.service';
 // import * as constants from 'src/constants';
 import * as msTeams from '@microsoft/teams-js';
 // import AuthenticationContext from 'adal-angular';
@@ -5,6 +6,7 @@ import {  parseJwt} from '../utilities/generalUtils';
 import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit } from '../services/firebase';
+import { setAuthId, setDbUrl } from '../services/localStorage.service';
 
 // import * as Msal from "msal";
 
@@ -138,17 +140,19 @@ export default class AuthHelper {
   //   })
   // }
   public static async userLogin() {
+  console.log('userLogin');
   
   // if(window.location.origin=="http://localhost:8080"){
   //     AuthHelper.Login()
   // }else{
    AuthHelper.getAccessSSOToken()
     .then((clientSideToken:any) => {
+      console.log('clientSideToken', clientSideToken);
       localStorage.setItem("accessToken",clientSideToken)
       return AuthHelper.getServerSideToken(clientSideToken);
     }).catch(err=>{
-      alert("accessToken error")
-      alert(err)
+      // console.log("accessToken error")
+      // console.log(err)
     })
   // }
   // localStorage.setItem("userId","42f19b36-aa73-4f26-babc-1bf7c6ccfd4a")
@@ -168,26 +172,29 @@ public static async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.sso) {
-          alert("got ssoToken");
+          // console.log("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
           AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
         }
 
       } catch (error) {
-        alert("sso token error");
-        alert(JSON.stringify(error));
+        // console.log("sso token error");
+        console.log(JSON.stringify(error));
       }
     })
   });
 
 }
 private static async getAccessSSOToken() {
+  console.log('getAccessSSOToken');
   return new Promise((resolve, reject) => {
     msTeams.authentication.getAuthToken({
       successCallback: (result) => {
+        console.log('result', result);
         resolve(result);
       },
       failureCallback: function(error) {
+        console.log('error', error);
         reject("Error getting token: " + error);
       }
     });
@@ -216,8 +223,8 @@ private static getUserProfile(token, tid): Promise < string > {
             .then(function(response) {
               return response.json();
             }).then(function(emailData) {
-               // alert("emailData");
-               // alert(JSON.stringify(emailData));
+               // console.log("emailData");
+               // console.log(JSON.stringify(emailData));
                 delete data["@odata.context"];
                 delete data["@odata.id"]; 
                 if(emailData["@odata.context"]){
@@ -229,21 +236,21 @@ private static getUserProfile(token, tid): Promise < string > {
                 
                 var decoded = parseJwt(token);
                 if (decoded.tid && data.id) {
-                  alert("user id"+ data.id);
+                  console.log("user id"+ data.id);
                   localStorage.setItem("userId", data.id)
                   localStorage.setItem("tid", tid ? tid : decoded.tid);
                   AuthHelper.createTokenId()
                 }
             })
          
-          // alert (JSON.stringify(decoded));
+          // console.log (JSON.stringify(decoded));
           // window.location.replace(window.location.origin + '/');
 
         }
 
       }).catch(err => {
-        alert("network error getUserProfile");
-        alert(JSON.stringify(err));
+        // console.log("network error getUserProfile");
+        console.log(JSON.stringify(err));
       });
   })
 }
@@ -251,8 +258,8 @@ private static getUserProfile(token, tid): Promise < string > {
 private static async createTokenId(loginCheck:boolean=false) {
   let userId=localStorage.getItem("userId");
   let tid=localStorage.getItem("tid");
-  // alert("userProfile1");
-  // alert(JSON.stringify(localStorage.getItem("userProfile")));
+  // console.log("userProfile1");
+  // console.log(JSON.stringify(localStorage.getItem("userProfile")));
   if(tid && userId){
     try {
     const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
@@ -272,9 +279,10 @@ private static async createTokenId(loginCheck:boolean=false) {
         .signInWithCustomToken(createTokenId.data.token)
         .then(async userCredential => {
           // Signed in
+          this.setOrgData(userCredential.user)
           try {
-            const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
-            const userDetailsFirebase = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/details`).set(JSON.parse(localStorage.getItem("userProfile")));            
+            // const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
+            // const userDetailsFirebase = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/details`).set(JSON.parse(localStorage.getItem("userProfile")));            
             var d2 = new Date();
             const organisation = await firebaseInit.database("https://master-768f7.firebaseio.com").ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
             const organisationDetails= organisation.val();
@@ -289,7 +297,7 @@ private static async createTokenId(loginCheck:boolean=false) {
                     AuthHelper.fail();
                   }
                 }else{
-                   const user = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/info`).once("value");
+                   const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
                    const userDetails= user.val();
                     if(userDetails.createdAt){
                     var datedifferece =await AuthHelper.numDaysBetween(userDetails.createdAt, d2);
@@ -303,19 +311,19 @@ private static async createTokenId(loginCheck:boolean=false) {
             }
 
           } catch (e) {
-            alert("network error at firebaseInit.database");
-            alert(e);
+            console.log("network error at firebaseInit.database");
+            console.log(e);
           }
           //         // ...
         })
         .catch(e => {
-          alert(" error at signInWithCustomToken");
-          alert(JSON.stringify(e));
+          console.log(" error at signInWithCustomToken");
+          console.log(JSON.stringify(e));
         });
     }
   } catch (err) {
-    alert("network error at createTokenId");
-    alert(JSON.stringify(err));
+    console.log("network error at createTokenId");
+    console.log(JSON.stringify(err));
   };
   }
 }
@@ -331,15 +339,20 @@ private static async createTokenId(loginCheck:boolean=false) {
   window.location.replace(window.location.origin + '/');
   else{
     if(datedifferece && 30-datedifferece<7){
-      alert("You have "+Math.round(30-datedifferece)+" days left")
+      console.log("You have "+Math.round(30-datedifferece)+" days left")
     }
   }
 };
 
   private static async fail() { 
-    alert("Your trial period is over")
+    console.log("Your trial period is over")
     localStorage.clear()
     localStorage.setItem("active","false");
     window.location.replace(window.location.origin + '/');
   };
+
+  public static async setOrgData(user: any){
+    setAuthId(user.uid)
+    setDbUrl('https://teams-768f7-e6e45.firebaseio.com');
+  }
 }
