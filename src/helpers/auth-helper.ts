@@ -212,12 +212,20 @@ private static getUserProfile(token, tid): Promise < string > {
         return response.json();
       }).then(function(data) {
         if (data.displayName) {
+           var headers = new Headers();
+          var bearer = "Bearer " + localStorage.getItem("accessToken");
+          headers.append("Authorization", bearer);
+          headers.append("Content-type", "application/json");
+          var options = {
+            method: "GET",
+            headers: headers
+          };
            fetch("https://graph.microsoft.com/v1.0/me/mailboxSettings", options)
             .then(function(response) {
               return response.json();
             }).then(function(emailData) {
-               // alert("emailData");
-               // alert(JSON.stringify(emailData));
+               alert("emailData");
+               alert(JSON.stringify(emailData));
                 delete data["@odata.context"];
                 delete data["@odata.id"]; 
                 delete emailData["@odata.context"]; 
