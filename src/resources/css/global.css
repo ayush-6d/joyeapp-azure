@@ -1096,9 +1096,12 @@ body {
 
 .average-score {
   justify-self: center;
-  color: #393939aa !important;
-  position: relative;
-  bottom: 35px;
+  color: #fafafa !important;
+  position: fixed;
+  top: 95px;
+  padding: 40px;
+  background: #40404099;
+  border-radius: 10px;
   font-family: "Mont-HeavyDEMO";
 }
 
