@@ -57,7 +57,8 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
 
     const percentage = aPlayerDuration ? (aPlayerTime / aPlayerDuration) * 100 : 0;
     aPlayerTime = aPlayerDuration - aPlayerTime;
-    const mmSS = `${aPlayerTime / 60}:${(aPlayerTime % 60).toString().padStart(2, '0')}`;
+    const mmSS = `${parseInt((aPlayerTime / 60).toString())}:${parseInt((aPlayerTime % 60).toString()).toString().padStart(2, '0')}`;
+
 
     return (
       <>

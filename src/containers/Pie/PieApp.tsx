@@ -39,6 +39,7 @@ export interface IPieAppState {
   prevIndex?: number;
   direction?: string;
   cardData?: any;
+  showAudioPlayer?: boolean;
 }
 
 export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
@@ -51,6 +52,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
       cardData: this.props.data && this.props.data.length > 0
         ? [this.props.data[0], ...this.props.data.slice(1).reverse()]
         : [],
+      showAudioPlayer: false,
       // fireBaseUrl: '',
     };
   }
@@ -135,20 +137,24 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
               <img alt="info" src={InfoPic} />
             </button>
           </div>
-          <img
-            style={{
-              position: 'absolute', width: '13vh', top: 5, left: 5, zIndex: 10, opacity: 0.4,
-            }}
-            alt="cloud1"
-            src={cloud1}
-          />
-          <img
-            style={{
-              position: 'absolute', width: '14vh', top: '6%', right: 10, zIndex: 10, opacity: 0.4,
-            }}
-            alt="cloud2"
-            src={cloud2}
-          />
+          {!this.state.showAudioPlayer && (
+            <>
+              <img
+                style={{
+                  position: 'absolute', width: '13vh', top: 5, left: 5, zIndex: 10, opacity: 0.4,
+                }}
+                alt="cloud1"
+                src={cloud1}
+              />
+              <img
+                style={{
+                  position: 'absolute', width: '14vh', top: '6%', right: 10, zIndex: 10, opacity: 0.4,
+                }}
+                alt="cloud2"
+                src={cloud2}
+              />
+            </>
+          )}
           <div>
             <div style={{
               width: '100%', display: 'flex', justifyContent: 'center', position: 'relative', marginTop: '15px',
@@ -179,88 +185,98 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                   containerStyle={{}}
                 />
               </div>
-              <div
-                className="fadeInEffect"
-                key={`key${index}`}
-                style={{
-                  position: 'absolute', width: '20vh', height: '20vh', bottom: -18, right: '-15%', zIndex: 1,
-                }}
-              >
-                <CloudGradient color1={indexData.cColor} color3={null} />
-              </div>
+              {!this.state.showAudioPlayer && (
+                <div
+                  className="fadeInEffect"
+                  key={`key${index}`}
+                  style={{
+                    position: 'absolute', width: '20vh', height: '20vh', bottom: -18, right: '-15%', zIndex: 1,
+                  }}
+                >
+                  <CloudGradient color1={indexData.cColor} color3={null} />
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="swiper-container" style={{ paddingTop: '15px', paddingBottom: '80px' }}>
+          <div className="swiper-container" style={{ paddingTop: '50%', paddingBottom: '80px' }}>
             <AudioPlayer
-              aPlayerVisible={fireBaseUrl !== ''}
+              aPlayerVisible={fireBaseUrl !== '' && this.state.showAudioPlayer}
               audioData={{
                 audioSrc: fireBaseUrl || 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
                 audioTitle: fireBaseStorage ? fireBaseStorage.title : '',
                 author: fireBaseStorage ? fireBaseStorage.author : '',
               }}
             />
+            {!this.state.showAudioPlayer && (
+              <div className="swiper-wrapper">
+                {cardData.map(e => (
+                  <>
+                    {e.desc !== '-' && (
+                    <div
+                      key={e.order}
+                      className="swiper-slide boxShadow"
+                      style={{
+                        backgroundColor: e.cColor,
+                        width: '65%',
+                        padding: '6px',
+                        marginRight: '20px',
+                        textJustify: 'inter-word',
+                        height: '90%',
+                      }}
+                    >
+                      {/* {JSON.stringify(e)}  */}
+                      <div style={{ width: '100%' }}>
+                        <div style={{ display: 'flex' }}>
+                          <div style={{ width: '50%' }}>
+                            <p className="fff cardHeading">
+                              {EMOTIONS[e.title.toLowerCase()].pie}
+                            </p>
+                          </div>
+                          <div style={{
+                            width: '50%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-end',
+                            justifyContent: 'center',
+                            marginBottom: 18,
+                          }}
+                          >
+                            <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
+                              <SliderTrack>
+                                <Tracker color={e.color} sColor={e.sColor} />
+                                <SliderHandle />
+                              </SliderTrack>
+                            </SliderInput>
+                          </div>
+                        </div>
+                        <Overflow style={{ maxHeight: '210px' }}>
+                          <Overflow.Indicator direction="up"><img src={topShw} style={{ position: 'absolute', left: 10, top: -3 }} /></Overflow.Indicator>
+                          <Overflow.Content>
+                            <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
+                          </Overflow.Content>
 
-            <div className="swiper-wrapper">
-              {cardData.map(e => (
-                <>
-                  {e.desc !== '-' && (
-                  <div
-                    key={e.order}
-                    className="swiper-slide boxShadow"
-                    style={{
-                      backgroundColor: e.cColor,
-                      width: '65%',
-                      padding: '6px',
-                      marginRight: '20px',
-                      textJustify: 'inter-word',
-                      height: '90%',
-                    }}
-                  >
-                    {/* {JSON.stringify(e)}  */}
-                    <div style={{ width: '100%' }}>
-                      <div style={{ display: 'flex' }}>
-                        <div style={{ width: '50%' }}>
-                          <p className="fff cardHeading">
-                            {EMOTIONS[e.title.toLowerCase()].pie}
-                          </p>
-                        </div>
-                        <div style={{
-                          width: '50%',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'flex-end',
-                          justifyContent: 'center',
-                          marginBottom: 18,
-                        }}
-                        >
-                          <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
-                            <SliderTrack>
-                              <Tracker color={e.color} sColor={e.sColor} />
-                              <SliderHandle />
-                            </SliderTrack>
-                          </SliderInput>
-                        </div>
+                          <Overflow.Indicator direction="down"><img style={{ position: 'absolute', left: 10, bottom: -3 }} src={btmShw} /></Overflow.Indicator>
+                        </Overflow>
+
+                        {/* {console.log(addDescription(e.desc))}
+                        <div className="fff" style={{ fontSize: '16px' }}>{e.desc}</div>
+                      </div> */}
                       </div>
-                      <Overflow style={{ maxHeight: '210px' }}>
-                        <Overflow.Indicator direction="up"><img src={topShw} style={{ position: 'absolute', left: 10, top: -3 }} /></Overflow.Indicator>
-                        <Overflow.Content>
-                          <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
-                        </Overflow.Content>
-
-                        <Overflow.Indicator direction="down"><img style={{ position: 'absolute', left: 10, bottom: -3 }} src={btmShw} /></Overflow.Indicator>
-                      </Overflow>
-
-                      {/* {console.log(addDescription(e.desc))}
-                      <div className="fff" style={{ fontSize: '16px' }}>{e.desc}</div>
-                    </div> */}
                     </div>
-                  </div>
-                  )}
-                </>
-              ))}
-            </div>
-            <Link to="/daily-chart">
+                    )}
+                  </>
+                ))}
+              </div>
+            )}
+            <Link 
+              onClick={
+                () => {
+                  this.setState({ showAudioPlayer: true });
+                }
+              }
+              to={this.state.showAudioPlayer || fireBaseUrl === '' ? "/daily-chart" : "#" }
+            >
               <p
                 className="hand fff"
                 style={{
