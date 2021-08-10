@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: -webkit-flex;
+    /* NEW */
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    /* NEW */
+    flex-wrap: wrap;
+}
+
+* ::-webkit-scrollbar {
+    display: none;
+}
+
+#main {
+    /* height: 100vh; */
+    width: 100vw;
+}
+
+.hand {
+    cursor: pointer;
+}
+
+.fff {
+    font-size: 16px;
+    color: #fff;
+}
+
+.cardHeading {
+    font-weight: 300;
+    font-size: 20px;
+    opacity: 0.6;
+}
+
+.desc {
+    line-height: 1.4em;
+    letter-spacing: 1px;
+    font-size: 1em;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrolling-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.scrolling-wrapper .card {
+    display: inline-block;
+    white-space: normal;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: start;
+    font-size: 18px;
+    background: #fff;
+    border-radius: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+}
+
+.boxShadow {
+    -webkit-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
+    -moz-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
+    box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
+}
+
+.swiper-slide {
+    width: 100%;
+    height: fit-content;
+}
+
+.fadeInEffect{
+    animation: fadeIn 1s forwards;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+
+ @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+

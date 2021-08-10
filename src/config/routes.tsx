@@ -1,91 +1,118 @@
 import * as React from "react";
-import { AboutUs } from "src/containers/AboutUs";
-import { Dashboard } from "src/containers/Dashboards/Categories";
-import { FAQS } from "src/containers/FAQS";
-import { Journal } from "src/containers/journal";
-import { Yesno } from "src/containers/Yesno";
-import { DeepBreath } from "src/containers/DeepBreath";
-import { Congratulation } from "src/containers/congratulation";
-import { Login } from "src/containers/Login";
+import { lazily } from "react-lazily";
+
 import SignInEnd from "src/containers/Login/sign-in-end";
 import SignInStart from "src/containers/Login/sign-in-start";
-import { PrivacyPolicy } from "src/containers/PrivacyPolicy";
-import { TermsofService } from "src/containers/TermsofService";
 import { RouteDefinition } from "src/Models/route-definition";
-import { Configure } from "src/routes";
-// import { Home, Configure } from '../pages';
-// import { Login, SignInStart, SignInEnd } from '../pages/auth';
+
+const { PrePie } = lazily(() => import("src/containers/PrePieScreen"));
+const { AboutUs } = lazily(() => import("src/containers/AboutUs"));
+const { Dashboard } = lazily(
+  () => import("src/containers/Dashboards/Categories")
+);
+const { FAQS } = lazily(() => import("src/containers/FAQS"));
+const { Journal } = lazily(() => import("src/containers/journal"));
+const { Yesno } = lazily(() => import("src/containers/Yesno"));
+const { DeepBreath } = lazily(() => import("src/containers/DeepBreath"));
+const { Congratulation } = lazily(
+  () => import("src/containers/congratulation")
+);
+const { PrivacyPolicy } = lazily(() => import("src/containers/PrivacyPolicy"));
+const { TermsofService } = lazily(
+  () => import("src/containers/TermsofService")
+);
+const { NewDashboard } = lazily(() => import("src/containers/newDashboard"));
+const { Configure } = lazily(() => import("src/routes"));
+const { Login } = lazily(() => import("../containers/Login/index"));
+const { Pie } = lazily(() => import("../containers/Pie/index"));
+const { DailyChart } = lazily(() => import("../containers/DailyChart/index"));
 
 const routes: RouteDefinition[] = [
   {
     route: "/",
     component: <Dashboard />,
-    authenticated: true
+    authenticated: true,
   },
   {
     route: "/configure",
     component: <Configure />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/",
     component: <Login />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/auth/signinstart",
     component: <SignInStart />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/auth/signinend",
     component: <SignInEnd />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/journal",
     component: <Journal />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/faq",
     component: <FAQS />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/termsofservice",
     component: <TermsofService />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/privacypolicy",
     component: <PrivacyPolicy />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/aboutus",
     component: <AboutUs />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/yesno",
     component: <Yesno />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/congratulation",
     component: <Congratulation />,
-    authenticated: false
+    authenticated: false,
   },
   {
     route: "/deepBreath",
     component: <DeepBreath />,
-    authenticated: false
-  }
+    authenticated: false,
+  },
+  {
+    route: "/dashboard",
+    component: <NewDashboard />,
+    authenticated: true,
+  },
+  {
+    route: "/pre-pie-chart",
+    component: <PrePie />,
+    authenticated: true,
+  },
+  {
+    route: "/pie-chart",
+    component: <Pie />,
+    authenticated: true,
+  },
+  {
+    route: "/daily-chart",
+    component: <DailyChart />,
+    authenticated: true,
+  },
 ];
-// export const Journal = asyncComponent(() => import("src/containers/journal/index"), "Journal");
-// export const PrivacyPolicy = asyncComponent(() => import("src/containers/PrivacyPolicy"), "PrivacyPolicy");
-// export const TermsofService = asyncComponent(() => import("src/containers/TermsofService"), "TermsofService");
-// export const FAQS = asyncComponent(() => import("src/containers/FAQS"), "FAQS");
-// export const AboutUs = asyncComponent(() => import("src/containers/AboutUs"), "AboutUs");
+
 export default routes;

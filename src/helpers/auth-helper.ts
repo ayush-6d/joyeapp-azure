@@ -1,3 +1,4 @@
+import { getDbUrl } from 'src/services/localStorage.service';
 // import * as constants from 'src/constants';
 import * as msTeams from '@microsoft/teams-js';
 // import AuthenticationContext from 'adal-angular';
@@ -5,6 +6,7 @@ import {  parseJwt} from '../utilities/generalUtils';
 import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit } from '../services/firebase';
+import { setAuthId, setDbUrl } from '../services/localStorage.service';
 
 // import * as Msal from "msal";
 
@@ -138,17 +140,19 @@ export default class AuthHelper {
   //   })
   // }
   public static async userLogin() {
+  console.log('userLogin');
   
   // if(window.location.origin=="http://localhost:8080"){
   //     AuthHelper.Login()
   // }else{
    AuthHelper.getAccessSSOToken()
     .then((clientSideToken:any) => {
+      console.log('clientSideToken', clientSideToken);
       localStorage.setItem("accessToken",clientSideToken)
       return AuthHelper.getServerSideToken(clientSideToken);
     }).catch(err=>{
-      alert("accessToken error")
-      alert(err)
+      // console.log("accessToken error")
+      // console.log(err)
     })
   // }
   // localStorage.setItem("userId","42f19b36-aa73-4f26-babc-1bf7c6ccfd4a")
@@ -174,20 +178,23 @@ public static async getServerSideToken(clientSideToken) {
         }
 
       } catch (error) {
-        alert("sso token error");
-        alert(JSON.stringify(error));
+        // console.log("sso token error");
+        console.log(JSON.stringify(error));
       }
     })
   });
 
 }
 private static async getAccessSSOToken() {
+  console.log('getAccessSSOToken');
   return new Promise((resolve, reject) => {
     msTeams.authentication.getAuthToken({
       successCallback: (result) => {
+        console.log('result', result);
         resolve(result);
       },
       failureCallback: function(error) {
+        console.log('error', error);
         reject("Error getting token: " + error);
       }
     });
@@ -242,8 +249,8 @@ private static getUserProfile(token, tid): Promise < string > {
         }
 
       }).catch(err => {
-        alert("network error getUserProfile");
-        alert(JSON.stringify(err));
+        // console.log("network error getUserProfile");
+        console.log(JSON.stringify(err));
       });
   })
 }
@@ -289,7 +296,7 @@ private static async createTokenId(loginCheck:boolean=false) {
                     AuthHelper.fail();
                   }
                 }else{
-                   const user = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/info`).once("value");
+                   const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
                    const userDetails= user.val();
                     if(userDetails.createdAt){
                     var datedifferece =await AuthHelper.numDaysBetween(userDetails.createdAt, d2);
@@ -303,19 +310,19 @@ private static async createTokenId(loginCheck:boolean=false) {
             }
 
           } catch (e) {
-            alert("network error at firebaseInit.database");
-            alert(e);
+            console.log("network error at firebaseInit.database");
+            console.log(e);
           }
           //         // ...
         })
         .catch(e => {
-          alert(" error at signInWithCustomToken");
-          alert(JSON.stringify(e));
+          console.log(" error at signInWithCustomToken");
+          console.log(JSON.stringify(e));
         });
     }
   } catch (err) {
-    alert("network error at createTokenId");
-    alert(JSON.stringify(err));
+    console.log("network error at createTokenId");
+    console.log(JSON.stringify(err));
   };
   }
 }
@@ -342,4 +349,9 @@ private static async createTokenId(loginCheck:boolean=false) {
     localStorage.setItem("active","false");
     window.location.replace(window.location.origin + '/');
   };
+
+  public static async setOrgData(user: any){
+    setAuthId(user.uid)
+    setDbUrl('https://teams-768f7-e6e45.firebaseio.com');
+  }
 }

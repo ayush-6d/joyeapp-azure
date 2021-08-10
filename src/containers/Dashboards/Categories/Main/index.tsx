@@ -24,8 +24,9 @@ import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 import "./index.scss";
+import { withRouter, RouteComponentProps } from "react-router";
 
-export interface IMainProps {
+export interface IMainProps extends RouteComponentProps {
   route?: any;
   openModal?: any;
 }
@@ -54,7 +55,7 @@ export interface IMainState {
   audio?: any;
 }
 
-export class Main extends React.PureComponent<IMainProps, IMainState> {
+export class MainClass extends React.PureComponent<IMainProps, IMainState> {
   constructor(props: IMainProps) {
     super(props);
     this.state = {
@@ -119,6 +120,10 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
   onClickGesture = () => {
     this.setState({ isTellusabout: true, isLoading: true });
   };
+
+  navigateToSlider = () => {
+    this.props.history.push("/dashboard")
+  }
 
   setIsTellusabout = () => {
     this.setState({ isTellusabout: false, isLoading: false });
@@ -493,7 +498,7 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
                 </div>
               </div>
               <div>
-                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.onStartRecodring(!showCounter, true)} img={icons[iconIndex["gesture"]]} />
+                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.navigateToSlider()} img={icons[iconIndex["gesture"]]} />
                 <div className="advertise-text bold index-advertise-text">
                   A little deeper
                   <br /> reflection
@@ -525,3 +530,5 @@ export class Main extends React.PureComponent<IMainProps, IMainState> {
     ) : null;
   }
 }
+
+export const Main = withRouter(MainClass);

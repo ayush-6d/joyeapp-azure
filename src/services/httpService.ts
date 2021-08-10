@@ -1,10 +1,10 @@
-import { post, put } from 'src/HTTP';
+import { post, put } from "src/HTTP";
 
 export async function LoginUser(email: string, pass: string) {
   try {
     const res = await post(`/auth/login`, {
       email: email,
-      password: pass
+      password: pass,
     });
     return res;
   } catch (error) {
@@ -12,8 +12,14 @@ export async function LoginUser(email: string, pass: string) {
   }
 }
 
-export async function CreateUser(fname: string, lname: string, email: string, phone: string, businessType: string,
-  pass: string) {
+export async function CreateUser(
+  fname: string,
+  lname: string,
+  email: string,
+  phone: string,
+  businessType: string,
+  pass: string
+) {
   try {
     const res = await post(`/auth/register`, {
       businessType: businessType,
@@ -21,7 +27,7 @@ export async function CreateUser(fname: string, lname: string, email: string, ph
       lastName: lname,
       email: email,
       phone: phone,
-      password: pass
+      password: pass,
     });
     return res;
   } catch (error) {
@@ -31,7 +37,7 @@ export async function CreateUser(fname: string, lname: string, email: string, ph
 
 export async function ResetUserPassword(email: string) {
   try {
-    const res = await post('/auth/passwordreset', {
+    const res = await post("/auth/passwordreset", {
       email: email,
     });
     return res;
@@ -42,7 +48,7 @@ export async function ResetUserPassword(email: string) {
 
 export async function verifyEmail(email: string) {
   try {
-    const res = await post('/auth/findUser', {
+    const res = await post("/auth/findUser", {
       email: email,
     });
     return res;
@@ -51,11 +57,15 @@ export async function verifyEmail(email: string) {
   }
 }
 
-export async function ChangeUserPassword(token: string, password: string, confirmPassword: string) {
+export async function ChangeUserPassword(
+  token: string,
+  password: string,
+  confirmPassword: string
+) {
   try {
     const res = await post(`/auth/changePassword/?token=${token}`, {
       password,
-      confirmPassword
+      confirmPassword,
     });
     return res;
   } catch (error) {
@@ -65,8 +75,7 @@ export async function ChangeUserPassword(token: string, password: string, confir
 
 export async function AccountVerify(token: string) {
   try {
-    const res = await post(`/account/verify/?token=${token}`, {
-    });
+    const res = await post(`/account/verify/?token=${token}`, {});
     return res;
   } catch (error) {
     throw error;
@@ -75,8 +84,7 @@ export async function AccountVerify(token: string) {
 
 export async function GenerateVerifytoken(token: string) {
   try {
-    const res = await put(`/account/verify/?token=${token}`, {
-    });
+    const res = await put(`/account/verify/?token=${token}`, {});
     return res;
   } catch (error) {
     throw error;
@@ -85,8 +93,8 @@ export async function GenerateVerifytoken(token: string) {
 
 export async function CheckUserExist(email: string) {
   try {
-    const res = await post('/findUser', {
-      email: email
+    const res = await post("/findUser", {
+      email: email,
     });
     return res;
   } catch (error) {
@@ -98,7 +106,7 @@ export async function SetTargetAmount(amount: string, userId: string) {
   try {
     const res = await post(`/saveTarget`, {
       amount: amount,
-      userId: userId
+      userId: userId,
     });
     return res;
   } catch (error) {
