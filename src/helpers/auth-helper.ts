@@ -279,6 +279,7 @@ private static async createTokenId(loginCheck:boolean=false) {
         .signInWithCustomToken(createTokenId.data.token)
         .then(async userCredential => {
           // Signed in
+          setDbUrl(userCredential.user);
           try {
             const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
             const userDetailsFirebase = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/details`).set(JSON.parse(localStorage.getItem("userProfile")));            
