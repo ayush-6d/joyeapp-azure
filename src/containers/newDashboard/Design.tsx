@@ -470,7 +470,7 @@ const Design = (props: any) => {
     let dayTotal = 0;
     const audio = [];
     console.log("getDbUrl:: ", getDbUrl());
-    try {    
+    try {
       const dbRef = firebaseInit.database(getDbUrl());
       let prevDetail: any = await dbRef
         .ref(`users/${userId}/brew/brewData/${date}`)
@@ -715,7 +715,7 @@ const Design = (props: any) => {
       // setLoading(false);
       // history.push("/pie-chart");
       // return <Redirect push={false} to="/pie-chart" />;
-    } catch(e) {
+    } catch (e) {
       console.log('error', e);
     }
   };
@@ -778,7 +778,7 @@ const Design = (props: any) => {
           value={props.sliderValue}
           onChange={props.handleSliderValue}
         />
-        <svg className="range__slider" width="100%" height="100%" viewBox='0 0 0 0'>
+        <svg className="range__slider" width="100%" height="100%" viewBox='0 0 0'>
           <defs>
             <symbol id="range__marks" shapeRendering="crispEdges">
               <path className="range__marks__path" d="M 257 30 l 33 0" />
@@ -811,7 +811,7 @@ const Design = (props: any) => {
           </defs>
           <path
             className="range__slider__path"
-            d={`M 0 ${svgWidth/2} q ${mouseY}  0  ${svgHeight} 0 l 0 ${svgWidth} l -${svgHeight} 0 Z`}
+            d={`M 0 ${svgWidth / 2} q ${mouseY}  0  ${svgHeight} 0 l 0 ${svgWidth} l -${svgHeight} 0 Z`}
             ref={rangeSliderPaths}
           />
         </svg>

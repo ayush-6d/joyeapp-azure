@@ -135,7 +135,7 @@ body {
 }
 
 .range__slider__path {
-  fill: url(#gradient);
+  fill: url(#gradient)
 }
 
 .range__marks__path {
