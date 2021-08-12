@@ -61,7 +61,7 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
         else alert(" ErrorCode: " + error.errorCode);
       }
       console.log('attachments', attachments)
-
+      document.getElementById('output1').innerHTML= JSON.stringify(attachments);
       let audioResult = attachments[0];
       console.log('audioResult', audioResult);
       
@@ -121,6 +121,8 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
         <br /><br /><br />
         <button onClick={e => this.startT()}>Start</button>
         <button onClick={e => this.stopT()}>Stop</button>
+        <p id="output1">Output1</p>
+        <p id="output2">Output2</p>
       </>
     );
   }
