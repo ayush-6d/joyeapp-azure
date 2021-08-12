@@ -1,185 +1,126 @@
 import * as React from "react";
-import ReactPlayer from "react-player";
-import "./index.scss";
-import { PageImage, BasePage } from "src/components";
-import pageHeader from "src/resources/icons/pageHeader2.png";
-import play from "src/resources/icons/play.png";
-import stop from "src/resources/icons/stop.png";
-import brew from "src/resources/icons/brew.png";
-import right from "src/resources/icons/right.png";
-import wrong from "src/resources/icons/wrong.png";
-import saysomething from "src/resources/saysomething.mp4";
-import dbvideo from "src/resources/icons/db-video.png";
-import sa from "src/resources/icons/s.mp3";
+import MicRecorder from "mic-recorder-to-mp3";
+import axios from "axios";
+import * as microsoftTeams from "@microsoft/teams-js";
 
-
-export interface IDeepBreathProps {
-  route?: any;
-  openModal?: any;
-  analysisPage?: boolean;
-}
-export interface IDeepBreathState {
-  todaysFeeling?: string;
-  counter?: number;
-  timer?: object;
-  counterStart?: boolean;
-  route?: any;
-  audioMute?: boolean;
-  isPlaying?: boolean;
-  isStop?: boolean;
-  viedoUrl?: string;
-}
-let timer = null;
+export interface IDeepBreathProps { }
+export interface IDeepBreathState { }
+const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
-  constructor(props: IDeepBreathState) {
-    super(props);
-    this.state = {
-      todaysFeeling: "",
-      counter: 10,
-      counterStart: false,
-      timer: null,
-      audioMute: true,
-      isPlaying: false,
-      isStop: false,
-    };
-  }
-  setCounter(startCounter) {
-    console.log(startCounter);
-    if (startCounter) {
-      timer = setInterval(() => {
-        if (this.state.counter > 0) {
-          this.setState({
-            counter: this.state.counter - 1,
-            counterStart: true
-          });
-        } else {
-          clearInterval(timer);
-          this.setState({
-            counterStart: false
-          });
-        }
-      }, 1000);
-    } else {
-      clearInterval(timer);
-      this.setState({
-        counter: 10,
-        counterStart: false
-      });
-    }
-  }
-  setPlay() {
-    this.setState({ isPlaying: !this.state.isPlaying });
-  }
-  setPuse() {
-    this.setState({ isPlaying: !this.state.isPlaying });
-  }
-  
-  componentDidMount() {
-    setTimeout(x=>{
-      document.getElementsByTagName("video")[0].setAttribute("poster","https://joyeapp.netlify.app/images/db-video.png");
-    },10);
-  }
+  start = () => {
+    console.log('start');
+    Mp3Recorder.start().then(() => console.log('started')).catch(e => console.error(e));
+  };
+  stop = () => {
+    console.log('stop');
+    Mp3Recorder.stop().getMp3().then(([buffer, blob]) => {
 
-  handleChange = e => {
-    const value = e.target.value;
-    if (this.state.todaysFeeling.length <= 150) {
-      this.setState({
-        todaysFeeling: value
+      const file = new File(buffer, "me-at-the-voice.mp3", { type: blob.type, lastModified: Date.now() });
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        console.log((reader.result as any).length);
+        var str = (reader.result as any).split("base64,")[1];
+        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+          {
+            version: "v1p1beta1",
+            audio: { content: str },
+            config: {
+              sampleRateHertz: 8000,
+              enableAutomaticPunctuation: true,
+              encoding: "MP3",
+              languageCode: "en-US"
+            }
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            }
+          }
+        )
+          .then(async function (res) {
+            console.log(res.data.results[0].alternatives[0].transcript);
+          });
+      };
+    }).catch(e => console.log(e));
+  };
+
+  startT = () => {
+    console.log('start');
+    microsoftTeams.initialize();
+
+    let mediaInput: microsoftTeams.media.MediaInputs = {
+      mediaType: microsoftTeams.media.MediaType.Audio,
+      maxMediaCount: 1
+      //audioProps: { maxDuration: 1 },
+    };
+    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+      if (error) {
+        if (error.message) alert(" ErrorCode: " + error.errorCode + error.message);
+        else alert(" ErrorCode: " + error.errorCode);
+      }
+      console.log('attachments', attachments)
+
+      let audioResult = attachments[0];
+      console.log('audioResult', audioResult);
+      
+      audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+        if (blob) {
+          var data = new Blob([blob], { type: blob.type });
+          console.log('data:', data)
+          let url = URL.createObjectURL(data)
+          let file = fetch(url).then(r => r.blob()).then(blobFile => new File([blobFile], audioResult.content, { type: "video/mp4" }))
+          console.log('file', file);
+        }
       });
-    }
+    });
   };
-  handleChangeChk = () => {
-    this.setState({ audioMute: !this.state.audioMute });
+
+  stopT = () => {
+    console.log('stop');
+    Mp3Recorder.stop().getMp3().then(([buffer, blob]) => {
+
+      const file = new File(buffer, "me-at-the-voice.mp3", { type: blob.type, lastModified: Date.now() });
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        console.log((reader.result as any).length);
+        var str = (reader.result as any).split("base64,")[1];
+        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+          {
+            version: "v1p1beta1",
+            audio: { content: str },
+            config: {
+              sampleRateHertz: 8000,
+              enableAutomaticPunctuation: true,
+              encoding: "MP3",
+              languageCode: "en-US"
+            }
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            }
+          }
+        )
+          .then(async function (res) {
+            console.log(res.data.results[0].alternatives[0].transcript);
+          });
+      };
+    }).catch(e => console.log(e));
   };
-  handleAudio = () =>{
-    console.log('audio');  
-    (document.getElementById('myaudio') as any).play();
-  };
+
   render() {
-    const { route, analysisPage } = this.props;
-    const { todaysFeeling, counter, counterStart, isPlaying ,audioMute } = this.state;
     return (
       <>
-        <BasePage withMenu showInfoIcon className="login-form">
-         {/*<div className="pageHeader">
-            <img src={pageHeader} />
-          </div> */} 
-          <div
-            className="render-component"
-            style={{
-              textAlign: "center",
-              minHeight: "87vh",
-              height: "auto",
-              width: "100%",
-              justifyContent: "space-around",
-              display: "flex",
-              flexDirection: "column"
-            }}
-          >
-         
-
-          {counter > 0 && !analysisPage ? (
-            <>
-             <div className="text-container">
-             <div  className="advertise-text bold text-blue" style={{  marginTop: "35px" }}>
-              {`${counter > 0 ? "Just 10 deep breaths!" : "Feeling better?"}`}
-            </div>          
-         
-          </div>
-              <div className="player-wrapper">
-              <ReactPlayer 
-                    className="react-player" 
-                    playsinline 
-                    muted={!audioMute} 
-                    playing={isPlaying} 
-                    pip={false} 
-                    stopOnUnmount={this.state.isStop} 
-                    url={[ { src: saysomething, type: 'video/mp4'} ]} 
-                    width="100%" 
-                    height="100%"
-                    config={{
-                      file: {
-                        forceVideo: true
-                      }
-                    }}
-                    />
-                
-                <div className="checkbox" style={{ marginTop: "10px" }}>
-            <input type="checkbox" defaultChecked={this.state.audioMute} onChange={this.handleChangeChk} />
-            <label className="checkbox-text">Turn audio on</label>
-          </div>
-              </div> 
-              <audio id="myaudio" style={{ display: "none" }} controls>
-                <source src={sa} type="audio/mpeg"/>
-              </audio>
-              <button onClick={this.handleAudio}>Play</button>
-            <a href='https://joyeapp.netlify.app/deepBreath' target="_blank">Test</a>
-              <div className="btn-play">
-              {this.state.isPlaying ? 
-             
-              <PageImage setCounter={e => this.setPuse()} height="20px" width="20px"  logo={stop} /> : 
-              <PageImage setCounter={e => this.setPlay()} height="20px" width="20px"  logo={play} />}
-</div>
-              <div className="skip-txt" onClick={e => route("congratulation")} >
-                <img src={dbvideo} style={{ display: "none" }}/>
-               <img src={brew} style={{ width: "40px" }} /> <div className="n-btn margin-top-10" >skip </div> 
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <PageImage height="82px" width="82px" marginTop="72px" logo={wrong} />
-                <PageImage height="82px" width="82px" marginTop="72px" setCounter={e => this.props.route("congratulation")} logo={right} />
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-around" }}>
-                <span>No</span>
-                <span>Yes</span>
-              </div>
-            </>
-          )}
-          
-          </div>
-        </BasePage>
+        <h1>Test16</h1>
+        <button onClick={e => this.start()}>Start</button>
+        <button onClick={e => this.stop()}>Stop</button>
+        <br /><br /><br />
+        <button onClick={e => this.startT()}>Start</button>
+        <button onClick={e => this.stopT()}>Stop</button>
       </>
     );
   }
