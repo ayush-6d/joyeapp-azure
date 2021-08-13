@@ -329,7 +329,7 @@ export const DailyChart = () => {
                               Previous
                             </p>
                           </Link>
-                          <Link to="/" className="navbar-item is-pulled-right">
+                          <Link to="/journal" className="navbar-item is-pulled-right">
                             <p
                               className="hand"
                               style={{
