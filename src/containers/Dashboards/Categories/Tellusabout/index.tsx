@@ -73,7 +73,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
         </div>
         <div className="circle-box-container">
           <div className="circle-box">
-            {todaysFeeling.length >= 15 && (
+            {todaysFeeling.length >= 1 && (
               <div className="rel">
                 <Circle showImg={true} imgStyle={{ width: "203px" }} style={{ cursor: "pointer" }} img={processCompleted} />
                 <div style={{ marginLeft: "115px" }} className="check-arrow">
