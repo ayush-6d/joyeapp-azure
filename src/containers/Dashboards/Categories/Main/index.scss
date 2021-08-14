@@ -134,7 +134,7 @@ textarea:focus
 .advertise-text{font-size:14px;font-weight:400px;
   }
 .index-advertise-text
-   { color: #594E8B;
+   { color: #594E8B;line-height: 18px;
       font-weight: 600;}
 .width300{max-width:300px;margin:0 auto}
 .position-relative
@@ -182,11 +182,13 @@ textarea:focus
    height: 25px;
    display: block;
 }
-.base-page-main.login-form{padding: 20px;}
+.base-page-main.login-form.home-screen{padding: 20px;}
+
 .about-textarea{
    width: 100%;
    max-width: 300px;
 }
+
 .congrats-sub-txt
 {
    position: fixed;

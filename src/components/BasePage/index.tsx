@@ -34,7 +34,7 @@ export class BasePage extends React.Component<{
             <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.onClickHandle()} />
           </div>) : ''}
 
-          {showInfoIcon? (<PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.onClickHandle()} />): ''}
+          {showInfoIcon? (<div className="home-info"><PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.onClickHandle()} /> </div>): ''}
         </div>
         <div className="layout-children">{children}</div>
       </div>

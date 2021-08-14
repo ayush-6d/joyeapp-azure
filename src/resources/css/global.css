@@ -1,3 +1,5 @@
+
+/*GLOBAL CSS START*/
 .green-background {
   background-color: #0a8012;
   color: #fff;
@@ -80,11 +82,11 @@ svg {
 }
 
 html {
-  background-color: #1e00a3;
+  background-color: #fff;
 }
 
 body {
-  background-color: #1e00a3;
+  background-color: #fff;
 
   height: 100vh;
   overflow: hidden;
@@ -93,7 +95,7 @@ body {
 #app {
   height: 100%;
   overflow: hidden;
-  background-color: #1e00a3;
+  background-color: #fff;
   color: #1e00a3;
 }
 
@@ -288,7 +290,30 @@ h3.hdngTitle span {
 div.level-item {
   display: block;
 }
-
+.n-btn + .n-btn{
+  margin:0 20px;
+}
+.n-btn
+{
+    border-radius: 40px;
+    border: 1px solid #444;
+    padding: 3px 15px;
+    font-weight: 600;
+    color: #444;
+    min-width: 100px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+.bottom-btn
+{
+    position: fixed;
+    left: 0;
+    right:0;
+    bottom: 60px;
+ text-align: center;
+}
 .card-content {
   margin: auto;
   background: rgba(255, 255, 255, 0.9);
@@ -339,9 +364,12 @@ div.level-item {
   width: 120px;
   margin-top: 110px;
 }
-
+.card-txt
+{
+  line-height: 20px;
+}
 .card.article {
-  background: #201397;
+  /* background: #201397; */
   max-width: 400px;
   position: relative;
   border: #bfbbcf thin solid;
@@ -421,14 +449,19 @@ button.button.is-primary.next {
 .card.article p {
   color: #fff;
   text-align: center;
-  font-size: 20px;
+  font-size: 15px;
+  width: 330px;
+  height: 124px;
+  line-height: 20px;
+  overflow-y: scroll;
+  overflow: auto;
 }
 
 .info {
   text-align: right;
   position: absolute;
-  top: 27px;
-  right: 15px;
+  top: 15px;
+  right: 10px;
   z-index: 15;
 }
 
@@ -438,7 +471,7 @@ button.button.is-primary.next {
 
 .legend {
   text-align: left;
-  margin-top: 27px;
+  margin-top: 10px;
   margin-left: 15px;
   z-index: 15;
 }
@@ -510,7 +543,7 @@ button.button.is-primary.next {
 }
 
 .pie_value div {
-  margin-left: 9%;
+  margin-left: 0%;
 }
 
 .pie_value span {
@@ -520,7 +553,7 @@ button.button.is-primary.next {
 }
 
 .pie_value span:first-child {
-  font-size: 70px;
+  font-size: 50px;
   font-family: "Mont-HeavyDEMO";
 }
 
@@ -756,15 +789,6 @@ body {
   color: #fff;
 }
 
-.cardHeading {
-  /* font-weight: 300; */
-  font-size: 22px;
-  opacity: 0.6;
-  margin-bottom: 20px;
-  font-family: "Avenir-Black";
-  letter-spacing: -0.59px;
-  line-height: 20px;
-}
 
 .desc {
   line-height: 1.4em;
@@ -810,11 +834,6 @@ body {
   -ms-flex-align: center;
 }
 
-.boxShadow {
-  -webkit-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
-  -moz-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
-  box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
-}
 
 .swiper-slide {
   width: 100%;
@@ -989,10 +1008,10 @@ body {
 }
 
 .player-bg {
-  background-color: rgba(255, 255, 255, 0.5);
-  height: 13vh;
+  background-color: #1e00a3;
+  /* height: 13vh; */
   width: 80%;
-  position: absolute;
+  /* position: absolute; */
   bottom: 15%;
   left: 0px;
   right: 0px;
@@ -1096,13 +1115,17 @@ body {
 
 .average-score {
   justify-self: center;
-  color: #fafafa !important;
+  color: #808080 !important;
   position: fixed;
   top: 95px;
-  padding: 40px;
-  background: #40404099;
+  padding: 10px;
+  background: #ffffff;
   border-radius: 10px;
-  font-family: "Mont-HeavyDEMO";
+  font-family: "Nunito", sans-serif;
+}
+.media-content
+{
+  margin-top: 55px;
 }
 
 .before-decimal {

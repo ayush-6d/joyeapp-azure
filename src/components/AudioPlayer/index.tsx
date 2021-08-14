@@ -84,24 +84,25 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
             />
           )}
         </div>
+       
         {aPlayerVisible && (
           <div className="player-bg" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={{
-              display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginLeft: '10px', marginTop: '10px',
-            }}
-            >
-              <div style={{
-                height: '45px', display: 'flex', flexDirection: 'column', justifyContent: 'center',
-              }}
-              >
-                <p
-                  className="fff cardHeading"
-                  style={{
-                    margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', opacity: 1, fontSize: '20px',
-                  }}
-                >
+             <p className="cardHeading"
+                  style={{margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', opacity: 1, fontSize: '20px'}}>
                   {audioTitle}
                 </p>
+
+            <div className="video-bg">
+              <div className="progress-bar-sec" style={{    flex:' 2',
+                height: '45px', display: 'flex', flexDirection: 'row', justifyContent: 'center',
+              }}
+              >
+              <div className="progress">
+                <div className="bar" style={{ width: `${percentage}%` }}>
+                  <p className="percent" />
+                </div>
+              </div>
+              <span className="timer">{mmSS}</span>
               </div>
               <div
                 style={{
@@ -113,17 +114,7 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
                 {aPlayerPlaying ? <Pause width="50px" /> : <Play width="50px" />}
               </div>
             </div>
-            <div style={{
-              display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
-            }}
-            >
-              <div className="progress">
-                <div className="bar" style={{ width: `${percentage}%` }}>
-                  <p className="percent" />
-                </div>
-              </div>
-              <span className="timer">{mmSS}</span>
-            </div>
+         
           </div>
         )}
       </>

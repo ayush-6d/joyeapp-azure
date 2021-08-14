@@ -34,7 +34,8 @@ import { Loader } from "src/components/Loader";
 import "src/resources/css/fonts/fonts.css";
 import HandPic from "src/resources/icons/hand1.gif";
 import ArrowPic from "src/resources/icons/arrow.png";
-import InfoPic from "src/resources/icons/info.svg";
+// import InfoPic from "src/resources/icons/info.svg";
+import InfoPic from "src/resources/icons/whiteinfo.png";
 
 import Popup from "src/components/Popup";
 

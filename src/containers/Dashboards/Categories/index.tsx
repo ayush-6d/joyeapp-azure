@@ -116,7 +116,7 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
               minHeight: "87vh",
               height: "auto",
               width: "100%",
-              justifyContent: "space-around",
+              justifyContent: "space-between",
               display: "flex",
               flexDirection: "column",
               position: "relative"

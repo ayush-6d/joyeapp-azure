@@ -9,7 +9,7 @@ import Overflow from "react-overflow-indicator";
 import CloudGradient from "src/components/CloudGradientSvg";
 import cloud1 from "./assets/media/cloud1.png";
 import cloud2 from "./assets/media/cloud2.png";
-import InfoPic from "src/resources/icons/new_I.png";
+import InfoPic from "src/resources/icons/infoIcon.png";
 import "@reach/slider/styles.css";
 
 import "swiper/css/swiper.min.css";
@@ -110,7 +110,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "space-evenly",
-            backgroundColor: "rgb(30, 0, 163)",
+            backgroundColor: "#ffffff",
             position: "relative",
             height: "100%",
           }}
@@ -132,7 +132,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               <img alt="info" src={InfoPic} />
             </button>
           </div>
-          <img
+          {/* <img
             style={{
               position: "absolute",
               width: "13vh",
@@ -155,7 +155,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             }}
             alt="cloud2"
             src={cloud2}
-          />
+          /> */}
           <div>
             <div
               style={{
@@ -186,7 +186,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
                   cardData={cardData}
                   direction={direction}
                   // optional props
-                  backgroundColor="#1E00A3"
+                  backgroundColor="#ffffff"
                   idToFocus={index}
                   prevIndex={prevIndex}
                   heightDifferenceRatio={7}
@@ -221,89 +221,39 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
                 {/* {e.desc !== '-' && ( */}
                 <div
                   key={1}
-                  className="swiper-slide boxShadow"
+                  // className="swiper-slide "
                   style={{
                     backgroundColor: "#ffffff",
-                    width: "65%",
-                    padding: "6px",
-                    marginRight: "20px",
-                    textJustify: "inter-word",
-                    height: "80%",
+                    width: "100%",
+                    padding: "20px"
+                    
                   }}
                 >
                   {/* {JSON.stringify(e)}  */}
-                  <div style={{ width: "100%" }}>
-                    <div style={{ display: "flex" }}>
-                      <div style={{ width: "50%" }}>
+                  <div style={{ width: "100%"}}>
+                    <div>
+                      <div>
                         <p className="cardHeading">
-                          Your Joye-level is {pieAverage} and your dominant mood
-                          is {EMOTIONS[emotion.toLowerCase()].pie} - all about
+                          Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
+                          is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()].pie} </span>- all about
                           your relationships and interaction with people in your
                           life
                         </p>
                       </div>
                     </div>
-                    <Overflow style={{ maxHeight: "210px" }}>
-                      <Overflow.Indicator direction="up">
-                        <img
-                          src={topShw}
-                          style={{ position: "absolute", left: 10, top: -3 }}
-                          alt="overflow-indicator-img"
-                        />
-                      </Overflow.Indicator>
-                      <Overflow.Content>
-                        <div>
-                          Joye level is your wellbeing score on a scale of 10.
-                          Higher mix of Social, Joy, Motivation improves your
-                          wellbeing, while higher Anxiety and Anger reduces your
-                          wellbeing.
-                        </div>
-                      </Overflow.Content>
-
-                      <Overflow.Indicator direction="down">
-                        <img
-                          style={{ position: "absolute", left: 10, bottom: -3 }}
-                          src={btmShw}
-                          alt="overflow-indicator-img"
-                        />
-                      </Overflow.Indicator>
-                    </Overflow>
+                  
                   </div>
                 </div>
                 {/* )} */}
               </>
               {/* // ))} */}
             </div>
-            <Link to="/pie-chart">
-              <p
-                className="hand fff"
-                style={{
-                  fontSize: 18,
-                  marginTop: "10px",
-                  position: "absolute",
-                  left: "45%",
-                  bottom: "60px",
-                }}
-                // onClick={this.handleClickPrev}
-              >
-                Next
-              </p>
-            </Link>
+            <div className="bottom-btn">
+            <Link to="/pie-chart" className="n-btn"> Next </Link>
+            </div>
           </div>
 
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              zIndex: 3,
-              justifyContent: "center",
-              height: "60px",
-            }}
-          >
-            {/* {index <= data.length && <p className="hand fff" onClick={handleClickNext}>
-                    {index === data.length ? 'Start over' : 'Next'}
-                </p>} */}
-          </div>
+        
         </div>
       </>
     );
