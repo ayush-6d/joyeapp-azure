@@ -514,8 +514,8 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
                 Speak again
               </p>
             </div>
-            <div className="n-btn" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
-              cancel
+            <div className="bottom-btn" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
+            <div className="n-btn"> cancel</div> 
             </div>
           </div>
         )}

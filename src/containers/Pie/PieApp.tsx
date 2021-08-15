@@ -191,7 +191,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                   className="fadeInEffect"
                   key={`key${index}`}
                   style={{
-                    position: 'absolute', width: '20vh', height: '20vh', bottom: -18, right: '-15%', zIndex: 1,
+                    position: 'absolute', width: '20vh', height: '20vh', bottom: -61, right: '-15%', zIndex: 1,
                   }}
                 >
                   <CloudGradient color1={indexData.cColor} color3={null} />
@@ -216,7 +216,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                     {e.desc !== '-' && (
                     <div
                       key={e.order}
-                      className="swiper-slide boxShadow"
+                      className="swiper-slide"
                       style={{
                         backgroundColor: e.cColor,
                         width: '65%',
@@ -228,7 +228,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                     >
                       {/* {JSON.stringify(e)}  */}
                       <div style={{ width: '100%' }}>
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems:'center',marginBottom:'10px' }}>
                           <div style={{ width: '50%' }}>
                             <p className="fff cardHeading">
                               {EMOTIONS[e.title.toLowerCase()].pie}
@@ -240,7 +240,6 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                             flexDirection: 'column',
                             alignItems: 'flex-end',
                             justifyContent: 'center',
-                            marginBottom: 18,
                           }}
                           >
                             <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>

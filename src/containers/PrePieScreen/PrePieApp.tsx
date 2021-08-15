@@ -194,20 +194,20 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
                   containerStyle={{}}
                 />
               </div>
-              <div
+              {/* <div
                 className="fadeInEffect"
                 key={`key${index}`}
                 style={{
                   position: "absolute",
                   width: "20vh",
                   height: "20vh",
-                  bottom: -18,
+                  bottom: "-61px",
                   right: "-15%",
                   zIndex: 1,
                 }}
               >
                 <CloudGradient color1={indexData.cColor} color3={null} />
-              </div>
+              </div> */}
             </div>
           </div>
 

@@ -16,9 +16,8 @@
    display: block;
    height: 223px;
 .logo-container{
-  /* position:absolute;top: 338px;margin-top: -15%;left: 50%;margin-left: -13%;*/
   position: absolute;
-    top: 50%;
+    top: 47%;
     right: 50%;
     transform: translate(50%,-50%);
     z-index: 100;
@@ -96,16 +95,30 @@ textarea:focus
 :focus-visible {
    outline: -webkit-focus-ring-color auto 0px;
 }
-.n-btn
-{
-   border-radius: 40px;
-   border: 1px solid #444;
-   padding: 3px 15px;
-   font-weight: 600;
-   color: #444;
-   min-width: 100px;
-   display: inline-block;
-}
+.n-btn + .n-btn{
+   margin:0 20px;
+ }
+ .n-btn
+ {
+     border-radius: 40px;
+     border: 1px solid #444;
+     padding: 3px 15px;
+     font-weight: 600;
+     color: #444;
+     min-width: 100px;
+     display: inline-block;
+     font-size: 14px;
+     line-height: 20px;
+     font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+ }
+ .bottom-btn
+ {
+     position: fixed;
+     left: 0;
+     right:0;
+     bottom: 60px;
+  text-align: center;
+ }
 .cancel-btn .margin-top-10
 {
    margin-top:0px !important;
@@ -131,7 +144,20 @@ textarea:focus
    top: 50%;
    right: 50%;
    transform: translate(50%, -50%);}
-.advertise-text{font-size:14px;font-weight:400px;
+   .dailyChart .tags
+{
+   position: relative;
+}
+.advertise-text{
+   font-size: 17px !important;
+   font-weight: 400;
+   margin: 10px 0px 10px 0px;
+   text-align: center;
+   color: rgb(128, 128, 128);
+  }
+  .display-none
+  {
+     display: none !important;
   }
 .index-advertise-text
    { color: #594E8B;line-height: 18px;

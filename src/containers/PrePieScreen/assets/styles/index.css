@@ -131,7 +131,7 @@ body {
     margin-top: 10px;
     background: #8E7AEC;
     border-radius: 31px;
-    padding: 10px;
+    padding: 20px;
     width: 100%;
     align-items: center;
     justify-content: center;
@@ -155,7 +155,6 @@ body {
 
 .fadeInEffect{
     animation: fadeIn 1s forwards;
-    display: none;
 }
 .avenier-font-bold
 {
@@ -218,3 +217,8 @@ body {
     100% {opacity: 1;}
  }
 
+ @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .swiper-container {
+      margin: 60px auto;
+  }
+  }

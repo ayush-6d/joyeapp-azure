@@ -12,8 +12,8 @@ export const CloudGradientSvg = (props: any = {}) => {
             <stop offset="10" stopColor={color1} />
           </linearGradient>
           <filter id="Path_Copy_4" x="0" y="0" filterUnits="userSpaceOnUse">
-            <feOffset dx="43" /> /* input="SourceAlpha" */
-            <feGaussianBlur stdDeviation="24.5" result="blur" />
+            <feOffset dx="0" /> /* input="SourceAlpha" */
+            <feGaussianBlur stdDeviation="0" result="blur" />
             <feFlood floodColor={color3} floodOpacity="0.216" />
             <feComposite operator="in" in2="blur" />
             <feComposite in="SourceGraphic" />
