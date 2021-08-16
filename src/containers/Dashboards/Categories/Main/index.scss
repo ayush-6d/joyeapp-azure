@@ -15,6 +15,7 @@
    margin: 0 auto;
    display: block;
    height: 223px;
+  
 .logo-container{
   position: absolute;
     top: 47%;
@@ -22,6 +23,12 @@
     transform: translate(50%,-50%);
     z-index: 100;
 }
+}
+.home-screen-box
+{
+   .logo-container{     
+        top: 50%;
+    }
 }
 .margin-top-10
 {
@@ -159,6 +166,10 @@ textarea:focus
   {
      display: none !important;
   }
+  .font-15
+  {
+     font-size: 15px !important;
+  }
 .index-advertise-text
    { color: #594E8B;line-height: 18px;
       font-weight: 600;}
@@ -214,7 +225,10 @@ textarea:focus
    width: 100%;
    max-width: 300px;
 }
-
+.position-relative
+{
+   position: relative;
+}
 .congrats-sub-txt
 {
    position: fixed;
@@ -241,6 +255,16 @@ textarea:focus
 .bold
 {
    font-weight: 600;
+}
+.btn-arrow-group
+{
+   position: absolute;
+   left: 0;
+   right: 0;
+   bottom: 42%;
+   z-index: 999;
+   padding: 0 10px;
+   overflow: hidden;
 }
 .base-font
 {
@@ -280,16 +304,27 @@ textarea:focus
 }
 .joye-logo img
 {
-   box-shadow: 0 0 30px 1px #808080;
+   box-shadow: 0 0 5px 1px #959595;
 }
 @media (min-width: 768px) {
    .render-component
    {
       min-height: 55vh !important;
    }
-   .render-component >div 
+//    .render-component > div 
+// {
+//     margin: 7px auto;
+   
+// }
+.card.article, .card
 {
-   margin: 7px auto;
+   box-shadow: 0 0 0 0 !important;
+}
+.base-page-main.login-form.home-screen {
+   padding: 20px;
+   position: relative;
+   max-width: 768px;
+   margin: 0 auto;
 }
 .render-component > div.bottom-container
 {

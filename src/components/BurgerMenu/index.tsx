@@ -63,19 +63,22 @@ About us */}
             </a>
             <div className="sidebar-container">
               <Tab onClick={() => this.props.history.push("/")} name="main">
-                <div className="item-label" style={{ fontSize: "18px" }}>
+              <img height="30px" width="28px" src={shield} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Home
                 </div>
               </Tab>
 
               <Tab onClick={() => this.props.history.push("/deepBreath")} name="main">
-                <div className="item-label" style={{ fontSize: "18px" }}>
-                  433 Deep Breath
+              <img height="30px" width="28px" src={shield} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
+                Stress Buster
                 </div>
               </Tab>
 
               <Tab onClick={() => this.props.history.push("/journal")} name="main">
-                <div className="item-label" style={{ fontSize: "18px" }}>
+              <img height="30px" width="28px" src={shield} />
+                <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Journal
                 </div>
               </Tab>

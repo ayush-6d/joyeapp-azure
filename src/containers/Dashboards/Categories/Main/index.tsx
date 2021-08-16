@@ -481,8 +481,8 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
           </div>
         )}
 
-        <div className="rel">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
+        <div className="rel home-screen-box">
+          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
           {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 9 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
           {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
         </div>
@@ -491,7 +491,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
             <div className="width300" style={{ display: "flex", justifyContent: "space-between" }}>
               <div>
                 <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "47px" }} showImg={true} OnClick={e => this.onClickGesture()} img={icons[iconIndex["gibberish"]]} />
-                <div className="advertise-text bold index-advertise-text">
+                <div className="advertise-text bold index-advertise-text font-15">
                   It is good
                   <br />
                   to write
@@ -499,7 +499,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
               </div>
               <div>
                 <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.navigateToSlider()} img={icons[iconIndex["gesture"]]} />
-                <div className="advertise-text bold index-advertise-text">
+                <div className="advertise-text bold index-advertise-text  font-15">
                   A little deeper
                   <br /> reflection
                 </div>

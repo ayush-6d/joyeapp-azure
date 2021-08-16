@@ -8,13 +8,12 @@ export class TermsofService extends React.PureComponent {
   render() {
     let Date = "01 July 2021";
     return (
-      <BasePage withMenu showInfoIcon>
+      <BasePage withMenu showInfoIcon className="login-form home-screen">
         <div
           className="render-component"
           style={{
             background: "#ffffff",
             color: "#808080",
-            padding: "20px",
             textAlign: "center",
             minHeight: "600px",
             height: "auto",
@@ -35,10 +34,11 @@ export class TermsofService extends React.PureComponent {
           <div style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
             <img height="42px" width="42px" src={shield} />
           </div>
+          <div className="text-left">
           <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>
           <p style={{ marginTop: "20px" }}>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you inside of Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
           <p style={{ marginTop: "20px" }}>Your organisation will not be able to access your personal information inside of Joye. We may share organisation level trends, but the information will not be identifiable to you or any individual users.</p>
-
+          </div>
           <p style={{ color: "#1E00A3", fontWeight: "bold", marginTop: "100px" }}>Terms of Service</p>
           <p style={{ color: "#808080", marginTop: "-10px" }}>{Date}</p>
 

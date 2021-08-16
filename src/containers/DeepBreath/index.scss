@@ -31,6 +31,20 @@ $color: #7866c8;
   src: url("../../resources/fonts/Poppins-Bold.ttf");
 }
 
+.dis-flex-menu {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.home-info {
+  position: absolute;
+  right: 0px;
+  top: -5px;
+}
+.advertise-text {
+font-Size: 20px !important;
+}
+
 .base-page-main {
   .layout-children {
     display: block;
@@ -41,6 +55,11 @@ $color: #7866c8;
     overflow-x: hidden;*/
     width: 100%;
     
+  }
+  .checkbox{
+    width: 10px;
+    height: 10px;
+    margin: 0 10px 0 0;
   }
   .pageHeader {
     display: flex;

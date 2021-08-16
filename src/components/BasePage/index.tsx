@@ -28,7 +28,7 @@ export class BasePage extends React.Component<{
     !withMenu ? style.height = 'auto' : style.height = '100%';
     return (
       <div className={`base-page-main login-form ${className || ``}`}>
-        <div>
+        <div className="position-relative">
           {withMenu? <BurgerMenu  /> : ''}
           {showShield? (<div className="home-shield">
             <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.onClickHandle()} />

@@ -71,7 +71,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
         {ShowCongratulation ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage withMenu className="login-form">
+          <BasePage withMenu showInfoIcon className="login-form home-screen">
            {/*<div className="pageHeader">
               <img src={pageHeader} />
             </div>*/} 
