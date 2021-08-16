@@ -29,6 +29,11 @@ export interface IJournalState {
   showYesno?: boolean;
 }
 
+let isSkipSaved = false;
+let jounrnalCheckSaved = "";
+let joyelevelscore = 0;
+let isOnceDay = false;
+
 export class Journalclass extends React.PureComponent<IJournalProps, IJournalState> {
   constructor(props: IJournalProps) {
     super(props);
@@ -50,23 +55,21 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
     var dayCount = new Date().getDay();
 
-    let isSkipSaved = false;
-    let jounrnalCheckSaved = "";
-    let joyelevelscore = 0;
-    let isOnceDay = false;
+
 
     let userId = await createHash("596ef7d8-f109-4c4e-9c91-81896baa9da5");
-    const userRefjournalText = await firebase.database().ref(`users/${userId}/brew/brewdata/journalText`);
+    const query = await firebase.database().ref(`users/${userId}/brew/brewdata/journalText`);
+    let snapshot = await query.once("value");
 
-    userRefjournalText.on("value", snapshot => {
-      snapshot.forEach(data => {
-        const dataVal = data.val();
-        isSkipSaved = dataVal.isSkip;
-        jounrnalCheckSaved = dataVal.jounrnalCheck;
-      });
+    snapshot.forEach(function (data) {
+      // key will be "ada" the first time and "alan" the second time
+      var key = data.key;
+      const dataVal = data.val();
+      isSkipSaved = dataVal.isSkip;
+      // childData will be the actual contents of the child
+      jounrnalCheckSaved = dataVal.jounrnalCheck;
     });
 
-    console.log("todaysDate", todaysDate, jounrnalCheckSaved);
     const userRefJoyelevel = await firebase.database().ref(`users/${userId}/brew/brewdata/${todaysDate}/currentAverage`);
 
     userRefJoyelevel.on("value", snapshot => {
@@ -84,7 +87,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         isOnceDay = dataVal;
       });
     });
-
+    
     if (joyelevelscore > 6 || joyelevelscore < 5) {
       if (jounrnalCheckSaved === "donotShowEverytime" && dayCount > 0 && dayCount <= 3 && !isOnceDay) {
         this.setState({ showJoyelevel: true });
@@ -214,7 +217,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                 </div>
                 <div className="circle-box-container">
                 <div className="circle-box">
-                  {todaysFeeling.length >= 15 ? (
+                  {todaysFeeling.length >= 1 ? (
                     <div className="position-relative journal-container">
                       <Circle showImg={true} imgStyle={{ width: "203px", marginTop: "1px" }} style={{ cursor: "pointer" }} img={processCompleted} />
                       <div>
