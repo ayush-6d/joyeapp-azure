@@ -382,15 +382,71 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
         //self.setState({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview})
         
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-          if (blob) {
-            var data = new Blob([blob], {type: blob.type});
-            console.log('data:', data)
-            let url = URL.createObjectURL(data)
-            let file =  fetch(url).then(r => r.blob()).then(blobFile => new File([blobFile], audioResult.content, { type: "video/mp4" }))
-            console.log('file', file)
-            //self.getMobileBase64(url);
+        debugger;
+        if (blob) {
+          var data = new Blob([blob], { type: blob.type });
+          console.log('data:', data);
+
+          var reader = new FileReader();
+          reader.readAsDataURL(data);
+          reader.onloadend = function () {
+            let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
+            base64String = base64String.substring(0, base64String.indexOf('AAAAAAAA'));
+            base64String = base64String.substring(0, (base64String.length - (base64String.length % 4)));
+
+            let convertOptions = {
+              "apikey": "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
+              "inputformat": "mp4",
+              "outputformat": "mp3",
+              "input": "base64",
+              "filename": "my.mp4",
+              "file": base64String,
+              "wait": true,
+              "download": false,
+              "save": true
+            }
+            let url = 'https://api.cloudconvert.com/v1/convert';
+            fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(convertOptions) }).then(x => {
+              setTimeout(() => {
+                fetch(x.url).then(x => x.json()).then(x => {
+                  document.getElementById('output2').innerHTML = JSON.stringify(x);
+                  
+                  fetch(x.output.url).then(x=>x.blob())
+                    .then(x=> {
+                      const reader = new FileReader();
+                      reader.readAsDataURL(x);
+                      reader.onloadend = () => {
+                        let str = (reader.result as string).replace("data:audio/mpeg;base64,","");
+                        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+                        {
+                          version: "v1p1beta1",
+                          audio: { content: str },
+                          config: {
+                            sampleRateHertz: 8000,
+                            enableAutomaticPunctuation: true,
+                            encoding: "MP3",
+                            languageCode: "en-US"
+                        }
+                    },
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            }
           }
-        });
+        )
+          .then(async function (res) {
+            document.getElementById('output1').innerHTML = JSON.stringify(res);
+          });
+                        
+                      }
+                    });
+                });
+              }, 2000);
+            });
+          }
+        }
+      });
 
         if (error) {
           if (error.message) {
