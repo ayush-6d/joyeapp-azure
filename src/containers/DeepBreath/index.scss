@@ -240,3 +240,25 @@ $color: #7866c8;
     width: 40%;
   }
 }
+
+.svg-div{
+  background-image: url('https://joyeapp.netlify.app/preview.svg') center no-repeat;
+}
+
+.svg-display{
+  margin: auto;
+  max-width: 400px;
+}
+
+.btn-play {
+  background: #8E7AEC;
+  padding: 15px;
+  border-radius: 42%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+

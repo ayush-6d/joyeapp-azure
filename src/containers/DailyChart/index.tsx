@@ -15,7 +15,7 @@ import { database, firebaseInit } from 'src/services/firebase';
 import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import Chart from './App2';
 import OvalPng from 'src/resources/icons/oval.png';
-import InfoPic from 'src/resources/icons/new_I.png';
+import InfoPic from 'src/resources/icons/infoIcon.png';
 import prevArrow from 'src/resources/icons/prev-arrow.png';
 import nextArrow from 'src/resources/icons/next-arrow.png';
 import legend from 'src/resources/icons/stack_icon.png';
@@ -245,7 +245,7 @@ export const DailyChart = () => {
                         cardData={[]}
                         direction="clock"
                         // optional props
-                        backgroundColor="#1E00A3"
+                        backgroundColor="#ffffff"
                         idToFocus={1}
                         prevIndex={0}
                         heightDifferenceRatio={7}
@@ -266,7 +266,7 @@ export const DailyChart = () => {
                       && <h4 style={{ paddingTop: '0px', paddingBottom: 0, paddingLeft: '50px' }}>{EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[2]}</h4> */}
 
                       <div
-                        className="fadeInEffect"
+                        className="fadeInEffect display-none"
                         style={{
                           position: 'absolute', width: '20vh', height: '20vh', top: 27, right: '0%',
                         }}
@@ -276,10 +276,13 @@ export const DailyChart = () => {
                     </>
                   )}
                 <div className="card-content">
-                  <img className="oval" alt="img" src={OvalPng} />
+                  <img className="oval display-none" alt="img" src={OvalPng} />
                   <div className="media" style={{ height: '100%' }}>
                     {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
                       <p className="average-score">
+                        <div className="advertise-text bold text-blue">
+                          <span className="text-blue">How are you feeling today?</span>
+                        </div>
                         <span className="before-decimal">
                           {weekAvarage.avg.split('.')[0]}
                         .
@@ -288,6 +291,9 @@ export const DailyChart = () => {
                       </p>
                     )}
                     <p className="average-score">
+                    <div className="advertise-text bold text-blue">
+                          <span className="text-blue">How are you feeling today?</span>
+                        </div>
                     <span>{journalText}</span>
                     </p>
                     <div
@@ -297,7 +303,7 @@ export const DailyChart = () => {
                       }}
                     >
                       <div className="tags has-addons level-item">
-                        <div style={{ overflow: 'hidden', padding: '0 10px' }}>
+                        <div style={{ overflow: 'hidden', padding: '0 10px', position:'absolute', bottom:'42%' }}>
                           {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
                           {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
                         </div>
@@ -319,26 +325,14 @@ export const DailyChart = () => {
                           display: 'flex', flexDirection: 'row', zIndex: 3, justifyContent: 'space-between', padding: '0px 15px',
                         }}
                         >
-                          <Link to="/pie-chart" className="navbar-item is-pulled-right">
-                            <p
-                              className="hand"
-                              style={{
-                                fontSize: 18, color: 'rgb(30, 0, 163)',
-                              }}
-                            >
-                              Previous
-                            </p>
+                          <div className="bottom-btn">
+                          <Link to="/pie-chart" className="n-btn">
+                           Previous
                           </Link>
-                          <Link to="/" className="navbar-item is-pulled-right">
-                            <p
-                              className="hand"
-                              style={{
-                                fontSize: 18, color: 'rgb(30, 0, 163)',
-                              }}
-                            >
-                              Next
-                            </p>
+                          <Link to="/journal" className="n-btn">
+                            Next
                           </Link>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -399,7 +393,7 @@ export const GetPies = (props) => {
   }, [idToFocus, prevIndex]);
 
   return (
-    <div style={{
+    <div className="display-none" style={{
       minHeight: '120px', minWidth: '120px', height: '75%', width: '75%', display: 'block', position: 'relative', margin: 'auto', ...containerStyle,
     }}
     >

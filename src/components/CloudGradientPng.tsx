@@ -5,7 +5,7 @@ import cloud2 from 'src/resources/icons/cloud2.png';
 
 export const CloudGradientPng = () => (
   <>
-    <img
+    {/* <img
       style={{
         position: 'absolute', width: '13vh', top: 5, left: 5, zIndex: 10, opacity: 0.4,
       }}
@@ -18,7 +18,7 @@ export const CloudGradientPng = () => (
       }}
       alt="cloud1"
       src={cloud2}
-    />
+    /> */}
   </>
 );
 

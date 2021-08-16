@@ -14,7 +14,8 @@ import {
 import CloudGradient from "src/components/CloudGradientSvg";
 import cloud1 from './assets/media/cloud1.png';
 import cloud2 from './assets/media/cloud2.png';
-import InfoPic from 'src/resources/icons/new_I.png';
+import InfoPic from 'src/resources/icons/infoIcon.png';
+
 import '@reach/slider/styles.css';
 
 import 'swiper/css/swiper.min.css';
@@ -121,7 +122,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
         <div
           id="main"
           style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly', backgroundColor: 'rgb(30, 0, 163)', position: 'relative', height: '100%',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly', position: 'relative', height: '100%',
           }}
         >
           <div className="info">
@@ -139,7 +140,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
           </div>
           {!this.state.showAudioPlayer && (
             <>
-              <img
+              {/* <img
                 style={{
                   position: 'absolute', width: '13vh', top: 5, left: 5, zIndex: 10, opacity: 0.4,
                 }}
@@ -152,7 +153,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                 }}
                 alt="cloud2"
                 src={cloud2}
-              />
+              /> */}
             </>
           )}
           <div>
@@ -177,7 +178,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                   cardData={cardData}
                   direction={direction}
                   // optional props
-                  backgroundColor="#1E00A3"
+                  backgroundColor="#ffffff"
                   idToFocus={index}
                   prevIndex={prevIndex}
                   heightDifferenceRatio={7}
@@ -190,7 +191,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                   className="fadeInEffect"
                   key={`key${index}`}
                   style={{
-                    position: 'absolute', width: '20vh', height: '20vh', bottom: -18, right: '-15%', zIndex: 1,
+                    position: 'absolute', width: '20vh', height: '20vh', bottom: -61, right: '-15%', zIndex: 1,
                   }}
                 >
                   <CloudGradient color1={indexData.cColor} color3={null} />
@@ -199,7 +200,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
             </div>
           </div>
 
-          <div className="swiper-container" style={{ paddingTop: '50%', paddingBottom: '80px' }}>
+          <div className="swiper-container">
             <AudioPlayer
               aPlayerVisible={fireBaseUrl !== '' && this.state.showAudioPlayer}
               audioData={{
@@ -215,7 +216,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                     {e.desc !== '-' && (
                     <div
                       key={e.order}
-                      className="swiper-slide boxShadow"
+                      className="swiper-slide"
                       style={{
                         backgroundColor: e.cColor,
                         width: '65%',
@@ -227,7 +228,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                     >
                       {/* {JSON.stringify(e)}  */}
                       <div style={{ width: '100%' }}>
-                        <div style={{ display: 'flex' }}>
+                        <div style={{ display: 'flex', alignItems:'center',marginBottom:'10px' }}>
                           <div style={{ width: '50%' }}>
                             <p className="fff cardHeading">
                               {EMOTIONS[e.title.toLowerCase()].pie}
@@ -239,7 +240,6 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                             flexDirection: 'column',
                             alignItems: 'flex-end',
                             justifyContent: 'center',
-                            marginBottom: 18,
                           }}
                           >
                             <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
@@ -251,12 +251,12 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                           </div>
                         </div>
                         <Overflow style={{ maxHeight: '210px' }}>
-                          <Overflow.Indicator direction="up"><img src={topShw} style={{ position: 'absolute', left: 10, top: -3 }} /></Overflow.Indicator>
+
                           <Overflow.Content>
                             <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
                           </Overflow.Content>
 
-                          <Overflow.Indicator direction="down"><img style={{ position: 'absolute', left: 10, bottom: -3 }} src={btmShw} /></Overflow.Indicator>
+                         
                         </Overflow>
 
                         {/* {console.log(addDescription(e.desc))}
@@ -269,38 +269,18 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                 ))}
               </div>
             )}
-            <Link 
+            <div className="bottom-btn">
+            <Link className="n-btn"
               onClick={
                 () => {
                   this.setState({ showAudioPlayer: true });
                 }
               }
               to={this.state.showAudioPlayer || fireBaseUrl === '' ? "/daily-chart" : "#" }
-            >
-              <p
-                className="hand fff"
-                style={{
-                  fontSize: 18, marginTop: '20px', position: 'absolute', left: '45%', bottom: '10%',
-                }}
-              // onClick={this.handleClickPrev}
-              >
-                Next
-              </p>
-            </Link>
+            > Next</Link>
           </div>
-
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            zIndex: 3,
-            justifyContent: 'center',
-            height: '60px',
-          }}
-          >
-            {/* {index <= data.length && <p className="hand fff" onClick={handleClickNext}>
-                    {index === data.length ? 'Start over' : 'Next'}
-                </p>} */}
           </div>
+       
         </div>
       </>
     );

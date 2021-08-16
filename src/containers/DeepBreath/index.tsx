@@ -1,128 +1,76 @@
 import * as React from "react";
-import MicRecorder from "mic-recorder-to-mp3";
-import axios from "axios";
-import * as microsoftTeams from "@microsoft/teams-js";
-
-export interface IDeepBreathProps { }
-export interface IDeepBreathState { }
-const Mp3Recorder = new MicRecorder({ bitRate: 128 });
+import "./index.scss";
+import { PageImage, BasePage } from "src/components";
+import playIcon from "src/resources/icons/play.png";
+import stopIcon from "src/resources/icons/stop.png";
+export interface IDeepBreathProps {
+  route?: any;
+  openModal?: any;
+  analysisPage?: boolean;
+}
+export interface IDeepBreathState {
+  todaysFeeling?: string;
+  counter?: number;
+  timer?: object;
+  counterStart?: boolean;
+  route?: any;
+  audioMute: boolean;
+  isPlaying: boolean;
+  isStop?: boolean;
+}
+let timer = null;
 export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
-  start = () => {
-    console.log('start');
-    Mp3Recorder.start().then(() => console.log('started')).catch(e => console.error(e));
-  };
-  stop = () => {
-    console.log('stop');
-    Mp3Recorder.stop().getMp3().then(([buffer, blob]) => {
+  constructor(props: IDeepBreathState) {
+    super(props);
+    this.state = { isPlaying: false, audioMute: false };
+  }
 
-      const file = new File(buffer, "me-at-the-voice.mp3", { type: blob.type, lastModified: Date.now() });
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        console.log((reader.result as any).length);
-        var str = (reader.result as any).split("base64,")[1];
-        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-          {
-            version: "v1p1beta1",
-            audio: { content: str },
-            config: {
-              sampleRateHertz: 8000,
-              enableAutomaticPunctuation: true,
-              encoding: "MP3",
-              languageCode: "en-US"
-            }
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            }
-          }
-        )
-          .then(async function (res) {
-            console.log(res.data.results[0].alternatives[0].transcript);
-          });
-      };
-    }).catch(e => console.log(e));
-  };
-
-  startT = () => {
-    console.log('start');
-    microsoftTeams.initialize();
-
-    let mediaInput: microsoftTeams.media.MediaInputs = {
-      mediaType: microsoftTeams.media.MediaType.Audio,
-      maxMediaCount: 1
-      //audioProps: { maxDuration: 1 },
-    };
-    microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
-      if (error) {
-        if (error.message) alert(" ErrorCode: " + error.errorCode + error.message);
-        else alert(" ErrorCode: " + error.errorCode);
-      }
-      console.log('attachments', attachments)
-      document.getElementById('output1').innerHTML= JSON.stringify(attachments);
-      let audioResult = attachments[0];
-      console.log('audioResult', audioResult);
-      
-      audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-        if (blob) {
-          var data = new Blob([blob], { type: blob.type });
-          console.log('data:', data)
-          let url = URL.createObjectURL(data)
-          let file = fetch(url).then(r => r.blob()).then(blobFile => new File([blobFile], audioResult.content, { type: "video/mp4" }))
-          console.log('file', file);
-        }
-      });
+  componentDidMount() {
+    fetch('https://joyeapp.netlify.app/deep-bell01.mp3').then(x => x.blob()).then(x => {
+      (window as any).audio = new Audio(URL.createObjectURL(x));
+      (window as any).audio.load();
     });
-  };
+  }
 
-  stopT = () => {
-    console.log('stop');
-    Mp3Recorder.stop().getMp3().then(([buffer, blob]) => {
+  onPlay = (e) => {
+    e.preventDefault();
+    if (this.state.isPlaying) {
+      (window as any).audio.pause();
+      (window as any).audio.currentTime = 0;
+      document.getElementById("svg-display").setAttribute('data', 'https://joyeapp.netlify.app/preview.svg');
+      this.setState({ isPlaying: false });
+    } else {
+      try { (navigator as any).wakeLock.request('screen'); } catch (e) { }
+      (window as any).audio.play();
+      document.getElementById("svg-display").setAttribute('data', 'https://joyeapp.netlify.app/deep-bell01.svg');
+      this.setState({ isPlaying: true });
+    }
+  }
 
-      const file = new File(buffer, "me-at-the-voice.mp3", { type: blob.type, lastModified: Date.now() });
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function () {
-        console.log((reader.result as any).length);
-        var str = (reader.result as any).split("base64,")[1];
-        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-          {
-            version: "v1p1beta1",
-            audio: { content: str },
-            config: {
-              sampleRateHertz: 8000,
-              enableAutomaticPunctuation: true,
-              encoding: "MP3",
-              languageCode: "en-US"
-            }
-          },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-            }
-          }
-        )
-          .then(async function (res) {
-            console.log(res.data.results[0].alternatives[0].transcript);
-          });
-      };
-    }).catch(e => console.log(e));
-  };
+  onMute = (e) => {
+    this.setState({ audioMute: !this.state.audioMute });
+    (window as any).audio.muted = !this.state.audioMute;
+  }
 
   render() {
     return (
       <>
-        <h1>Test16</h1>
-        <button onClick={e => this.start()}>Start</button>
-        <button onClick={e => this.stop()}>Stop</button>
-        <br /><br /><br />
-        <button onClick={e => this.startT()}>Start</button>
-        <button onClick={e => this.stopT()}>Stop</button>
-        <p id="output1">Output1</p>
-        <p id="output2">Output2</p>
+        <BasePage withMenu className="login-form">
+          <div className="advertise-text bold">Just 10 deep breaths!</div>
+          <br />
+          <div className="svg-div">
+            <img style={{ "display": "none" }} src="https://joyeapp.netlify.app/deep-bell01.svg" />
+            <object id="svg-display" className="svg-display" data="https://joyeapp.netlify.app/preview.svg" width="320px" height="320px"></object>
+          </div>
+          <br />
+          <input style={{ marginRight: "5px" }} type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
+          <label htmlFor="mute-audio"> Mute audio</label><br></br>
+          <br />
+          <div onClick={this.onPlay} className="btn-play">
+            <img src={this.state.isPlaying ? stopIcon : playIcon} />
+          </div>
+          <br />
+        </BasePage>
       </>
     );
   }

@@ -11,7 +11,7 @@ export class Luncher extends React.PureComponent<ILuncherProps, {}> {
   render() {
     return (
       <div>
-        <div style={{ marginLeft: "115px" }} className="check-arrow">
+        <div className="check-arrow">
         <div className="joye-logo" style={{ marginBottom: "15px" }}>
           <PageImage height="87px" width="86px" logo={Logo} />
         </div>

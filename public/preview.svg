@@ -1,0 +1,22 @@
+﻿<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <g id="front" width="100%" height="100%">
+    <circle id="circle10" r="102" cx="150" cy="150" fill="rgb(150,126, 255)" />
+    <circle id="circle11" r="98" cx="150" cy="150" fill="rgb(0,176, 255)" />
+    <circle id="circle12" r="94" cx="150" cy="150" fill="rgb(20,213, 84)" />
+    <circle id="circle13" r="90" cx="150" cy="150" fill="rgb(254,186, 80)" />
+    <circle id="circle14" r="86" cx="150" cy="150" fill="rgb(232,30, 108)" />
+    <circle id="circle15" r="82" cx="150" cy="150" fill="rgb(255,255, 255)" />
+    <circle id="circle16" r="78" cx="150" cy="150" fill="rgb(232,229, 244)" />
+    <circle id="circle17" r="74" cx="150" cy="150" fill="rgb(191,183, 229)" />
+    <circle id="circle18" r="70" cx="150" cy="150" fill="rgb(43,0, 169)" />
+    <animate id="a1110" xlink:href="#circle10" attributeName="r" repeatCount="1" fill="freeze" values="102;102" dur="10.5s" />
+    <animate id="a1111" xlink:href="#circle11" attributeName="r" repeatCount="1" fill="freeze" values="98;98" dur="10.5s" />
+    <animate id="a1112" xlink:href="#circle12" attributeName="r" repeatCount="1" fill="freeze" values="94;94" dur="10.5s" />
+    <animate id="a1113" xlink:href="#circle13" attributeName="r" repeatCount="1" fill="freeze" values="90;90" dur="10.5s" />
+    <animate id="a1114" xlink:href="#circle14" attributeName="r" repeatCount="1" fill="freeze" values="86;86" dur="10.5s" />
+    <animate id="a1115" xlink:href="#circle15" attributeName="r" repeatCount="1" fill="freeze" values="82;82" dur="10.5s" />
+    <animate id="a1116" xlink:href="#circle16" attributeName="r" repeatCount="1" fill="freeze" values="78;78" dur="10.5s" />
+    <animate id="a1117" xlink:href="#circle17" attributeName="r" repeatCount="1" fill="freeze" values="74;74" dur="10.5s" />
+    <animate id="a1118" xlink:href="#circle18" attributeName="r" repeatCount="1" fill="freeze" values="70;70" dur="10.5s" />
+  </g>
+</svg>

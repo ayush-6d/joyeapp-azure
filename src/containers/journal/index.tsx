@@ -13,10 +13,11 @@ import { firebaseInit } from "src/services/firebase";
 import * as firebase from "firebase";
 import moment from "moment";
 import { Yesno } from "src/containers/Yesno";
+import { withRouter, RouteComponentProps } from "react-router";
 
-export interface IJournalProps {
+export interface IJournalProps extends RouteComponentProps{
   route?: any;
-  history?: any;
+  history: any;
   openModal?: any;
 }
 
@@ -28,7 +29,7 @@ export interface IJournalState {
   showYesno?: boolean;
 }
 
-export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
+export class Journalclass extends React.PureComponent<IJournalProps, IJournalState> {
   constructor(props: IJournalProps) {
     super(props);
     this.state = {
@@ -98,11 +99,11 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
         if (jounrnalCheckSaved === "showEverytime") {
           this.setState({ showJoyelevel: true });
         } else {
-          //this.props.history.push(`/dashboard`);
+          this.props.history.push(`/dashboard`);
         }
       }
     } else {
-      //this.props.history.push(`/dashboard`);
+      this.props.history.push(`/dashboard`);
     }
   };
 
@@ -245,3 +246,5 @@ export class Journal extends React.PureComponent<IJournalProps, IJournalState> {
     );
   }
 }
+
+export const Journal = withRouter(Journalclass);

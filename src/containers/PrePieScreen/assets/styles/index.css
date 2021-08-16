@@ -29,16 +29,17 @@ body {
 .hand {
     cursor: pointer;
 }
-
-.fff {
-    font-size: 16px;
+.swiper-slide .fff {
+    font-size: 15px;
     color: #fff;
+    width: 170px;
 }
 
 .cardHeading {
     font-weight: 300;
     font-size: 20px;
-    opacity: 0.6;
+    color: #808080;
+    text-align: center;
 }
 
 .desc {
@@ -86,11 +87,67 @@ body {
 }
 
 .boxShadow {
-    -webkit-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
-    -moz-box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
-    box-shadow: 0px 51px 54px 0px rgba(0, 0, 0, 0.29);
+    -webkit-box-shadow: 0px 0px 15px 0px #dadada;
+    -moz-box-shadow:0px 0px 15px 0px #dadada;
+    box-shadow: 0px 0px 15px 0px #dadada;
 }
-
+.progress
+{
+    width: 100%;
+}
+.info {
+    text-align: right;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 15;
+  }
+  .player-bg {
+    background-color: transparent;
+  }
+  .player-bg .cardHeading
+  {
+    color: #1e00a3;
+    margin: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 1;
+    font-size: 20px;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 24px;
+  }
+  a:hover
+  {
+      text-decoration: none;
+  }
+  .video-bg
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0;
+    margin-top: 10px;
+    background: #8E7AEC;
+    border-radius: 31px;
+    padding: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+  }
+  .progress-bar-sec
+  {
+    flex: 1;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 188px;
+    padding: 0 20px;
+    align-items: center;
+  }
 .swiper-slide {
     width: 100%;
     height: fit-content;
@@ -99,6 +156,56 @@ body {
 .fadeInEffect{
     animation: fadeIn 1s forwards;
 }
+.avenier-font-bold
+{
+    font-family: "Mont-HeavyDEMO";
+}
+.margin-top-50
+{
+    margin-top:50px !important;
+}
+.swiper-container
+{
+    margin: 20px auto;
+}
+
+.swiper-wrapper
+{
+    display: flex;
+}
+.swiper-slide
+{
+    height: auto !important;
+    flex-shrink: initial !important;
+}
+.fff
+{
+    line-height: 20px;
+}
+.n-btn + .n-btn{
+    margin:0 20px;
+  }
+  .n-btn
+  {
+      border-radius: 40px;
+      border: 1px solid #444;
+      padding: 3px 15px;
+      font-weight: 600;
+      color: #444;
+      min-width: 100px;
+      display: inline-block;
+      font-size: 14px;
+      line-height: 20px;
+      font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  }
+  .bottom-btn
+  {
+      position: fixed;
+      left: 0;
+      right:0;
+      bottom: 60px;
+   text-align: center;
+  }
 
 @-webkit-keyframes fadeIn {
     0% {opacity: 0;}
@@ -110,3 +217,8 @@ body {
     100% {opacity: 1;}
  }
 
+ @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .swiper-container {
+      margin: 60px auto;
+  }
+  }
