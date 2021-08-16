@@ -9,7 +9,7 @@ export class AboutUs extends React.PureComponent {
   render() {
     let Date = "01 July 2021";
     return (
-      <BasePage withMenu showInfoIcon>
+      <BasePage withMenu showInfoIcon className="login-form home-screen">
         <div
           className="render-component"
           style={{

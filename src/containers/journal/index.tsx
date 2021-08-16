@@ -171,7 +171,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage withMenu showInfoIcon className="login-form">
+          <BasePage withMenu showInfoIcon className="login-form home-screen">
             <div
               className="render-component"
               style={{
@@ -228,17 +228,19 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                       <div>
                         <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
-                        <span className="index-advertise-text"> Show less often</span>
+                        <span className="index-advertise-text font-15"> Show less often</span>
                       </div>
                       <div>
                         <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" />
-                        <span className="index-advertise-text"> Show often</span>
+                        <span className="index-advertise-text font-15"> Show often</span>
                       </div>
                     </div>
                   )}
  </div>
+                  <div className="bottom-btn">
                   <div className="n-btn" onClick={this.setRoute} >
                     skip
+                  </div>
                   </div>
                 </div>
               </>
