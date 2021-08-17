@@ -292,18 +292,19 @@ export const DailyChart = () => {
                     )}
                     <p className="average-score">
                     <div className="advertise-text bold text-blue">
-                          <span className="text-blue">How are you feeling today?</span>
+                          <span className="text-blue"  style={{fontSize:'20px'}}>How are you feeling today?</span>
                         </div>
                     <span>{journalText}</span>
                     </p>
+                   
                     <div
                       className="media-content has-text-centered"
                       style={{
-                        marginTop: !isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg ? -42 : 0,
+                        marginTop: !isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg ? 0 : 0,
                       }}
                     >
                       <div className="tags has-addons level-item">
-                        <div style={{ overflow: 'hidden', padding: '0 10px', position:'absolute', bottom:'42%' }}>
+                        <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position:'absolute',bottom:'42%', left:'0',right:'0' }}>
                           {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
                           {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
                         </div>

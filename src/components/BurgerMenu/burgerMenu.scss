@@ -1,4 +1,18 @@
 @import "../../styles/constants.scss";
+.position-relative
+{
+   position: relative;
+}
+.text-left
+{
+  text-align: left !important;
+}
+.base-page-main.login-form.home-screen {
+  padding: 20px;
+  position: relative;
+  max-width: 768px;
+  margin: 0 auto;
+}
 .burger-menu-container {
   span {
     display: block;
@@ -56,15 +70,16 @@
   // span:nth-last-child(2) {
   //     transform-origin: 0% 100%;
   // }
+
   .sidenav {
     display: block;
     font-size: 12.54px;
-    height: 100%;
+    height: 100vh;
     width: 320px;
     position: absolute;
     z-index: 1;
-    top: 0px;
-    left: 0px;
+    top: -20px;
+    left: -20px;
     color: #6a7883;
     box-shadow: 0 6px 10px 7px #dddddd;
     overflow-x: hidden;

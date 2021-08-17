@@ -55,16 +55,15 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   render() {
     return (
       <>
-        <BasePage withMenu className="login-form">
-          <div className="advertise-text bold">Just 10 deep breaths!</div>
+        <BasePage withMenu showInfoIcon  className="login-form home-screen">
+          <div className="advertise-text bold text-blue">Just 10 deep breaths!</div>
           <br />
           <div className="svg-div">
             <img style={{ "display": "none" }} src="https://joyeapp.netlify.app/deep-bell01.svg" />
             <object id="svg-display" className="svg-display" data="https://joyeapp.netlify.app/preview.svg" width="320px" height="320px"></object>
           </div>
-          <br />
-          <input style={{ marginRight: "5px" }} type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
-          <label htmlFor="mute-audio"> Mute audio</label><br></br>
+          <input className="checkbox" type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
+          <label htmlFor="mute-audio" className="index-advertise-text  font-15"> Mute audio</label><br></br>
           <br />
           <div onClick={this.onPlay} className="btn-play">
             <img src={this.state.isPlaying ? stopIcon : playIcon} />
