@@ -57,8 +57,6 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
     return (
       <>
         <BasePage withMenu showInfoIcon className="login-form home-screen">
-          <div className="advertise-text bold text-blue"></div>
-          <br />
           <div style={{ width: "100%" }}>
             <div style={{ width: "80%", margin: "auto" }}>
               <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>
