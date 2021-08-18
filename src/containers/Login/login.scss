@@ -138,7 +138,28 @@
   color: $errorRed;
   font-size: 13px;
 }
-
+.joye-logo img {
+  box-shadow: 0 0 5px 1px #959595;
+}
+.n-btn
+{
+    border-radius: 40px;
+    border: 1px solid #444;
+    padding: 3px 15px;
+    font-weight: 600;
+    color: #444;
+    min-width: 100px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+.home-info
+{
+  position: absolute;
+    right: 0px;
+    top: -5px;
+}
 .email-success {
   margin-top: 15px;
   text-align: center;
@@ -149,3 +170,34 @@
   text-align: center;
 }
 
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 55px;
+ }
+.button-container {
+  position: relative;
+}
+.btn-primary{
+  background-color: rgb(142, 122, 236);
+  height: 35px;
+  width: 160px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 15px;
+  border-radius: 26px;
+  color: white;
+  border: none;
+}
+.login-form .text-container .small-text{
+
+    font-size: 13px !important;
+    margin:0 0 15px 0;
+
+}
+.login-form .text-container .body-text{
+  font-size: 15px !important;
+}
+.copy-right-text{
+  font-size: 15px !important;
+}

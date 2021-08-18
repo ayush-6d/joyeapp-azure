@@ -631,6 +631,12 @@ button.button.is-primary.next {
    } */
 }
 
+@media only screen and (max-width: 768px) {
+  .range__wrapper {
+    width: 768px;
+  }
+}
+
 @media only screen and (max-width: 767px) {
   .range__wrapper {
     width: 100vw;

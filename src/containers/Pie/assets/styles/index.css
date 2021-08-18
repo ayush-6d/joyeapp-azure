@@ -112,6 +112,40 @@ body {
     animation: fadeIn 1s forwards;
     
 }
+.pie_value {
+    font-size: 40px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    z-index: 10;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    font-family: "Mont-HeavyDEMO";
+    letter-spacing: -2.52px;
+}
+.pie_value span:first-child {
+    font-size: 50px;
+    font-family: "Mont-HeavyDEMO";
+}
+.pie_value span {
+    display: inline-block;
+    font-size: 35px;
+    /* vertical-align: bottom; */
+}
+.swiper-slide > div {
+    padding: 20px;
+}
+.swiper-slide .fff {
+    font-size: 15px;
+    color: #fff;
+    width: 170px;
+}
 
 @-webkit-keyframes fadeIn {
     0% {opacity: 0;}
@@ -123,7 +157,22 @@ body {
     100% {opacity: 1;}
  }
 
-
+ @media (min-width: 768px)
+{
+   .login-form.home-screen {
+        padding: 20px;
+        position: relative;
+        max-width: 768px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+ .base-page-main.login-form.home-screen {
+     padding: 20px;
+     position: relative;
+     max-width: 768px;
+     margin: 0 auto;
+ }
+}
  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .swiper-container {
       margin: 60px auto;

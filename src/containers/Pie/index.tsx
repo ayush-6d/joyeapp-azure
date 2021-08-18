@@ -12,6 +12,7 @@ import { database, firebaseInit } from 'src/services/firebase';
 import { Loader } from 'src/components/Loader';
 import PieApp from './PieApp';
 import Popup from 'src/components/Popup';
+import "src/resources/css/fonts/fonts.css";
 
 export const Pie = () => {
   const [data, setData] = useState([]);

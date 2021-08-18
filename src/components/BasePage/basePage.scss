@@ -9,6 +9,9 @@
   &.home-screen{padding: 20px;}
 }
 
+.position-relative:empty{
+  display: none;
+}
 
 @media screen and (max-width: 768px) {
   .base-page-main.login-form.home-screen {

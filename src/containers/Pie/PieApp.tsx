@@ -19,7 +19,9 @@ import InfoPic from 'src/resources/icons/infoIcon.png';
 import '@reach/slider/styles.css';
 
 import 'swiper/css/swiper.min.css';
+import '../PrePieScreen/assets/styles/index.css';
 import './assets/styles/index.css';
+
 import AudioPlayer from 'src/components/AudioPlayer';
 // import { storage } from '../../firebase/firebase.config';
 import btmShw from 'src/resources/icons/bottomShadow.png';
@@ -119,10 +121,15 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
     return (
       <>
 
-        <div
+        <div className="login-form home-screen"
           id="main"
           style={{
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly', position: 'relative', height: '100%',
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'space-evenly', 
+            position: 'relative', 
+            height: '100%',
           }}
         >
           <div className="info">
@@ -282,6 +289,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
           </div>
        
         </div>
+      
       </>
     );
   }

@@ -104,7 +104,6 @@ body {
   }
   .player-bg {
     background-color: transparent;
-    width: 320px;
   }
   .player-bg .cardHeading
   {
@@ -234,51 +233,7 @@ body {
     font-size: 35px;
     /* vertical-align: bottom; */
 }
-.display-none
-{
-   display: none !important;
-}
 
-.card.article, .card
-{
-   box-shadow: 0 0 0 0 !important;
-}
-
-button.button.is-primary,
-button.button.is-primary:hover,
-button.button.is-primary:focus {
-  background: none;
-  color: #a297d6;
-  font-weight: bold;
-  border: none;
-  outline: none;
-  box-shadow: none !important;
-}
-
-button.button.is-primary.back {
-  float: left;
-}
-
-button.button.is-primary.next {
-  float: right;
-}
-
-.tags h5::first-letter {
-  font-size: 22px;
-}
-.dailyChart .tags {
-    position: relative;
-}
-
-.btn-arrow-group {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 42%;
-    z-index: 999;
-    padding: 0 10px;
-    overflow: hidden;
-}
 
 @-webkit-keyframes fadeIn {
     0% {opacity: 0;}
