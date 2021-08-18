@@ -10,6 +10,8 @@ const termsofService = require("../../resources/icons/TermsofService.png");
 const faq = require("../../resources/icons/faq.png");
 const aboutUs = require("../../resources/icons/aboutus.svg");
 const heart = require("../../resources/icons/Heart.svg");
+const home = require("../../resources/icons/home.png");
+const brewicon = require("../../resources/icons/brewicon.png");
 
 
 export interface IBurgerMenuProps extends RouteComponentProps{}
@@ -63,25 +65,25 @@ About us */}
             </a>
             <div className="sidebar-container">
               <Tab onClick={() => this.props.history.push("/")} name="main">
-              <img height="30px" width="28px" src={shield} />
+              <img height="30px" width="28px" src={home} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Home
                 </div>
               </Tab>
 
               <Tab onClick={() => this.props.history.push("/deepBreath")} name="main">
-              <img height="30px" width="28px" src={shield} />
+              <img height="30px" width="28px" src={brewicon} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                 Stress Buster
                 </div>
               </Tab>
 
-              <Tab onClick={() => this.props.history.push("/journal")} name="main">
+             {/*  <Tab onClick={() => this.props.history.push("/journal")} name="main">
               <img height="30px" width="28px" src={shield} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Journal
                 </div>
-              </Tab>
+              </Tab> */}
 
               <Tab onClick={() => this.props.history.push("/privacypolicy")} name="reports">
                 <img height="30px" width="28px" src={shield} />
@@ -101,12 +103,12 @@ About us */}
                   FAQ
                 </div>
               </Tab>
-              <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
+             {/* <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
                 <img height="30px" width="28px" src={heart} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Feedback
                 </div>
-              </Tab>
+              </Tab> */}
               <Tab onClick={() => this.props.history.push("/aboutus")} name="reports">
                 <img height="24px" width="24px" src={aboutUs} />
                 <div className="item-label" style={{ marginLeft: "27px", fontSize: "18px" }}>

@@ -71,7 +71,10 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
           <div onClick={this.onPlay} className="btn-play">
             <img src={this.state.isPlaying ? stopIcon : playIcon} />
           </div>
-          <br />
+          
+          <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
+            <div className="n-btn">Daily Brew</div> 
+            </div>
         </BasePage>
       </>
     );
