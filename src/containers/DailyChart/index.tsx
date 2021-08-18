@@ -306,7 +306,7 @@ export const DailyChart = () => {
                       }}
                     >
                       <div className="tags has-addons level-item">
-                        <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position:'absolute',bottom:'42%', left:'0',right:'0' }}>
+                        <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position:'absolute',bottom:'46%', left:'0',right:'0' }}>
                           {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
                           {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
                         </div>
@@ -324,11 +324,12 @@ export const DailyChart = () => {
                             setJournalText={setJournalText}
                           />
                         )}
+                        </div>
                         <div style={{
-                          display: 'flex', flexDirection: 'row', zIndex: 3, justifyContent: 'space-between', padding: '0px 15px',
+                          display: 'flex',justifyContent:'center', marginTop:'30px', flexDirection: 'row', zIndex: 3, padding: '0px 15px',
                         }}
                         >
-                          <div className="bottom-btn">
+                          <div>
                           <Link to="/pie-chart" className="n-btn">
                            Previous
                           </Link>
@@ -337,7 +338,7 @@ export const DailyChart = () => {
                           </Link>
                           </div>
                         </div>
-                      </div>
+                      
                     </div>
                   </div>
                   <div className="content article-body" />

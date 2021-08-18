@@ -104,7 +104,8 @@ body {
   }
   .player-bg {
     background-color: transparent;
-    width: 320px;
+    min-width: 280px;
+    max-width: 320px;
   }
   .player-bg .cardHeading
   {
@@ -309,6 +310,6 @@ button.button.is-primary.next {
 
  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .swiper-container {
-      margin: 60px auto;
+      margin: 20px auto;
   }
   }

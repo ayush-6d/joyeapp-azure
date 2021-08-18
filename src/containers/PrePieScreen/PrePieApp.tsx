@@ -215,7 +215,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
           </div>
 
           <div
-            className="swiper-container"
+            // className="swiper-container"
             style={{ paddingTop: "15px", paddingBottom: "80px" }}
           >
             <div className="swiper-wrapper">

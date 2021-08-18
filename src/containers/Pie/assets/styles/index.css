@@ -175,6 +175,6 @@ body {
 }
  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .swiper-container {
-      margin: 60px auto;
+      margin: 20px auto;
   }
   }

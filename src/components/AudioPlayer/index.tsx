@@ -86,14 +86,14 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
         </div>
        
         {aPlayerVisible && (
-          <div className="player-bg" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <div className="player-bg" style={{margin:'0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
              <p className="cardHeading"
                   style={{margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', opacity: 1, fontSize: '20px'}}>
                   {audioTitle}
                 </p>
 
             <div className="video-bg">
-              <div className="progress-bar-sec" style={{    flex:' 2',
+              <div className="progress-bar-sec" style={{  gap:'5px',  flex:' 2',
                 height: '45px', display: 'flex', flexDirection: 'row', justifyContent: 'center',
               }}
               >
@@ -106,7 +106,7 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
               </div>
               <div
                 style={{
-                  height: '50px', width: '50px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginLeft: '10px', marginTop: '10px',
+                  height: '50px', width: '50px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center',
                 }}
                 onClick={this.audioPlayPauseToggle}
                 className="zoomOutEffect drop-shadow"

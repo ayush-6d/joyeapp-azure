@@ -4,6 +4,7 @@ import { BasePage } from "src/components";
 import playIcon from "src/resources/icons/play.png";
 import stopIcon from "src/resources/icons/stop.png";
 import Circles from "./circles";
+import "../Dashboards/Categories/Main/index.scss";
 export interface IDeepBreathProps {
   route?: any;
   openModal?: any;
@@ -56,14 +57,16 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   render() {
     return (
       <>
-        <BasePage withMenu showInfoIcon className="login-form home-screen">
+        <BasePage withMenu showInfoIcon className="login-form home-screen deepbreath-page">
           <div style={{ width: "100%" }}>
             <div style={{ width: "80%", margin: "auto" }}>
               <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>
             </div>
           </div>
+          <div className="display-flex">
           <input className="checkbox" type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
           <label htmlFor="mute-audio" className="index-advertise-text  font-15"> Mute audio</label><br></br>
+          </div>
           <br />
           <div onClick={this.onPlay} className="btn-play">
             <img src={this.state.isPlaying ? stopIcon : playIcon} />
