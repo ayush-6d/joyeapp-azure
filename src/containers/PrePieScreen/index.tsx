@@ -12,6 +12,7 @@ import { database, firebaseInit } from 'src/services/firebase';
 import { Loader } from 'src/components/Loader';
 import PrePieApp from './PrePieApp';
 import Popup from 'src/components/Popup';
+import "src/resources/css/fonts/fonts.css";
 
 export const PrePie = () => {
   const [data, setData] = useState([]);
@@ -77,6 +78,7 @@ export const PrePie = () => {
   }
   return (
     <>
+    
       {load && (<Loader display="flex" />)}
       {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
       {data && data.length > 0

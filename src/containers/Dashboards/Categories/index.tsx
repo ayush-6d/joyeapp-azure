@@ -4,6 +4,7 @@ import { BasePage, Circle, ImportLoader } from "src/components";
 //import pageHeader2 from "../../../resources/icons/pageHeader2.png";
 import { InputField, CheckboxField, Button } from "components/FormComponents/index";
 import { Main } from "./Main";
+import { MobileMain } from "./MobileMain";
 import { ScorePoint } from "./scorepoints";
 import "./index.scss";
 import { TellUsAbout } from "./Tellusabout";
@@ -11,6 +12,7 @@ import { SaySomething } from "./SaySomething";
 import { Congratulation } from "./congratulation";
 import { Luncher } from "./Luncher";
 import { Modal } from "src/components/Modal";
+import { isMobile } from "react-device-detect";
 export interface IDashboardProps {
   route?: string;
   location?: string;
@@ -75,11 +77,13 @@ export class Dashboard extends React.PureComponent<IDashboardProps, IDashboardSt
     }));
   };
   renderContent = () => {
+    
     const { renderComponent, openModal } = this.state;
     console.log('renderComponent', renderComponent);
     switch (renderComponent) {
       case "main":
-        return <Main route={this.handleRoute} openModal={this.handleModal} />;
+        if(isMobile){return <MobileMain route={this.handleRoute} openModal={this.handleModal} />;}
+        else{return <Main route={this.handleRoute} openModal={this.handleModal} />;}
       case "tellusabout":
         return <TellUsAbout route={this.handleRoute} openModal={this.handleModal} />;
       case "saysomething":

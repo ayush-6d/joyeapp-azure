@@ -19,13 +19,15 @@ import InfoPic from 'src/resources/icons/infoIcon.png';
 import prevArrow from 'src/resources/icons/prev-arrow.png';
 import nextArrow from 'src/resources/icons/next-arrow.png';
 import legend from 'src/resources/icons/stack_icon.png';
-
+import "src/resources/css/fonts/fonts.css";
 import { CloudGradientPng } from 'src/components/CloudGradientPng';
 import CloudGradient from 'src/components/CloudGradientSvg';
 import { Loader } from 'src/components/Loader';
 import { EMOTIONS_MASTER } from 'src/utilities/helper';
 import Popup from 'src/components/Popup';
 import LegendPopup from './LegendPopup';
+import "src/resources/css/global.css";
+import '../PrePieScreen/assets/styles/index.css';
 
 export const DailyChart = () => {
   // eslint-disable-next-line no-restricted-globals

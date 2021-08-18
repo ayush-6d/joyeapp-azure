@@ -12,6 +12,8 @@ import cloud2 from "./assets/media/cloud2.png";
 import InfoPic from "src/resources/icons/infoIcon.png";
 import "@reach/slider/styles.css";
 
+
+
 import "swiper/css/swiper.min.css";
 import "./assets/styles/index.css";
 // import { storage } from '../../firebase/firebase.config';
@@ -103,7 +105,8 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
     const indexData = data.find((e) => e.order === index) || {};
     return (
       <>
-        <div
+    
+        <div className="login-form home-screen"
           id="main"
           style={{
             display: "flex",

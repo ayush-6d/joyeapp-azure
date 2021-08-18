@@ -296,18 +296,22 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     const { isLoading } = this.state;
     return (
       <div>
-        <BasePage withMenu className="login-form">
+        <BasePage withMenu showInfoIcon className="login-form home-screen">
           <Logo height="76px" width="76px" marginTop="72px" />
           <Brand fontSize="42px" />
           <div className="text-container">
             <div className="advertise-text">
-              <p>Speak your mind and Joye will keep you</p>
-              <p>positive and productive amidst your emotional flux</p>
+              <p>Speak your mind and Joye will keep you positive and productive amidst your emotional flux</p>
             </div>
           </div>
         <div className="button-wrapper">
         
-        <Button Loader={null} type="button" onClick={this.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >{isLoading && <i className="fa fa-refresh fa-spin"></i>}Login</Button>
+        <Button Loader={null} type="button" onClick={this.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >{isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in</Button>
+        </div>
+        <div className="text-container">
+            <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px",}}>
+              Easy and secure sign in with your Microsoft account
+            </div>
         </div>
         {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
      {/*<span className="dont-have-account-text">
@@ -327,7 +331,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           
         </BasePage>
 
-        <BasePage className="login-form">
+        <BasePage className="login-form home-screen">
           <div
             className="render-component"
             style={{
@@ -346,11 +350,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               position:"relative"
             }}
           >
-          <div className="text-container">
-            <div className="advertise-text" style={{ color: "#808080", fontSize: "16px", marginTop: "15px",}}>
-              Easy and secure sign in with your Microsoft account
-            </div>
-        </div>
+          
             <div style={{ alignContent: "center"}}>
               <img height="125px" width="93px" src={privacy} />
             </div>
@@ -360,7 +360,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
             <div className="text-container">
               <div className="advertise-text">
-                <h3 className="advertise-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px",}}>
+                <h3 className="advertise-text body-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px",}}>
                   <a href="#" style={{ color: "#1E00A3" }}>Privacy poilicy</a> &nbsp;|&nbsp; <a href="#" style={{ color: "#1E00A3" }}>Terms of service</a>
                 </h3>
               </div>

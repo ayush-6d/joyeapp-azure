@@ -1,8 +1,9 @@
 import * as React from "react";
 import "./index.scss";
-import { PageImage, BasePage } from "src/components";
+import { BasePage } from "src/components";
 import playIcon from "src/resources/icons/play.png";
 import stopIcon from "src/resources/icons/stop.png";
+import Circles from "./circles";
 export interface IDeepBreathProps {
   route?: any;
   openModal?: any;
@@ -17,16 +18,17 @@ export interface IDeepBreathState {
   audioMute: boolean;
   isPlaying: boolean;
   isStop?: boolean;
+  path: string;
 }
-let timer = null;
 export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
   constructor(props: IDeepBreathState) {
     super(props);
-    this.state = { isPlaying: false, audioMute: false };
+    let path = ((window as any).location.hostname === "localhost") ? "/public/" : '/';
+    this.state = { isPlaying: false, audioMute: false, path: path };
   }
 
   componentDidMount() {
-    fetch('https://joyeapp.netlify.app/deep-bell01.mp3').then(x => x.blob()).then(x => {
+    fetch(`${this.state.path}deep-bell01.mp3`).then(x => x.blob()).then(x => {
       (window as any).audio = new Audio(URL.createObjectURL(x));
       (window as any).audio.load();
     });
@@ -34,15 +36,14 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
 
   onPlay = (e) => {
     e.preventDefault();
+    if ((window as any).audio === undefined) return;
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
-      document.getElementById("svg-display").setAttribute('data', 'https://joyeapp.netlify.app/preview.svg');
       this.setState({ isPlaying: false });
     } else {
       try { (navigator as any).wakeLock.request('screen'); } catch (e) { }
       (window as any).audio.play();
-      document.getElementById("svg-display").setAttribute('data', 'https://joyeapp.netlify.app/deep-bell01.svg');
       this.setState({ isPlaying: true });
     }
   }
@@ -55,12 +56,11 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
   render() {
     return (
       <>
-        <BasePage withMenu showInfoIcon  className="login-form home-screen">
-          <div className="advertise-text bold text-blue">Just 10 deep breaths!</div>
-          <br />
-          <div className="svg-div">
-            <img style={{ "display": "none" }} src="https://joyeapp.netlify.app/deep-bell01.svg" />
-            <object id="svg-display" className="svg-display" data="https://joyeapp.netlify.app/preview.svg" width="320px" height="320px"></object>
+        <BasePage withMenu showInfoIcon className="login-form home-screen">
+          <div style={{ width: "100%" }}>
+            <div style={{ width: "80%", margin: "auto" }}>
+              <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>
+            </div>
           </div>
           <input className="checkbox" type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
           <label htmlFor="mute-audio" className="index-advertise-text  font-15"> Mute audio</label><br></br>
