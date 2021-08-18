@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
-import { CircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
+import { MobileCircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
 import Mic from "../../../../resources/icons/mic.png";
 import rightTick from "../../../../resources/icons/rightTick.png";
 import Gibberish from "../../../../resources/icons/gibberish.png";
@@ -10,13 +9,6 @@ import ExcellentTick from "../../../../resources/icons/ExcellentTick.png";
 import speakingcircle from "../../../../resources/icons/speakingcircle.png";
 import axios from "axios";
 import { removeAlert, setAlert } from "src/actions/alertAction";
-import speakingcircleNew from "../../../../resources/icons/ProcessCompletedNew.png";
-import { ScorePoint } from "../scorepoints";
-import ProcessComplete from "../../../../resources/icons/ProcessCompleted.png";
-import { loginUser } from "src/actions/loginActions";
-import { UserModel } from "src/Models/UserModel";
-import { parseJwt, saveUserDataForSession } from "src/utilities/generalUtils";
-import { SVGData } from "src/components/Loader/SVGData";
 import { TellUsAbout } from "../Tellusabout";
 import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
@@ -26,7 +18,7 @@ import * as microsoftTeams from "@microsoft/teams-js";
 import "./index.scss";
 import { withRouter, RouteComponentProps } from "react-router";
 
-export interface IMainProps extends RouteComponentProps {
+export interface IMobileMainProps extends RouteComponentProps {
   route?: any;
   openModal?: any;
 }
@@ -34,7 +26,7 @@ let timer = null;
 let icons = [Mic, Gibberish, Gesture];
 const Mp3Recorder = new MicRecorder({ bitRate: 128 });
 
-export interface IMainState {
+export interface IMobileMainState {
   speachStarted?: boolean;
   showCounter?: boolean;
   isLoading?: boolean;
@@ -55,8 +47,8 @@ export interface IMainState {
   audio?: any;
 }
 
-export class MainClass extends React.PureComponent<IMainProps, IMainState> {
-  constructor(props: IMainProps) {
+export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobileMainState> {
+  constructor(props: IMobileMainProps) {
     super(props);
     this.state = {
       iconIndex: {
@@ -68,7 +60,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
       showCounter: false,
       isCounterStarted: false,
       isCounterEnd: false,
-      seconds: 10,
+      seconds: 60,
       iconHeight: "-171px",
       isClickHandle: true,
       isTellusabout: false,
@@ -95,7 +87,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
           }));
         } else {
           this.setState(prevState => ({
-            seconds: 10,
+            seconds: 60,
             showCounter: !prevState.showCounter
           }));
           clearInterval(timer);
@@ -110,7 +102,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
   };
   speakAgain = () => {
     this.setState(
-      prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 10 }),
+      prevState => ({ showCounter: !prevState.showCounter, isCounterStarted: false, isCounterEnd: false, seconds: 60 }),
       () => {
         this.startCounter(true, false);
       }
@@ -137,13 +129,13 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
     if (geture === 2 && isFromGesture) {
       this.setCounter(showCounter);
     } else {
-      this.setState({ seconds: 10, isClickHandle: true, isTellusabout: false, isCounterEnd: false });
+      this.setState({ seconds: 60, isClickHandle: true, isTellusabout: false, isCounterEnd: false });
     }
 
     if (geture != 2 && !isFromGesture) {
       this.setCounter(showCounter);
     } else {
-      this.setState({ seconds: 10, isClickHandle: true });
+      this.setState({ seconds: 60, isClickHandle: true });
     }
   };
 
@@ -174,11 +166,11 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
             );
           } else {
             clearInterval(timer);
-            this.setState({ isClickHandle: true, seconds: 10, isCounterStarted: false, isCounterEnd: false });
+            this.setState({ isClickHandle: true, seconds: 60, isCounterStarted: false, isCounterEnd: false });
           }
         }
       }, 1000);
-      self.setState(prevState => ({ seconds: 10, showCounter: !prevState.showCounter }));
+      self.setState(prevState => ({ seconds: 60, showCounter: !prevState.showCounter }));
     } else {
       await this.saveData("", false);
     }
@@ -234,7 +226,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
             } else {
               self.setState({ 
                 isClickHandle: true,
-                seconds: 10,
+                seconds: 60,
                 iconIndex: { mic: 2, gibberish: 1, gesture: 0 } , 
                 isLoading: false, 
                 isCounterEnd: false, 
@@ -275,7 +267,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
           if (data["gibberish"]) {
             self.setState({
-              seconds: 10,
+              seconds: 60,
               isCounterStarted: false,
               showCounter: false,
               iconIndex: {
@@ -295,7 +287,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
           if (data["caution"]) {
             self.setState({
-              seconds: 10,
+              seconds: 60,
               isCounterStarted: false,
               showCounter: false,
               isClickHandle: true,
@@ -498,21 +490,21 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData, withMenu, showShield, showInfoIcon } = this.state;
-    
+
     return !isLoading ? (
       <>
       <BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
       {isClickHandle ? (<div className="pageHeader">
          <Circle className={`circles score-point`} showImg={false} />
       </div>): null}
-        {seconds >= 8 && isClickHandle ? (
+        {seconds >= 58 && isClickHandle ? (
           <div className="text-container">
             <div className="advertise-text bold text-blue" style={{ fontSize: "17px", marginTop: "35px" }}>
               <p>How are you feeling today?</p>
               <p className="do-not-txt">&nbsp;</p>
             </div>
           </div>
-        ) : seconds <= 6 ? (
+        ) : seconds <= 56 ? (
           <div className="text-container">
             <div>
               <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
@@ -540,8 +532,8 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
         <div className="rel home-screen-box">
           <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
-          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 9 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
-          {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
+          {seconds >= 58 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 59 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
+          {isCounterStarted || isCounterEnd ? <MobileCircularCounter /> : ""}
         </div>
         {!isCounterStarted && !showCounter ? (
           <div className="bottom-container" style={{ height: "201px" }}>
@@ -588,4 +580,4 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
   }
 }
 
-export const Main = withRouter(MainClass);
+export const MobileMain = withRouter(MobileMainClass);
