@@ -563,7 +563,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
                 Speak again
               </p>
             </div>
-            <div className="bottom-btn" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
+            <div className="" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn"> cancel</div> 
             </div>
           </div>
