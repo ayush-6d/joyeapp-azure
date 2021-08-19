@@ -51,37 +51,9 @@ font-Size: 20px !important;
     justify-content: center;
     align-items: center;
     height: 100%;
-   /* overflow-y: scroll;
-    overflow-x: hidden;*/
-    width: 100%;
-    
+    width: 100%; 
   }
-
-  .pageHeader {
-    display: flex;
-    justify-content: center;
-    bottom: 0px;
-    flex-wrap: wrap-reverse;
-    .score-point {
-      position: absolute;
-      padding: 2.5%;
-      background-color: rgba(255, 255, 255, 0.8);
-      width: 110px;
-      top: -48px;
-      background: #e4deff;
-      color: #fff;
-      margin: 0;
-      /* padding: 0px; */
-      display: flex;
-      padding: 9px;
-      padding: 50px 10px 10px;
-      height: 110px;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  }
+  
   .circle__inner {
     margin-bottom: 50px;
     position: absolute;
@@ -98,7 +70,36 @@ font-Size: 20px !important;
     }
   }
 }
-
+.font-15 {
+  font-size: 15px !important;
+}
+.deepbreath-page{
+  .layout-children {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  input[type=checkbox], input[type=radio] {
+    margin: 0;
+  }
+  label{
+    margin:0px;
+  }
+  .font-15 {
+    font-size: 15px !important;
+  }
+  .checkbox, .radio
+  {
+    width: 20px;
+    height: 20px;
+  }
+}
+.display-flex
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+gap:5px;
+}
 .content {
   text-align: center;
   background: #1f00a4;

@@ -177,7 +177,6 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
               style={{
                 padding: "0px",
                 textAlign: "center",
-                minHeight: "87vh",
                 height: "auto",
                 width: "100%",
                 justifyContent: "space-around",
@@ -237,7 +236,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     </div>
                   )}
  </div>
-                  <div className="bottom-btn">
+                  <div className="">
                   <div className="n-btn" onClick={this.setRoute} >
                     skip
                   </div>

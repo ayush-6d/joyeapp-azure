@@ -868,13 +868,7 @@ const Design = (props: any) => {
             <>
               {isFirstTimeLoadIcon && (
                 <Link to="/end-brew">
-                  <p
-                    style={{
-                      color: "#fff",
-                      fontSize: "20px",
-                      fontFamily: "Avenir-Black",
-                    }}
-                  >
+                  <p className="n-btn">
                     Cancel
                   </p>
                   {/* <img alt="mic" src={MicPic} /> */}

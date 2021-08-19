@@ -325,6 +325,7 @@ div.level-item {
   box-sizing: content-box;
   position: absolute;
   bottom: 0;
+  top:15%;
   width: 100%;
   z-index: 50;
 }
@@ -875,50 +876,6 @@ body {
 
 #cup {
   z-index: 10;
-}
-
-.popup {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  z-index: 10000;
-  overflow: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  z-index: 100;
-  padding: 30px;
-  /* overflow: auto; */
-}
-
-.popup_inner {
-  border-radius: 40px;
-  background: white;
-  border: 0.5px solid #39393933;
-  padding: 40px;
-  max-width: 370px;
-  margin-bottom: 30px;
-
-  /* display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: absolute;
-      left: 5%;
-      right: 5%;
-      top: 10%;
-      margin: auto;
-      border-radius: 50px;
-      background: white;
-      border: 0.75px solid #1E00A3;
-      padding: 60px;
-      max-width: 370px;
-      margin-bottom: 30px; */
 }
 
 .para-scroll {

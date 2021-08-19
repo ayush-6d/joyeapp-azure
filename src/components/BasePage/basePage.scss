@@ -1,3 +1,6 @@
+:root{
+  --text-blue:#1E00A3;
+}
 .base-page-main {
   .layout-children {
     display: flex;
@@ -12,8 +15,99 @@
 .position-relative:empty{
   display: none;
 }
+.block:not(:last-child), .box:not(:last-child), .breadcrumb:not(:last-child), .content:not(:last-child), .highlight:not(:last-child), .level:not(:last-child), .list:not(:last-child), .message:not(:last-child), .notification:not(:last-child), .pagination:not(:last-child), .progress:not(:last-child), .subtitle:not(:last-child), .table-container:not(:last-child), .table:not(:last-child), .tabs:not(:last-child), .title:not(:last-child) {
+  margin-bottom: 0 !important;
+}
+.text-blue
+{
+   color:var(--text-blue) !important;
+}
+.player-bg {
+color: #fff;
+}
+.timer {
+  margin-left: 15px;
+  font-size: 12px;
+}
+.progress {
+  padding: 0;
+  width: 48%;
+  height: 6px !important;
+  overflow: hidden;
+  background: #ffffff73;
+  border-radius: 31px;
+  margin-bottom: 0px !important;
+}
+.bold {
+  font-weight: 600;
+}
+.jDnDmx
+{
+  background-color: #007026;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#007026), to(#75FF00));
+  background-image: -webkit-linear-gradient(top, #007026, #75FF00);
+  background-image:    -moz-linear-gradient(top, #007026, #75FF00);
+  background-image:      -o-linear-gradient(top, #007026, #75FF00);
+  background-image:         linear-gradient(to bottom, #007026, #75FF00);
+}
 
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 10000;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  z-index: 100;
+  line-height: 22px;
+  font-size: 15px;
+  background: #606060c7;
+}
+
+.popup_inner {
+  border-radius: 40px;
+  background: white;
+  border: 0.5px solid #39393933;
+  max-width: 370px;
+  background: white;
+  padding: 40px 20px;
+  max-width: 370px;
+  margin: 20px;
+}
+
+.range__wrapper .n-btn
+{
+    border-radius: 40px;
+    border: 1px solid #fff;
+    padding: 3px 15px;
+    font-weight: 600;
+    color: #fff;
+    min-width: 100px;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
+.bottom-bttn{
+  text-align: center;
+  margin: 30px auto 0;
+}
 @media screen and (max-width: 768px) {
+  .login-form.home-screen {
+    padding: 20px;
+    position: relative;
+    max-width: 768px;
+    margin: 0 auto;
+    overflow: hidden;
+}
   .base-page-main.login-form.home-screen {
     width: 100%;
     padding: 20px;

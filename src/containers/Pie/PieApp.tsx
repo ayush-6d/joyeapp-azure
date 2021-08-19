@@ -198,7 +198,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                   className="fadeInEffect"
                   key={`key${index}`}
                   style={{
-                    position: 'absolute', width: '20vh', height: '20vh', bottom: -61, right: '-15%', zIndex: 1,
+                    position: 'absolute', width: '20vh', height: '20vh', bottom: -21, right: '-15%', zIndex: 1,
                   }}
                 >
                   <CloudGradient color1={indexData.cColor} color3={null} />
@@ -276,7 +276,8 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                 ))}
               </div>
             )}
-            <div className="bottom-btn">
+            <div className="bottom-bttn">
+            <Link to="#"  className="n-btn">Previous</Link>
             <Link className="n-btn"
               onClick={
                 () => {
