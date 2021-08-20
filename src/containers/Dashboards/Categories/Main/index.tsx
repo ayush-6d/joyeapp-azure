@@ -10,6 +10,7 @@ import ExcellentTick from "../../../../resources/icons/ExcellentTick.png";
 import speakingcircle from "../../../../resources/icons/speakingcircle.png";
 import axios from "axios";
 import { removeAlert, setAlert } from "src/actions/alertAction";
+import "src/resources/css/fonts/fonts.css";
 import speakingcircleNew from "../../../../resources/icons/ProcessCompletedNew.png";
 import { ScorePoint } from "../scorepoints";
 import ProcessComplete from "../../../../resources/icons/ProcessCompleted.png";

@@ -12,6 +12,7 @@ const aboutUs = require("../../resources/icons/aboutus.svg");
 const heart = require("../../resources/icons/Heart.svg");
 const home = require("../../resources/icons/home.png");
 const brewicon = require("../../resources/icons/brewicon.png");
+const out = require("../../resources/icons/out.png");
 
 
 export interface IBurgerMenuProps extends RouteComponentProps{}
@@ -103,6 +104,7 @@ About us */}
                   FAQ
                 </div>
               </Tab>
+              
              {/* <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
                 <img height="30px" width="28px" src={heart} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
@@ -113,6 +115,12 @@ About us */}
                 <img height="24px" width="24px" src={aboutUs} />
                 <div className="item-label" style={{ marginLeft: "27px", fontSize: "18px" }}>
                   About us
+                </div>
+              </Tab>
+              <Tab onClick={() => this.props.history.push("/faq")} name="reports">
+                <img height="25px" width="25px" src={out} />
+                <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
+                  Sign out
                 </div>
               </Tab>
             </div>
