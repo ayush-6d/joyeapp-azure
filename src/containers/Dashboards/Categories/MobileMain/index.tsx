@@ -7,6 +7,7 @@ import recycle from "../../../../resources/icons/recycle.png";
 import Gesture from "../../../../resources/icons/gesture.png";
 import ExcellentTick from "../../../../resources/icons/ExcellentTick.png";
 import speakingcircle from "../../../../resources/icons/speakingcircle.png";
+import "src/resources/css/fonts/fonts.css";
 import axios from "axios";
 import { removeAlert, setAlert } from "src/actions/alertAction";
 import { TellUsAbout } from "../Tellusabout";

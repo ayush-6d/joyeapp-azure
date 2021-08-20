@@ -1,5 +1,6 @@
 import * as React from "react";
 import Logo from "src/resources/icons/LOGO_Square white_border.png";
+import DailyText from "src/resources/icons/DailyText.png";
 import Cup from "src/resources/icons/cup.png";
 import { PageImage } from "src/components";
 export interface ILuncherProps {}
@@ -17,7 +18,8 @@ export class Luncher extends React.PureComponent<ILuncherProps, {}> {
         </div>
           <PageImage height="110.6px" width="70px" marginTop="60px" logo={Cup} />
          </div>
-          <div style={{ color: '#1E00A3', fontSize:'17px', margin:'10px auto', textAlign:'center',fontWeight:'bold' }}>Daily Brew</div>
+          <div style={{ color: '#1E00A3', fontSize:'17px', margin:'10px auto', textAlign:'center',fontWeight:'bold' }}>
+          <img src={DailyText} style={{ width: "107px", height:'auto', margin:'20px auto' }} /></div>
       </div>
     );
   }

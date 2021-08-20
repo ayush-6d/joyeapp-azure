@@ -97,11 +97,20 @@
  }
  textarea:focus
  {
-    box-shadow:0 0px 10px 0px #ce57ff;
+   box-shadow:0 0px 10px 0px #ce57ff;
+   -webkit-box-shadow:0 0px 10px 0px #ce57ff;
+   -o-box-shadow:0 0px 10px 0px #ce57ff;
+   -moz-box-shadow:0 0px 10px 0px #ce57ff;
  }
  :focus-visible {
     outline: -webkit-focus-ring-color auto 0px;
  }
+ input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
  .n-btn + .n-btn{
     margin:0 20px;
   }
@@ -117,6 +126,7 @@
       font-size: 14px;
       line-height: 20px;
       font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      text-align: center;
   }
   .bottom-btn
   {
