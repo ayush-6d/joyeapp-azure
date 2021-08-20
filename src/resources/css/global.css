@@ -256,7 +256,7 @@ h3.hdngTitle span {
 
 .bottomButton {
   position: absolute;
-  bottom: 100px;
+  bottom: 50px;
   text-align: center;
   width: 100%;
 }
@@ -325,7 +325,7 @@ div.level-item {
   box-sizing: content-box;
   position: absolute;
   bottom: 0;
-  top:15%;
+  top:17%;
   width: 100%;
   z-index: 50;
 }
@@ -969,7 +969,7 @@ body {
 }
 
 .player-bg {
-  background-color: #1e00a3;
+  /* background-color: #1e00a3; */
   /* height: 13vh; */
   width: 80%;
   /* position: absolute; */
@@ -1078,7 +1078,7 @@ body {
   justify-self: center;
   color: #808080 !important;
   position: fixed;
-  top: 95px;
+  top: 46px;
   padding: 10px;
   background: #ffffff;
   border-radius: 10px;

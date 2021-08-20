@@ -5,6 +5,7 @@ import playIcon from "src/resources/icons/play.png";
 import stopIcon from "src/resources/icons/stop.png";
 import Circles from "./circles";
 import "../Dashboards/Categories/Main/index.scss";
+import "src/resources/css/fonts/fonts.css";
 export interface IDeepBreathProps {
   route?: any;
   openModal?: any;
