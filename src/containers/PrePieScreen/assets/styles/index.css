@@ -306,6 +306,9 @@ button.button.is-primary.next {
      max-width: 768px;
      margin: 0 auto;
  }
+ .swiper-slide .fff{
+    width: 400px;
+}
 }
 
  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {

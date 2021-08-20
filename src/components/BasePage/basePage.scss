@@ -95,10 +95,36 @@ color: #fff;
     font-size: 14px;
     line-height: 20px;
     font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+    text-align: center;
 }
 .bottom-bttn{
   text-align: center;
   margin: 30px auto 0;
+}
+.card-content {
+  margin: auto;
+  background: rgba(255, 255, 255, 0.9);
+  padding-top: 100px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
+  height: 70%;
+  box-sizing: content-box;
+  position: absolute;
+  bottom: 0;
+  top:17%;
+  width: 100%;
+  z-index: 50;
+}
+.average-score {
+  justify-self: center;
+  color: #808080 !important;
+  position: fixed;
+  top: 46px;
+  padding: 10px;
+  background: #ffffff;
+  border-radius: 10px;
+  font-family: "Nunito", sans-serif;
 }
 @media screen and (max-width: 768px) {
   .login-form.home-screen {

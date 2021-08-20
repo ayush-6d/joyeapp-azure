@@ -326,7 +326,7 @@ export default class Circles extends React.PureComponent<ICircle, ICircleState> 
         <animate id="a3219" begin="a3119.end" xlinkHref="#circle19" attributeName="r" repeatCount="1" fill="freeze" values="2345;2345" dur="3.5s" />
         <animate id="a3220" begin="a3120.end" xlinkHref="#circle20" attributeName="r" repeatCount="1" fill="freeze" values="2208;2208" dur="3.5s" />
         <animate id="a3221" begin="a3121.end" xlinkHref="#circle21" attributeName="r" repeatCount="1" fill="freeze" values="1862;1862" dur="3.5s" />
-        <text id="t1" style={{ fontFamily: "arial black", fill: "white", fontSize: "1200px" }} x="50%" y="51%" dominant-baseline="middle" text-anchor="middle" font-family="Super Sans" font-weight="bold" font-style="normal">{this.state.counter === 0 ? '' : this.state.counter}</text>
+        <text id="t1" style={{ fontFamily: "Mont-HeavyDEMO", fill: "white", fontSize: "2000px" }} x="50%" y="52.5%" dominant-baseline="middle" text-anchor="middle" font-family="Super Sans" font-weight="bold" font-style="normal">{this.state.counter === 0 ? '' : this.state.counter}</text>
       </svg>
     );
   };

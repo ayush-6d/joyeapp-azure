@@ -16,7 +16,8 @@ export class Luncher extends React.PureComponent<ILuncherProps, {}> {
           <PageImage height="87px" width="86px" logo={Logo} />
         </div>
           <PageImage height="110.6px" width="70px" marginTop="60px" logo={Cup} />
-        </div>
+         </div>
+          <div style={{ color: '#1E00A3', fontSize:'17px', margin:'10px auto', textAlign:'center',fontWeight:'bold' }}>Daily Brew</div>
       </div>
     );
   }
