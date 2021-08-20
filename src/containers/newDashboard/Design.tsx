@@ -403,15 +403,16 @@ const Design = (props: any) => {
   };
 
   function getJournalQuestion(theme) {
-    // await database
+    // const journalQuestion =  await database
     //     .ref(
-    //       `joye_master_data/sprint_new/default_application_messages/${pieResp.x}`
+    //       `joye_master_data/sprint_new/theme/${theme}/journal_question`
     //     )
     //     .once("value");
+    // console.log(journalQuestion);
   }
 
   function getCongratulationQuestion(theme) {
-
+ 
   }
 
   function getPodcast(theme) {
