@@ -310,7 +310,11 @@ button:focus {
    height: 95px;
    padding: 10px;
    color: #fff;
-   margin: 0 auto
+   margin: 0 auto;
+   display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .joye-logo img
 {
