@@ -402,21 +402,37 @@ const Design = (props: any) => {
     // return sprint
   };
 
-  function getJournalQuestion(theme) {
-    // const journalQuestion =  await database
-    //     .ref(
-    //       `joye_master_data/sprint_new/theme/${theme}/journal_question`
-    //     )
-    //     .once("value");
-    // console.log(journalQuestion);
+  async function getJournalQuestion(theme) {
+    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let journalQuestion: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
+        )
+        .once("value");
+    journalQuestion = await journalQuestion.val();
+    return journalQuestion[Math.floor(random(1, journalQuestion.length || 0)) - 1];
   }
 
-  function getCongratulationQuestion(theme) {
- 
+  async function getCongratulationQuestion(theme) {
+    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let congratulationQuestion: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/congratulations_questions`
+        )
+        .once("value");
+    congratulationQuestion = await congratulationQuestion.val();
+    return congratulationQuestion[Math.floor(random(1, congratulationQuestion.length || 0)) - 1];
   }
 
-  function getPodcast(theme) {
-
+  async function getPodcast(theme) {
+    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let podcast: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/podcasts`
+        )
+        .once("value");
+    podcast = await podcast.val();
+    return podcast;
   }
 
 
