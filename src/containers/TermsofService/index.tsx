@@ -3,6 +3,7 @@ import { BasePage } from "components/BasePage/index";
 import "../Dashboards/Categories/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
 const shield = require("../../resources/icons/shield.png");
+const privacy = require("../../resources/icons/Privacy_icon.png");
 
 export class TermsofService extends React.PureComponent {
   render() {
@@ -32,18 +33,20 @@ export class TermsofService extends React.PureComponent {
           </div>
 
           <div style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
-            <img height="42px" width="42px" src={shield} />
+            {/* <img height="42px" width="42px" src={shield} /> */}
+            <img height="125px" width="93px" src={privacy} />
           </div>
           <div className="text-left">
-          <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>
-          <p style={{ marginTop: "20px" }}>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you inside of Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
-          <p style={{ marginTop: "20px" }}>Your organisation will not be able to access your personal information inside of Joye. We may share organisation level trends, but the information will not be identifiable to you or any individual users.</p>
+          <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+          <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+          <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
+          <p style={{ marginTop: "20px" }}>Speak your mind freely!</p>
+          <p style={{ marginTop: "20px" }}>While you help yourself, you are also helping your organisation to serve you better.</p>
           </div>
           <p style={{ color: "#1E00A3", fontWeight: "bold", marginTop: "100px" }}>Terms of Service</p>
-          <p style={{ color: "#808080", marginTop: "-10px" }}>{Date}</p>
+          <p style={{ color: "#808080"}}>1st September 2021</p>
 
           <div style={{ marginTop: "10px", textAlign: "left", marginLeft: "3px" }}>
-            <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>
             <p>Joye is not a medical device or a clinical solution.</p>
             <p>
               These Terms of Service (Terms) are the terms under which Joye Pte Ltd (Joye, Us, We, Our, or Company) provides its services, which are accessible via <a href="www.joye.ai">www.joye.ai</a> (Site) and/or via Joye mobile device application (App) and/or Joye app in the Microsoft Teams interface. Any User (You) should read these terms of service carefully, as they govern the access to, and use of the App, including any services and information available through the Site and the App.
@@ -95,7 +98,7 @@ export class TermsofService extends React.PureComponent {
             <p>Our App may display, or contain links to third party products, services or other Apps. We provide these links only as a convenience and we are not responsible for the content, products or services in such cases. We do not control third party content and do not guarantee the accuracy, integrity or quality of such third party content. You acknowledge sole responsibility for and assume all risk arising from, your use of any third-party products, services or other Apps.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Copyright and Trademarks</p>
-            <p>“Joye”, the Joye logo, Daily Brew, 4-3-3 Breathing along with all material used in the App are owned by Joye Pte Ltd, and may not be copied, imitated or used in whole or in part, without the prior written permission of Joye Pte Ltd, as any misuse of the trademarks as displayed in the App is strictly prohibited.</p>
+            <p>“Joye”, the Joye logo, Daily Brew, Stress Buster along with all material used in the App are owned by Joye Pte Ltd, and may not be copied, imitated or used in whole or in part, without the prior written permission of Joye Pte Ltd, as any misuse of the trademarks as displayed in the App is strictly prohibited.</p>
             <p>You may not utilise any ‘hidden text’ utilising “Joye” or any other name, trademark or product or service name of features within the App without our prior written permission. All intellectual property, other trademarks, logos, images, feature, product and company names displayed or referred to on our App are the property of their respective owners.</p>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Warranties and Limitations</p>
             <p>We warrant that we will use reasonable skill in providing the App.</p>

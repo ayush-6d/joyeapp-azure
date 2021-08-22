@@ -23,7 +23,7 @@ export class Circle extends React.PureComponent<ICircleProps, {}> {
           <img style={imgStyle} src={img} />
         ) : (
           <div className="circe-text">
-            <p>{"0.0"}</p>
+            <p>{"0 . 0"}</p>
           </div>
         )}
       </div>
