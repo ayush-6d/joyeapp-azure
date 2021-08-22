@@ -6,24 +6,26 @@ import stopIcon from "src/resources/icons/stop.png";
 import Circles from "./circles";
 import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
-export interface IDeepBreathProps {
+import { withRouter } from "react-router";
+import { RouteComponentProps } from "react-router";
+export interface IDeepBreathProps extends RouteComponentProps{
+  history: any;
   route?: any;
   openModal?: any;
   analysisPage?: boolean;
 }
-export interface IDeepBreathState {
+export interface IDeepBreathState{
   todaysFeeling?: string;
   counter?: number;
   timer?: object;
   counterStart?: boolean;
-  route?: any;
   audioMute: boolean;
   isPlaying: boolean;
   isStop?: boolean;
   path: string;
 }
-export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
-  constructor(props: IDeepBreathState) {
+export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
+  constructor(props: IDeepBreathProps) {
     super(props);
     let path = ((window as any).location.hostname === "localhost") ? "/public/" : '/';
     this.state = { isPlaying: false, audioMute: false, path: path };
@@ -74,10 +76,13 @@ export class DeepBreath extends React.PureComponent<IDeepBreathProps, IDeepBreat
           </div>
           
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
-            <div className="n-btn">Daily Brew</div> 
+            <div className="n-btn" onClick={()=>{
+              this.props.history.push("/")
+            }}>Daily Brew</div> 
             </div>
         </BasePage>
       </>
     );
   }
 }
+export const DeepBreath = withRouter(DeepBreathClass);
