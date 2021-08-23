@@ -14,11 +14,13 @@ import * as firebase from "firebase";
 import moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 import { withRouter, RouteComponentProps } from "react-router";
+import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 
 export interface IJournalProps extends RouteComponentProps{
   route?: any;
   history: any;
   openModal?: any;
+  data?:any;
 }
 
 export interface IJournalState {
@@ -27,13 +29,15 @@ export interface IJournalState {
   isSkip?: boolean;
   showJoyelevel?: boolean;
   showYesno?: boolean;
+  jQuestion?: string;
+  cQuestion?: string,
 }
 
 let isSkipSaved = false;
 let jounrnalCheckSaved = "";
 let joyelevelscore = 0;
 let isOnceDay = false;
-
+let dbRef = firebaseInit.database(getDbUrl());
 export class Journalclass extends React.PureComponent<IJournalProps, IJournalState> {
   constructor(props: IJournalProps) {
     super(props);
@@ -42,7 +46,9 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       jounrnalCheck: "showEverytime",
       isSkip: false,
       showJoyelevel: true,
-      showYesno: false
+      showYesno: false,
+      jQuestion: "",
+      cQuestion: "",
     };
   }
 
@@ -55,10 +61,9 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
     var dayCount = new Date().getDay();
 
+    const userId = getAuthId();
 
-
-    let userId = await createHash("596ef7d8-f109-4c4e-9c91-81896baa9da5");
-    const query = await firebase.database().ref(`users/${userId}/brew/brewdata/journalText`);
+    const query = await dbRef.ref(`users/${userId}/brew/brewdata/journalText`);
     let snapshot = await query.once("value");
 
     snapshot.forEach(function (data) {
@@ -70,7 +75,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       jounrnalCheckSaved = dataVal.jounrnalCheck;
     });
 
-    const userRefJoyelevel = await firebase.database().ref(`users/${userId}/brew/brewdata/${todaysDate}/currentAverage`);
+    const userRefJoyelevel = await dbRef.ref(`users/${userId}/brew/brewdata/${todaysDate}/currentAverage`);
 
     userRefJoyelevel.on("value", snapshot => {
       snapshot.forEach(data => {
@@ -79,7 +84,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       });
     });
 
-    const userRefOnceAday = await firebase.database().ref(`users/${userId}/brew/brewdata/${todaysDate}/OnceAday`);
+    const userRefOnceAday = await dbRef.ref(`users/${userId}/brew/brewdata/${todaysDate}/OnceAday`);
 
     userRefOnceAday.on("value", snapshot => {
       snapshot.forEach(data => {
@@ -87,14 +92,26 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         isOnceDay = dataVal;
       });
     });
-    
+
+
+    let jQuestion = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/journalQuestion`).once('value');
+    jQuestion = await jQuestion.val();
+    var journalQuestion = jQuestion?.toString();
+    this.setState({ jQuestion: journalQuestion });
+
+    let cQuestion = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/congratulationQuestion`).once('value');
+    cQuestion = await cQuestion.val();
+    var congratulationQuestion = cQuestion?.toString();
+    this.setState({ cQuestion: congratulationQuestion });
+
+
+
     if (joyelevelscore > 6 || joyelevelscore < 5) {
       if (jounrnalCheckSaved === "donotShowEverytime" && dayCount > 0 && dayCount <= 3 && !isOnceDay) {
         this.setState({ showJoyelevel: true });
         let OnceDay = { isOnceDay: true };
 
-        firebaseInit
-          .database()
+        dbRef
           .ref(`users/${userId}/brew/brewdata/${todaysDate}/OnceAday`)
           .set({ OnceDay })
           .catch(error => this.onFail(error));
@@ -102,17 +119,17 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         if (jounrnalCheckSaved === "showEverytime") {
           this.setState({ showJoyelevel: true });
         } else {
-          this.props.history.push(`/dashboard`);
+          // this.props.history.push(`/dashboard`);
         }
       }
     } else {
-      this.props.history.push(`/dashboard`);
+      // this.props.history.push(`/dashboard`);
     }
   };
 
   handleYesno() {
     this.setState({ showYesno: true });
-  }
+  };
 
   handleChange = e => {
     const value = e.target.value;
@@ -143,27 +160,29 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       CreatedDateTime: Date().toLocaleString()
     };
 
-    firebaseInit
-      .database()
+    dbRef
       .ref(`users/${userId}/brew/brewdata/journalText`)
       .set({ jounrnalDetalis })
       .catch(error => this.onFail(error));
 
-    const data = await firebaseInit.database().ref(`users/${userId}/brew/brewdata/journalText`).once("value");
+    const data = await dbRef.ref(`users/${userId}/brew/brewdata/journalText`).once("value");
     console.log("data", data);
   };
 
   setRoute = () => {
     this.saveData(true);
-    this.props.history.push(`/dashboard`);
+    // this.props.history.push(`/dashboard`);
   };
   renderYesnoContent = () => {
     if (this.state.showYesno) {
-      return <Yesno />;
+      var congratulationQuestion = this.state.cQuestion.toString()
+      // console.log("Question", congratulationQuestion)
+      return <Yesno data={{congratulationQuestion : congratulationQuestion}}/>;
     }
   };
+
   render() {
-    const { todaysFeeling, showYesno } = this.state;
+    const { todaysFeeling, showYesno, jQuestion } = this.state;
     const { route, history } = this.props;
     const headers = ["tellusabout", "saysomething", "congratulation"];
     return (
@@ -191,7 +210,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
               <div className="text-container">
                   {todaysFeeling.length <= 150 ? (
                     <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
-                      <p>Express freely in a few sentences </p>
+                      <p>{jQuestion}</p>
                       {/* <p className="do-not-txt">
                         Tap &nbsp;&nbsp;
                         <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
@@ -201,7 +220,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                   ) : 
                   (
                     <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
-                    <p>Express freely in a few sentences </p>
+                    <p>{jQuestion}</p>
                       {/* <p className="do-not-txt">
                         Tap &nbsp;&nbsp;
                         <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
