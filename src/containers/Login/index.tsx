@@ -355,8 +355,10 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               <img height="125px" width="93px" src={privacy} />
             </div>
 
-            <p style={{ marginTop: "10px" }}>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you inside of Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
-            <p style={{ marginTop: "20px" }}>Your organisation will not be able to access your personal information inside of Joye. We may share organisation level trends, but the information will not be identifiable to you or any individual users.</p>
+            
+            <p style={{ marginTop: "10px" }}>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+            <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
 
             <div className="text-container">
               <div className="advertise-text">

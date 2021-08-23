@@ -3,6 +3,7 @@ import { BasePage } from "src/components";
 import "../Dashboards/Categories/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
 const shield = require("../../resources/icons/Newshield.svg");
+const privacy = require("../../resources/icons/Privacy_icon.png");
 
 export class PrivacyPolicy extends React.PureComponent {
   render() {
@@ -30,33 +31,37 @@ export class PrivacyPolicy extends React.PureComponent {
           </div>
 
           <div style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
-            <img height="42px" width="42px" src={shield} />
+            {/* <img height="42px" width="42px" src={shield} /> */}
+            <img height="125px" width="93px" src={privacy} />
           </div>
           <div className="text-left">
-          <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>
-          <p style={{ marginTop: "20px" }}>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you inside of Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
-          <p style={{ marginTop: "20px" }}>Your organisation will not be able to access your personal information inside of Joye. We may share organisation level trends, but the information will not be identifiable to you or any individual users.</p>
+          <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+          <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+          <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
+          <p style={{ marginTop: "20px" }}>Speak your mind freely!</p>
+          <p style={{ marginTop: "20px" }}>While you help yourself, you are also helping your organisation to serve you better.</p>
           </div>
           <p style={{ color: "#1E00A3", fontWeight: "bold", marginTop: "100px" }}>Privacy Policy</p>
-          <p style={{ color: "#808080", marginTop: "-10px" }}>{Date}</p>
+          <p style={{ color: "#808080"}}>1st September 2021</p>
 
           <p style={{ color: "#1E00A3", fontWeight: "bold", marginTop: "110px" }}>Privacy Policy</p>
           <p style={{ fontWeight: "bold" }}>(Summary)</p>
 
           <div style={{ marginTop: "30px", textAlign: "left", marginLeft: "3px" }}>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>What information we collect from you, and how we use it</p>
-            <p>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you in Joye. We do not require your personal details - no email address, no profile picture, no employee ID.</p>
-            <p>Any other times your information is being used will be to understand your encrypted identity a little better, and to train our machine learning to serve you better. Furthermore, when you finish a session in Joye, your expression of feelings will be immediately anonymised, and any association with you will be deleted. So express yourself freely!</p>
+            <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+            <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
           </div>
 
           <div style={{ marginTop: "30px", textAlign: "left", marginLeft: "3px" }}>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Disclosure of your information to third parties</p>
             <p>We do not intend to use your personal profile and personal information for advertisements.</p>
-            <p>Your organisation will not be able to access your personal information in Joye, as your identity is nothing more than an encrypted number. We may share organisation level trends, but the information will not be identifiable to individual users.</p>
-            <p>We may only disclose your information to a third party where either you have asked this to be done, or if we are legally required to provide some information to the government or other legal governance agencies, which will be an exceptional scenario.</p>
+            <p>Your organisation will not be able to access your personal information in Joye, as your identity is protected by our privacy policy and advanced technology. We may share high-level overview of organisation level trends, but the information will not be identifiable to individual users.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Where is your data stored and how we ensure that it is secure</p>
-            <p>We store your data in a secure datacenter of a leading Cloud service provider. In most cases we endeavour to host this in Singapore or the USA. We have architected the design and the processes to ensure that all transmissions are secure using technical and physical security measures.</p>
+            <p>We store your data in a secure datacenter of a leading Cloud service provider. In most cases we endeavour to host this in Singapore or the USA. Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a href="https://firebase.google.com/support/privacy">More Details</a></p>
+            <p>We have architected the design and the processes to ensure that all transmissions are secure using technical and physical security measures.</p>
           </div>
 
           <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Contact information</p>
@@ -87,9 +92,9 @@ export class PrivacyPolicy extends React.PureComponent {
           </div>
           <div style={{ marginTop: "30px", textAlign: "left", marginLeft: "3px" }}>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>Sign up and Sign in</p>
-            <p>You will use your Microsoft Teams login credentials to gain access to Joye. One the access is granted (in some cases pre-approved by your organisation), we will encrypt your Microsoft Teams identity and create a new unique encrypted identity inside Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID. Your identity inside of Joye will be an unique encrypted number with no recognisable association with your identity in Microsoft Teams or email or any other associated organisation systems.</p>
+            <p>You will use your Microsoft Teams login credentials to gain access to Joye. Once One the access is granted through Microsoft’s Active Directory authentication services (in some cases pre-approved by your organisation), we only collect your unique system-identity, example, organisation identity, your Microsoft Teams ID, your email. We do not need your personal details - no name, no picture.</p>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "20px" }}>In-app features</p>
-            <p>When you speak or type to express your feelings, our AI algorithm will process this to understand your context and will respond appropriately to recommend tips and nudges to enhance your mental wellbeing. In addition to your identity being encrypted, we will also anonymise your speech or text inputs and any association with your encrypted identity will also be deleted once you close the session. It’s secure and private! We will store a history of your analytics (associated with your encrypted identity) to help you keep track of your wellbeing. This information is not shared with other agencies at individual user level.</p>
+            <p>When you speak or write to express your feelings, our AI algorithm will process this to understand your context and will respond appropriately to recommend tips and nudges to enhance your mental wellbeing.</p>
             <p>
               By using our in-app Journal text entry service (not the ‘how are you feeling today’ text input, only the journal text input), you grant Joye consent to store your text recording in its secure database to enable you to revisit it within the app. Users may request and obtain removal of such posted content by contacting us at{" "}
               <a href="mailto:connect@joye.ai" style={{ color: "#1E00A3" }}>
@@ -142,7 +147,7 @@ export class PrivacyPolicy extends React.PureComponent {
           <div style={{ marginTop: "30px", textAlign: "left", marginLeft: "3px" }}>
             <p>Your identity within Joye is an encrypted unique identity and not associated with your personal identity outside of the Joye. Your organisation will not be able to access your information inside of Joye, as your identity is nothing more than an encrypted number which is encrypted. We may share organisation level trends, but the information will not be identifiable to individual users.</p>
             <p>We may disclose your information, to third parties as follows:</p>
-            <p>In some circumstances, based on your specific requests, we may need to disclose your personal information to a third party so that they can provide a service you have requested from such a party, or fulfill a request for information from such a party. An example of this is the Microsoft Teams notification services.</p>
+            <p>In some circumstances, based on your specific requests, we may need to disclose your personal information to a third party so that they can provide a service you have requested from such a party, or fulfill a request for information from such a party.</p>
             <p>In the event that we sell or buy any business or assets, in which case we may disclose your personal information to the prospective seller or buyer of such business or assets.</p>
             <p>If Joye or substantially all of our assets are acquired by a third party, in which case personal information held by us about our customers will be one of the transferred assets.</p>
             <p>If we are under a duty to disclose or share your personal information in order to comply with any legal obligation such as to comply with a subpoena, bankruptcy proceedings, similar legal process, or in order to enforce or apply our agreements with you; or to protect the rights, property, or safety Joye, our customers, or others. This includes exchanging information with other companies and organisations for the purposes of fraud protection or similar scenarios.</p>
@@ -162,7 +167,7 @@ export class PrivacyPolicy extends React.PureComponent {
             <p>security All information you provide to us through the Products is stored on our cloud service providers secure servers, at most times located in Singapore or USA. On request and mutual agreement with the organisation, we could also consider storing your data in a mutually agreed country.</p>
             <p>Any payment transactions, if any, will be encrypted using SSL technology; all payment information is stored with our payment processor and is never stored on Joye’s servers.</p>
             <p>Just like it can be said of any other application or any forum of the web, the transmission of information via the Internet is never completely secure. Although we will do our best to protect your personal information, we cannot guarantee the security of your information transmitted to the Products; any transmission is at your own risk. Once we have received your information, we will use strict procedures and security features to try to prevent unauthorized access.</p>
-            <p>Joye operates and uses appropriate technical and physical security measures to protect your personal data. We have partnered with leading cloud service providers to protect your personal data from accidental or unlawful destruction, loss, alteration, unauthorized disclosure, or access. Access is only granted on a need-to-know basis to those people whose roles require them to process your personal data. All your personal data by which you can be identified, we will destroy after you have requested to deactivate your Joye account.</p>
+            <p>Joye operates and uses appropriate technical and physical security measures to protect your personal data. We have partnered with leading cloud service providers to protect your personal data from accidental or unlawful destruction, loss, alteration, unauthorized disclosure, or access. Access is only granted on a need-to-know basis to those people whose roles require them to process your personal data. All your personal data by which you can be identified, we will destroy, as per our policies, after you have requested to deactivate your Joye account.</p>
             <p>You are also responsible for helping to protect the security of your personal data. Furthermore, you are responsible for maintaining the security of any device on which you utilize the Services. Unfortunately, no system is 100% secure, and we cannot ensure or warrant the security of any personal data you provide to us. To the fullest extent permitted by applicable law, we do not accept liability for unintentional disclosure.</p>
           </div>
 

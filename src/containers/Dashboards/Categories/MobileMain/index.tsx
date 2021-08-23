@@ -532,7 +532,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
         )}
 
         <div className="rel home-screen-box">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
+          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }}  img={speakingcircle} />
           {seconds >= 58 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 59 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
           {isCounterStarted || isCounterEnd ? <MobileCircularCounter /> : ""}
         </div>

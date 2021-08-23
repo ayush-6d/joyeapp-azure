@@ -904,7 +904,7 @@ const Design = (props: any) => {
           {sliders.length !== counter + 1 ? (
             <>
               {isFirstTimeLoadIcon && (
-                <Link to="/end-brew">
+                <Link to="/">
                   <p className="n-btn">
                     Cancel
                   </p>

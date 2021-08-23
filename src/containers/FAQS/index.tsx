@@ -3,6 +3,7 @@ import { BasePage } from "components/BasePage/index";
 import "../Dashboards/Categories/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
 const shield = require("../../resources/icons/shield.png");
+const privacy = require("../../resources/icons/Privacy_icon.png");
 
 export class FAQS extends React.PureComponent {
   render() {
@@ -31,14 +32,17 @@ export class FAQS extends React.PureComponent {
           </div>
 
           <div  style={{ alignContent: "center", marginTop: "40px", marginBottom: "40px" }}>
-            <img height="42px" width="42px" src={shield} />
+          <img height="125px" width="93px" src={privacy} />
           </div>
           <div className="text-left">
-          <p>Welcome to Joye. Speak your mind and Joye will keep you positive and productive amidst your emotional flux. It’s easy!</p>
-          <p style={{ marginTop: "20px" }}>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you inside of Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
-          <p style={{ marginTop: "20px" }}>Your organisation will not be able to access your personal information inside of Joye. We may share organisation level trends, but the information will not be identifiable to you or any individual users.</p>
+          <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+          <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+          <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
+          <p style={{ marginTop: "20px" }}>Speak your mind freely!</p>
+          <p style={{ marginTop: "20px" }}>While you help yourself, you are also helping your organisation to serve you better.</p>
           </div>
           <p style={{ color: "#1E00A3", fontWeight: "bold", marginTop: "100px" }}>FAQ</p>
+          <p style={{ color: "#808080"}}>1st September 2021</p>
 
           <div style={{ marginTop: "10px", textAlign: "left", marginLeft: "3px" }}>
             <p style={{ fontWeight: "bold", marginTop: "40px" }}>How does Joye help my wellbeing?</p>
@@ -55,12 +59,13 @@ export class FAQS extends React.PureComponent {
               <a href="http://atlasofemotions.org/">http://atlasofemotions.org/</a>
             </div>
             <p style={{ fontWeight: "bold", marginTop: "40px" }}>What information we collect from you, and how we use it</p>
-            <p>You have our promise to protect your privacy. We use an unique encrypted identity to recognise you in Joye. We do not require your personal details - no name, no email address, no profile picture, no employee ID.</p>
-            <p>Any other times your information is being used will be to understand your encrypted identity a little better, and to train our machine learning to serve you better. Furthermore, when you finish a session in Joye, your expression of feelings will be immediately anonymised, and any association with you will be deleted. So express yourself freely!</p>
+            <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
+            <p>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a href="https://firebase.google.com/support/privacy">More Details</a></p>
+            <p>Joye’s data is independently managed by Joye Pte Ltd, Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>Disclosure of your information to third parties</p>
             <p>We do not intend to use your personal profile and personal information for advertisements.</p>
-            <p>Your organisation will not be able to access your personal information in Joye, as your identity is nothing more than an encrypted number. We may share organisation level trends, but the information will not be identifiable to individual users.</p>
+            <p>Your organisation will not be able to access your personal information in Joye, as your identity is protected by our privacy policy and advanced technology. We may share high-level overview of organisation level trends, but the information will not be identifiable to individual users.</p>
             <p>We may only disclose your information to a third party where either you have asked this to be done, or if we are legally required to provide some information to the government or other legal governance agencies, which will be an exceptional scenario.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>Is Joye a clinical or psychiatric solution app?</p>
@@ -68,7 +73,7 @@ export class FAQS extends React.PureComponent {
             <p>In the case of an emergency, please reach out to your family, local community, help-lines or your organisation’s support services.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>Is Joye free to use?</p>
-            <p>It is a paid service which your organisation will have to subscribe for its employees or students.</p>
+            <p>Joye is a paid service which your organisation will need to subscribe to. We are pleased to offer a free-of-charge trial period for now. Please ask your HR to reach us at: connect@joye.ai to subscribe.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>How can I get more information?</p>
             <p>
