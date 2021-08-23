@@ -237,8 +237,8 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                   )}
  </div>
                   <div className="">
-                  <div className="n-btn" onClick={this.setRoute} >
-                    skip
+                  <div className="n-btn" onClick={() => this.handleYesno()} style={{ cursor: "pointer" }}>
+                    Skip
                   </div>
                   </div>
                 </div>
