@@ -48,7 +48,7 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
         return (
             <>
                 <div className="center-button" onClick={() => isMobile ? null : this.props.onClick()}>
-                    <div><img src={speakingcircle} style={{ borderRadius: "150px" }} /></div>
+                    <div><img src={speakingcircle} style={{ borderRadius: "150px" }} width= "250" /></div>
                     <div>
                         <svg id="circlesSvg" height="200" width="200" viewBox="0 0 20 20" fill="green">
                             <circle id="pie" r="2.5" cx="10" cy="10" fill="none" stroke="white" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
