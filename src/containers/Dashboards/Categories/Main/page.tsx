@@ -20,7 +20,7 @@ export interface IPage {
     history?: any,
 }
 export interface IPageState {
-    pageState: string,
+    pageState: string,//init, bottom-mic, recording, loading, sos, tell-us-about
     recordingState: string,
     isMic: boolean,
     seconds: 0,
@@ -65,6 +65,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processMp3(base64mp3) {
+        console.log(`processMp3${base64mp3.length}`);
         let text: any = "";
         if (base64mp3) text = base64mp3;
         if (base64mp3.length > 256) text = await speechService.translateSpeechToText(base64mp3);
@@ -111,7 +112,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
             {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
                 <div style={{ userSelect: "none" }}>
-                    <Note recordingState={this.state.recordingState}></Note>
+                    <Note isMic={this.state.isMic} recordingState={this.state.recordingState}></Note>
                     <Controls onSpeakAgain={this.onSpeakAgain} isMic={this.state.isMic} onClick={this.onCenterCircleClick} recordingState={this.state.recordingState}></Controls>
                     <Actions onLeftCircleClick={this.onLeftCircleClick} isMic={this.state.isMic} recordingState={this.state.recordingState} onRightCircleClick={this.onRightCircleClick}></Actions>
                 </div>

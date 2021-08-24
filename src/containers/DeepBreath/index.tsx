@@ -56,6 +56,14 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
     this.setState({ audioMute: !this.state.audioMute });
     (window as any).audio.muted = !this.state.audioMute;
   }
+  
+  componentWillUnmount() {
+    if (this.state.isPlaying) {
+      (window as any).audio.pause();
+      (window as any).audio.currentTime = 0;
+      this.setState({ isPlaying: false });
+    }
+  }
 
   render() {
     return (

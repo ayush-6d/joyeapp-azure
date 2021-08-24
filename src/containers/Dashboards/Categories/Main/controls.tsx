@@ -1,10 +1,11 @@
 import * as React from "react";
 import "./controls.scss";
+import rightTick from "../../../../resources/icons/rightTick.png";
 import speakingcircle from "../../../../resources/icons/speakingcircle.png";
 import Mic from "../../../../resources/icons/mic.png";
 import Gesture from "../../../../resources/icons/gesture.png";
 import recycle from "../../../../resources/icons/recycle.png";
-
+import { isMobile } from "react-device-detect";
 export interface IControls {
     isMic: boolean,
     onClick: any,
@@ -38,20 +39,25 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
         this.props.onSpeakAgain();
     }
 
+    icon() {
+        if (this.props.recordingState === 'init') return this.props.isMic ? Mic : Gesture;
+        if (this.props.recordingState === 'in-progress') return isMobile ? null : rightTick;
+    }
+
     render() {
         return (
             <>
-                <div className="center-button" onClick={() => this.props.onClick()}>
+                <div className="center-button" onClick={() => isMobile ? null : this.props.onClick()}>
                     <div><img src={speakingcircle} style={{ borderRadius: "150px" }} /></div>
                     <div>
                         <svg id="circlesSvg" height="200" width="200" viewBox="0 0 20 20" fill="green">
                             <circle id="pie" r="2.5" cx="10" cy="10" fill="none" stroke="white" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
-                            <animate id="animate01" xlinkHref="#pie" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="60s" begin="infinite" />
+                            <animate id="animate01" xlinkHref="#pie" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="120s" begin="infinite" />
                             <animate id="animate02" xlinkHref="#pie" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="1s" begin="infinite" />
                             <circle r="6" cx="10" cy="10" fill="#1e00a3" />
                         </svg>
                     </div>
-                    <div><img src={this.props.isMic ? Mic : Gesture} /></div>
+                    <div><img src={this.icon()} /></div>
                 </div>
                 {this.props.recordingState === 'in-progress' ?
                     <div className="bottom-container" style={{ height: "201px" }}>

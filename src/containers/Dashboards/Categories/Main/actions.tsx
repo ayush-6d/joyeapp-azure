@@ -33,10 +33,8 @@ export default class Actions extends React.PureComponent<IActions, IActionsState
                     </div>
                     <div onClick={this.props.onRightCircleClick}>
                         <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} img={this.props.isMic ? Gesture : Mic} />
-                        <div className="advertise-text bold index-advertise-text  font-15">
-                            A little deeper
-                            <br /> reflection
-                        </div>
+                        {this.props.isMic ? <div className="advertise-text bold index-advertise-text  font-15">A little deeper<br /> reflection</div> : null}
+                        {!this.props.isMic ? <div className="advertise-text bold index-advertise-text  font-15">Speak your<br />mind</div> : null}
                     </div>
                 </div>
             </div> : null}
