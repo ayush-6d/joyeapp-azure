@@ -209,7 +209,7 @@ body {
    text-align: center;
    display: flex;
    justify-content: center;
-   gap: 20px;
+   gap: 70px;
   }
 
   .pie_value {
