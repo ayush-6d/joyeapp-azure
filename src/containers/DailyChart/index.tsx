@@ -329,7 +329,7 @@ export const DailyChart = () => {
                           display: 'flex',justifyContent:'center', marginTop:'30px', flexDirection: 'row', zIndex: 3, padding: '0px 15px',
                         }}
                         >
-                          <div className="bottom-btn">
+                          <div className="bottom-bttn">
                           <Link to="/pie-chart" className="n-btn">
                            Previous
                           </Link>
