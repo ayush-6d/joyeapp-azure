@@ -117,7 +117,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
           dbRef
             .ref(`users/${userId}/brew/brewData/${todaysDate}/OnceAday`)
-            .set({ OnceDay })
+            .update({ OnceDay })
             .catch(error => this.onFail(error));
         } else {
           if (jounrnalCheckSaved === "showEverytime") {
