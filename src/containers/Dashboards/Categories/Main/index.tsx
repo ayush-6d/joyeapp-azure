@@ -23,6 +23,7 @@ import MicRecorder from "mic-recorder-to-mp3";
 import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
+import Page from "./page"
 
 import "./index.scss";
 import { withRouter, RouteComponentProps } from "react-router";
@@ -187,18 +188,17 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
   convertBase64 = async Base64String => {
     console.log('Base64String', Base64String)
-    let pureBase64String=''
+    let pureBase64String = ''
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        if(isMobile)
-        {
+        if (isMobile) {
           pureBase64String = Base64String;
-        }else {
+        } else {
           pureBase64String = Base64String.split("base64,")[1];
         }
-         
+
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
@@ -233,14 +233,15 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
               console.log('todaysFeeling', todaysFeeling);
               await self.saveData(todaysFeeling, true);
             } else {
-              self.setState({ 
+              self.setState({
                 isClickHandle: true,
                 seconds: 10,
-                iconIndex: { mic: 2, gibberish: 1, gesture: 0 } , 
-                isLoading: false, 
-                isCounterEnd: false, 
+                iconIndex: { mic: 2, gibberish: 1, gesture: 0 },
+                isLoading: false,
+                isCounterEnd: false,
                 isCounterStarted: false,
-                showCounter: false, });
+                showCounter: false,
+              });
             }
           });
       }
@@ -288,7 +289,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: false,
-              withMenu: true, 
+              withMenu: true,
               showInfoIcon: true,
               showShield: true
             });
@@ -313,7 +314,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false,  withMenu: true, showInfoIcon: true, showShield: true });
+            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false, withMenu: true, showInfoIcon: true, showShield: true });
             self.props.history.push("/pre-pie-chart");
           }
         }
@@ -332,40 +333,40 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
     //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
-  getMobileBase64 = async url =>  {
+  getMobileBase64 = async url => {
     var self = this;
     return axios
       .get(url, {
         responseType: 'arraybuffer'
       })
-      .then(function (res){
+      .then(function (res) {
         clearInterval(timer);
         self.setState(
-          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
           () => {
             let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
             self.convertBase64(mobileBase64);
           }
         );
-           
+
       })
   }
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
-    
+
     if (isMobile) {
       self.startCounter(showCounter, isFromGesture);
-      
+
       microsoftTeams.initialize()
-      
+
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1
         //audioProps: { maxDuration: 1 },
       };
-      
-  microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+
+      microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
@@ -373,82 +374,82 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        
+
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-        console.log('attachments',attachments)
-        
+        console.log('attachments', attachments)
+
         let audioResult = attachments[0];
-        
-        console.log('audioResult',audioResult);
+
+        console.log('audioResult', audioResult);
         //console.log('audioResult.preview',audioResult.preview)
         //self.setState({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview})
-        
+
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-        debugger;
-        if (blob) {
-          var data = new Blob([blob], { type: blob.type });
-          console.log('data:', data);
+          debugger;
+          if (blob) {
+            var data = new Blob([blob], { type: blob.type });
+            console.log('data:', data);
 
-          var reader = new FileReader();
-          reader.readAsDataURL(data);
-          reader.onloadend = function () {
-            let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
-            base64String = base64String.substring(0, base64String.indexOf('AAAAAAAA'));
-            base64String = base64String.substring(0, (base64String.length - (base64String.length % 4)));
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onloadend = function () {
+              let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
+              base64String = base64String.substring(0, base64String.indexOf('AAAAAAAA'));
+              base64String = base64String.substring(0, (base64String.length - (base64String.length % 4)));
 
-            let convertOptions = {
-              "apikey": "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
-              "inputformat": "mp4",
-              "outputformat": "mp3",
-              "input": "base64",
-              "filename": "my.mp4",
-              "file": base64String,
-              "wait": true,
-              "download": false,
-              "save": true
-            }
-            let url = 'https://api.cloudconvert.com/v1/convert';
-            fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(convertOptions) }).then(x => {
-              setTimeout(() => {
-                fetch(x.url).then(x => x.json()).then(x => {
-                  document.getElementById('output2').innerHTML = JSON.stringify(x);
-                  
-                  fetch(x.output.url).then(x=>x.blob())
-                    .then(x=> {
-                      const reader = new FileReader();
-                      reader.readAsDataURL(x);
-                      reader.onloadend = () => {
-                        let str = (reader.result as string).replace("data:audio/mpeg;base64,","");
-                        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-                        {
-                          version: "v1p1beta1",
-                          audio: { content: str },
-                          config: {
-                            sampleRateHertz: 8000,
-                            enableAutomaticPunctuation: true,
-                            encoding: "MP3",
-                            languageCode: "en-US"
+              let convertOptions = {
+                "apikey": "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
+                "inputformat": "mp4",
+                "outputformat": "mp3",
+                "input": "base64",
+                "filename": "my.mp4",
+                "file": base64String,
+                "wait": true,
+                "download": false,
+                "save": true
+              }
+              let url = 'https://api.cloudconvert.com/v1/convert';
+              fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(convertOptions) }).then(x => {
+                setTimeout(() => {
+                  fetch(x.url).then(x => x.json()).then(x => {
+                    document.getElementById('output2').innerHTML = JSON.stringify(x);
+
+                    fetch(x.output.url).then(x => x.blob())
+                      .then(x => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(x);
+                        reader.onloadend = () => {
+                          let str = (reader.result as string).replace("data:audio/mpeg;base64,", "");
+                          axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+                            {
+                              version: "v1p1beta1",
+                              audio: { content: str },
+                              config: {
+                                sampleRateHertz: 8000,
+                                enableAutomaticPunctuation: true,
+                                encoding: "MP3",
+                                languageCode: "en-US"
+                              }
+                            },
+                            {
+                              headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json"
+                              }
+                            }
+                          )
+                            .then(async function (res) {
+                              document.getElementById('output1').innerHTML = JSON.stringify(res);
+                            });
+
                         }
-                    },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
+                      });
+                  });
+                }, 2000);
+              });
             }
           }
-        )
-          .then(async function (res) {
-            document.getElementById('output1').innerHTML = JSON.stringify(res);
-          });
-                        
-                      }
-                    });
-                });
-              }, 2000);
-            });
-          }
-        }
-      });
+        });
 
         if (error) {
           if (error.message) {
@@ -490,7 +491,7 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
   HardStop = () => {
     clearInterval(timer);
     this.setState(
-      prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+      prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
       () => {
         this.stop();
       }
@@ -499,25 +500,37 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
 
   render() {
     const { speachStarted, showCounter, isCounterStarted, seconds, iconIndex, isLoading, isClickHandle, isCounterEnd, isTellusabout, isModalOpen, modalData, withMenu, showShield, showInfoIcon } = this.state;
-    
+
     return !isLoading ? (
       <>
-      <BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
-      {isClickHandle ? (<div className="pageHeader">
-         <Circle className={`circles score-point`} showImg={false} />
-      </div>): null}
-        {seconds >= 8 && isClickHandle ? (
-          <div className="text-container">
-            <div className="advertise-text bold text-blue" style={{ fontSize: "17px", marginTop: "35px" }}>
-              <p>How are you feeling today?</p>
-              <p className="do-not-txt">&nbsp;</p>
+        <Page route={this.props.route} openModal={this.props.openModal} history={this.props.history}></Page>
+        {/*<BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
+          
+           {isClickHandle ? (<div className="pageHeader"><Circle className={`circles score-point`} showImg={false} /></div>) : null}
+          {seconds >= 8 && isClickHandle ? (
+            <div className="text-container">
+              <div className="advertise-text bold text-blue" style={{ fontSize: "17px", marginTop: "35px" }}>
+                <p>How are you feeling today?</p>
+                <p className="do-not-txt">&nbsp;</p>
+              </div>
             </div>
-          </div>
-        ) : seconds <= 6 ? (
-          <div className="text-container">
-            <div>
+          ) : seconds <= 6 ? (
+            <div className="text-container">
+              <div>
+                <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
+                  <p>Express freely for upto 10 sec</p>
+                  <p className="do-not-txt">
+                    Tap &nbsp;&nbsp;
+                    <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                    &nbsp;&nbsp; to proceed
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="text-container">
               <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
-                <p>Express freely in a few sentences</p>
+                <p>Express freely for upto 10 sec</p>
                 <p className="do-not-txt">
                   Tap &nbsp;&nbsp;
                   <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
@@ -525,59 +538,47 @@ export class MainClass extends React.PureComponent<IMainProps, IMainState> {
                 </p>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="text-container">
-            <div className="advertise-text bold text-blue" style={{ marginTop: "35px" }}>
-              <p>Express freely in a few sentences</p>
-              <p className="do-not-txt">
-                Tap &nbsp;&nbsp;
-                <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
-                &nbsp;&nbsp; to proceed
-              </p>
-            </div>
-          </div>
-        )}
+          )}
 
-        <div className="rel home-screen-box">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }}  img={speakingcircle} />
-          {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 9 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
-          {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
-        </div>
-        {!isCounterStarted && !showCounter ? (
-          <div className="bottom-container" style={{ height: "201px" }}>
-            <div className="width300" style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "47px" }} showImg={true} OnClick={e => this.onClickGesture()} img={icons[iconIndex["gibberish"]]} />
-                <div className="advertise-text bold index-advertise-text font-15">
-                  It is good
-                  <br />
-                  to write
+          <div className="rel home-screen-box">
+            <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
+            {seconds >= 8 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 9 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
+            {isCounterStarted || isCounterEnd ? <CircularCounter /> : ""}
+          </div>
+          {!isCounterStarted && !showCounter ? (
+            <div className="bottom-container" style={{ height: "201px" }}>
+              <div className="width300" style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>
+                  <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "47px" }} showImg={true} OnClick={e => this.onClickGesture()} img={icons[iconIndex["gibberish"]]} />
+                  <div className="advertise-text bold index-advertise-text font-15">
+                    It is good
+                    <br />
+                    to write
+                  </div>
+                </div>
+                <div>
+                  <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.navigateToSlider()} img={icons[iconIndex["gesture"]]} />
+                  <div className="advertise-text bold index-advertise-text  font-15">
+                    A little deeper
+                    <br /> reflection
+                  </div>
                 </div>
               </div>
+            </div>
+          ) : (
+            <div className="bottom-container" style={{ height: "201px" }}>
               <div>
-                <Circle className={`circles box-shadow-small circlesmalls`} style={{ cursor: "pointer" }} imgStyle={{ width: "25px" }} showImg={true} OnClick={e => this.navigateToSlider()} img={icons[iconIndex["gesture"]]} />
-                <div className="advertise-text bold index-advertise-text  font-15">
-                  A little deeper
-                  <br /> reflection
-                </div>
+                <img width="30px" height="30px" src={recycle} alt="" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-30px" }} />
+                <p className="index-advertise-text" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-3px", marginLeft: "5px" }}>
+                  Speak again
+                </p>
+              </div>
+              <div className="" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
+                <div className="n-btn"> cancel</div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className="bottom-container" style={{ height: "201px" }}>
-            <div>
-              <img width="30px" height="30px" src={recycle} alt="" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-30px" }} />
-              <p className="index-advertise-text" onClick={this.speakAgain} style={{ cursor: "pointer", marginTop: "-3px", marginLeft: "5px" }}>
-                Speak again
-              </p>
-            </div>
-            <div className="" onClick={this.onCancel} style={{ cursor: "pointer", marginTop: "35px" }}>
-            <div className="n-btn"> cancel</div> 
-            </div>
-          </div>
-        )}
-        </BasePage>
+          )} 
+        </BasePage>*/}
       </>
     ) : isTellusabout ? (
       <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />

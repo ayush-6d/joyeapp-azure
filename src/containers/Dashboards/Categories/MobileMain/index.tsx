@@ -16,6 +16,8 @@ import { Modal } from "src/components/Modal";
 import { isMobile } from "react-device-detect";
 import * as microsoftTeams from "@microsoft/teams-js";
 
+import Page from "../Main/page"
+
 import "./index.scss";
 import { withRouter, RouteComponentProps } from "react-router";
 
@@ -179,18 +181,17 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
 
   convertBase64 = async Base64String => {
     console.log('Base64String', Base64String)
-    let pureBase64String=''
+    let pureBase64String = ''
     this.setState(
       prevState => ({ isLoading: true, isTellusabout: false, isCounterEnd: false }),
       () => {
         let todaysFeeling = "";
-        if(isMobile)
-        {
+        if (isMobile) {
           pureBase64String = Base64String;
-        }else {
+        } else {
           pureBase64String = Base64String.split("base64,")[1];
         }
-         
+
         var self = this;
         self.setState({ isLoading: true, isTellusabout: false });
         axios
@@ -225,14 +226,15 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
               console.log('todaysFeeling', todaysFeeling);
               await self.saveData(todaysFeeling, true);
             } else {
-              self.setState({ 
+              self.setState({
                 isClickHandle: true,
                 seconds: 60,
-                iconIndex: { mic: 2, gibberish: 1, gesture: 0 } , 
-                isLoading: false, 
-                isCounterEnd: false, 
+                iconIndex: { mic: 2, gibberish: 1, gesture: 0 },
+                isLoading: false,
+                isCounterEnd: false,
                 isCounterStarted: false,
-                showCounter: false, });
+                showCounter: false,
+              });
             }
           });
       }
@@ -280,7 +282,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
               isTellusabout: false,
               isCounterEnd: false,
               isLoading: false,
-              withMenu: true, 
+              withMenu: true,
               showInfoIcon: true,
               showShield: true
             });
@@ -305,7 +307,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
           }
 
           if (data["success"]) {
-            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false,  withMenu: true, showInfoIcon: true, showShield: true });
+            self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false, withMenu: true, showInfoIcon: true, showShield: true });
             self.props.history.push("/pre-pie-chart");
           }
         }
@@ -324,40 +326,40 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
     //this.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false})
   };
 
-  getMobileBase64 = async url =>  {
+  getMobileBase64 = async url => {
     var self = this;
     return axios
       .get(url, {
         responseType: 'arraybuffer'
       })
-      .then(function (res){
+      .then(function (res) {
         clearInterval(timer);
         self.setState(
-          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+          prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
           () => {
             let mobileBase64 = Buffer.from(res.data, 'binary').toString('base64')
             self.convertBase64(mobileBase64);
           }
         );
-           
+
       })
   }
 
   onStartRecodring = (showCounter, isFromGesture) => {
     var self = this;
-    
+
     if (isMobile) {
       self.startCounter(showCounter, isFromGesture);
-      
+
       microsoftTeams.initialize()
-      
+
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1
         //audioProps: { maxDuration: 1 },
       };
-      
-  microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+
+      microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) {
           if (error.message) {
             alert(" ErrorCode: " + error.errorCode + error.message);
@@ -365,82 +367,82 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
             alert(" ErrorCode: " + error.errorCode);
           }
         }
-        
+
         // If you want to directly use the audio file (for smaller file sizes (~4MB))    if (attachments) {
-        console.log('attachments',attachments)
-        
+        console.log('attachments', attachments)
+
         let audioResult = attachments[0];
-        
-        console.log('audioResult',audioResult);
+
+        console.log('audioResult', audioResult);
         //console.log('audioResult.preview',audioResult.preview)
         //self.setState({ audio: "data" + audioResult.mimeType + ";base64," + audioResult.preview})
-        
+
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
-        debugger;
-        if (blob) {
-          var data = new Blob([blob], { type: blob.type });
-          console.log('data:', data);
+          debugger;
+          if (blob) {
+            var data = new Blob([blob], { type: blob.type });
+            console.log('data:', data);
 
-          var reader = new FileReader();
-          reader.readAsDataURL(data);
-          reader.onloadend = function () {
-            let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
-            base64String = base64String.substring(0, base64String.indexOf('AAAAAAAA'));
-            base64String = base64String.substring(0, (base64String.length - (base64String.length % 4)));
+            var reader = new FileReader();
+            reader.readAsDataURL(data);
+            reader.onloadend = function () {
+              let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
+              base64String = base64String.substring(0, base64String.indexOf('AAAAAAAA'));
+              base64String = base64String.substring(0, (base64String.length - (base64String.length % 4)));
 
-            let convertOptions = {
-              "apikey": "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
-              "inputformat": "mp4",
-              "outputformat": "mp3",
-              "input": "base64",
-              "filename": "my.mp4",
-              "file": base64String,
-              "wait": true,
-              "download": false,
-              "save": true
-            }
-            let url = 'https://api.cloudconvert.com/v1/convert';
-            fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(convertOptions) }).then(x => {
-              setTimeout(() => {
-                fetch(x.url).then(x => x.json()).then(x => {
-                  document.getElementById('output2').innerHTML = JSON.stringify(x);
-                  
-                  fetch(x.output.url).then(x=>x.blob())
-                    .then(x=> {
-                      const reader = new FileReader();
-                      reader.readAsDataURL(x);
-                      reader.onloadend = () => {
-                        let str = (reader.result as string).replace("data:audio/mpeg;base64,","");
-                        axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
-                        {
-                          version: "v1p1beta1",
-                          audio: { content: str },
-                          config: {
-                            sampleRateHertz: 8000,
-                            enableAutomaticPunctuation: true,
-                            encoding: "MP3",
-                            languageCode: "en-US"
+              let convertOptions = {
+                "apikey": "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
+                "inputformat": "mp4",
+                "outputformat": "mp3",
+                "input": "base64",
+                "filename": "my.mp4",
+                "file": base64String,
+                "wait": true,
+                "download": false,
+                "save": true
+              }
+              let url = 'https://api.cloudconvert.com/v1/convert';
+              fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(convertOptions) }).then(x => {
+                setTimeout(() => {
+                  fetch(x.url).then(x => x.json()).then(x => {
+                    document.getElementById('output2').innerHTML = JSON.stringify(x);
+
+                    fetch(x.output.url).then(x => x.blob())
+                      .then(x => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(x);
+                        reader.onloadend = () => {
+                          let str = (reader.result as string).replace("data:audio/mpeg;base64,", "");
+                          axios.post(`https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText`,
+                            {
+                              version: "v1p1beta1",
+                              audio: { content: str },
+                              config: {
+                                sampleRateHertz: 8000,
+                                enableAutomaticPunctuation: true,
+                                encoding: "MP3",
+                                languageCode: "en-US"
+                              }
+                            },
+                            {
+                              headers: {
+                                Accept: "application/json",
+                                "Content-Type": "application/json"
+                              }
+                            }
+                          )
+                            .then(async function (res) {
+                              document.getElementById('output1').innerHTML = JSON.stringify(res);
+                            });
+
                         }
-                    },
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
+                      });
+                  });
+                }, 2000);
+              });
             }
           }
-        )
-          .then(async function (res) {
-            document.getElementById('output1').innerHTML = JSON.stringify(res);
-          });
-                        
-                      }
-                    });
-                });
-              }, 2000);
-            });
-          }
-        }
-      });
+        });
 
         if (error) {
           if (error.message) {
@@ -482,7 +484,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
   HardStop = () => {
     clearInterval(timer);
     this.setState(
-      prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false,isCounterStarted: false, isHardStop: true, isClickHandle: true }),
+      prevState => ({ isLoading: true, isCounterEnd: false, showCounter: false, isCounterStarted: false, isHardStop: true, isClickHandle: true }),
       () => {
         this.stop();
       }
@@ -494,7 +496,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
 
     return !isLoading ? (
       <>
-      <BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
+        {/* <BasePage withMenu={withMenu} showShield={showShield} showInfoIcon={showInfoIcon}>
       {isClickHandle ? (<div className="pageHeader">
          <Circle className={`circles score-point`} showImg={false} />
       </div>): null}
@@ -532,7 +534,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
         )}
 
         <div className="rel home-screen-box">
-          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }}  img={speakingcircle} />
+          <Circle className={`${isCounterStarted ? "circles ripple" : ""}`} showImg={true} imgStyle={{ width: "222.8px", height: "222.8px" }} style={{ cursor: "pointer" }} img={speakingcircle} />
           {seconds >= 58 && isClickHandle ? <PageImage height="72px" width="auto" style={{ cursor: "pointer" }} isFromMain={true} logo={icons[iconIndex["mic"]]} OnClick={e => this.onStartRecodring(!showCounter, false)} /> : seconds <= 59 ? <PageImage height="41.6px" width="52.8px" style={{ cursor: "pointer" }} isFromMain={true} logo={rightTick} OnClick={this.HardStop} /> : <PageImage height="41.6px" width="52.8px" isFromMain={true} logo={"data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs%3D"} />}
           {isCounterStarted || isCounterEnd ? <MobileCircularCounter /> : ""}
         </div>
@@ -569,16 +571,18 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
             </div>
           </div>
         )}
-        </BasePage>
+        </BasePage> */}
+        <Page route={this.props.route} openModal={this.props.openModal} history={this.props.history}></Page>
       </>
-    ) : isTellusabout ? (
-      <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
-    ) : isLoading ? (
-      <ImportLoader />
-    ) : isModalOpen ? (
-      <Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
-    ) : null;
+    ) : null
   }
+  // : isTellusabout ? (
+  //   <TellUsAbout saveData={this.saveData} setIsTellusabout={this.setIsTellusabout} />
+  // ) : isLoading ? (
+  //   <ImportLoader />
+  // ) : isModalOpen ? (
+  //   <Modal openModal={isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
+  // ) : null;
 }
 
 export const MobileMain = withRouter(MobileMainClass);
