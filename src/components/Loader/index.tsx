@@ -33,7 +33,7 @@ export const Loader = (props) => {
         style={{ height: "100vh", width: "100vw" }}
         className={blur ? "add-blur" : ""}
       />
-      <div style={{ position: "absolute", top: 150 }}>
+      <div style={{ position: "absolute", top: "45%", left:"45%"  }}>
         <SVGData key={`key${color}`} colors={colors[color]} />
       </div>
     </div>
