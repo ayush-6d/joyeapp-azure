@@ -197,6 +197,7 @@ export const EMOTIONS = {
     slider: ["Anxious", "Stressed", "Nervous"],
     pie: ["Anxiety"],
     dailyChart: ["Stressed", "Anxious", "Calm"],
+    prePie: ["your fear of dangers and threats in the future"]
   },
   irritable: {
     slider: ["Irritable", "Angry", "Annoyed"],

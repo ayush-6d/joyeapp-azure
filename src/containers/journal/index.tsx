@@ -181,7 +181,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     };
 
     dbRef
-      .ref(`users/${userId}/brew/brewData/${todaysDate}/journalText`)
+      .ref(`users/${userId}/brew/brewData/${todaysDate}`)
       .update(jounrnalDetalis)
       .catch(error => this.onFail(error));
   };
@@ -191,7 +191,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     // this.props.history.push(`/dashboard`);
   };
   renderYesnoContent = () => {
-    if (this.state.showYesno) {
+    if (this.state.showYesno && this.state.cQuestion) {
       var congratulationQuestion = this.state.cQuestion.toString()
       // console.log("Question", congratulationQuestion)
       return <Yesno data={{congratulationQuestion : congratulationQuestion}}/>;
@@ -239,22 +239,12 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                   {todaysFeeling.length <= 150 ? (
                     <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
                       <p>{jQuestion}</p>
-                      {/* <p className="do-not-txt">
-                        Tap &nbsp;&nbsp;
-                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
-                        &nbsp;&nbsp; to proceed
-                          </p>                 */}
                     </div>
                   ) : 
                   (
                     <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
-                    <p>{jQuestion}</p>
-                      {/* <p className="do-not-txt">
-                        Tap &nbsp;&nbsp;
-                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
-                        &nbsp;&nbsp; to proceed
-                          </p>                 */}
-                  </div>
+                      <p>{jQuestion}</p>
+                    </div>
                   )
                   }
                 </div>
@@ -282,11 +272,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                       </div>
                     </div>
                   )}
- </div>
-                  <div className="">
-                  <div className="n-btn" onClick={() => this.handleYesno()} style={{ cursor: "pointer" }}>
-                    Skip
                   </div>
+                  <div>
+                    <div className="n-btn" onClick={() => this.handleYesno()} style={{ cursor: "pointer" }}>
+                      Skip
+                    </div>
                   </div>
                 </div>
               </>
