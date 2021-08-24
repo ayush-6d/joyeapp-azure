@@ -117,7 +117,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
           dbRef
             .ref(`users/${userId}/brew/brewData/${todaysDate}/OnceAday`)
-            .set({ OnceDay })
+            .update({ OnceDay })
             .catch(error => this.onFail(error));
         } else {
           if (jounrnalCheckSaved === "showEverytime") {
@@ -264,10 +264,10 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                       <div>
                         <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
-                        <span className="index-advertise-text font-15" onChange={(value)=>this.getRadioType(value)}> Show less often</span>
+                        <span className="index-advertise-text font-15"> Show less often</span>
                       </div>
                       <div>
-                        <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" onChange={(value)=>this.getRadioType(value)}/>
+                        <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck"/>
                         <span className="index-advertise-text font-15"> Show often</span>
                       </div>
                     </div>
