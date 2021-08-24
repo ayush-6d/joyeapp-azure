@@ -41,13 +41,18 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
+        console.log('onCenterCircleClick');
         if (!this.state.isMic) this.props.history.push("/dashboard");
         else if (this.state.recordingState === 'init') {
+            console.log('this.state.recordingState === init');
             this.setState({ recordingState: 'in-progress' });
             if (isMobile) {
+                console.log('ismobile');
                 let base64mp4 = await speechService.recordAudioFromTeams();
+                console.log('recordAudioFromTeams');
                 this.setState({ pageState: 'loading' });
                 let base64mp3 = await speechService.mp4ToMP3(base64mp4);
+                console.log('mp4ToMP3');
                 this.processMp3(base64mp3);
             }
             else {
