@@ -149,13 +149,13 @@ body {
 
 .swiper-button-next:after, .swiper-button-prev:after
 {
-    font-size: 26px;
+    font-size: 20px;
     font-weight: bold;
     color: #444;
 }
 .swiper-button-prev, .swiper-container-rtl .swiper-button-next, .swiper-button-next, .swiper-container-rtl .swiper-button-prev {   
     background: #fff;
-    padding: 30px;
+    padding: 25px;
     border-radius: 5px;
 }
 .swiper-button-next, .swiper-container-rtl .swiper-button-prev
@@ -167,7 +167,7 @@ body {
 }
 .swiper-button-next, .swiper-button-prev
 {
-    top:34%;
+    top:37%;
 }
 [data-reach-slider-input][data-disabled] {
     opacity: 1 !important;
