@@ -29,6 +29,9 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
             (document.getElementById("circlesSvg") as any).unpauseAnimations();
             (document.getElementById("animate01") as any).beginElement();
         }
+        if (nextProps.recordingState === 'confirm') {
+            (document.getElementById("animate02") as any).beginElement();
+        }
     }
 
     onSpeakAgain() {
@@ -42,6 +45,7 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
     icon() {
         if (this.props.recordingState === 'init') return this.props.isMic ? Mic : Gesture;
         if (this.props.recordingState === 'in-progress') return isMobile ? null : rightTick;
+        if (this.props.recordingState === 'confirm') return rightTick;
     }
 
     render() {
@@ -59,7 +63,7 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
                     </div>
                     <div><img src={this.icon()} /></div>
                 </div>
-                {this.props.recordingState === 'in-progress' ?
+                {(this.props.recordingState === 'in-progress' && !isMobile)|| this.props.recordingState === 'confirm'?
                     <div className="bottom-container" style={{ height: "201px" }}>
                         <div onClick={this.onSpeakAgain}>
                             <img width="30px" height="30px" src={recycle} alt="" style={{ cursor: "pointer", marginTop: "-30px" }} />
