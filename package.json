@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --progress --inline --hot --config config/webpack.config.dev.js",
     "build": "node scripts/build.js",
-    "lint": "eslint"
+    "lint": "eslint",
+    "serve": "serve -s build"
   },
   "engines": {
     "node": "14.16.1"
@@ -141,6 +142,7 @@
     "react-sound": "^1.2.0",
     "react-voice-recorder": "^2.1.0",
     "redux": "^4.1.1",
+    "serve": "^12.0.0",
     "styled-components": "^5.3.0",
     "swiper": "5.4.5",
     "uuid": "^8.3.2",
