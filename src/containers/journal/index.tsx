@@ -79,7 +79,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
     isSkipSaved = snapshot.val().isSkip
     jounrnalCheckSaved = snapshot.val().jounrnalCheck
-    todaysFeeling = snapshot.val().todaysFeeling
+    todaysFeeling = snapshot.val().fellingBetter
 
     const userRefJoyelevel = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/currentAverage`);
 
@@ -124,15 +124,18 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
             this.setState({ showJoyelevel: true });
           } else {
             this.handleYesno();
+            console.log('not showing because showEverytime is', jounrnalCheckSaved)
             // this.props.history.push(`/dashboard`);
           }
         }
       } else {
         this.handleYesno();
+        console.log('not showing because joyelevelscore is', joyelevelscore)
         // this.props.history.push(`/dashboard`);
       }
     } else {
-    this.handleYesno();
+      this.handleYesno();
+      console.log('not showing because todaysFeeling is', todaysFeeling)
     // this.props.history.push(`/dashboard`);
   }
   };

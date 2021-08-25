@@ -523,15 +523,15 @@ const Design = (props: any) => {
       const theme = 1;
       let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
-        const { value } = slider[i];
+        const { slider_value } = slider[i];
         // console.log(slider[i].name, " slider[i].value ", slider[i].value);
-        if (maxval <= value) {
+        if (maxval <= slider_value) {
           dominantemotion = slider[i].name;
           if (oldDominant === '') {
             oldDominant = dominantemotion;
           }
-          maxval = slider[i].value;
-          type = mappingMessages[slider[i].name][slider[i].value];
+          maxval = slider[i].slider_value;
+          type = mappingMessages[slider[i].name][slider[i].slider_value];
         }
         let dayValueSum = 0;
         if (prevDetail !== null) {
