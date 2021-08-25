@@ -224,8 +224,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
             {!this.state.showAudioPlayer && (
               <div className="swiper-wrapper">
                 {cardData.map(e => (
-                  <>
-                    {e.desc !== '-' && (
+                  <>                    
                     <div
                       key={e.order}
                       className="swiper-slide"
@@ -246,13 +245,14 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                               {EMOTIONS[e.title.toLowerCase()].pie}
                             </p>
                           </div>
-                          <div style={{
-                            width: '50%',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'flex-end',
-                            justifyContent: 'center',
-                          }}
+                          <div 
+                            style={{
+                              width: '50%',
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'flex-end',
+                              justifyContent: 'center',
+                            }}
                           >
                             <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
                               <SliderTrack>
@@ -276,7 +276,6 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                       </div> */}
                       </div>
                     </div>
-                    )}
                   </>
                 ))}
               </div>

@@ -403,7 +403,11 @@ const Design = (props: any) => {
   };
 
   async function getJournalQuestion(theme) {
-    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getJournalQuestionTheme', orgTheme);
     let journalQuestion: any =  await database
         .ref(
           `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
@@ -414,7 +418,11 @@ const Design = (props: any) => {
   }
 
   async function getCongratulationQuestion(theme) {
-    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getCongratulationQuestionTheme', orgTheme);
     let congratulationQuestion: any =  await database
         .ref(
           `joye_master_data/sprint_new/theme/${orgTheme}/congratulations_questions`
@@ -425,7 +433,11 @@ const Design = (props: any) => {
   }
 
   async function getPodcast(theme) {
-    const orgTheme = (0 + `${theme}`).slice(-2) 
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getPodcastTheme', orgTheme);
     let podcast: any =  await database
         .ref(
           `joye_master_data/sprint_new/theme/${orgTheme}/podcasts`
@@ -520,18 +532,13 @@ const Design = (props: any) => {
       if (prevDetail !== null && prevDetail.day_total) {
         dayTotal += Number(prevDetail.day_total);
       }
-      const theme = 1;
       let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
-        const { slider_value } = slider[i];
-        // console.log(slider[i].name, " slider[i].value ", slider[i].value);
-        if (maxval <= slider_value) {
+        const { value } = slider[i];
+        if (Number(maxval) <= Number(value)) {
           dominantemotion = slider[i].name;
-          if (oldDominant === '') {
-            oldDominant = dominantemotion;
-          }
-          maxval = slider[i].slider_value;
-          type = mappingMessages[slider[i].name][slider[i].slider_value];
+          maxval = slider[i].value;
+          type = mappingMessages[slider[i].name][slider[i].value];
         }
         let dayValueSum = 0;
         if (prevDetail !== null) {
@@ -567,6 +574,8 @@ const Design = (props: any) => {
         });
         if (oldDominant !== dominantemotion) {
           brewData.theme = messages.theme;
+          oldDominant = dominantemotion;
+          console.log('dominantemotion', dominantemotion, messages.theme, brewData.theme);
         }
         pieData.push({
           title: slider[i].name,
@@ -582,9 +591,9 @@ const Design = (props: any) => {
           cColor: emotion[0].cColor,
         });
       }
-      brewData.journalQuestion = await getJournalQuestion(theme);
-      brewData.congratulationQuestion = await getCongratulationQuestion(theme);
-      brewData.podcast = await getPodcast(theme);
+      brewData.journalQuestion = await getJournalQuestion(brewData.theme);
+      brewData.congratulationQuestion = await getCongratulationQuestion(brewData.theme);
+      brewData.podcast = await getPodcast(brewData.theme);
 
       for (let s = 0; s < slider.length; s += 1) {
         let dayValueSum = 0;

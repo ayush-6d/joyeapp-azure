@@ -284,9 +284,9 @@ export const DailyChart = () => {
                   <div className="media" style={{ height: '100%' }}>
                     {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
                       <p className="average-score">
-                        <div className="advertise-text bold text-blue">
+                        {/*<div className="advertise-text bold text-blue">
                           <span className="text-blue">How are you feeling today?</span>
-                        </div>
+                    </div>*/}
                         <span className="before-decimal">
                           {weekAvarage.avg.split('.')[0]}
                         .

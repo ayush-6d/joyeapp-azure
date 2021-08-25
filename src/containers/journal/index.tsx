@@ -120,7 +120,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
             .update({ OnceDay })
             .catch(error => this.onFail(error));
         } else {
-          if (jounrnalCheckSaved === "showEverytime") {
+          if (jounrnalCheckSaved === "showEverytime" || jounrnalCheckSaved === undefined) {
             this.setState({ showJoyelevel: true });
           } else {
             this.handleYesno();

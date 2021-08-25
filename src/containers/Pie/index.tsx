@@ -63,8 +63,8 @@ export const Pie = () => {
 
             if (audioData) {
               const keys = Object.keys(audioData);
-              setFireBaseUrl(audioData[keys[0]].url);
-              const dataObj: any = { title: audioData[keys[0]].title, author: audioData[keys[0]].author };
+              setFireBaseUrl(audioData[keys[Math.floor(random(1, audioData.length - 1))]].url);
+              const dataObj: any = { title: audioData[keys[Math.floor(random(1, audioData.length - 1))]].title, author: audioData[keys[Math.floor(random(1, audioData.length - 1))]].author };
               console.log("audioData", audioData)
               setFireBaseStorage(dataObj);
             }
