@@ -111,9 +111,9 @@ textarea:focus,
 button:focus {
     outline: none;
 }
- .n-btn + .n-btn{
-    margin:0 20px;
-  }
+//  .n-btn + .n-btn{
+//     margin:0 20px;
+//   }
   .n-btn
   {
       border-radius: 40px;
@@ -135,6 +135,9 @@ button:focus {
       right:0;
       bottom: 60px;
    text-align: center;
+   display: flex;
+   justify-content: center;
+   gap: 70px;
   }
  .cancel-btn .margin-top-10
  {
@@ -249,10 +252,6 @@ button:focus {
  }
  .contrats-boom-img
  {
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
     z-index: -1;
  }
  .congrats-txt

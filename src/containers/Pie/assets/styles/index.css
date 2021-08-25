@@ -147,6 +147,34 @@ body {
     width: 170px;
 }
 
+.swiper-button-next:after, .swiper-button-prev:after
+{
+    font-size: 20px;
+    font-weight: bold;
+    color: #444;
+}
+.swiper-button-prev, .swiper-container-rtl .swiper-button-next, .swiper-button-next, .swiper-container-rtl .swiper-button-prev {   
+    background: #fff;
+    padding: 25px;
+    border-radius: 5px;
+}
+.swiper-button-next, .swiper-container-rtl .swiper-button-prev
+{
+    right:-20px;
+}
+.swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+    left:-20px;
+}
+.swiper-button-next, .swiper-button-prev
+{
+    top:37%;
+}
+[data-reach-slider-input][data-disabled] {
+    opacity: 1 !important;
+}
+[data-reach-slider-handle][aria-orientation="horizontal"] {
+    display: none;
+}
 @-webkit-keyframes fadeIn {
     0% {opacity: 0;}
     100% {opacity: 1;}

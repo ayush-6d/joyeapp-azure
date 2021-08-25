@@ -184,9 +184,9 @@ body {
 {
     line-height: 20px;
 }
-.n-btn + .n-btn{
+/* .n-btn + .n-btn{
     margin:0 20px;
-  }
+  } */
   .n-btn
   {
       border-radius: 40px;
@@ -208,6 +208,9 @@ body {
       right:0;
       bottom: 60px;
    text-align: center;
+   display: flex;
+   justify-content: center;
+   gap: 70px;
   }
 
   .pie_value {
