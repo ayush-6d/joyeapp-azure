@@ -44,13 +44,14 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
+        console.log('onCenterCircleClick');
+        console.log(this.state.recordingState);
         if (!this.state.isMic) this.props.history.push("/dashboard");
         else if (this.state.recordingState === 'init') {
             this.setState({ recordingState: 'in-progress' });
             if (isMobile) {
-                let base64mp4 = await speechService.recordAudioFromTeams();
-                this.setState({ pageState: 'confirm', recordingCallback: null });
-
+                this.setState({ recordingState: 'confirm', recordingCallback: null });
+                this.base64mp4 = await speechService.recordAudioFromTeams();
             }
             else {
                 speechService.recordAudioFromWeb();
@@ -60,7 +61,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         }
         else if (this.state.recordingState === 'in-progress') {
             clearTimeout(this.state.recordingCallback);
-            this.setState({ pageState: 'confirm', recordingCallback: null });
+            this.setState({ recordingState: 'confirm', recordingCallback: null });
             this.base64mp3 = await speechService.stopRecordingAudioFromWeb();
         }
         else if (this.state.recordingState === 'confirm') {
