@@ -21,7 +21,7 @@ export interface IPage {
 }
 export interface IPageState {
     pageState: string,//init, bottom-mic, recording, loading, sos, tell-us-about
-    recordingState: string,
+    recordingState: string, //init, in-progress, confirm
     isMic: boolean,
     seconds: 0,
     isModalOpen: boolean,
@@ -29,6 +29,9 @@ export interface IPageState {
 }
 
 export default class Page extends React.PureComponent<IPage, IPageState> {
+    base64mp3: any;
+    base64mp4: any;
+
     constructor(props: IPage) {
         super(props);
         this.state = { pageState: 'record', recordingState: 'init', seconds: 0, isMic: true, isModalOpen: false, recordingCallback: null }
@@ -41,19 +44,13 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
-        console.log('onCenterCircleClick');
         if (!this.state.isMic) this.props.history.push("/dashboard");
         else if (this.state.recordingState === 'init') {
-            console.log('this.state.recordingState === init');
             this.setState({ recordingState: 'in-progress' });
             if (isMobile) {
-                console.log('ismobile');
                 let base64mp4 = await speechService.recordAudioFromTeams();
-                console.log('recordAudioFromTeams');
-                this.setState({ pageState: 'loading' });
-                let base64mp3 = await speechService.mp4ToMP3(base64mp4);
-                console.log('mp4ToMP3');
-                this.processMp3(base64mp3);
+                this.setState({ pageState: 'confirm', recordingCallback: null });
+
             }
             else {
                 speechService.recordAudioFromWeb();
@@ -61,11 +58,15 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 this.setState({ recordingCallback: timer });
             }
         }
-        else if ('in-progress') {
+        else if (this.state.recordingState === 'in-progress') {
             clearTimeout(this.state.recordingCallback);
-            this.setState({ pageState: 'loading', recordingCallback: null });
-            let base64mp3 = await speechService.stopRecordingAudioFromWeb();
-            this.processMp3(base64mp3);
+            this.setState({ pageState: 'confirm', recordingCallback: null });
+            this.base64mp3 = await speechService.stopRecordingAudioFromWeb();
+        }
+        else if (this.state.recordingState === 'confirm') {
+            this.setState({ pageState: 'loading' });
+            if (isMobile) this.base64mp3 = await speechService.mp4ToMP3(this.base64mp4);
+            this.processMp3(this.base64mp3);
         }
     }
 
@@ -73,7 +74,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log(`processMp3${base64mp3.length}`);
         let text: any = "";
         if (base64mp3) text = base64mp3;
-        if (base64mp3.length > 256) text = await speechService.translateSpeechToText(base64mp3);
+        try {
+            if (base64mp3.length > 256) text = await speechService.translateSpeechToText(base64mp3);
+        } catch (e) { this.setState({ isMic: false, recordingState: 'init', pageState: 'record' }); }
         console.log(text);
         this.setState({ pageState: 'loading' });
         var output = await speechService.prediction(text);

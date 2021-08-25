@@ -22,11 +22,12 @@ export default class Note extends React.PureComponent<INote, INoteState> {
                 <div className="text-container">
                     <div className="advertise-text bold text-blue">
                         {(this.props.recordingState === 'init' && this.props.isMic) ? <p>How are you feeling today?</p> : null}
-                        {(this.props.recordingState === 'init' && !this.props.isMic) ? <p>Try a deeper reflection?</p> : null}
-                        {(this.props.recordingState === 'in-progress') ? <p>Express freely for upto 10 sec</p> : null}
-                        <p className={this.props.recordingState !== 'in-progress' ? 'hide' : 'do-not-txt'}>
-                            {(this.props.recordingState === 'in-progress' && !isMobile) ? <span>Tap &nbsp;&nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp;&nbsp; to proceed</span> : ' &nbsp; '}
-                            {(this.props.recordingState === 'in-progress' && isMobile) ? <span>Tap STOP to proceed</span> : ' &nbsp; '}
+                        {(this.props.recordingState === 'init' && !this.props.isMic) ? <p>Try a deeper reflection</p> : null}
+                        {(this.props.recordingState === 'in-progress' || this.props.recordingState === 'confirm') ? <p>Express freely for a few seconds</p> : null}
+                        <p className={this.props.recordingState === 'init' ? 'hide' : 'do-not-txt'}>
+                            {(this.props.recordingState === 'in-progress' && !isMobile) ? <span>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp;&nbsp; to proceed</span> : ''}
+                            {(this.props.recordingState === 'in-progress' && isMobile) ? <span>Tap 'Stop' to proceed</span> : ''}
+                            {(this.props.recordingState === 'confirm') ? <span>Tap &nbsp;&nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp;&nbsp; to proceed</span> : ''}
                         </p>
                     </div>
                 </div>

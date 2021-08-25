@@ -59,7 +59,7 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
                     </div>
                     <div><img src={this.icon()} /></div>
                 </div>
-                {this.props.recordingState === 'in-progress' ?
+                {this.props.recordingState === 'in-progress' && !isMobile ?
                     <div className="bottom-container" style={{ height: "201px" }}>
                         <div onClick={this.onSpeakAgain}>
                             <img width="30px" height="30px" src={recycle} alt="" style={{ cursor: "pointer", marginTop: "-30px" }} />
