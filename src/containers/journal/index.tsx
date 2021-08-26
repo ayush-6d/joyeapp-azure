@@ -182,10 +182,16 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       CreatedYesNo: "",
       CreatedDateTime: Date().toLocaleString()
     };
-
+    let todaysData = (await dbRef
+      .ref(`users/${userId}/brew/brewData/${todaysDate}`).once('value')).val();
+    todaysData = {
+      ...todaysData,
+      ...jounrnalDetalis,
+    }
+    console.log('todaysData', todaysData);
     dbRef
       .ref(`users/${userId}/brew/brewData/${todaysDate}`)
-      .update(jounrnalDetalis)
+      .set(todaysData)
       .catch(error => this.onFail(error));
   };
 
