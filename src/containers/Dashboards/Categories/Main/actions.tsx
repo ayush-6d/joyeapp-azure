@@ -1,13 +1,11 @@
 import * as React from "react";
-import { CircularCounter, Circle, ImportLoader, PageImage, BasePage } from "src/components";
+import { Circle } from "src/components";
 import Gibberish from "../../../../resources/icons/gibberish.png";
 import Gesture from "../../../../resources/icons/gesture.png";
 import Mic from "../../../../resources/icons/mic.png";
-import recycle from "../../../../resources/icons/recycle.png";
-
 export interface IActions {
-    recordingState: string, //init,in-progress
     isMic: boolean,
+    recordingState: string, //init,in-progress
     onLeftCircleClick: any,
     onRightCircleClick: any
 }

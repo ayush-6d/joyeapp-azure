@@ -1,5 +1,5 @@
 import * as React from "react";
-import "./controls.scss";
+import "./index.scss";
 import rightTick from "../../../../resources/icons/rightTick.png";
 import speakingcircle from "../../../../resources/icons/speakingcircle.png";
 import Mic from "../../../../resources/icons/mic.png";
@@ -8,9 +8,8 @@ import recycle from "../../../../resources/icons/recycle.png";
 import { isMobile } from "react-device-detect";
 export interface IControls {
     isMic: boolean,
+    recordingState: string, //init,in-progress,'completed',
     onClick: any,
-    onSpeakAgain: any,
-    recordingState: string //init,in-progress,'completed',
 }
 export interface IControlsState { }
 
@@ -18,28 +17,21 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
     constructor(props: IControls) {
         super(props);
         this.state = {};
-        this.onSpeakAgain = this.onSpeakAgain.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.recordingState === this.props.recordingState) return;
+        if (nextProps.recordingState === 'init') {
+            (document.getElementById("circlesSvg") as any).pauseAnimations();
+            (document.getElementById("circlesSvg") as any).setCurrentTime(0);
+        }
         if (nextProps.recordingState === 'in-progress') {
             (document.getElementById("circlesSvg") as any).pauseAnimations();
             (document.getElementById("circlesSvg") as any).setCurrentTime(0);
             (document.getElementById("circlesSvg") as any).unpauseAnimations();
             (document.getElementById("animate01") as any).beginElement();
         }
-        if (nextProps.recordingState === 'confirm') {
-            (document.getElementById("animate02") as any).beginElement();
-        }
-    }
-
-    onSpeakAgain() {
-        (document.getElementById("circlesSvg") as any).pauseAnimations();
-        (document.getElementById("circlesSvg") as any).setCurrentTime(0);
-        (document.getElementById("circlesSvg") as any).unpauseAnimations();
-        (document.getElementById("animate01") as any).beginElement();
-        this.props.onSpeakAgain();
+        if (nextProps.recordingState === 'confirm') (document.getElementById("animate02") as any).beginElement();
     }
 
     icon() {
@@ -63,18 +55,6 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
                     </div>
                     <div><img src={this.icon()} /></div>
                 </div>
-                {(this.props.recordingState === 'in-progress' && !isMobile)|| this.props.recordingState === 'confirm'?
-                    <div className="bottom-container" style={{ height: "201px" }}>
-                        <div onClick={this.onSpeakAgain}>
-                            <img width="30px" height="30px" src={recycle} alt="" style={{ cursor: "pointer", marginTop: "-30px" }} />
-                            <p className="index-advertise-text" style={{ cursor: "pointer", marginTop: "-3px", marginLeft: "5px" }}>
-                                Speak again
-                            </p>
-                        </div>
-                        <div className="" onClick={() => alert('this.onCancel')} style={{ cursor: "pointer", marginTop: "35px" }}>
-                            <div className="n-btn"> Cancel</div>
-                        </div>
-                    </div> : null}
             </>
         );
     }
