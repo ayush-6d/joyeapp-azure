@@ -27,9 +27,6 @@ export interface ICongratulationState {
   counterStart?: boolean;
   congratulationImg?: any;
   ShowDashboard?: boolean;
-  avg?: string;
-  dominantemotion?: string;
-  weekdata?: string;
 }
 let timer = null;
 export class Congratulation extends React.PureComponent<ICongratulationProps, ICongratulationState> {
@@ -44,9 +41,6 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       congratulationImg: confetti_00,
       timer: null,
       ShowDashboard: false,
-      avg: "",
-      dominantemotion: "",
-      weekdata: ""
     };
   }
 
@@ -70,38 +64,19 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
         happinessCounter: happinessCounter
       });
 
+
       const lifetime = await dbRef.ref(`users/${userId}/info/happinessCounterLifetime`).once('value');
       let happinessCounterLifetime = lifetime.val();
       this.setState({
         happinessCounterLifetime: happinessCounterLifetime
       });
 
-      const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`).once('value');
-      let data = currentWeekData.val();
-      console.log("data", data)
-      this.setState({ avg: data.avg });
-      this.setState({ dominantemotion: data.dominantemotion });
-      this.setState({ weekdata: data.weekdata });
     } catch (e) {
       console.log(e);
     }
   }
 
   handleCongratulation = () => {
-    const userId = getAuthId();
-    let dbRef = firebaseInit.database(getDbUrl());
-    const weekOfYear = moment().format("w_yyyy");
-    dbRef
-      .ref(`users/${userId}/brew`)
-      .child("weeks_average")
-      .update({
-        [weekOfYear]: {
-          avg: this.state.avg,
-          dominantemotion: this.state.dominantemotion,
-          happinessCounter: this.state.happinessCounter + 1,
-          weekdata: this.state.weekdata,
-        },
-      });
 
     this.setState({ ShowDashboard: true });
   };

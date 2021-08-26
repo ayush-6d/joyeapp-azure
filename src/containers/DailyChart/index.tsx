@@ -185,174 +185,174 @@ export const DailyChart = () => {
   // console.log('journalText', journalText);
   // console.log('journalQuestion', journalQuestion);
   return (
-      <div id="slider" className="is-8 is-offset-2 dailyChart">
-        <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
-          {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
-          {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
-          {loading ? <Loader display="flex" />
-            : (
-              <>
-                <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>
-                  <button
-                    style={{
-                      background: 'transparent',
-                      border: 'none',
-                      padding: '10px',
-                      paddingLeft: '20px',
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setLegendPopup(true);
-                    }}
-                    type="button"
-                  >
-                    <img
-                      src={legend}
-                      alt="legend"
-                      style={{ height: 25 }}
-                    />
-                  </button>
-                </div>
-                <div className="info">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      togglePopup();
-                      getScreenMessages();
-                    }}
-                    style={{
-                      background: 'transparent',
-                      border: 'none',
-                      padding: '10px',
-                    }}
-                    type="button"
-                  >
-                    <img alt="info" src={InfoPic} />
-                  </button>
-                </div>
+    <div id="slider" className="is-8 is-offset-2 dailyChart">
+      <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
+        {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
+        {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
+        {loading ? <Loader display="flex" />
+          : (
+            <>
+              <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>
+                <button
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    padding: '10px',
+                    paddingLeft: '20px',
+                  }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setLegendPopup(true);
+                  }}
+                  type="button"
+                >
+                  <img
+                    src={legend}
+                    alt="legend"
+                    style={{ height: 25 }}
+                  />
+                </button>
+              </div>
+              <div className="info">
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    togglePopup();
+                    getScreenMessages();
+                  }}
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    padding: '10px',
+                  }}
+                  type="button"
+                >
+                  <img alt="info" src={InfoPic} />
+                </button>
+              </div>
 
-                {isCurrentWeek && piedata && piedata.length > 0 ? (
+              {isCurrentWeek && piedata && piedata.length > 0 ? (
+                <>
+                  <CloudGradientPng />
+                  <div style={{
+                    width: '40vh',
+                    height: '100%',
+                    position: 'relative',
+                    alignItems: 'center',
+                    overflow: 'hidden',
+                    margin: 'auto',
+                    marginTop: '15px',
+                  }}
+                  >
+                    <GetPies
+                      data={piedata}
+                      cardData={[]}
+                      direction="clock"
+                      // optional props
+                      backgroundColor="#ffffff"
+                      idToFocus={1}
+                      prevIndex={0}
+                      heightDifferenceRatio={7}
+                      animationDuration=".3s"
+                      containerStyle={{}}
+                    />
+                  </div>
+                </>
+              )
+                : (
                   <>
-                    <CloudGradientPng />
-                    <div style={{
-                      width: '40vh',
-                      height: '100%',
-                      position: 'relative',
-                      alignItems: 'center',
-                      overflow: 'hidden',
-                      margin: 'auto',
-                      marginTop: '15px',
-                    }}
-                    >
-                      <GetPies
-                        data={piedata}
-                        cardData={[]}
-                        direction="clock"
-                        // optional props
-                        backgroundColor="#ffffff"
-                        idToFocus={1}
-                        prevIndex={0}
-                        heightDifferenceRatio={7}
-                        animationDuration=".3s"
-                        containerStyle={{}}
-                      />
-                    </div>
-                  </>
-                )
-                  : (
-                    <>
-                      {/* <h4 style={{ padding: '50px 20px' }}>{weekAvarage && weekAvarage.dominantemotion}</h4> */}
-                      {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 0 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[0]
+                    {/* <h4 style={{ padding: '50px 20px' }}>{weekAvarage && weekAvarage.dominantemotion}</h4> */}
+                    {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 0 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[0]
                       && <h4 style={{ paddingTop: '20px', paddingBottom: 0, paddingLeft: '20px' }}>{EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[0]}</h4> */}
-                      {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 1 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[1]
+                    {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 1 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[1]
                       && <h4 style={{ paddingTop: '10px', paddingBottom: 0, paddingLeft: '150px' }}>{EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[1]}</h4> */}
-                      {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 2 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[2]
+                    {/* weekAvarage && weekAvarage.dominantemotion && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart.length > 2 && EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[2]
                       && <h4 style={{ paddingTop: '0px', paddingBottom: 0, paddingLeft: '50px' }}>{EMOTIONS[weekAvarage.dominantemotion.toLowerCase()].dailyChart[2]}</h4> */}
 
-                      <div
-                        className="fadeInEffect display-none"
-                        style={{
-                          position: 'absolute', width: '20vh', height: '20vh', top: 27, right: '0%',
-                        }}
-                      >
-                        {cloudColor && <CloudGradient color1={cloudColor.cColor} color3={cloudColor.sColor} />}
-                      </div>
-                    </>
-                  )}
-                <div className="card-content">
-                  <img className="oval display-none" alt="img" src={OvalPng} />
-                  <div className="media" style={{ height: '100%' }}>
-                    {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
-                      <p className="average-score">
-                        <div className="advertise-text bold text-blue">
-                          <span className="text-blue">How are you feeling today?</span>
-                        </div>
-                        <span className="before-decimal">
-                          {weekAvarage.avg.split('.')[0]}
-                        .
-                        </span>
-                        <span className="after-decimal">{weekAvarage && weekAvarage.avg.split('.')[1].charAt(0)}</span>
-                      </p>
-                    )}
-                    {journalQuestion && journalText ?
-                    <p className="average-score">
-                    <div className="advertise-text bold text-blue">
-                      <span className="text-blue"  style={{fontSize:'20px'}}>{journalQuestion}</span>
-                    </div>
-                    <span>{journalText}</span>
-                    </p>
-                    : null
-                    }
-                   
                     <div
-                      className="media-content has-text-centered"
+                      className="fadeInEffect display-none"
                       style={{
-                        marginTop: !isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg ? 0 : 0,
+                        position: 'absolute', width: '20vh', height: '20vh', top: 27, right: '0%',
                       }}
                     >
-                      <div className="tags has-addons level-item">
-                        <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position:'absolute',bottom:'46%', left:'0',right:'0' }}>
-                          {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
-                          {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
-                        </div>
-                        {APIData.length !== 0 && (
-                          <Chart
-                            value={titleValue}
-                            setTitle={setTitle}
-                            APIData={APIData}
-                            onPrevious={onPrevious}
-                            onNext={onNext}
-                            handleFocus={handleFocus}
-                            focusedID={focusedID}
-                            isCurrentWeek={isCurrentWeek}
-                            graphData={APIData}
-                            setJournalText={setJournalText}
-                            setJournalQuestion={setJournalQuestion}
-                          />
-                        )}
-                        </div >
-                        <div style={{
-                          display: 'flex',justifyContent:'center', marginTop:'30px', flexDirection: 'row', zIndex: 3, padding: '0px 15px',
-                        }}
-                        >
-                          <div className="bottom-bttn">
-                          <Link to="/pie-chart" className="n-btn">
-                           Previous
-                          </Link>
-                          <Link to="/journal" className="n-btn">
-                            Next
-                          </Link>
-                          </div>
-                        </div>
-                      
+                      {cloudColor && <CloudGradient color1={cloudColor.cColor} color3={cloudColor.sColor} />}
                     </div>
+                  </>
+                )}
+              <div className="card-content">
+                <img className="oval display-none" alt="img" src={OvalPng} />
+                <div className="media" style={{ height: '100%' }}>
+                  {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
+                    <p className="average-score">
+                      <div className="advertise-text bold text-blue">
+                        <span className="text-blue">How are you feeling today?</span>
+                      </div>
+                      <span className="before-decimal">
+                        {weekAvarage.avg.split('.')[0]}
+                        .
+                      </span>
+                      <span className="after-decimal">{weekAvarage && weekAvarage.avg.split('.')[1].charAt(0)}</span>
+                    </p>
+                  )}
+                  {journalQuestion && journalText ?
+                    <p className="average-score">
+                      <div className="advertise-text bold text-blue">
+                        <span className="text-blue" style={{ fontSize: '20px' }}>{journalQuestion}</span>
+                      </div>
+                      <span>{journalText}</span>
+                    </p>
+                    : null
+                  }
+
+                  <div
+                    className="media-content has-text-centered"
+                    style={{
+                      marginTop: !isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg ? 0 : 0,
+                    }}
+                  >
+                    <div className="tags has-addons level-item">
+                      <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position: 'absolute', bottom: '46%', left: '0', right: '0' }}>
+                        {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
+                        {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
+                      </div>
+                      {APIData.length !== 0 && (
+                        <Chart
+                          value={titleValue}
+                          setTitle={setTitle}
+                          APIData={APIData}
+                          onPrevious={onPrevious}
+                          onNext={onNext}
+                          handleFocus={handleFocus}
+                          focusedID={focusedID}
+                          isCurrentWeek={isCurrentWeek}
+                          graphData={APIData}
+                          setJournalText={setJournalText}
+                          setJournalQuestion={setJournalQuestion}
+                        />
+                      )}
+                    </div >
+                    <div style={{
+                      display: 'flex', justifyContent: 'center', marginTop: '30px', flexDirection: 'row', zIndex: 3, padding: '0px 15px',
+                    }}
+                    >
+                      <div className="bottom-bttn">
+                        <Link to="/pie-chart" className="n-btn">
+                          Previous
+                        </Link>
+                        <Link to="/journal" className="n-btn">
+                          Next
+                        </Link>
+                      </div>
+                    </div>
+
                   </div>
-                  <div className="content article-body" />
                 </div>
-              </>
-            )}
-        </div>
+                <div className="content article-body" />
+              </div>
+            </>
+          )}
       </div>
+    </div>
   );
 };
 
