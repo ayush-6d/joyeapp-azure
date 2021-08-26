@@ -69,14 +69,12 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       this.setState({
         happinessCounter: happinessCounter
       });
-      console.log("happinessCounter", happinessCounter);
 
       const lifetime = await dbRef.ref(`users/${userId}/info/happinessCounterLifetime`).once('value');
       let happinessCounterLifetime = lifetime.val();
       this.setState({
         happinessCounterLifetime: happinessCounterLifetime
       });
-      console.log("happinessCounterLifetime", happinessCounterLifetime);
 
       const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`).once('value');
       let data = currentWeekData.val();
