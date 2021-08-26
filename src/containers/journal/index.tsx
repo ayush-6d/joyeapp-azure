@@ -9,18 +9,18 @@ import ExcellentTick from "src/resources/icons/ExcellentTick.png";
 import "../Dashboards/Categories/index.scss";
 import axios from "axios";
 import { createHash } from "src/utilities/generalUtils";
-import { firebaseInit } from "src/services/firebase";
+import { database, firebaseInit } from "src/services/firebase";
 import * as firebase from "firebase";
 import moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 import { withRouter, RouteComponentProps } from "react-router";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 
-export interface IJournalProps extends RouteComponentProps{
+export interface IJournalProps extends RouteComponentProps {
   route?: any;
   history: any;
   openModal?: any;
-  data?:any;
+  data?: any;
 }
 
 export interface IJournalState {
@@ -35,7 +35,6 @@ export interface IJournalState {
 
 let isSkipSaved = false;
 let jounrnalCheckSaved = "";
-let todaysFeeling = "";
 let joyelevelscore = 0;
 let isOnceDay = false;
 let dbRef = firebaseInit.database(getDbUrl());
@@ -51,12 +50,14 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       jQuestion: "",
       cQuestion: "",
     };
+
   }
 
-  async componentDidMount() {
+
+  componentDidMount() {
     this.getJournalLogic();
   }
-  
+
   getJournalLogic = async () => {
     let todaysDate = moment(new Date()).format("DD-MM-YYYY");
 
@@ -64,24 +65,19 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
     const userId = getAuthId();
 
-    const query = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/journalText`);
+    const query = await dbRef.ref(`users/${userId}/brew/brewdata/journalText`);
     let snapshot = await query.once("value");
-    
-    // snapshot.forEach(function (data) {
-    //   // key will be "ada" the first time and "alan" the second time
-    //   var key = data.key;
-    //   const dataVal = data.val();
-    //   isSkipSaved = dataVal.isSkip;
-    //   // childData will be the actual contents of the child
-    //   jounrnalCheckSaved = dataVal.jounrnalCheck;
-    //   todaysFeeling=dataVal.todaysFeeling
-    // });
 
-    isSkipSaved = snapshot.val().isSkip
-    jounrnalCheckSaved = snapshot.val().jounrnalCheck
-    todaysFeeling = snapshot.val().todaysFeeling
+    snapshot.forEach(function (data) {
+      // key will be "ada" the first time and "alan" the second time
+      var key = data.key;
+      const dataVal = data.val();
+      isSkipSaved = dataVal.isSkip;
+      // childData will be the actual contents of the child
+      jounrnalCheckSaved = dataVal.jounrnalCheck;
+    });
 
-    const userRefJoyelevel = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/currentAverage`);
+    const userRefJoyelevel = await dbRef.ref(`users/${userId}/brew/brewdata/${todaysDate}/currentAverage`);
 
     userRefJoyelevel.on("value", snapshot => {
       snapshot.forEach(data => {
@@ -90,7 +86,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       });
     });
 
-    const userRefOnceAday = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/OnceAday`);
+    const userRefOnceAday = await dbRef.ref(`users/${userId}/brew/brewdata/${todaysDate}/OnceAday`);
 
     userRefOnceAday.on("value", snapshot => {
       snapshot.forEach(data => {
@@ -98,6 +94,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         isOnceDay = dataVal;
       });
     });
+
 
     let jQuestion = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}/journalQuestion`).once('value');
     jQuestion = await jQuestion.val();
@@ -108,33 +105,28 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     cQuestion = await cQuestion.val();
     var congratulationQuestion = cQuestion?.toString();
     this.setState({ cQuestion: congratulationQuestion });
-    
-    if(!todaysFeeling){
-      if (joyelevelscore > 6 || joyelevelscore < 5) {
-        if (jounrnalCheckSaved === "donotShowEverytime" && dayCount > 0 && dayCount <= 3 && !isOnceDay) {
-          this.setState({ showJoyelevel: true });
-          let OnceDay = { isOnceDay: true };
 
-          dbRef
-            .ref(`users/${userId}/brew/brewData/${todaysDate}/OnceAday`)
-            .update({ OnceDay })
-            .catch(error => this.onFail(error));
-        } else {
-          if (jounrnalCheckSaved === "showEverytime") {
-            this.setState({ showJoyelevel: true });
-          } else {
-            this.handleYesno();
-            // this.props.history.push(`/dashboard`);
-          }
-        }
+
+
+    if (joyelevelscore > 6 || joyelevelscore < 5) {
+      if (jounrnalCheckSaved === "donotShowEverytime" && dayCount > 0 && dayCount <= 3 && !isOnceDay) {
+        this.setState({ showJoyelevel: true });
+        let OnceDay = { isOnceDay: true };
+
+        dbRef
+          .ref(`users/${userId}/brew/brewdata/${todaysDate}/OnceAday`)
+          .set({ OnceDay })
+          .catch(error => this.onFail(error));
       } else {
-        this.handleYesno();
-        // this.props.history.push(`/dashboard`);
+        if (jounrnalCheckSaved === "showEverytime") {
+          this.setState({ showJoyelevel: true });
+        } else {
+          // this.props.history.push(`/dashboard`);
+        }
       }
     } else {
-    this.handleYesno();
-    // this.props.history.push(`/dashboard`);
-  }
+      // this.props.history.push(`/dashboard`);
+    }
   };
 
   handleYesno() {
@@ -147,14 +139,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       this.setState({
         todaysFeeling: value
       });
-    // let todaysDate = moment(new Date()).format("DD-MM-YYYY");
-    //   const userId = getAuthId();
-    // dbRef
-    //   .ref(`users/${userId}/brew/brewData/${todaysDate}`)
-    //   .update({ journalText : value })
-    //   .catch(error => this.onFail(error));
     }
-
   };
 
   setRadioBtn(event) {
@@ -167,10 +152,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
   saveData = async isSkip => {
     // debugger;
-    let todaysDate = moment(new Date()).format("DD-MM-YYYY");
-
-    const userId = getAuthId();
-    // let userId = await createHash("596ef7d8-f109-4c4e-9c91-81896baa9da5");
+    let userId = await createHash("596ef7d8-f109-4c4e-9c91-81896baa9da5");
 
     let jounrnalDetalis = {
       isSkip: isSkip,
@@ -181,9 +163,12 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     };
 
     dbRef
-      .ref(`users/${userId}/brew/brewData/${todaysDate}`)
-      .update(jounrnalDetalis)
+      .ref(`users/${userId}/brew/brewdata/journalText`)
+      .set({ jounrnalDetalis })
       .catch(error => this.onFail(error));
+
+    const data = await dbRef.ref(`users/${userId}/brew/brewdata/journalText`).once("value");
+    console.log("data", data);
   };
 
   setRoute = () => {
@@ -191,26 +176,15 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     // this.props.history.push(`/dashboard`);
   };
   renderYesnoContent = () => {
-    if (this.state.showYesno && this.state.cQuestion) {
+    if (this.state.showYesno) {
       var congratulationQuestion = this.state.cQuestion.toString()
-      // console.log("Question", congratulationQuestion)
-      return <Yesno data={{congratulationQuestion : congratulationQuestion}}/>;
+      console.log("Question", congratulationQuestion)
+      return <Yesno data={{ congratulationQuestion: congratulationQuestion }} />;
     }
   };
-  getRadioType=(value)=>{
-    // let showEverytime=true;
-    // if(value?.target?.value) showEverytime = value?.target?.value
-    // else showEverytime = value
-    // const userId = getAuthId();
-    // dbRef
-    //   .ref(`users/${userId}/details`)
-    //   .update({ showEverytime })
-    //   .catch(error => this.onFail(error));
-      this.setState({ showYesno: value.target.value==='showEverytime'?false:true });
-    
-  }
+
   render() {
-    const { todaysFeeling, showYesno, jQuestion } = this.state;
+    const { todaysFeeling, showYesno, jQuestion, cQuestion } = this.state;
     const { route, history } = this.props;
     const headers = ["tellusabout", "saysomething", "congratulation"];
     return (
@@ -235,47 +209,57 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
               }}
             >
               <>
-              <div className="text-container">
+                <div className="text-container">
                   {todaysFeeling.length <= 150 ? (
-                    <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
+                    <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
                       <p>{jQuestion}</p>
+                      {/* <p className="do-not-txt">
+                        Tap &nbsp;&nbsp;
+                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                        &nbsp;&nbsp; to proceed
+                          </p>                 */}
                     </div>
-                  ) : 
-                  (
-                    <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
-                      <p>{jQuestion}</p>
-                    </div>
-                  )
+                  ) :
+                    (
+                      <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
+                        <p>{jQuestion}</p>
+                        {/* <p className="do-not-txt">
+                        Tap &nbsp;&nbsp;
+                        <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
+                        &nbsp;&nbsp; to proceed
+                          </p>                 */}
+                      </div>
+                    )
                   }
                 </div>
                 <div className="target__body">
-                  <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing"  onChange={this.handleChange} className="target__textarea about-textarea" />
+                  <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing" onChange={this.handleChange} className="target__textarea about-textarea" />
                 </div>
                 <div className="circle-box-container">
-                <div className="circle-box">
-                  {todaysFeeling.length >= 1 ? (
-                    <div className="position-relative journal-container" onClick={()=>this.setRoute()}>
-                      <Circle showImg={true} imgStyle={{ width: "203px", marginTop: "1px" }} style={{ cursor: "pointer" }} img={processCompleted} />
-                      <div>
-                        <PageImage setCounter={() => this.handleYesno()} height="41.6px" width="52.8px" logo={rightTick} />
+                  <div className="circle-box">
+                    {todaysFeeling.length >= 1 ? (
+                      <div className="position-relative journal-container">
+                        <Circle showImg={true} imgStyle={{ width: "203px", marginTop: "1px" }} style={{ cursor: "pointer" }} img={processCompleted} />
+                        <div>
+                          <PageImage setCounter={() => this.handleYesno()} height="41.6px" width="52.8px" logo={rightTick} />
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
-                      <div>
-                        <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
-                        <span className="index-advertise-text font-15"> Show less often</span>
+                    ) : (
+                      <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
+                        <div>
+                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
+                          <span className="index-advertise-text font-15"> Show less often</span>
+                        </div>
+                        <div>
+                          <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" />
+                          <span className="index-advertise-text font-15"> Show often</span>
+                        </div>
                       </div>
-                      <div>
-                        <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck"/>
-                        <span className="index-advertise-text font-15"> Show often</span>
-                      </div>
-                    </div>
-                  )}
+                    )}
                   </div>
-                  <div>
-                    <div className="n-btn" onClick={() => this.handleYesno()} style={{ cursor: "pointer" }}>
-                      Skip
+                  <div className="">
+                    <div className="n-btn" onClick={this.setRoute} >
+                      skip
                     </div>
                   </div>
                 </div>
