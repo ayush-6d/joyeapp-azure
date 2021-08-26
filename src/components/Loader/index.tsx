@@ -27,13 +27,14 @@ export const Loader = (props) => {
         marginBottom: 2,
         zIndex: 20,
         position: "relative",
+        msFlexDirection:"column"
       }}
     >
       <div
-        style={{ height: "100vh", width: "100vw" }}
+       
         className={blur ? "add-blur" : ""}
       />
-      <div style={{ position: "absolute", top: "40%", left:"37%"  }}>
+      <div style={{ display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", width:"100px", height:"200px", position:"relative" }}>
         <SVGData key={`key${color}`} colors={colors[color]} />
       </div>
     </div>

@@ -9,6 +9,8 @@ import { Modal } from "src/components/Modal";
 import pageHeader from "src/resources/icons/pageHeader2.png";
 import "../Dashboards/Categories/index.scss";
 import { Dashboard } from "src/containers/Dashboards/Categories";
+import { getAuthId, getDbUrl } from "src/services/localStorage.service";
+import moment from 'moment';
 
 export interface ICongratulationProps {
   route?: any;
@@ -38,33 +40,44 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       happinessCounterLifetime: "",
       congratulationImg: confetti_00,
       timer: null,
-      ShowDashboard: false
+      ShowDashboard: false,
     };
   }
+
   async componentDidMount() {
     let congImg = [confetti_00, confetti_01, confetti_02, confetti_03, confetti_04, confetti_05, confetti_06, confetti_07, confetti_08, confetti_00];
     this.setState({
       congratulationImg: congImg[Math.floor(Math.random() * 10)]
     });
+    const userId = getAuthId();
+    console.log("userId", userId)
+    let dbRef = firebaseInit.database(getDbUrl());
+    const year = moment().format('yyyy');
+    const currentWeek: any = moment().format('w');
+    const week: any = parseInt(currentWeek, 10) - 1;
+    console.log("week", currentWeek);
+    console.log("year", year)
     try {
-      const happinessCounter = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||596ef7d8-f109-4c4e-9c91-81896baa9da5||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
-      const happinessCounterLifetime = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||596ef7d8-f109-4c4e-9c91-81896baa9da5||b172c03f-be43-42e9-b17a-34fe50574266/info/happinessCounterLifetime`).once("value");
-      if (happinessCounter && happinessCounter["node_"]["value_"]) {
-        this.setState({
-          happinessCounter: happinessCounter["node_"]["value_"]
-        });
-      }
-      if (happinessCounterLifetime && happinessCounterLifetime["node_"]["value"]) {
-        this.setState({
-          happinessCounterLifetime: happinessCounterLifetime["node_"]["value_"]
-        });
-      }
+      const counter = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}/happinessCounter`).once('value');
+      let happinessCounter = counter.val();
+      this.setState({
+        happinessCounter: happinessCounter
+      });
+
+
+      const lifetime = await dbRef.ref(`users/${userId}/info/happinessCounterLifetime`).once('value');
+      let happinessCounterLifetime = lifetime.val();
+      this.setState({
+        happinessCounterLifetime: happinessCounterLifetime
+      });
+
     } catch (e) {
       console.log(e);
     }
   }
 
   handleCongratulation = () => {
+
     this.setState({ ShowDashboard: true });
   };
 
@@ -97,6 +110,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       });
     }
   }
+
   handleChange = e => {
     const value = e.target.value;
     if (this.state.todaysFeeling.length <= 150) {
@@ -113,18 +127,18 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
           this.renderShowDashboardContent()
         ) : (
           <BasePage withMenu showInfoIcon className="login-form home-screen">
-           {/*  <div className="pageHeader">
+            {/*  <div className="pageHeader">
               <img src={pageHeader} />
             </div>*/}
             <div
               className="render-component right-arrow-sec"
               style={{
-               /* background: "#1f00a4",
-                color: "#fff",
-                padding: "40px",
-                textAlign: "center",
-                minHeight: "600px",
-                height: "auto",*/
+                /* background: "#1f00a4",
+                 color: "#fff",
+                 padding: "40px",
+                 textAlign: "center",
+                 minHeight: "600px",
+                 height: "auto",*/
                 width: "100%",
                 justifyContent: "space-around",
                 display: "flex",
@@ -137,19 +151,19 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                 <p>of your happiness!</p>
               </div>
               <div className="do-not-txt ">
-               <div className="yes-no-week-txt"> 
-               <div> Week to date: <span className="font-size">{happinessCounter}</span></div>
-                <div>Lifetime:<span className="font-size"> {happinessCounterLifetime}</span></div>
+                <div className="yes-no-week-txt">
+                  <div> Week to date: <span className="font-size">{happinessCounter}</span></div>
+                  <div>Lifetime:<span className="font-size"> {happinessCounterLifetime}</span></div>
                 </div>
-              <div>
-                  <PageImage height="82px" width="82px" marginTop="54px"  logo={rightArrow} setCounter={e => this.handleCongratulation()} />
+                <div>
+                  <PageImage height="82px" width="82px" marginTop="54px" logo={rightArrow} setCounter={e => this.handleCongratulation()} />
                 </div>
-                </div>
-              <div className="contrats-boom-img">
-              <PageImage  height="100%" width="100%" logo={congratulationImg} />
               </div>
-            
-           {/* <div
+              <div className="contrats-boom-img">
+                <PageImage height="100%" width="100%" logo={congratulationImg} />
+              </div>
+
+              {/* <div
                 className="render-component"
                 style={{
                   background: "#1f00a4",
@@ -176,7 +190,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                 <div>
                   <PageImage height="82px" width="82px" marginTop="-63px" marginLeft="96px" logo={rightArrow} setCounter={e => this.handleCongratulation()} />
                 </div>
-              </div> */}  
+              </div> */}
             </div>
           </BasePage>
         )}

@@ -13,6 +13,7 @@ export interface ITellUsAboutProps {
   openModal?: any;
   saveData?: any;
   setIsTellusabout?: any;
+  onCancel?: any;
 }
 export interface ITellUsAboutState {
   todaysFeeling?: string;
@@ -27,12 +28,12 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
   }
   handleChange = e => {
     const value = e.target.value;
-    if (this.state.todaysFeeling.length <= 150 ) {
+    if (this.state.todaysFeeling.length <= 150) {
       this.setState({
         todaysFeeling: value
       });
-    } 
-    
+    }
+
 
   };
 
@@ -69,21 +70,21 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
           )}
         </div>
         <div className="target__body">
-          <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing" onChange={this.handleChange}  className="target__textarea about-textarea" />
+          <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing" onChange={this.handleChange} className="target__textarea about-textarea" />
         </div>
         <div className="circle-box-container">
           <div className="circle-box">
             {todaysFeeling.length >= 1 && (
               <div className="rel">
                 <Circle showImg={true} imgStyle={{ width: "203px" }} style={{ cursor: "pointer" }} img={processCompleted} />
-                <div  className="check-arrow">
+                <div className="check-arrow">
                   <PageImage height="41.6px" width="52.8px" logo={rightTick} OnClick={e => saveData(todaysFeeling, false)} />
                 </div>
               </div>
             )}
           </div>
           <div className="" onClick={setIsTellusabout}>
-          <div className="n-btn"> cancel</div> 
+            <div className="n-btn" onClick={this.props.onCancel}> Cancel</div>
           </div>
         </div>
       </BasePage>

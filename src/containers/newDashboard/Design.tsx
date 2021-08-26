@@ -448,6 +448,7 @@ const Design = (props: any) => {
   }
 
 
+
   const getAudio = async (pieResp) => {
     let sprint;
     console.log('${mappingMessages[pieResp.x].type}', mappingMessages[pieResp.x].type);
@@ -765,6 +766,13 @@ const Design = (props: any) => {
         }
         weekdata.push(barChart);
       }
+
+      const year = moment().format('yyyy');
+      const currentWeek: any = moment().format('w');
+      const counter = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}/happinessCounter`).once('value');
+      let happinessCounter = counter.val();
+      console.log("happinessCounter", happinessCounter);
+
       await dbRef
         .ref(`users/${userId}/brew`)
         .child("weeks_average")
@@ -772,6 +780,7 @@ const Design = (props: any) => {
           [weekOfYear]: {
             avg: (weekAvg /= length).toFixed(2),
             dominantemotion: weekDominantEmotion,
+            happinessCounter: happinessCounter,
             weekdata,
           },
         });

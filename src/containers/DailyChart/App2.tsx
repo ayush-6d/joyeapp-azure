@@ -50,7 +50,7 @@ export default class V2 extends React.Component<any, any> {
   handleJournalText = async (date) => {
     const dbRef = firebaseInit.database(getDbUrl());
     const userId = getAuthId();
-    let journalTextData = await dbRef.ref(`users/${userId}/brew/brewData/${date}/journalText`).once('value');
+    let journalTextData = await dbRef.ref(`users/${userId}/brew/brewData/${date}/todaysFeeling`).once('value');
     journalTextData = await journalTextData.val();
     // eslint-disable-next-line react/destructuring-assignment
     this.props.setJournalText(journalTextData);
