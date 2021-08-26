@@ -238,9 +238,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
                       <div>
                         <p className="cardHeading">
                           Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
-                          is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()].pie} </span>- all about
-                          your relationships and interaction with people in your
-                          life
+                          is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()].pie} </span>- {EMOTIONS[emotion.toLowerCase()].prePieMessage}
                         </p>
                       </div>
                     </div>
@@ -251,7 +249,8 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               </>
               {/* // ))} */}
             </div>
-            <div className="bottom-btn">
+            <div className="bottom-bttn">
+            <Link to="#"  className="n-btn">Previous</Link>
             <Link to="/pie-chart" className="n-btn"> Next </Link>
             </div>
           </div>

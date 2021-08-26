@@ -74,7 +74,12 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
       speed: 400,
       longSwipes: false,
       loop: true,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
     });
+
 
     this.mySwiper.on('slideChange', () => {
       const { realIndex, activeIndex, previousIndex } = this.mySwiper;
@@ -276,6 +281,8 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                 ))}
               </div>
             )}
+            <div className='swiper-button-next'></div>
+            <div className='swiper-button-prev'></div>
             <div className="bottom-bttn">
             <Link to="#"  className="n-btn">Previous</Link>
             <Link className="n-btn"

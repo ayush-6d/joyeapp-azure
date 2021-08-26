@@ -47,6 +47,15 @@ function setDbId(id) {
 function getDbId() {
   return JSON.parse(localStorage.getItem("dbId"));
 }
+
+function getUserId() {
+  return localStorage.getItem("userId");
+}
+
+function getTId() {
+  return localStorage.getItem("tid");
+}
+
 export {
   getAuthToken,
   setAuthToken,
@@ -60,4 +69,6 @@ export {
   getDbUrl,
   setDbId,
   getDbId,
+  getUserId,
+  getTId,
 };

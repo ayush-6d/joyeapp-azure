@@ -99,6 +99,9 @@ color: #fff;
 .bottom-bttn{
   text-align: center;
   margin: 30px auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 70px;
 }
 .card-content {
   margin: auto;
