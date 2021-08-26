@@ -72,7 +72,7 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
                             </p>
                         </div>
                         <div className="" onClick={() => alert('this.onCancel')} style={{ cursor: "pointer", marginTop: "35px" }}>
-                            <div className="n-btn"> cancel</div>
+                            <div className="n-btn"> Cancel</div>
                         </div>
                     </div> : null}
             </>
