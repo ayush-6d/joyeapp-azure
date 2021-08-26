@@ -308,7 +308,7 @@ export class MobileMainClass extends React.PureComponent<IMobileMainProps, IMobi
 
           if (data["success"]) {
             self.setState({ isLoading: false, isCounterStarted: false, isCounterEnd: false, withMenu: true, showInfoIcon: true, showShield: true });
-            self.props.history.push("/pre-pie-chart");
+            self.props.history.push("/pie-chart");
           }
         }
       })

@@ -11,6 +11,7 @@ import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import { database, firebaseInit } from 'src/services/firebase';
 import { Loader } from 'src/components/Loader';
 import PieApp from './PieApp';
+import PrePieApp from './PrePieApp';
 import Popup from 'src/components/Popup';
 import "src/resources/css/fonts/fonts.css";
 
@@ -31,7 +32,6 @@ export const Pie = () => {
   useEffect(() => {
     setLoaderPie(true);
     setTimeout(async () => {
-
       dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
         const brewData = snapshot.val();
         if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
@@ -49,30 +49,22 @@ export const Pie = () => {
   const random = (mn, mx) => Math.random() * (mx - mn) + mn;
 
   useEffect(() => {
-    console.log("audio",)
     if (audio !== 'null') {
       const adObj: any = audio[Math.floor(random(1, audio.length - 1))];
-      console.log("adObj", adObj)
       if (adObj && adObj.app_start_key) {
         dbRef.ref(`users/${userId}/brew/brewData/${date}/podcast`).once('value')
-
           .then(async (snapshot) => {
             const audioData = snapshot.val();
-
-            console.log("audioData", audioData)
-
             if (audioData) {
               const keys = Object.keys(audioData);
               setFireBaseUrl(audioData[keys[Math.floor(random(1, audioData.length - 1))]].url);
               const dataObj: any = { title: audioData[keys[Math.floor(random(1, audioData.length - 1))]].title, author: audioData[keys[Math.floor(random(1, audioData.length - 1))]].author };
-              console.log("audioData", audioData)
               setFireBaseStorage(dataObj);
             }
           });
       }
     }
   }, [audio]);
-  console.log("fireBaseUrl", fireBaseUrl)
   function togglePopup() {
     setPopup(!popup);
   }
@@ -86,13 +78,14 @@ export const Pie = () => {
       {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
       {data.length > 0
         && (
-          <PieApp
+          <PrePieApp
             data={data}
             average={average}
             onClickPopup={togglePopup}
             getScreenMessages={getScreenMessages}
-            fireBaseUrl={fireBaseUrl}
-            fireBaseStorage={fireBaseStorage}
+            emotion={emotion}
+            // fireBaseUrl={fireBaseUrl}
+            // fireBaseStorage={fireBaseStorage}
           />
         )}
     </>

@@ -27,15 +27,12 @@ export const PrePie = () => {
   const [screenMessage, setScreenMessages] = React.useState([]);
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
-
   useEffect(() => {
     setLoaderPie(true);
-    console.log('userId', userId);
     setTimeout(async () => {
       const dbRef = firebaseInit.database(getDbUrl());
       dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
         const brewData = snapshot.val();
-        console.log('brewData', brewData);
         if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
           setAverage(brewData.current_avarage);
           setAudio(brewData.audio);
@@ -57,7 +54,6 @@ export const PrePie = () => {
         database.ref('joye_master_data/stress_buster').orderByChild('app_start_key').equalTo(adObj.app_start_key).once('value')
           .then(async (snapshot) => {
             const audioData = snapshot.val();
-
             if (audioData) {
               const keys = Object.keys(audioData);
               setFireBaseUrl(audioData[keys[0]].url);
@@ -68,7 +64,6 @@ export const PrePie = () => {
       }
     }
   }, [audio]);
-
   function togglePopup() {
     setPopup(!popup);
   }

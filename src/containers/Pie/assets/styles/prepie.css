@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap');
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+}
+
+.container {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: -webkit-flex;
+    /* NEW */
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    /* NEW */
+    flex-wrap: wrap;
+}
+
+* ::-webkit-scrollbar {
+    display: none;
+}
+
+#main {
+    /* height: 100vh; */
+    width: 100vw;
+}
+
+.hand {
+    cursor: pointer;
+}
+.swiper-slide .fff {
+    font-size: 15px;
+    color: #fff;
+    width: 170px;
+}
+
+.cardHeading {
+    font-weight: 300;
+    font-size: 20px;
+    color: #808080;
+    text-align: center;
+}
+
+.desc {
+    line-height: 1.4em;
+    letter-spacing: 1px;
+    font-size: 1em;
+}
+
+.scrolling-wrapper {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.scrolling-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.scrolling-wrapper .card {
+    display: inline-block;
+    white-space: normal;
+}
+
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: start;
+    font-size: 18px;
+    background: #fff;
+    border-radius: 20px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+}
+
+.boxShadow {
+    -webkit-box-shadow: 0px 0px 15px 0px #dadada;
+    -moz-box-shadow:0px 0px 15px 0px #dadada;
+    box-shadow: 0px 0px 15px 0px #dadada;
+}
+.progress
+{
+    width: 100%;
+}
+.info {
+    text-align: right;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    z-index: 15;
+  }
+  .player-bg {
+    background-color: transparent;
+    min-width: 280px;
+    max-width: 320px;
+  }
+  .player-bg .cardHeading
+  {
+    color: #1e00a3;
+    margin: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 1;
+    font-size: 20px;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 24px;
+  }
+  a:hover
+  {
+      text-decoration: none;
+  }
+  .video-bg
+  {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0;
+    margin-top: 10px;
+    background: #8E7AEC;
+    border-radius: 31px;
+    padding: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+  }
+  .progress-bar-sec
+  {
+    flex: 1;
+    height: 45px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 188px;
+    padding: 0 20px;
+    align-items: center;
+  }
+.swiper-slide {
+    width: 100%;
+    height: fit-content;
+}
+
+.fadeInEffect{
+    animation: fadeIn 1s forwards;
+}
+.avenier-font-bold
+{
+    font-family: "Mont-HeavyDEMO";
+}
+.margin-top-50
+{
+    margin-top:50px !important;
+}
+.swiper-container
+{
+    margin: 20px auto;
+}
+
+.swiper-wrapper
+{
+    display: flex;
+}
+.swiper-slide
+{
+    height: auto !important;
+    flex-shrink: initial !important;
+}
+.fff
+{
+    line-height: 20px;
+}
+/* .n-btn + .n-btn{
+    margin:0 20px;
+  } */
+  .n-btn
+  {
+      border-radius: 40px;
+      border: 1px solid #444;
+      padding: 3px 15px;
+      font-weight: 600;
+      color: #444;
+      min-width: 100px;
+      display: inline-block;
+      font-size: 14px;
+      line-height: 20px;
+      font-family: "Segoe UI", system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+      text-align: center;
+  }
+  .bottom-btn
+  {
+      position: fixed;
+      left: 0;
+      right:0;
+      bottom: 60px;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   gap: 70px;
+  }
+
+  .pie_value {
+    font-size: 40px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    z-index: 10;
+    align-items: center;
+    font-size: 40px;
+    font-weight: bold;
+    color: #fff;
+    font-family: "Mont-HeavyDEMO";
+    letter-spacing: -2.52px;
+}
+.pie_value span:first-child {
+    font-size: 50px;
+    font-family: "Mont-HeavyDEMO";
+}
+.pie_value span {
+    display: inline-block;
+    font-size: 35px;
+    /* vertical-align: bottom; */
+}
+.display-none
+{
+   display: none !important;
+}
+
+.card.article, .card
+{
+   box-shadow: 0 0 0 0 !important;
+}
+
+button.button.is-primary,
+button.button.is-primary:hover,
+button.button.is-primary:focus {
+  background: none;
+  color: #a297d6;
+  font-weight: bold;
+  border: none;
+  outline: none;
+  box-shadow: none !important;
+}
+
+button.button.is-primary.back {
+  float: left;
+}
+
+button.button.is-primary.next {
+  float: right;
+}
+
+.tags h5::first-letter {
+  font-size: 22px;
+}
+.dailyChart .tags {
+    position: relative;
+}
+
+.btn-arrow-group {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 42%;
+    z-index: 999;
+    padding: 0 10px;
+    overflow: hidden;
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+
+ @keyframes fadeIn {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+ }
+
+ @media (min-width: 768px)
+{
+   .login-form.home-screen {
+        padding: 20px;
+        position: relative;
+        max-width: 768px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+ .base-page-main.login-form.home-screen {
+     padding: 20px;
+     position: relative;
+     max-width: 768px;
+     margin: 0 auto;
+ }
+ .swiper-slide .fff{
+    width: 400px;
+}
+}
+
+ @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .swiper-container {
+      margin: 20px auto;
+  }
+  }

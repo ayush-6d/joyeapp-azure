@@ -965,7 +965,7 @@ const Design = (props: any) => {
                     setCounter(counter + 1);
                     submit(sliders);
                   }}
-                  to="/pre-pie-chart"
+                  to="/pie-chart"
                 >
                   <img alt="img" src={ArrowPic} />
                 </Link>

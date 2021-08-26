@@ -8,7 +8,7 @@ import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
 import "@reach/slider/styles.css";
 import "swiper/css/swiper.min.css";
-import "./assets/styles/index.css";
+import "./assets/styles/prepie.css";
 import { EMOTIONS } from "src/utilities/helper";
 
 interface IPrePieProps {
@@ -45,46 +45,11 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
   }
 
   componentDidMount() {
-    // const ref = storage.refFromURL('gs://joye-768f7.appspot.com/joye.png');
-    // ref.getDownloadURL().then((url) => {
-    //   console.log('urls:: ', url);
-    // });
     const that = this;
     console.log('EMOTIONS', EMOTIONS, this.props.emotion);
-    mySwiper = new Swiper(".swiper-container", {
-      slidesPerView: "auto",
-      centeredSlides: true,
-      spaceBetween: 30,
-      // loopedSlides: 3,
-      speed: 400,
-      longSwipes: false,
-      // loop: true,
-    });
-
-    mySwiper.on("slideChange", () => {
-      const { realIndex, activeIndex, previousIndex } = mySwiper;
-      const cardDataIndex = realIndex
-        ? that.state.cardData[realIndex].order
-        : 1;
-
-      let direction = "";
-      if (previousIndex < activeIndex) {
-        direction = "anticlock";
-      } else {
-        direction = "clock";
-      }
-
-      that.setState({
-        prevIndex: that.state.index,
-        index: cardDataIndex,
-        direction,
-      });
-    });
   }
 
-  handleClickPrev = () => {
-    mySwiper.slideNext();
-  };
+  
 
   render() {
     const { data, average, onClickPopup, getScreenMessages, emotion } =
@@ -172,9 +137,12 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             style={{ paddingTop: "15px", paddingBottom: "80px" }}
           >
             <div className="swiper-wrapper">
+              {/* {cardData.map(e => ( */}
               <>
+                {/* {e.desc !== '-' && ( */}
                 <div
                   key={1}
+                  // className="swiper-slide "
                   style={{
                     backgroundColor: "#ffffff",
                     width: "100%",
@@ -182,6 +150,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
 
                   }}
                 >
+                  {/* {JSON.stringify(e)}  */}
                   <div style={{ width: "100%" }}>
                     <div>
                       <div>
@@ -191,9 +160,12 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
                         </p>
                       </div>
                     </div>
+
                   </div>
                 </div>
+                {/* )} */}
               </>
+              {/* // ))} */}
             </div>
             <div className="bottom-bttn">
               <Link to="#" className="n-btn">Previous</Link>

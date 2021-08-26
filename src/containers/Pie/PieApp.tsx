@@ -129,11 +129,11 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
         <div className="login-form home-screen"
           id="main"
           style={{
-            display: 'flex', 
-            flexDirection: 'column', 
-            alignItems: 'center', 
-            justifyContent: 'space-evenly', 
-            position: 'relative', 
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+            position: 'relative',
             height: '100%',
           }}
         >
@@ -150,24 +150,6 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
               <img alt="info" src={InfoPic} />
             </button>
           </div>
-          {!this.state.showAudioPlayer && (
-            <>
-              {/* <img
-                style={{
-                  position: 'absolute', width: '13vh', top: 5, left: 5, zIndex: 10, opacity: 0.4,
-                }}
-                alt="cloud1"
-                src={cloud1}
-              />
-              <img
-                style={{
-                  position: 'absolute', width: '14vh', top: '6%', right: 10, zIndex: 10, opacity: 0.4,
-                }}
-                alt="cloud2"
-                src={cloud2}
-              /> */}
-            </>
-          )}
           <div>
             <div style={{
               width: '100%', display: 'flex', justifyContent: 'center', position: 'relative', marginTop: '15px',
@@ -224,7 +206,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
             {!this.state.showAudioPlayer && (
               <div className="swiper-wrapper">
                 {cardData.map(e => (
-                  <>                    
+                  <>
                     <div
                       key={e.order}
                       className="swiper-slide"
@@ -239,13 +221,13 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                     >
                       {/* {JSON.stringify(e)}  */}
                       <div style={{ width: '100%' }}>
-                        <div style={{ display: 'flex', alignItems:'center',marginBottom:'10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                           <div style={{ width: '50%' }}>
                             <p className="fff cardHeading">
                               {EMOTIONS[e.title.toLowerCase()].pie}
                             </p>
                           </div>
-                          <div 
+                          <div
                             style={{
                               width: '50%',
                               display: 'flex',
@@ -268,7 +250,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                             <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
                           </Overflow.Content>
 
-                         
+
                         </Overflow>
 
                         {/* {console.log(addDescription(e.desc))}
@@ -283,20 +265,20 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
             <div className='swiper-button-next'></div>
             <div className='swiper-button-prev'></div>
             <div className="bottom-bttn">
-            <Link to="#"  className="n-btn">Previous</Link>
-            <Link className="n-btn"
-              onClick={
-                () => {
-                  this.setState({ showAudioPlayer: true });
+              <Link to="#" className="n-btn">Previous</Link>
+              <Link className="n-btn"
+                onClick={
+                  () => {
+                    this.setState({ showAudioPlayer: true });
+                  }
                 }
-              }
-              to={this.state.showAudioPlayer || fireBaseUrl === '' ? "/daily-chart" : "#" }
-            > Next</Link>
+                to={this.state.showAudioPlayer || fireBaseUrl === '' ? "/daily-chart" : "#"}
+              > Next</Link>
+            </div>
           </div>
-          </div>
-       
+
         </div>
-      
+
       </>
     );
   }
