@@ -57,12 +57,18 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onSpeakAgain() {
-        speechService.stopRecordingAudioFromWeb();
+        if (!isMobile) {
+            clearTimeout(this.stopTimer);
+            speechService.stopRecordingAudioFromWeb();
+        }
         this.setState({ recordingState: 'init', pageState: 'record' }, this.recordAudio);
     }
 
     async onCancel() {
-        speechService.stopRecordingAudioFromWeb();
+        if (!isMobile) {
+            clearTimeout(this.stopTimer);
+            speechService.stopRecordingAudioFromWeb();
+        }
         this.setState({ recordingState: 'init', pageState: 'record' });
     }
 
