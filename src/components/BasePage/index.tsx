@@ -62,7 +62,6 @@ export class BasePage extends React.Component<{
   }
   render() {
     const { withMenu, className, children, style, component, showShield, showInfoIcon } = this.props;
-    console.log('Component', component);
     !withMenu ? style.flexDirection = 'column' : style.flexDirection = 'column';
     !withMenu ? style.height = 'auto' : style.height = '100%';
     return (

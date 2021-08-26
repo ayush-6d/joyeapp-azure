@@ -27,16 +27,16 @@ export const Pie = () => {
   const [screenMessage, setScreenMessages] = React.useState([]);
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
-
+  const dbRef = firebaseInit.database(getDbUrl());
   useEffect(() => {
     setLoaderPie(true);
     setTimeout(async () => {
-      const dbRef = firebaseInit.database(getDbUrl());
+
       dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
         const brewData = snapshot.val();
         if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
           setAverage(brewData.current_avarage);
-          setAudio(brewData.audio);
+          setAudio(brewData.podcast);
           setDominentEmotion(brewData.dominantemotion);
           setDominentEmotionType(brewData.type);
         }
@@ -49,29 +49,35 @@ export const Pie = () => {
   const random = (mn, mx) => Math.random() * (mx - mn) + mn;
 
   useEffect(() => {
+    console.log("audio",)
     if (audio !== 'null') {
       const adObj: any = audio[Math.floor(random(1, audio.length - 1))];
+      console.log("adObj", adObj)
       if (adObj && adObj.app_start_key) {
-        database.ref('joye_master_data/stress_buster').orderByChild('app_start_key').equalTo(adObj.app_start_key).once('value')
+        dbRef.ref(`users/${userId}/brew/brewData/${date}/podcast`).once('value')
+
           .then(async (snapshot) => {
             const audioData = snapshot.val();
 
+            console.log("audioData", audioData)
+
             if (audioData) {
               const keys = Object.keys(audioData);
-              setFireBaseUrl(audioData[keys[0]].url);
-              const dataObj: any = { title: audioData[keys[0]].name, author: audioData[keys[0]].author };
+              setFireBaseUrl(audioData[keys[Math.floor(random(1, audioData.length - 1))]].url);
+              const dataObj: any = { title: audioData[keys[Math.floor(random(1, audioData.length - 1))]].title, author: audioData[keys[Math.floor(random(1, audioData.length - 1))]].author };
+              console.log("audioData", audioData)
               setFireBaseStorage(dataObj);
             }
           });
       }
     }
   }, [audio]);
-
+  console.log("fireBaseUrl", fireBaseUrl)
   function togglePopup() {
     setPopup(!popup);
   }
   async function getScreenMessages() {
-    const screenMessages = await database.ref('/master/screen_messages/pie_graph').once('value');
+    const screenMessages = await dbRef.ref('/master/screen_messages/pie_graph').once('value');
     setScreenMessages(screenMessages.val());
   }
   return (

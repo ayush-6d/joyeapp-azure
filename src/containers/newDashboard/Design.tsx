@@ -355,10 +355,6 @@ const Design = (props: any) => {
   };
 
   useEffect(() => {
-    console.log(
-      "rangeValueNumberBottom.current",
-      rangeValueNumberBottom.current
-    );
     if (sliders.length > 0 && rangeValueNumberBottom.current !== null) {
       sliders[counter].value = rangeValueNumberBottom.current.innerText;
     }
@@ -370,15 +366,17 @@ const Design = (props: any) => {
     if (mappingMessages[pieResp.x][pieResp.y] === "Nutral") {
       sprint = await database
         .ref(
-          `joye_master_data/sprint/default_application_messages/${pieResp.x}`
+          `joye_master_data/sprint_new/default_application_messages/${pieResp.x}`
         )
         .once("value");
       sprint = sprint.val();
       sprint = sprint[Math.floor(random(1, sprint.length - 1)) - 1];
-      return sprint;
+      var desc = String(sprint); // TODO
+      var theme = 1;
+      return { desc, theme };
     }
     sprint = await database
-      .ref(`joye_master_data/sprint/${mappingMessages[pieResp.x].type}`)
+      .ref(`joye_master_data/sprint_new/${mappingMessages[pieResp.x].type}`)
       .orderByChild("title")
       .equalTo(pieResp.x)
       .once("value");
@@ -397,17 +395,70 @@ const Design = (props: any) => {
       sprint = sprint[keys[0]][mappingMessages[pieResp.x][pieResp.y]];
       sprint = sprint[Math.floor(random(1, sprint.length)) - 1];
     }
-    return sprint;
+    var desc = String(sprint);
+    var theme = Number(desc.slice(desc.length - 4, desc.length - 2));
+    desc = desc.slice(0, desc.length - 7);
+    return { desc, theme };
+    // return sprint
   };
+
+  async function getJournalQuestion(theme) {
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getJournalQuestionTheme', orgTheme);
+    let journalQuestion: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
+        )
+        .once("value");
+    journalQuestion = await journalQuestion.val();
+    return journalQuestion[Math.floor(random(1, journalQuestion.length || 0)) - 1];
+  }
+
+  async function getCongratulationQuestion(theme) {
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getCongratulationQuestionTheme', orgTheme);
+    let congratulationQuestion: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/congratulations_questions`
+        )
+        .once("value");
+    congratulationQuestion = await congratulationQuestion.val();
+    return congratulationQuestion[Math.floor(random(1, congratulationQuestion.length || 0)) - 1];
+  }
+
+  async function getPodcast(theme) {
+    let orgTheme = theme;
+    if (orgTheme.toString().length < 2){
+      orgTheme = (0 + `${theme}`).slice(-2) 
+    }
+    console.log('getPodcastTheme', orgTheme);
+    let podcast: any =  await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/podcasts`
+        )
+        .once("value");
+    podcast = await podcast.val();
+    return podcast;
+  }
+
+
 
   const getAudio = async (pieResp) => {
     let sprint;
+    console.log('${mappingMessages[pieResp.x].type}', mappingMessages[pieResp.x].type);
     sprint = await database
-      .ref(`joye_master_data/sprint/${mappingMessages[pieResp.x].type}`)
+      .ref(`joye_master_data/sprint_new/${mappingMessages[pieResp.x].type}`)
       .orderByChild("title")
       .equalTo(pieResp.x)
       .once("value");
     sprint = sprint.val();
+    console.log('sprint', sprint);
     if (sprint && Array.isArray(sprint)) {
       sprint.map((item) => {
         sprint = item.audio[mappingMessages[pieResp.x][pieResp.y]];
@@ -420,6 +471,7 @@ const Design = (props: any) => {
     if (!sprint) {
       sprint = "null";
     }
+    console.log('sprint final', sprint);
     return sprint;
   };
 
@@ -456,7 +508,7 @@ const Design = (props: any) => {
 
   const submit = async (slider) => {
     // debugger;
-    console.log("Submit::: ", slider);
+    // console.log("Submit::: ", slider);
     const userId = getAuthId();
     const date = moment().format("DD-MM-yyyy");
     const weekOfYear = moment().format("w_yyyy");
@@ -470,21 +522,21 @@ const Design = (props: any) => {
     let type = "";
     let dayTotal = 0;
     const audio = [];
-    console.log("getDbUrl:: ", getDbUrl());
+    // console.log("getDbUrl:: ", getDbUrl());
     try {
       const dbRef = firebaseInit.database(getDbUrl());
       let prevDetail: any = await dbRef
         .ref(`users/${userId}/brew/brewData/${date}`)
         .once("value");
       prevDetail = await prevDetail.val();
-      console.log('prevDetail', prevDetail);
+      // console.log('prevDetail', prevDetail);
       if (prevDetail !== null && prevDetail.day_total) {
         dayTotal += Number(prevDetail.day_total);
       }
+      let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
         const { value } = slider[i];
-        console.log(slider[i].name, " slider[i].value ", slider[i].value);
-        if (maxval <= value) {
+        if (Number(maxval) <= Number(value)) {
           dominantemotion = slider[i].name;
           maxval = slider[i].value;
           type = mappingMessages[slider[i].name][slider[i].value];
@@ -517,20 +569,32 @@ const Design = (props: any) => {
         const emotion = EMOTIONS_MASTER.filter(
           (em) => em.emotion.toLowerCase() === slider[i].slider.toLowerCase()
         );
-
+        const messages = await getMessages({
+          x: slider[i].name,
+          y: slider[i].value,
+        });
+        if (oldDominant !== dominantemotion) {
+          brewData.theme = messages.theme;
+          oldDominant = dominantemotion;
+          console.log('dominantemotion', dominantemotion, messages.theme, brewData.theme);
+        }
         pieData.push({
           title: slider[i].name,
           color: emotion[0].color,
           value: Number.parseInt(pieLogic[slider[i].value], 10),
           slider_value: Number.parseInt(slider[i].value, 10),
-          desc: await getMessages({
-            x: slider[i].name,
-            y: slider[i].value,
-          }),
+          // desc: await getMessages({
+          //     x: slider[i].name,
+          //     y: slider[i].value,
+          //   }),
+          desc: messages.desc,
           sColor: emotion[0].sColor,
           cColor: emotion[0].cColor,
         });
       }
+      brewData.journalQuestion = await getJournalQuestion(brewData.theme);
+      brewData.congratulationQuestion = await getCongratulationQuestion(brewData.theme);
+      brewData.podcast = await getPodcast(brewData.theme);
 
       for (let s = 0; s < slider.length; s += 1) {
         let dayValueSum = 0;
@@ -571,7 +635,6 @@ const Design = (props: any) => {
         count += prevDetail.count;
         total += prevDetail.total ? parseFloat(prevDetail.total) : 0;
       }
-      console.log("current_avarage", avarage);
       const current_avarage = avarage;
       avarage = (total / count).toFixed(2);
       brewData.total = total.toFixed(2);
@@ -703,6 +766,13 @@ const Design = (props: any) => {
         }
         weekdata.push(barChart);
       }
+
+      const year = moment().format('yyyy');
+      const currentWeek: any = moment().format('w');
+      const counter = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}/happinessCounter`).once('value');
+      let happinessCounter = counter.val();
+      console.log("happinessCounter", happinessCounter);
+
       await dbRef
         .ref(`users/${userId}/brew`)
         .child("weeks_average")
@@ -710,6 +780,7 @@ const Design = (props: any) => {
           [weekOfYear]: {
             avg: (weekAvg /= length).toFixed(2),
             dominantemotion: weekDominantEmotion,
+            happinessCounter: happinessCounter,
             weekdata,
           },
         });

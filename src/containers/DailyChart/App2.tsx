@@ -20,6 +20,8 @@ export default class V2 extends React.Component<any, any> {
     };
     this.handleFocus = this.handleFocus.bind(this);
     this.handleJournalText = this.handleJournalText.bind(this);
+    this.handleJournalQuestion = this.handleJournalQuestion.bind(this);
+
   }
 
 
@@ -30,9 +32,11 @@ export default class V2 extends React.Component<any, any> {
       if (moment(e[8], 'DD-MM-yyyy').format('DD-MM-yyyy') === moment().format('DD-MM-yyyy')) {
         this.setState({ focusedID: i });
         this.handleJournalText(moment().format('DD-MM-yyyy'));
+        this.handleJournalQuestion(moment().format('DD-MM-yyyy'));
       } else {
         // eslint-disable-next-line react/destructuring-assignment
         this.props.setJournalText('');
+        this.props.setJournalQuestion('');
       }
     });
   }
@@ -40,15 +44,25 @@ export default class V2 extends React.Component<any, any> {
   handleFocus = (id, date) => {
     this.setState({ focusedID: id });
     this.handleJournalText(date);
+    this.handleJournalQuestion(date);
   }
 
   handleJournalText = async (date) => {
     const dbRef = firebaseInit.database(getDbUrl());
     const userId = getAuthId();
-    let journalTextData = await dbRef.ref(`users/${userId}/brew/brewData/${date}/journalText`).once('value');
+    let journalTextData = await dbRef.ref(`users/${userId}/brew/brewData/${date}/todaysFeeling`).once('value');
     journalTextData = await journalTextData.val();
     // eslint-disable-next-line react/destructuring-assignment
     this.props.setJournalText(journalTextData);
+  }
+
+  handleJournalQuestion = async (date) => {
+    const dbRef = firebaseInit.database(getDbUrl());
+    const userId = getAuthId();
+    let journalQuestionData = await dbRef.ref(`users/${userId}/brew/brewData/${date}/journalQuestion`).once('value');
+    journalQuestionData = await journalQuestionData.val();
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.setJournalQuestion(journalQuestionData);
   }
 
   render() {

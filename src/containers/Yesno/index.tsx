@@ -17,6 +17,7 @@ export interface IYesnoProps {
   route?: any;
   history?: any;
   openModal?: any;
+  data?: any;
 }
 
 export interface IYesnoState {
@@ -39,6 +40,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
       openModal: false,
       ShowCongratulation: false
     };
+    // var cQuestion = this.props
+    //   console.log(123,cQuestion);
   }
 
   handleCongratulation = () => {
@@ -66,6 +69,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
 
   render() {
     const { openModal, modalData, ShowCongratulation } = this.state;
+    const { data: { congratulationQuestion} } = this.props;
+    
     return (
       <>
         {ShowCongratulation ? (
@@ -74,7 +79,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
           <BasePage withMenu showInfoIcon className="login-form home-screen">
            {/*<div className="pageHeader">
               <img src={pageHeader} />
-            </div>*/} 
+            </div>*/}
             {openModal && (
               <div style={{ textAlign: "center", justifyContent: "space-around", display: "flex" }}>
                 <Modal openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
@@ -102,7 +107,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
                {/*<div className="advertise-text bold">
                   <p>Express freely in a few sentences </p>
                   <p>Do not hold back</p>
-                </div> */} 
+                </div> */}
                 <div
                   className="render-component"
                   style={{
@@ -121,7 +126,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
                   <>
                   <div className="text-container">
                   <div  className="advertise-text bold text-blue" style={{  marginTop: "35px",height:"62px" }}>
-                     <p>Express freely in a few sentences </p>
+                     <p>{congratulationQuestion}</p>
                       {/* <p className="do-not-txt">Do not hold back</p> */}
                     </div>
                     <div>

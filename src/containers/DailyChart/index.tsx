@@ -59,6 +59,7 @@ export const DailyChart = () => {
   const [screenMessage, setScreenMessages] = React.useState([]);
   const [piedata, setPieData] = useState([]);
   const [journalText, setJournalText] = useState('');
+  const [journalQuestion, setJournalQuestion] = useState('');
 
   function handleFocus(id) {
     setFocusId(id);
@@ -181,7 +182,8 @@ export const DailyChart = () => {
       : await database.ref('/master/screen_messages/prev_graph').once('value');
     setScreenMessages(screenMessages.val());
   }
-  console.log('journalText', journalText);
+  // console.log('journalText', journalText);
+  // console.log('journalQuestion', journalQuestion);
   return (
       <div id="slider" className="is-8 is-offset-2 dailyChart">
         <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
@@ -282,9 +284,9 @@ export const DailyChart = () => {
                   <div className="media" style={{ height: '100%' }}>
                     {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
                       <p className="average-score">
-                        <div className="advertise-text bold text-blue">
+                        {/*<div className="advertise-text bold text-blue">
                           <span className="text-blue">How are you feeling today?</span>
-                        </div>
+                    </div>*/}
                         <span className="before-decimal">
                           {weekAvarage.avg.split('.')[0]}
                         .
@@ -292,12 +294,15 @@ export const DailyChart = () => {
                         <span className="after-decimal">{weekAvarage && weekAvarage.avg.split('.')[1].charAt(0)}</span>
                       </p>
                     )}
+                    {journalQuestion && journalText ?
                     <p className="average-score">
                     <div className="advertise-text bold text-blue">
-                          <span className="text-blue"  style={{fontSize:'20px'}}>How are you feeling today?</span>
-                        </div>
+                      <span className="text-blue"  style={{fontSize:'20px'}}>{journalQuestion}</span>
+                    </div>
                     <span>{journalText}</span>
                     </p>
+                    : null
+                    }
                    
                     <div
                       className="media-content has-text-centered"
@@ -322,6 +327,7 @@ export const DailyChart = () => {
                             isCurrentWeek={isCurrentWeek}
                             graphData={APIData}
                             setJournalText={setJournalText}
+                            setJournalQuestion={setJournalQuestion}
                           />
                         )}
                         </div >

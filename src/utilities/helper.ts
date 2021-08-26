@@ -197,35 +197,42 @@ export const EMOTIONS = {
     slider: ["Anxious", "Stressed", "Nervous"],
     pie: ["Anxiety"],
     dailyChart: ["Stressed", "Anxious", "Calm"],
+    prePieMessage: ["your fear of dangers and threats in the future"],
   },
   irritable: {
     slider: ["Irritable", "Angry", "Annoyed"],
     pie: ["Anger"],
     dailyChart: ["Angry", "Irritable", "Peaceful"],
+    prePieMessage: ["when something blocks you or when you think you're being treated unfairly"],
   },
   joyful: {
     slider: ["Joyful", "Happy", "Excited"],
     pie: ["Joy"],
     dailyChart: ["Joyful", "Sad", "Happy"],
+    prePieMessage: ["while higher state of Joy is good feeling and enjoyment, the lower state of Joy is sadness"],
   },
   optimistic: {
     slider: ["Optimistic", "Positive"],
     pie: ["Joy"],
     dailyChart: ["Joyful", "Sad", "Happy"],
+    prePieMessage: ["while higher state of Joy is good feeling and enjoyment, the lower state of Joy is sadness"],
   },
   motivated: {
     slider: ["Motivated", "Engaged", "Successful"],
     pie: ["Motivation"],
     dailyChart: ["Motivated", "Low", "Active"],
+    prePieMessage: ["behaving positive, healthy, engaged and working towards success"],
   },
   active: {
     slider: ["Active", "Energetic", "Healthy"],
     pie: ["Motivation"],
     dailyChart: ["Motivated", "Low", "Active"],
+    prePieMessage: [""],
   },
   social: {
     slider: ["Social", "Friendly", "Empathetic"],
     pie: ["Social"],
     dailyChart: ["Social", "Relationships", "Friendly"],
+    prePieMessage: ["all about your relationships and interaction with people in your life"],
   },
 };
