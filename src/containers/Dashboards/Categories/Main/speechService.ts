@@ -40,7 +40,7 @@ export default class SpeechService {
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: { maxDuration: 1 },
+        //audioProps: { maxDuration: 1 },
       };
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) reject(error.message ? `${error.errorCode} ${error.message}` : error.errorCode);
