@@ -31,13 +31,13 @@ export default class Note extends React.PureComponent<INote, INoteState> {
             if (this.props.recordingState === "in-progress")
                 return <span>Tap 'Stop' to proceed</span>
             else if (this.props.recordingState === "confirm") {
-                return <p>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
+                return <span>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</span>;
             }
         } else {
             if (this.props.recordingState === "in-progress")
-                return <p>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
+                return <span>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</span>;
         }
-        return <p></p>;
+        return <span></span>;
     }
 
     render() {
