@@ -42,6 +42,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     onCenterCircleClick() {
+        alert('center-circle-click');
         if (!this.state.isMic) this.props.history.push("/dashboard");
         else this.recordAudio();
     }
@@ -73,17 +74,26 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     recordAudio() {
+        alert('recordAudio');
         if (isMobile) {
+            alert('isMobile');
             if (this.state.recordingState === "init") {
                 this.setState({ recordingState: 'in-progress' });
+                alert('start-recordAudioFromTeams');
                 speechService.recordAudioFromTeams().then(x => {
+                    alert('stop-recordAudioFromTeams');
                     this.base64 = x;
                     this.setState({ recordingState: "confirm" });
                 });
             } else if (this.state.recordingState === "confirm") {
+                alert('confirm');
                 this.setState({ pageState: 'loading' });
+                alert('Start-mp4 to mp3');
                 speechService.mp4ToMP3(this.base64).then(mp3 => {
+                    alert('Complete-mp4 to mp3');
                     speechService.translateSpeechToText(mp3).then(text => {
+                        alert('Text-to-speech');
+                        alert(text);
                         this.prediction(text);
                     });
                 });
