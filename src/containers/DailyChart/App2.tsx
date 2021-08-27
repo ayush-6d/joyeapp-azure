@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import moment from 'moment';
 import { firebaseInit } from 'src/services/firebase';
 import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
+import { useLocation } from 'react-router-dom';
 // import { pieLogic } from '../../utils/helper';
 // const graphData = APIData.slice(2, 8).concat([APIData[1]])
 

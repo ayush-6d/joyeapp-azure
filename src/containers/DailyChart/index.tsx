@@ -10,7 +10,7 @@
 /* eslint-disable react/jsx-indent */
 import React, { Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { database, firebaseInit } from 'src/services/firebase';
 import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import Chart from './App2';
@@ -32,6 +32,7 @@ import '../PrePieScreen/assets/styles/index.css';
 export const DailyChart = () => {
   // eslint-disable-next-line no-restricted-globals
   const screenHeight = screen.height;
+  const location = useLocation();
   const currentWeek: any = moment().format('w');
   const weekdata = [
     ['Week', 'Avarage', 'Joyful', 'Motivated', 'Irritable', 'Anxious', 'Social', 'Day Avarage', 'date'],
@@ -60,6 +61,7 @@ export const DailyChart = () => {
   const [piedata, setPieData] = useState([]);
   const [journalText, setJournalText] = useState('');
   const [journalQuestion, setJournalQuestion] = useState('');
+  const [fromDashboard, setFromDashboard] = useState(false);
 
   function handleFocus(id) {
     setFocusId(id);
@@ -133,6 +135,13 @@ export const DailyChart = () => {
 
     setLoader(false);
   };
+
+  useEffect(() => {
+    console.log('location', location);
+    if (location && location.search && location.search.indexOf("fromDashboard") > -1) {
+      setFromDashboard(true);
+    }
+  }, [location]);
 
   useEffect(() => {
     const dbRef = firebaseInit.database(getDbUrl());
@@ -284,9 +293,6 @@ export const DailyChart = () => {
                 <div className="media" style={{ height: '100%' }}>
                   {!isCurrentWeek && weekAvarage && weekAvarage.dominantemotion && weekAvarage.avg && (
                     <p className="average-score">
-                      <div className="advertise-text bold text-blue">
-                        <span className="text-blue">How are you feeling today?</span>
-                      </div>
                       <span className="before-decimal">
                         {weekAvarage.avg.split('.')[0]}
                         .
@@ -336,12 +342,15 @@ export const DailyChart = () => {
                     }}
                     >
                       <div className="bottom-bttn">
-                        <Link to="/pie-chart" className="n-btn">
+
+                        <Link to={fromDashboard ? '/' : '/pie-chart'} className="n-btn">
                           Previous
                         </Link>
-                        <Link to="/journal" className="n-btn">
-                          Next
-                        </Link>
+                        {!fromDashboard && (
+                          <Link to="/journal" className="n-btn">
+                            Next
+                          </Link>
+                        )}
                       </div>
                     </div>
 

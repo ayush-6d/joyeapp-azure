@@ -642,6 +642,9 @@ const Design = (props: any) => {
       brewData.avarage = avarage;
       brewData.journalText = prevDetail?.journalText || "";
       brewData.fellingBetter = prevDetail?.fellingBetter || false;
+      brewData.isSkip = prevDetail?.isSkip || false;
+      brewData.todaysFeeling = prevDetail?.todaysFeeling || "";
+      brewData.jounrnalCheck = prevDetail?.jounrnalCheck || "";
       brewData.count = count;
       brewData.current_avarage = current_avarage;
       brewData.audio = await getAudio({

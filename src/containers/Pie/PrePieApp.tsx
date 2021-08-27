@@ -18,6 +18,7 @@ interface IPrePieProps {
   getScreenMessages?: Function;
   emotion?: string;
   index?: number;
+  setShowScreen?: Function;
 }
 
 export interface IPrePieState {
@@ -169,7 +170,9 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             </div>
             <div className="bottom-bttn">
               {/* <Link to="#" className="n-btn">Previous</Link> */}
-              <Link to="/pie-chart" className="n-btn"> Next </Link>
+              <Link to="#" className="n-btn" onClick={() => {
+                this.props.setShowScreen("2");
+              }}> Next </Link>
             </div>
           </div>
 

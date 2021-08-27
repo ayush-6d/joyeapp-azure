@@ -29,7 +29,7 @@ export const Pie = () => {
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
   const dbRef = firebaseInit.database(getDbUrl());
-  const [showScreen, setShowScreen] = useState('2');
+  const [showScreen, setShowScreen] = useState('1');
   useEffect(() => {
     setLoaderPie(true);
     setTimeout(async () => {
@@ -86,6 +86,7 @@ export const Pie = () => {
               onClickPopup={togglePopup}
               getScreenMessages={getScreenMessages}
               emotion={emotion}
+              setShowScreen={setShowScreen}
             /> 
           )
           : 
@@ -96,6 +97,7 @@ export const Pie = () => {
             getScreenMessages={getScreenMessages}
             fireBaseUrl={fireBaseUrl}
             fireBaseStorage={fireBaseStorage}
+            setShowScreen={setShowScreen}
           />
         )}
     </>

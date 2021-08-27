@@ -56,7 +56,7 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
           <img style={imgStyle} src={img} />
         ) : (
           <div className="circe-text">
-            <Link to="/daily-chart" className="n-btn">
+            <Link to="/daily-chart?fromDashboard=true">
               <p>{avarage}</p>
             </Link>
           </div>

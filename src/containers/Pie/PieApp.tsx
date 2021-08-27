@@ -36,6 +36,7 @@ export interface IPieAppProps {
   fireBaseUrl: string;
   fireBaseStorage: any;
   data?: any;
+  setShowScreen?: Function;
 }
 export interface IPieAppState {
   index?: number;
@@ -260,10 +261,22 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
                 ))}
               </div>
             )}
-            <div className='swiper-button-next'></div>
-            <div className='swiper-button-prev'></div>
+            {
+              !this.state.showAudioPlayer && (
+                <>
+                  <div className='swiper-button-next'></div>
+                  <div className='swiper-button-prev'></div>
+                </>
+              )
+            }
             <div className="bottom-bttn">
-              <Link to="#" className="n-btn">Previous</Link>
+              <Link to="#" className="n-btn" onClick={() => {
+                if (this.state.showAudioPlayer) {
+                  this.setState({ showAudioPlayer: false });
+                } else {
+                  this.props.setShowScreen("1");
+                }
+              }}>Previous</Link>
               <Link className="n-btn"
                 onClick={
                   () => {
