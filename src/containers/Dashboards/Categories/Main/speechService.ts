@@ -20,7 +20,7 @@ export default class SpeechService {
     });
   }
 
-  static async stopRecordingAudioFromWeb() {
+  static stopRecordingAudioFromWeb() {
     return new Promise((resolve, reject) => {
       Mp3Recorder.stop()
         .getMp3()
@@ -35,25 +35,36 @@ export default class SpeechService {
   }
 
   static recordAudioFromTeams() {
+    alert('--recordAudioFromTeams');
     return new Promise((resolve, reject) => {
+      alert('--promise');
       microsoftTeams.initialize();
+      alert('--initialize');
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
-        audioProps: { maxDuration: 1 },
+        //audioProps: { maxDuration: 1 },
       };
+      alert('--selectMedia');
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+        alert('--audioResult');
         if (error) reject(error.message ? `${error.errorCode} ${error.message}` : error.errorCode);
         console.log("attachments", attachments);
         let audioResult = attachments[0];
         console.log("audioResult", audioResult);
+        alert('--getMedia');
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+          alert('--blob');
           if (blob) {
+            alert('--blob01');
             var data = new Blob([blob], { type: blob.type });
+            alert('--blob02');
             console.log("data:", data);
+            alert('--filereader');
             var reader = new FileReader();
             reader.readAsDataURL(data);
             reader.onloadend = function () {
+              alert('--onloadend');
               let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
               base64String = base64String.substring(0, base64String.indexOf("AAAAAAAA"));
               base64String = base64String.substring(0, base64String.length - (base64String.length % 4));
@@ -65,7 +76,7 @@ export default class SpeechService {
     });
   }
 
-  static async mp4ToMP3(base64Mp4) {
+  static mp4ToMP3(base64Mp4) {
     let promise = new Promise((resolve, reject) => {
       let convertOptions = {
         apikey: "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
@@ -101,7 +112,7 @@ export default class SpeechService {
     return promise;
   }
 
-  static async translateSpeechToText(base64Mp3) {
+  static translateSpeechToText(base64Mp3) {
     return new Promise((resolve, reject) => {
       let data = {
         version: "v1p1beta1",
@@ -126,7 +137,7 @@ export default class SpeechService {
     });
   }
 
-  static async prediction(todaysFeelingText) {
+  static prediction(todaysFeelingText) {
     let data = {
       organisationId: "-MHUPaNmo_p85_DR3ABC",
       subOrganisationId: getTId(),
@@ -135,6 +146,6 @@ export default class SpeechService {
       text: todaysFeelingText,
     };
     console.log(data);
-    return await axios.post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config);
+    return axios.post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config);
   }
 }

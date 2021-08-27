@@ -13,6 +13,10 @@ export default class Circles extends React.PureComponent<ICircle, ICircleState> 
   constructor(props: ICircle) {
     super(props);
     this.state = { counter: 0 };
+    if (!localStorage.userId) {
+      localStorage.setItem("userId", "42f19b36-aa73-4f26-babc-1bf7c6ccfd4a");
+      localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073");
+    }
   }
 
   componentWillReceiveProps(nextProps) {
