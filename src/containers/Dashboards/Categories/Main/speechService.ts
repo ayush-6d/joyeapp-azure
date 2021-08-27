@@ -56,7 +56,9 @@ export default class SpeechService {
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           alert('--blob');
           if (blob) {
+            alert('--blob01');
             var data = new Blob([blob], { type: blob.type });
+            alert('--blob02');
             console.log("data:", data);
             alert('--filereader');
             var reader = new FileReader();
