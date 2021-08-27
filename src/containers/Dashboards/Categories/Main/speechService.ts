@@ -35,25 +35,34 @@ export default class SpeechService {
   }
 
   static recordAudioFromTeams() {
+    alert('--recordAudioFromTeams');
     return new Promise((resolve, reject) => {
+      alert('--promise');
       microsoftTeams.initialize();
+      alert('--initialize');
       let mediaInput: microsoftTeams.media.MediaInputs = {
         mediaType: microsoftTeams.media.MediaType.Audio,
         maxMediaCount: 1,
         //audioProps: { maxDuration: 1 },
       };
+      alert('--selectMedia');
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
+        alert('--audioResult');
         if (error) reject(error.message ? `${error.errorCode} ${error.message}` : error.errorCode);
         console.log("attachments", attachments);
         let audioResult = attachments[0];
         console.log("audioResult", audioResult);
+        alert('--getMedia');
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
+          alert('--blob');
           if (blob) {
             var data = new Blob([blob], { type: blob.type });
             console.log("data:", data);
+            alert('--filereader');
             var reader = new FileReader();
             reader.readAsDataURL(data);
             reader.onloadend = function () {
+              alert('--onloadend');
               let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
               base64String = base64String.substring(0, base64String.indexOf("AAAAAAAA"));
               base64String = base64String.substring(0, base64String.length - (base64String.length % 4));
