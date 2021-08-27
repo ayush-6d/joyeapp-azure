@@ -168,7 +168,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               {/* // ))} */}
             </div>
             <div className="bottom-bttn">
-              <Link to="#" className="n-btn">Previous</Link>
+              {/* <Link to="#" className="n-btn">Previous</Link> */}
               <Link to="/pie-chart" className="n-btn"> Next </Link>
             </div>
           </div>
