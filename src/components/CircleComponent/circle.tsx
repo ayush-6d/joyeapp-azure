@@ -3,7 +3,7 @@ import "./CircularCounter.scss";
 import { firebaseInit } from "src/services/firebase";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import moment from 'moment';
-import { navigateBack } from "@microsoft/teams-js";
+import { Link } from "react-router-dom";
 
 
 export interface ICircleProps {
@@ -13,7 +13,6 @@ export interface ICircleProps {
   img?: any;
   showImg?: boolean;
   className?: string;
-  // history?: any;
 }
 
 export interface ICircleState {
@@ -47,10 +46,6 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
     }
   }
 
-  // dailyChart = () => {
-  //   this.props.history.push("/daily-chart");
-  // }
-
   render() {
     const { style, img, showImg, imgStyle, className, OnClick } = this.props;
     const { avarage } = this.state;
@@ -60,10 +55,10 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
         {showImg ? (
           <img style={imgStyle} src={img} />
         ) : (
-          <div className="circe-text"
-          // onClick={this.dailyChart} 
-          >
-            <p>{avarage}</p>
+          <div className="circe-text">
+            <Link to="/daily-chart" className="n-btn">
+              <p>{avarage}</p>
+            </Link>
           </div>
         )}
       </div>
