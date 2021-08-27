@@ -29,15 +29,15 @@ export default class Note extends React.PureComponent<INote, INoteState> {
     subtitle() {
         if (isMobile) {
             if (this.props.recordingState === "in-progress")
-                return <span>Tap 'Stop' to proceed</span>
+                return <p className="do-not-txt">Tap 'Stop' to proceed</p>
             else if (this.props.recordingState === "confirm") {
-                return <p>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
+                return <p className="do-not-txt">Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
             }
         } else {
             if (this.props.recordingState === "in-progress")
-                return <p>Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
+                return <p className="do-not-txt">Tap &nbsp; &nbsp;<img height="17.9px" width="18px" src={ExcellentTick} />&nbsp; &nbsp;to proceed</p>;
         }
-        return <p></p>;
+        return <p className="do-not-txt"></p>;
     }
 
     render() {

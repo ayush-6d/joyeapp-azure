@@ -29,6 +29,7 @@ export const Pie = () => {
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
   const dbRef = firebaseInit.database(getDbUrl());
+  const [showScreen, setShowScreen] = useState('2');
   useEffect(() => {
     setLoaderPie(true);
     setTimeout(async () => {
@@ -76,16 +77,25 @@ export const Pie = () => {
     <>
       {load && (<Loader display="flex" />)}
       {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
-      {data.length > 0
+      {data && data.length > 0
         && (
-          <PrePieApp
+          showScreen === '1' ? (
+            <PrePieApp
+              data={data}
+              average={average}
+              onClickPopup={togglePopup}
+              getScreenMessages={getScreenMessages}
+              emotion={emotion}
+            /> 
+          )
+          : 
+          <PieApp
             data={data}
             average={average}
             onClickPopup={togglePopup}
             getScreenMessages={getScreenMessages}
-            emotion={emotion}
-            // fireBaseUrl={fireBaseUrl}
-            // fireBaseStorage={fireBaseStorage}
+            fireBaseUrl={fireBaseUrl}
+            fireBaseStorage={fireBaseStorage}
           />
         )}
     </>
