@@ -20,7 +20,7 @@ export default class SpeechService {
     });
   }
 
-  static async stopRecordingAudioFromWeb() {
+  static stopRecordingAudioFromWeb() {
     return new Promise((resolve, reject) => {
       Mp3Recorder.stop()
         .getMp3()
@@ -65,7 +65,7 @@ export default class SpeechService {
     });
   }
 
-  static async mp4ToMP3(base64Mp4) {
+  static mp4ToMP3(base64Mp4) {
     let promise = new Promise((resolve, reject) => {
       let convertOptions = {
         apikey: "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
@@ -101,7 +101,7 @@ export default class SpeechService {
     return promise;
   }
 
-  static async translateSpeechToText(base64Mp3) {
+  static translateSpeechToText(base64Mp3) {
     return new Promise((resolve, reject) => {
       let data = {
         version: "v1p1beta1",
@@ -126,7 +126,7 @@ export default class SpeechService {
     });
   }
 
-  static async prediction(todaysFeelingText) {
+  static prediction(todaysFeelingText) {
     let data = {
       organisationId: "-MHUPaNmo_p85_DR3ABC",
       subOrganisationId: getTId(),
@@ -135,6 +135,6 @@ export default class SpeechService {
       text: todaysFeelingText,
     };
     console.log(data);
-    return await axios.post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config);
+    return axios.post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config);
   }
 }

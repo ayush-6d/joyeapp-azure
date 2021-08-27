@@ -41,12 +41,12 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         this.onCancel = this.onCancel.bind(this);
     }
 
-    async onCenterCircleClick() {
+    onCenterCircleClick() {
         if (!this.state.isMic) this.props.history.push("/dashboard");
         else this.recordAudio();
     }
 
-    async onRightCircleClick() {
+    onRightCircleClick() {
         if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: true }, this.recordAudio);
         else this.props.history.push("/dashboard");
     }
@@ -56,7 +56,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         this.setState({ pageState: "record" }, () => this.setState({ pageState: "record" }));
     }
 
-    async onSpeakAgain() {
+    onSpeakAgain() {
         if (!isMobile) {
             clearTimeout(this.stopTimer);
             speechService.stopRecordingAudioFromWeb();
@@ -64,7 +64,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         this.setState({ recordingState: 'init', pageState: 'record' }, this.recordAudio);
     }
 
-    async onCancel() {
+    onCancel() {
         if (!isMobile) {
             clearTimeout(this.stopTimer);
             speechService.stopRecordingAudioFromWeb();
@@ -72,47 +72,65 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         this.setState({ recordingState: 'init', pageState: 'record' });
     }
 
-    async recordAudio() {
+    recordAudio() {
         if (isMobile) {
             if (this.state.recordingState === "init") {
                 this.setState({ recordingState: 'in-progress' });
-                this.base64 = await speechService.recordAudioFromTeams();
-                this.setState({ recordingState: "confirm" });
+                speechService.recordAudioFromTeams().then(x => {
+                    this.base64 = x;
+                    this.setState({ recordingState: "confirm" });
+                });
             } else if (this.state.recordingState === "confirm") {
                 this.setState({ pageState: 'loading' });
-                this.processAudio();
+                speechService.mp4ToMP3(this.base64).then(mp3 => {
+                    speechService.translateSpeechToText(mp3).then(text => {
+                        this.prediction(text);
+                    });
+                });
             }
         } else {
             if (this.state.recordingState === "init") {
                 this.setState({ recordingState: 'in-progress' });
-                speechService.recordAudioFromWeb();
-                this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
+                speechService.recordAudioFromWeb().then(x => {
+                    this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
+                });
             }
             if (this.state.recordingState === "in-progress") {
                 clearTimeout(this.stopTimer);
                 this.setState({ pageState: 'loading' });
-                this.base64 = await speechService.stopRecordingAudioFromWeb();
-                this.processAudio();
+                speechService.stopRecordingAudioFromWeb().then(mp3 => {
+                    speechService.translateSpeechToText(mp3).then(text => this.prediction(text));
+                });
             }
         }
     }
 
-    async processAudio(data = null) {
+    processAudio(data = null) {
         let text = data;
         if (data === null) {
-            if (isMobile) this.base64 = await speechService.mp4ToMP3(this.base64);
-            text = await speechService.translateSpeechToText(this.base64);
+            if (isMobile) {
+
+            }
+            speechService.translateSpeechToText(this.base64).then(x => {
+                text = x;
+                this.setState({ pageState: 'loading' });
+                this.prediction(text);
+            });
         }
+    }
+
+    prediction(text) {
         this.setState({ pageState: 'loading' });
-        var output = await speechService.prediction(text);
-        console.log(output);
-        console.log(output.data);
-        if (output.data.success) this.props.history.push("/pre-pie-chart");
-        else if (output.data.gibberish) {
-            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
-        } else if (output.data.caution) {
-            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
-        }
+        speechService.prediction(text).then(output => {
+            console.log(output);
+            console.log(output.data);
+            if (output.data.success) this.props.history.push("/pre-pie-chart");
+            else if (output.data.gibberish) {
+                this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+            } else if (output.data.caution) {
+                this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+            }
+        });
     }
 
     render() {
@@ -126,7 +144,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                     <Actions isMic={this.state.isMic} recordingState={this.state.recordingState} onLeftCircleClick={this.onTellUsAboutClick} onRightCircleClick={this.onRightCircleClick}></Actions>
                 </div>
             </BasePage> : null}
-            {(this.state.pageState === 'tell-us-about') ? <TellUsAbout saveData={(x) => this.processAudio(x)} setIsTellusabout={this.onTellUsAboutClick} onCancel={this.onTellUsAboutCancelClick} /> : null}
+            {(this.state.pageState === 'tell-us-about') ? <TellUsAbout saveData={(x) => this.prediction(x)} setIsTellusabout={this.onTellUsAboutClick} onCancel={this.onTellUsAboutCancelClick} /> : null}
             {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>) : null}
         </>)
     }
