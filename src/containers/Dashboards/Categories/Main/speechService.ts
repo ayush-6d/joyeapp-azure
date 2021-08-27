@@ -52,6 +52,9 @@ export default class SpeechService {
         console.log("attachments", attachments);
         let audioResult = attachments[0];
         console.log("audioResult", audioResult);
+        alert('audioResult.preview');
+        alert(audioResult.preview.length);
+        alert(alert('audioResult.preview'));
         alert("--getMedia");
         audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
           alert("--blob");
