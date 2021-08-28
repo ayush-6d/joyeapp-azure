@@ -8,7 +8,6 @@ import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router";
-import Page from "../Dashboards/Categories/Main/page"
 export interface IDeepBreathProps extends RouteComponentProps {
   history: any;
   route?: any;
@@ -56,10 +55,6 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   onMute = (e) => {
     this.setState({ audioMute: !this.state.audioMute });
     (window as any).audio.muted = !this.state.audioMute;
-    if (!localStorage.userId) {
-      localStorage.setItem("userId", "42f19b36-aa73-4f26-babc-1bf7c6ccfd4a");
-      localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073");
-    }
   }
 
   componentWillUnmount() {
@@ -73,7 +68,26 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   render() {
     return (
       <>
-        <Page route={this.props.route} openModal={this.props.openModal} history={this.props.history}></Page>
+        <BasePage withMenu showInfoIcon className="login-form home-screen deepbreath-page">
+          <div style={{ width: "100%" }}>
+            <div style={{ width: "80%", margin: "auto" }}>
+              <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>
+            </div>
+          </div>
+          <div className="display-flex">
+            <input className="checkbox" type="checkbox" id="mute-audio" defaultChecked={this.state.audioMute} onChange={this.onMute} />
+            <label htmlFor="mute-audio" className="index-advertise-text  font-15"> Mute audio</label><br></br>
+          </div>
+          <br />
+          <div onClick={this.onPlay} className="btn-play">
+            <img src={this.state.isPlaying ? stopIcon : playIcon} />
+          </div>
+          <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
+            <div className="n-btn" onClick={() => {
+              this.props.history.push("/")
+            }}>Daily Brew</div>
+          </div>
+        </BasePage>
       </>
     );
   }
