@@ -212,9 +212,8 @@ private static async createTokenId(loginCheck:boolean=false) {
   }
 }
   private static async numDaysBetween(d1, d2) { 
-  var today = d2.getTime() / 1000
-  var diff = Math.abs(d1 - (d2.getTime() / 1000));
-  return diff / (60 * 60 * 24);
+  var today = d2.getTime();
+  return Math.round(Math.abs(d1 - today)/(24 * 60 * 60 * 1000));
 };
 
  private static async success(loginCheck,datedifferece) { 
