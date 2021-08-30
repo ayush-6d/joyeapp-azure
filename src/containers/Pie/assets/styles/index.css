@@ -192,6 +192,15 @@ body {
 [data-reach-slider-handle][aria-orientation="horizontal"] {
     display: none;
 }
+
+[data-reach-slider-input] {
+    width: 80% !important;
+    height: 9px !important;
+    padding: 1px !important;
+    opacity: 1 !important;
+    border-radius: 10px !important;
+    background: #fff;
+  }
 @-webkit-keyframes fadeIn {
     0% {opacity: 0;}
     100% {opacity: 1;}
@@ -224,5 +233,9 @@ body {
  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
     .swiper-container {
       margin: 20px auto;
+  }
+  .swiper-button-next, .swiper-button-prev
+  {
+      display: none;
   }
   }

@@ -227,7 +227,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage withMenu showInfoIcon className="login-form home-screen">
+          <BasePage  showInfoIcon className="login-form home-screen">
             <div
               className="render-component"
               style={{

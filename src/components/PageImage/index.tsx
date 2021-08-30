@@ -24,7 +24,7 @@ export class PageImage extends React.PureComponent<IPageImageProps, {}> {
     let styles = { ...style, ...{  } };
     return (
       <div className="logo-container" onClick={setCounter} style={isFromMain ? {} : styles}>
-        <div style={{ marginTop: marginTop, marginLeft: marginLeft, alignSelf: "center", zIndex:100, cursor:'pointer' }} onClick={OnClick}>
+        <div className="boom-container" style={{ marginTop: marginTop, marginLeft: marginLeft, alignSelf: "center", zIndex:100, cursor:'pointer' }} onClick={OnClick}>
           <img src={logo} height={height} width={width}  />
         </div>
         {/* <img src={ProcessComplete} height={'190px'} width={'200px'} /> */}

@@ -155,8 +155,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
         {ShowCongratulation ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage withMenu showInfoIcon className="login-form home-screen">
-            {/*<div className="pageHeader">
+          <BasePage  showInfoIcon className="login-form home-screen">
+           {/*<div className="pageHeader">
               <img src={pageHeader} />
             </div>*/}
             {openModal && (
