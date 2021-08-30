@@ -351,7 +351,8 @@ const Design = (props: any) => {
   }
 
   const setSlidersVal = (cnt, val) => {
-    sliders[cnt].value = val;
+    if (sliders && sliders[cnt])
+      sliders[cnt].value = val;
   };
 
   useEffect(() => {

@@ -208,55 +208,53 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
               <div className="swiper-wrapper">
                 {cardData.map(e => (
                   <>
-                    {e.desc !== '-' && (
-                      <div
-                        key={e.order}
-                        className="swiper-slide"
-                        style={{
-                          backgroundColor: e.cColor,
-                          width: '65%',
-                          padding: '6px',
-                          marginRight: '20px',
-                          textJustify: 'inter-word',
-                          height: '90%',
-                        }}
-                      >
-                        {/* {JSON.stringify(e)}  */}
-                        <div style={{ width: '100%' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                            <div style={{ width: '50%' }}>
-                              <p className="fff cardHeading">
-                                {EMOTIONS[e.title.toLowerCase()].pie}
-                              </p>
-                            </div>
-                            <div style={{
-                              width: '50%',
-                              display: 'flex',
-                              flexDirection: 'column',
-                              alignItems: 'flex-end',
-                              justifyContent: 'center',
-                            }}
-                            >
-                              <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
-                                <SliderTrack>
-                                  <Tracker color={e.color} sColor={e.sColor} />
-                                  <SliderHandle />
-                                </SliderTrack>
-                              </SliderInput>
-                            </div>
+                    <div
+                      key={e.order}
+                      className="swiper-slide"
+                      style={{
+                        backgroundColor: e.cColor,
+                        width: '65%',
+                        padding: '6px',
+                        marginRight: '20px',
+                        textJustify: 'inter-word',
+                        height: '90%',
+                      }}
+                    >
+                      {/* {JSON.stringify(e)}  */}
+                      <div style={{ width: '100%' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                          <div style={{ width: '50%' }}>
+                            <p className="fff cardHeading">
+                              {EMOTIONS[e.title.toLowerCase()].pie}
+                            </p>
                           </div>
-                          <Overflow style={{ maxHeight: '210px' }}>
-                            <Overflow.Content>
-                              <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
-                            </Overflow.Content>
-                          </Overflow>
-
-                          {/* {console.log(addDescription(e.desc))}
-                        <div className="fff" style={{ fontSize: '16px' }}>{e.desc}</div>
-                      </div> */}
+                          <div style={{
+                            width: '50%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'flex-end',
+                            justifyContent: 'center',
+                          }}
+                          >
+                            <SliderInput min={0} max={100} step={10} defaultValue={e && (Number(e.slider_value) * 10)} disabled>
+                              <SliderTrack>
+                                <Tracker color={e.color} sColor={e.sColor} />
+                                <SliderHandle />
+                              </SliderTrack>
+                            </SliderInput>
+                          </div>
                         </div>
+                        <Overflow style={{ maxHeight: '210px' }}>
+                          <Overflow.Content>
+                            <div dangerouslySetInnerHTML={{ __html: addDescription(e.desc) }} />
+                          </Overflow.Content>
+                        </Overflow>
+
+                        {/* {console.log(addDescription(e.desc))}
+                      <div className="fff" style={{ fontSize: '16px' }}>{e.desc}</div>
+                    </div> */}
                       </div>
-                    )}
+                    </div>
                   </>
                 ))}
               </div>
