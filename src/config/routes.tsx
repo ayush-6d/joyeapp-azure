@@ -1,8 +1,6 @@
 import * as React from "react";
 import { lazily } from "react-lazily";
 
-import SignInEnd from "src/containers/Login/sign-in-end";
-import SignInStart from "src/containers/Login/sign-in-start";
 import { RouteDefinition } from "src/Models/route-definition";
 
 const { AboutUs } = lazily(() => import("src/containers/AboutUs"));
@@ -40,16 +38,6 @@ const routes: RouteDefinition[] = [
   {
     route: "/",
     component: <Login />,
-    authenticated: false,
-  },
-  {
-    route: "/auth/signinstart",
-    component: <SignInStart />,
-    authenticated: false,
-  },
-  {
-    route: "/auth/signinend",
-    component: <SignInEnd />,
     authenticated: false,
   },
   {

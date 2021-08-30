@@ -1,38 +1,16 @@
-import { getDbUrl } from 'src/services/localStorage.service';
+import { getDbUrl, setTid, setUserId } from 'src/services/localStorage.service';
 // import * as constants from 'src/constants';
 import * as msTeams from '@microsoft/teams-js';
 // import AuthenticationContext from 'adal-angular';
 import {  parseJwt} from '../utilities/generalUtils';
 import axios from "axios";
 import { API_ROOT } from "../config";
-import { firebaseInit } from '../services/firebase';
-import { setAuthId, setDbUrl } from '../services/localStorage.service';
-
-// import * as Msal from "msal";
-
-// const authenticationContext = new AuthenticationContext({
-//   clientId: constants.Auth.appId,
-//   redirectUri: `${window.location.origin}/${constants.Auth.signInEndPage}`,
-//   cacheLocation: constants.Auth.cacheLocation as 'localStorage' | 'sessionStorage',
-//   endpoints: constants.Auth.authenticatedDomains,
-//   navigateToLoginRequestUrl: false
-// });
+import { firebaseInit, database } from '../services/firebase';
+import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/localStorage.service';
 
 export default class AuthHelper {
-   
-  /**
-   * Uses the current authetication context to check if a user
-   * is logged in. In this case, this is determined by the presence
-   * of a cached user and cached token with length > 0.
-   */
 
   public static IsUserLoggedIn(): boolean {
-    // if(window.location.origin=="http://localhost:8080"){
-    // let cachedUser = authenticationContext.getCachedUser();
-    // let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
-
-    // return !!cachedUser && cachedToken?.length > 0;
-    // }
     if(localStorage.getItem("userId")){
       AuthHelper.createTokenId(true)
       return true;
@@ -45,106 +23,8 @@ export default class AuthHelper {
           }
   }
 
-  /**
-   * Attempts to get an access token for the user. If successful,
-   * sends the user to the home page again where they will now
-   * be logged in.
-   */
-  // public static async Login(): Promise < void > {
-  //   //  debugger
-  //   let accessToken;
-
-  //   try {
-  //     accessToken = await AuthHelper.getAccessToken();
-  //     console.log('accessToken', accessToken)
-  //     if (accessToken.length > 0) {
-  //       // debugger
-  //       window.location.replace(window.location.origin + '/');
-  //     }
-  //     //  debugger
-  //   } catch (err) {
-  //     // debugger
-  //     let cachedToken = authenticationContext.getCachedToken(constants.Auth.appId);
-  //     if (cachedToken.length > 0) {
-  //       window.location.replace(window.location.origin);
-  //     } else {
-  //       console.error(err)
-  //     }
-  //   }
-  // }
-
-  /**
-   * Clears any existing user from the cache, then requests
-   * an AD token.
-   */
-  public static StartSignIn(): void {
-    // authenticationContext.clearCache();
-    // authenticationContext.login();
-  }
-
-  /**
-   * Called from the sign-in-end page. Checks for the presence
-   * of the AD token, and notifies teams of a successful log in
-   * if it is there, or notifies of failure otherwise.
-   */
-  public static  EndSignIn(): void {
-    // debugger
-    // if (authenticationContext.isCallback(window.location.hash)) {
-    //   authenticationContext.handleWindowCallback(window.location.hash);
-
-    //   if (window.opener) {
-    //     //   debugger
-    //     if (authenticationContext.getCachedUser()) {
-    //       authenticationContext.acquireToken("https://graph.microsoft.com", (err, token) => {
-    //         if (token) {
-    //           msTeams.authentication.notifySuccess(token);
-    //           window.location.href.replace('auth/signinend#', '')
-    //            //AuthHelper.getUserProfile(token,null);
-    //           // window.opener.close('true')
-    //         } else if (err) {
-    //           msTeams.authentication.notifySuccess(token);
-    //           // msTeams.authentication.notifyFailure(err);
-    //         } else {
-    //           msTeams.authentication.notifySuccess(token);
-    //           msTeams.authentication.notifyFailure("UnexpectedFailure");
-    //         }
-    //       });
-    //     } else {
-    //       msTeams.authentication.notifySuccess();
-    //       microsoftTeams.authentication.notifyFailure(authenticationContext.getLoginError());
-    //     }
-    //   }
-    // }
-  }
-
-  /**
-   * Begins the login flow by opening a popup window
-   * at the sign-in-start page.
-   */
-  // private static async getAccessToken(): Promise < string > {
-  //   return new Promise < string > ((resolve, reject) => {
-  //     msTeams.authentication.authenticate({
-  //       url: `${window.location.origin}/${constants.Auth.signInStartPage}`,
-  //       width: 600,
-  //       height: 535,
-  //       successCallback: (accessToken: string | undefined) => {
-  //         // debugger
-  //         console.log(accessToken)
-  //         resolve(accessToken);
-  //       },
-  //       failureCallback: (reason) => {
-  //         //  debugger
-  //         reject(reason);
-  //       }
-  //     })
-  //   })
-  // }
   public static async userLogin() {
   console.log('userLogin');
-  
-  // if(window.location.origin=="http://localhost:8080"){
-  //     AuthHelper.Login()
-  // }else{
    AuthHelper.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);
@@ -223,8 +103,6 @@ private static getUserProfile(token, tid): Promise < string > {
             .then(function(response) {
               return response.json();
             }).then(function(emailData) {
-               // alert("emailData");
-               // alert(JSON.stringify(emailData));
                 delete data["@odata.context"];
                 delete data["@odata.id"]; 
                 if(emailData["@odata.context"]){
@@ -237,8 +115,8 @@ private static getUserProfile(token, tid): Promise < string > {
                 var decoded = parseJwt(token);
                 if (decoded.tid && data.id) {
                   alert("user id"+ data.id);
-                  localStorage.setItem("userId", data.id)
-                  localStorage.setItem("tid", tid ? tid : decoded.tid);
+                  setUserId(data.id)
+                  setTid(tid ? tid : decoded.tid);
                   AuthHelper.createTokenId()
                 }
             })
@@ -256,17 +134,15 @@ private static getUserProfile(token, tid): Promise < string > {
 }
 
 private static async createTokenId(loginCheck:boolean=false) {
-  let userId=localStorage.getItem("userId");
-  let tid=localStorage.getItem("tid");
-  // alert("userProfile1");
-  // alert(JSON.stringify(localStorage.getItem("userProfile")));
+  let userId = getUserId();
+  let tid = getTId();
   if(tid && userId){
     try {
     const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
       organisationId: "-MHUPaNmo_p85_DR3ABC",
       subOrganisationId: tid,
       empId: userId,
-      uid: `-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266`
+      // uid: `-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266`
     }, {
       headers: {
         Accept: "application/json",
@@ -281,14 +157,12 @@ private static async createTokenId(loginCheck:boolean=false) {
           // Signed in
           this.setOrgData(userCredential.user);
           try {
-            const data = await firebaseInit.database().ref(`users/-MHUPaNmo_p85_DR3ABC||${userId}||b172c03f-be43-42e9-b17a-34fe50574266/brew/weeks_average/24_2021/happinessCounter`).once("value");
-            const userDetailsFirebase = await firebaseInit.database().ref(`users/${createTokenId.data.uid}/details`).set(JSON.parse(localStorage.getItem("userProfile")));            
             var d2 = new Date();
-            const organisation = await firebaseInit.database("https://master-768f7.firebaseio.com").ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
+            const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
             const organisationDetails= organisation.val();
             if(organisationDetails.paid_subscription){
               AuthHelper.success(loginCheck,0);
-            }else{
+            } else {
                 if(organisationDetails.pilot){
                   var datedifferece =await AuthHelper.numDaysBetween(organisationDetails.pilot, d2);
                   if(datedifferece<=30){
@@ -296,9 +170,9 @@ private static async createTokenId(loginCheck:boolean=false) {
                   }else{
                     AuthHelper.fail();
                   }
-                }else{
-                   const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
-                   const userDetails= user.val();
+                } else {
+                    const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
+                    const userDetails= user.val();
                     if(userDetails.createdAt){
                     var datedifferece =await AuthHelper.numDaysBetween(userDetails.createdAt, d2);
                     if(datedifferece<=30){
@@ -309,12 +183,10 @@ private static async createTokenId(loginCheck:boolean=false) {
                   }
                 }   
             }
-
           } catch (e) {
             console.log("network error at firebaseInit.database");
             console.log(e);
           }
-          //         // ...
         })
         .catch(e => {
           console.log(" error at signInWithCustomToken");
