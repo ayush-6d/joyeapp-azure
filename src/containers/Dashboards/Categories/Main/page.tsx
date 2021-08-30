@@ -30,9 +30,11 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     base64: any;
     stopTimer: any;
     process: any;
+    prediction: any;
 
     constructor(props: IPage) {
         super(props);
+        this.prediction = null;
         this.state = { pageState: 'record', recordingState: 'init', isMic: true, isModalOpen: false };
         this.onCenterCircleClick = this.onCenterCircleClick.bind(this);
         this.onRightCircleClick = this.onRightCircleClick.bind(this);
@@ -73,27 +75,32 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         this.setState({ recordingState: 'init', pageState: 'record' });
     }
 
+    processPrediction() {
+        if (this.prediction.data.success) this.props.history.push("/pre-pie-chart");
+        else if (this.prediction.data.gibberish) {
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+        } else if (this.prediction.data.caution) {
+            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+        }
+    }
+
     async recordAudio() {
         if (isMobile) {
             if (this.state.recordingState === "init") {
+                this.prediction = null;
                 this.process = false;
                 this.setState({ recordingState: 'in-progress' });
                 this.base64 = await speechService.recordAudioFromTeams();
                 this.setState({ recordingState: "confirm" });
                 this.base64 = await speechService.mp4ToMP3(this.base64);
                 let text = await speechService.translateSpeechToText(this.base64);
-                if (this.process) this.processAudio(text);
+                this.prediction = await speechService.prediction(text);
+                if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
-                this.process = true;
-                this.setState({ recordingState: "loading" });
-                // this.setState({ pageState: 'loading' });
-                // this.processAudio();
-            } else if (this.state.recordingState === "loading") {
-                this.process = true;
+                if (this.prediction === null) this.process = true;
+                else this.processPrediction();
                 this.setState({ recordingState: "loading" });
                 setTimeout(() => this.setState({ pageState: 'loading' }), 4000);
-                // this.setState({ pageState: 'loading' });
-                // this.processAudio();
             }
         } else {
             if (this.state.recordingState === "init") {
