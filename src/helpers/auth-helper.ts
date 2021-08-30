@@ -52,7 +52,7 @@ public static async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.sso) {
-          alert("got ssoToken");
+          // alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
           AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
         }
@@ -114,7 +114,7 @@ private static getUserProfile(token, tid): Promise < string > {
                 
                 var decoded = parseJwt(token);
                 if (decoded.tid && data.id) {
-                  alert("user id"+ data.id);
+                  // alert("user id"+ data.id);
                   setUserId(data.id)
                   setTid(tid ? tid : decoded.tid);
                   AuthHelper.createTokenId()
@@ -160,11 +160,14 @@ private static async createTokenId(loginCheck:boolean=false) {
             var d2 = new Date();
             const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
             const organisationDetails= organisation.val();
+            console.log('organisation', organisation);
             if(organisationDetails.paid_subscription){
               AuthHelper.success(loginCheck,0);
             } else {
+              console.log('organisationDetails.pilot', organisationDetails.pilot);
                 if(organisationDetails.pilot){
                   var datedifferece =await AuthHelper.numDaysBetween(organisationDetails.pilot, d2);
+                  console.log('datedifferece', datedifferece);
                   if(datedifferece<=30){
                       AuthHelper.success(loginCheck,datedifferece);
                   }else{
@@ -207,6 +210,7 @@ private static async createTokenId(loginCheck:boolean=false) {
 
  private static async success(loginCheck,datedifferece) { 
  localStorage.removeItem("active");
+ console.log('loginCheck', loginCheck);
  if(!loginCheck)
   window.location.replace(window.location.origin + '/');
   else{
