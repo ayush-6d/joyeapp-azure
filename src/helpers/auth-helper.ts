@@ -174,10 +174,13 @@ private static async createTokenId(loginCheck:boolean=false) {
                     AuthHelper.fail();
                   }
                 } else {
+                  console.log('createTokenId', createTokenId);
                     const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
                     const userDetails= user.val();
+                    console.log('userDetails', userDetails);
                     if(userDetails.createdAt){
                     var datedifferece =await AuthHelper.numDaysBetween(userDetails.createdAt, d2);
+                    console.log('datedifferece', datedifferece);
                     if(datedifferece<=30){
                         AuthHelper.success(loginCheck,datedifferece);
                     }else{
