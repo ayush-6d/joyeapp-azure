@@ -29,6 +29,7 @@ export interface IPageState {
 export default class Page extends React.PureComponent<IPage, IPageState> {
     base64: any;
     stopTimer: any;
+    process: any;
 
     constructor(props: IPage) {
         super(props);
@@ -75,12 +76,24 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     async recordAudio() {
         if (isMobile) {
             if (this.state.recordingState === "init") {
+                this.process = false;
                 this.setState({ recordingState: 'in-progress' });
                 this.base64 = await speechService.recordAudioFromTeams();
                 this.setState({ recordingState: "confirm" });
+                this.base64 = await speechService.mp4ToMP3(this.base64);
+                let text = await speechService.translateSpeechToText(this.base64);
+                if (this.process) this.processAudio(text);
             } else if (this.state.recordingState === "confirm") {
-                this.setState({ pageState: 'loading' });
-                this.processAudio();
+                this.process = true;
+                this.setState({ recordingState: "loading" });
+                // this.setState({ pageState: 'loading' });
+                // this.processAudio();
+            } else if (this.state.recordingState === "loading") {
+                this.process = true;
+                this.setState({ recordingState: "loading" });
+                setTimeout(() => this.setState({ pageState: 'loading' }), 4000);
+                // this.setState({ pageState: 'loading' });
+                // this.processAudio();
             }
         } else {
             if (this.state.recordingState === "init") {
