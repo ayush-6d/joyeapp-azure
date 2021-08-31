@@ -39,6 +39,7 @@ import { loginUser } from 'src/actions/loginActions';
 // let tokenEndpoint = '/oauth2/v2.0/token';
 // let scope = 'Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access';
 import * as msTeams from '@microsoft/teams-js';
+import Popup from 'src/components/Popup';
 
 
 export interface ILoginProps {
@@ -49,6 +50,7 @@ export interface ILoginProps {
 }
 export interface ILoginState {
   isLoading?: boolean;
+  popup?: boolean;
   currentUser?: object;
   userDetails?: object;
   rememberMe?: boolean;
@@ -61,13 +63,13 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      isLoading: true,
+      isLoading: false,
       currentUser: {},
-      userDetails: {}
+      userDetails: {},
+      popup: false
     };
   }
 
-  isLoading = true;
   containerEl = null;
   externalWindow = null;
 
@@ -99,11 +101,15 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
       AuthHelper.userLogin()
     }
   }
+  togglePopup = () => {
+    this.setState({popup: !this.state.popup});
+  }
 
   render() {
     const { isLoading } = this.state;
     return (
       <div>
+        {this.state.popup && (<Popup text="Welcome to Joye" screenMessage={["Please wait while we load your app!"]} closePopup={this.togglePopup} />)}
         <BasePage withMenu showInfoIcon className="login-form home-screen">
           <Logo height="76px" width="76px" marginTop="72px" />
           <Brand fontSize="42px" />
@@ -114,7 +120,20 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           </div>
         <div className="button-wrapper">
         
-        <Button Loader={null} type="button" onClick={this.userLogin} marginBottom={'20px'} fontWeight={600} fontSize="16.67px" >{isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in</Button>
+        <Button
+          Loader={null}
+          type="button"
+          disabled={isLoading}
+          onClick={() =>{
+            this.togglePopup();
+            this.userLogin();
+          }}
+          marginBottom={'20px'}
+          fontWeight={600}
+          fontSize="16.67px"
+        >
+          {isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in
+        </Button>
         </div>
         <div className="text-container">
             <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px",}}>

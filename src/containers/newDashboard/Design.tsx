@@ -777,7 +777,7 @@ const Design = (props: any) => {
       let snapshot: any = await query.once("value");
       snapshot = snapshot.val()
       let happinessCounter = snapshot.happinessCounter
-      let JournalCount = snapshot.journalCount
+      let journalCount = snapshot.journalCount
 
 
       await dbRef
@@ -787,8 +787,8 @@ const Design = (props: any) => {
           [weekOfYear]: {
             avg: (weekAvg /= length).toFixed(2),
             dominantemotion: weekDominantEmotion,
-            happinessCounter: happinessCounter,
-            JournalCount: JournalCount,
+            happinessCounter: happinessCounter ? happinessCounter : 0,
+            journalCount: journalCount ? journalCount : 0,
             weekdata,
           },
         });

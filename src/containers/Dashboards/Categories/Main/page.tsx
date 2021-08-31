@@ -11,9 +11,9 @@ import { Modal } from "src/components/Modal";
 import "src/resources/css/fonts/fonts.css";
 
 const modalData = {
-    title: "Take Charge!",
-    header: "A random uote from database",
-    content: "Please contact below services"
+    title: "Caution",
+    header: "We sense that there could be an emergency, or that your language is not allowed",
+    content: "If there is an emergency, please contact your family, organization or help-line."
 }
 export interface IPage {
     route?: any,
@@ -118,6 +118,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processAudio(data = null) {
+        console.log("processAudio model", this.state.isModalOpen)
         let text = data;
         if (data === null) {
             if (isMobile) this.base64 = await speechService.mp4ToMP3(this.base64);
@@ -133,9 +134,11 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         } else if (output.data.caution) {
             this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
+        console.log("processAudio model 2", this.state.isModalOpen)
     }
 
     render() {
+        console.log("model model", this.state.isModalOpen)
         return (<>
             {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
@@ -147,7 +150,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 </div>
             </BasePage> : null}
             {(this.state.pageState === 'tell-us-about') ? <TellUsAbout saveData={(x) => this.processAudio(x)} setIsTellusabout={this.onTellUsAboutClick} onCancel={this.onTellUsAboutCancelClick} /> : null}
-            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>) : null}
+            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["Ok"]}></Modal>) : null}
         </>)
     }
 }

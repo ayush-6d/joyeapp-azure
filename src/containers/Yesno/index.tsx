@@ -40,6 +40,7 @@ export interface IYesnoState {
   employee_id: string,
   organisation_id: string,
   sub_organisation_id: string
+  journalCount: any
 }
 
 export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
@@ -58,7 +59,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
       createdAt: 0,
       employee_id: "",
       organisation_id: "",
-      sub_organisation_id: ""
+      sub_organisation_id: "",
+      journalCount: 0
     };
     // var cQuestion = this.props
     //   console.log(123,cQuestion);
@@ -92,6 +94,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
       this.setState({ happinessCounter: data.happinessCounter ? data.happinessCounter + 1 : 1 });
       this.setState({ dominantemotion: data.dominantemotion });
       this.setState({ weekdata: data.weekdata });
+      this.setState({ journalCount: data.journalCount })
     } catch (e) {
       console.log(e);
     }
@@ -110,6 +113,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
           avg: this.state.avg,
           dominantemotion: this.state.dominantemotion,
           happinessCounter: this.state.happinessCounter,
+          journalCount: this.state.journalCount,
           weekdata: this.state.weekdata,
         },
       });
@@ -155,8 +159,8 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
         {ShowCongratulation ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage  showInfoIcon className="login-form home-screen">
-           {/*<div className="pageHeader">
+          <BasePage showInfoIcon className="login-form home-screen">
+            {/*<div className="pageHeader">
               <img src={pageHeader} />
             </div>*/}
             {openModal && (

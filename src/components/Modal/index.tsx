@@ -29,8 +29,11 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
       modalOpened: props.openModal,
       emergencyData: ["SOS", "HelpLine"]
     };
+    console.log("props model", props.openModal)
   }
+
   async componentDidMount() {
+
     try {
       var query = await firebaseInit.database().ref("master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/596ef7d8-f109-4c4e-9c91-81896baa9da5/emergency").orderByKey();
       let snapshot = await query.once("value");
@@ -77,6 +80,7 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
   };
   render() {
     console.log("emergencyData", this.state.emergencyData);
+    console.log("modalOpened", this.state.modalOpened)
     const coverClass = this.state.modalOpened ? "modal__cover modal__cover-active" : "modal__cover";
     const containerClass = this.state.modalOpened ? "modal__container modal__container-active" : "modal__container";
     const { modalData, HelpLineServices, buttonName } = this.props;
@@ -127,11 +131,11 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
             >
               {modalData["content"]}
             </div>
-            <div className="modal-btn-dasd">{emergency}</div>
+            {/* <div className="modal-btn-dasd">{emergency}</div> */}
             <div className="cancel-btn margin-top-10" >
-                <Button  Loader={null} type="button" onClick={this.handleSubmit} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
-                  Cancel
-                </Button>
+              <Button Loader={null} type="button" onClick={this.handleSubmit} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                ok
+              </Button>
             </div>
           </div>
         </div>

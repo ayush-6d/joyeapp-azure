@@ -15,6 +15,7 @@ export interface IButtonProps {
   fontFamily?: string;
   isLoading?: boolean;
   Loader?: JSX.Element;
+  disabled?: boolean;
 }
 
 export class Button extends React.Component<IButtonProps, {}> {
@@ -29,11 +30,12 @@ export class Button extends React.Component<IButtonProps, {}> {
   };
 
   render() {
-    const { isLoading, Loader, bgColor, height, width, onClick, type, id, fontWeight, marginBottom, fontSize, marginRight, fontFamily } = this.props;
+    const { isLoading, Loader, bgColor, height, width, onClick, type, id, fontWeight, marginBottom, fontSize, marginRight, fontFamily, disabled } = this.props;
     return (
       <div id={id} className="margin-top-10">
         {Loader}
         <button
+          disabled={disabled}
           onClick={e => onClick(e)}
           className="btn btn-primary">
           {this.props.children}

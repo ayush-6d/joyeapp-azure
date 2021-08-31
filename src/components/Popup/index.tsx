@@ -19,7 +19,7 @@ const Popup = (props: any) => {
         }}
       >
         <div className="para-scroll">
-          {/* <h1 className="popup_head">{text}</h1> */}
+          {text && <h1 className="popup_head">{text}</h1>}
           {screenMessage && screenMessage.length > 0 && screenMessage.map((msg, i) => (
             <p key={i} className="popup_para" style={{ marginTop: i > 0 ? 20 : 0 }}>{msg}</p>
           ))}

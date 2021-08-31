@@ -66,6 +66,10 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
   async componentDidMount() {
     this.getJournalLogic();
   }
+  setRadioBtn(event) {
+    console.log("event", event.target.value)
+    this.setState({ jounrnalCheck: event.target.value });
+  }
 
   getJournalLogic = async () => {
     let todaysDate = moment(new Date()).format("DD-MM-YYYY");
@@ -83,8 +87,10 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     joyelevelscore = snapshot.current_avarage
     this.setState({
       jQuestion: snapshot.journalQuestion,
-      cQuestion: snapshot.congratulationQuestion
+      cQuestion: snapshot.congratulationQuestion,
+      jounrnalCheck: jounrnalCheckSaved
     });
+
 
     console.log("todaysFeeling", todaysFeeling)
     console.log("joyelevelscore", joyelevelscore)
@@ -107,7 +113,6 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         if (jounrnalCheckSaved === "donotShowEverytime") {
           this.setState({ showJoyelevel: true });
           console.log("donotShowEverytime")
-
         } else {
           if (jounrnalCheckSaved === "showEverytime" || jounrnalCheckSaved === undefined || jounrnalCheckSaved === "") {
             this.setState({ showJoyelevel: true });
@@ -121,6 +126,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       } else {
         this.handleYesno();
         console.log('not showing because joyelevelscore is', joyelevelscore)
+        console.log("journalCount", this.state.journalCount)
         // this.props.history.push(`/dashboard`);
       }
     } else {
@@ -150,9 +156,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
   };
 
-  setRadioBtn(event) {
-    this.setState({ jounrnalCheck: event.target.value });
-  }
+
 
   onFail(error) {
     console.log(error, "Jounrnal data not saved");
@@ -197,7 +201,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
           dominantemotion: this.state.dominantemotion,
           happinessCounter: this.state.happinessCounter,
           weekdata: this.state.weekdata,
-          journalCount: this.state.journalCount ? this.state.journalCount + 1 : 1
+          journalCount: this.state.journalCount > 0 ? this.state.journalCount + 1 : 1
 
         },
       });
@@ -224,7 +228,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
   }
   render() {
-    const { todaysFeeling, showYesno, jQuestion } = this.state;
+    const { todaysFeeling, showYesno, jQuestion, jounrnalCheck } = this.state;
     const { route, history } = this.props;
     const headers = ["tellusabout", "saysomething", "congratulation"];
     return (
@@ -232,7 +236,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage  showInfoIcon className="login-form home-screen">
+          <BasePage showInfoIcon className="login-form home-screen">
             <div
               className="render-component"
               style={{
@@ -277,11 +281,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     ) : (
                       <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                         <div>
-                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
+                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" checked={this.state.jounrnalCheck === "donotShowEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show less often</span>
                         </div>
                         <div>
-                          <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" />
+                          <input type="radio" value="showEverytime" name="jounrnalCheck" checked={this.state.jounrnalCheck === "showEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show often</span>
                         </div>
                       </div>
