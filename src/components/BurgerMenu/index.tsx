@@ -13,13 +13,15 @@ const heart = require("../../resources/icons/Heart.svg");
 const home = require("../../resources/icons/home.png");
 const brewicon = require("../../resources/icons/brewicon.png");
 const out = require("../../resources/icons/out.png");
+import { Button } from "../FormComponents";
 
 
-export interface IBurgerMenuProps extends RouteComponentProps{}
+export interface IBurgerMenuProps extends RouteComponentProps { }
 
 export interface IBurgerMenuState {
   activeKey: number;
   isOpen: boolean;
+  modalOpened: boolean;
 }
 
 export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurgerMenuState> {
@@ -27,19 +29,44 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
     super(props);
     this.state = {
       activeKey: 1,
-      isOpen: false
+      isOpen: false,
+      modalOpened: false
     };
   }
 
   handleSelect = activeKey => {
     this.setState({ activeKey });
   };
-  onClickHandle = () => {};
+
+  onClickHandle = () => {
+    window.localStorage.clear();
+    this.props.history.push("/");
+  };
+
+  modalToggle = () => {
+    this.setState({ modalOpened: !this.state.modalOpened });
+  };
+
+  handleSubmit = () => {
+    this.setState({ modalOpened: !this.state.modalOpened });
+    setTimeout(() => {
+      window.localStorage.clear();
+      window.location.reload();
+      this.props.history.push("/");
+    }, 1000);
+
+    // this.onClickHandle()
+    // window.localStorage.clear();
+    // this.props.history.push("/");
+  };
 
   render() {
+    const containerClass = this.state.modalOpened ? "modal__container modal__container-active" : "modal__container";
+    const coverClass = this.state.modalOpened ? "modal__cover modal__cover-active" : "modal__cover";
+
     return (
       <div className="dis-flex-menu">
-      <div className="burger-menu-container">
+        <div className="burger-menu-container">
           <div className="burger">
             <input onClick={() => this.setState({ isOpen: !this.state.isOpen })} type="checkbox" />
             <span></span>
@@ -66,20 +93,20 @@ About us */}
             </a>
             <div className="sidebar-container">
               <Tab onClick={() => this.props.history.push("/")} name="main">
-              <img height="30px" width="28px" src={home} />
+                <img height="30px" width="28px" src={home} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Home
                 </div>
               </Tab>
 
               <Tab onClick={() => this.props.history.push("/deepBreath")} name="main">
-              <img height="30px" width="28px" src={brewicon} />
+                <img height="30px" width="28px" src={brewicon} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
-                Stress Buster
+                  Stress Buster
                 </div>
               </Tab>
 
-             {/*  <Tab onClick={() => this.props.history.push("/journal")} name="main">
+              {/*  <Tab onClick={() => this.props.history.push("/journal")} name="main">
               <img height="30px" width="28px" src={shield} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Journal
@@ -104,8 +131,8 @@ About us */}
                   FAQ
                 </div>
               </Tab>
-              
-             {/* <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
+
+              {/* <Tab onClick={() => this.props.history.push("/dashboard/reports")} name="reports">
                 <img height="30px" width="28px" src={heart} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Feedback
@@ -117,7 +144,7 @@ About us */}
                   About us
                 </div>
               </Tab>
-              <Tab onClick={() => this.props.history.push("/faq")} name="reports">
+              <Tab onClick={this.modalToggle} name="reports">
                 <img height="25px" width="25px" src={out} />
                 <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
                   Sign out
@@ -126,6 +153,51 @@ About us */}
             </div>
           </div>
         </div>
+        {/* modal start */}
+        {this.state.modalOpened &&
+          <React.Fragment>
+            <div className="modal__button" onClick={this.modalToggle}>
+
+            </div>
+            <div className={containerClass}>
+              <div className="text-container">
+                <div
+                  className="advertise-text bold"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: "24px",
+                    textAlign: "center",
+                    marginBottom: "20px",
+
+                    color: "#1E00A3"
+                  }}
+                >
+                  Wait
+                </div>
+                <div
+                  className="advertise-text bold journal-title"
+                  style={{
+                  }}
+                >
+                  Do you really want to logout?
+                </div>
+
+                <div className="cancel-btn margin-top-10" >
+                  <Button Loader={null} type="button" onClick={this.handleSubmit} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                    Yes
+                  </Button>
+                </div>
+                <div className="cancel-btn margin-top-10" >
+                  <Button Loader={null} type="button" onClick={this.modalToggle} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                    No
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className={coverClass} onClick={this.modalToggle}></div>
+          </React.Fragment>
+        }
+        {/* modal end */}
       </div>
     );
   }
