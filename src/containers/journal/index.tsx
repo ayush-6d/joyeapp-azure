@@ -224,7 +224,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
   }
   render() {
-    const { todaysFeeling, showYesno, jQuestion } = this.state;
+    const { todaysFeeling, showYesno, jQuestion, jounrnalCheck } = this.state;
     const { route, history } = this.props;
     const headers = ["tellusabout", "saysomething", "congratulation"];
     return (
@@ -232,7 +232,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage  showInfoIcon className="login-form home-screen">
+          <BasePage showInfoIcon className="login-form home-screen">
             <div
               className="render-component"
               style={{
@@ -277,11 +277,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     ) : (
                       <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                         <div>
-                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" />
+                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" checked={jounrnalCheck === "donotShowEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show less often</span>
                         </div>
                         <div>
-                          <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" />
+                          <input type="radio" value="showEverytime" defaultChecked name="jounrnalCheck" checked={jounrnalCheck === "showEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show often</span>
                         </div>
                       </div>
