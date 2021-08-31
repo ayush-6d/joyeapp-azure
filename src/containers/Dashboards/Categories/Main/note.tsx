@@ -22,6 +22,7 @@ export default class Note extends React.PureComponent<INote, INoteState> {
                 else return <p>Try a deeper reflection</p>;
             case "in-progress":
             case "confirm":
+            case "loading":
                 return <p>Express freely for a few seconds</p>;
         }
     }

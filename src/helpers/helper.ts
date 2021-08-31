@@ -205,7 +205,7 @@ export const EMOTIONS = {
     slider: ['Active', 'Energetic', 'Healthy'],
     pie: ['Motivation'],
     dailyChart: ['Motivated', 'Low', 'Active'],
-    prePieMessage: [""]
+    prePieMessage: ["behaving positive, healthy, engaged and working towards success"]
   },
   social: {
     slider: ['Social', 'Friendly', 'Empathetic'],

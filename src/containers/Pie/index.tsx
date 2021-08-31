@@ -44,7 +44,7 @@ export const Pie = () => {
         setData(brewData?.pieData);
         setLoaderPie(false);
       });
-    }, 5000);
+    }, 3000);
   }, []);
 
   const random = (mn, mx) => Math.random() * (mx - mn) + mn;

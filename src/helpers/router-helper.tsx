@@ -20,18 +20,7 @@ export default class RouterHelper {
         route.component = <Login />;
       }
     }
-    return RouterHelper.RenderRoutes(copyOfRoutes);
-    // return (
-    //   <HashRouter >
-    //     <Switch>
-    //     <div>
-    //       <Route exact path="/" component={Login} />
-    //       <Route exact path="/auth/signinstart" component={SignInStart} />
-    //       <Route exact path="/auth/signinend" component={SignInEnd} />
-    //       </div>
-    //     </Switch>
-    //   </HashRouter >
-    // )
+    return RouterHelper.RenderRoutes(copyOfRoutes);    
   }
 
   private static RenderRoutes(routes: RouteDefinition[]): JSX.Element {

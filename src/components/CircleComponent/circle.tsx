@@ -36,7 +36,7 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
 
     try {
       const data = await dbRef.ref(`users/${userId}/brew/brewData/${date}/avarage`).once('value');
-      let avarage = data.val();
+      let avarage = data.val() || "0.0";
       this.setState({
         avarage: avarage
       });
