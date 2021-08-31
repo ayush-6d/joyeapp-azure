@@ -404,45 +404,45 @@ const Design = (props: any) => {
 
   async function getJournalQuestion(theme) {
     let orgTheme = theme;
-    if (orgTheme.toString().length < 2){
-      orgTheme = (0 + `${theme}`).slice(-2) 
+    if (orgTheme.toString().length < 2) {
+      orgTheme = (0 + `${theme}`).slice(-2)
     }
     console.log('getJournalQuestionTheme', orgTheme);
-    let journalQuestion: any =  await database
-        .ref(
-          `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
-        )
-        .once("value");
+    let journalQuestion: any = await database
+      .ref(
+        `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
+      )
+      .once("value");
     journalQuestion = await journalQuestion.val();
     return journalQuestion[Math.floor(random(1, journalQuestion.length || 0)) - 1];
   }
 
   async function getCongratulationQuestion(theme) {
     let orgTheme = theme;
-    if (orgTheme.toString().length < 2){
-      orgTheme = (0 + `${theme}`).slice(-2) 
+    if (orgTheme.toString().length < 2) {
+      orgTheme = (0 + `${theme}`).slice(-2)
     }
     console.log('getCongratulationQuestionTheme', orgTheme);
-    let congratulationQuestion: any =  await database
-        .ref(
-          `joye_master_data/sprint_new/theme/${orgTheme}/congratulations_questions`
-        )
-        .once("value");
+    let congratulationQuestion: any = await database
+      .ref(
+        `joye_master_data/sprint_new/theme/${orgTheme}/congratulations_questions`
+      )
+      .once("value");
     congratulationQuestion = await congratulationQuestion.val();
     return congratulationQuestion[Math.floor(random(1, congratulationQuestion.length || 0)) - 1];
   }
 
   async function getPodcast(theme) {
     let orgTheme = theme;
-    if (orgTheme.toString().length < 2){
-      orgTheme = (0 + `${theme}`).slice(-2) 
+    if (orgTheme.toString().length < 2) {
+      orgTheme = (0 + `${theme}`).slice(-2)
     }
     console.log('getPodcastTheme', orgTheme);
-    let podcast: any =  await database
-        .ref(
-          `joye_master_data/sprint_new/theme/${orgTheme}/podcasts`
-        )
-        .once("value");
+    let podcast: any = await database
+      .ref(
+        `joye_master_data/sprint_new/theme/${orgTheme}/podcasts`
+      )
+      .once("value");
     podcast = await podcast.val();
     return podcast;
   }
@@ -772,9 +772,12 @@ const Design = (props: any) => {
 
       const year = moment().format('yyyy');
       const currentWeek: any = moment().format('w');
-      const counter = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}/happinessCounter`).once('value');
-      let happinessCounter = counter.val();
-      console.log("happinessCounter", happinessCounter);
+      const query = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`);
+      let snapshot: any = await query.once("value");
+      snapshot = snapshot.val()
+      let happinessCounter = snapshot.happinessCounter
+      let JournalCount = snapshot.journalCount
+
 
       await dbRef
         .ref(`users/${userId}/brew`)
@@ -784,6 +787,7 @@ const Design = (props: any) => {
             avg: (weekAvg /= length).toFixed(2),
             dominantemotion: weekDominantEmotion,
             happinessCounter: happinessCounter,
+            JournalCount: JournalCount,
             weekdata,
           },
         });
