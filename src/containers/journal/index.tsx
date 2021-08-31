@@ -103,7 +103,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
 
     if (!todaysFeeling) {
-      if (joyelevelscore > 6 && joyelevelscore < 5 && this.state.journalCount <= 3) {
+      if (joyelevelscore > 6 && joyelevelscore < 5) {
         if (jounrnalCheckSaved === "donotShowEverytime") {
           this.setState({ showJoyelevel: true });
           console.log("donotShowEverytime")
@@ -121,6 +121,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       } else {
         this.handleYesno();
         console.log('not showing because joyelevelscore is', joyelevelscore)
+        console.log("journalCount", this.state.journalCount)
         // this.props.history.push(`/dashboard`);
       }
     } else {
