@@ -34,7 +34,7 @@ export default class SpeechService {
     });
   }
 
-  static recordAudioFromTeams() {
+  static recordAudioFromTeams(procId) {
     return new Promise((resolve, reject) => {
       microsoftTeams.initialize();
       let mediaInput: microsoftTeams.media.MediaInputs = {
@@ -56,7 +56,7 @@ export default class SpeechService {
                 let base64String = (reader.result as string).replace("data:video/mp4;base64,", "");
                 base64String = base64String.substring(0, base64String.indexOf("AAAAAAAA"));
                 base64String = base64String.substring(0, base64String.length - (base64String.length % 4));
-                resolve(base64String);
+                resolve({ pid: procId, data: base64String });
               };
             }
           });
@@ -65,10 +65,10 @@ export default class SpeechService {
     });
   }
 
-  static async mp4ToMP3(base64Mp4) {
+  static async mp4ToMP3(procId, base64Mp4) {
     let promise = new Promise((resolve, reject) => {
       let convertOptions = {
-        apikey: "dZjagqgkZ4SSbKp1IzQyxxEyAyJehISdYvxkUU9P9mnYaQtEyvfHwEs3I6ULo5kj",
+        apikey: "KzNKZdqKpb8TfJeuhlSnE4ESgtl8AjUkrnNAhxo7OQnJsLdUapZ4R8esK84wn8nP",
         inputformat: "mp4",
         outputformat: "mp3",
         input: "base64",
@@ -91,7 +91,7 @@ export default class SpeechService {
                   reader.readAsDataURL(x);
                   reader.onloadend = () => {
                     let str = (reader.result as string).replace("data:audio/mpeg;base64,", "");
-                    resolve(str);
+                    resolve({ pid: procId, data: str });
                   };
                 });
             });
@@ -99,6 +99,31 @@ export default class SpeechService {
       });
     });
     return promise;
+  }
+
+  static async translateSpeechToTextEx(procId, base64Mp3) {
+    return new Promise((resolve, reject) => {
+      let data = {
+        version: "v1p1beta1",
+        audio: { content: base64Mp3 },
+        config: {
+          sampleRateHertz: 8000,
+          enableAutomaticPunctuation: true,
+          encoding: "MP3",
+          languageCode: "en-US",
+        },
+      };
+
+      axios
+        .post("https://us-central1-joye-768f7.cloudfunctions.net/translateSpeechToText", data, config)
+        .then((x) => {
+          let text = "";
+          if (!x.data.results) reject("no data");
+          x.data.results.map((data) => data.alternatives.map((data) => (text += data.transcript)));
+          resolve({ pid: procId, data: text });
+        })
+        .catch((e) => reject(e));
+    });
   }
 
   static async translateSpeechToText(base64Mp3) {
@@ -123,6 +148,25 @@ export default class SpeechService {
           resolve(text);
         })
         .catch((e) => reject(e));
+    });
+  }
+
+  static async predictionEx(procId, todaysFeelingText) {
+    return new Promise((resolve, reject) => {
+      let data = {
+        organisationId: "-MHUPaNmo_p85_DR3ABC",
+        subOrganisationId: getTId(),
+        empId: getUserId(),
+        uid: getAuthId(),
+        text: todaysFeelingText,
+      };
+      console.log(data);
+      axios
+        .post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config)
+        .then((x) => {
+          resolve({ pid: procId, data: x });
+        })
+        .catch((e) => alert(e));
     });
   }
 
