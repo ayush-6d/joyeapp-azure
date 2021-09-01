@@ -32,7 +32,7 @@ export const Pie = () => {
   const [showScreen, setShowScreen] = useState('1');
   useEffect(() => {
     setLoaderPie(true);
-    setTimeout(async () => {
+    const loadDataTimeout = setTimeout(async () => {
       dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
         const brewData = snapshot.val();
         if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
@@ -45,6 +45,9 @@ export const Pie = () => {
         setLoaderPie(false);
       });
     }, 3000);
+    return () => {
+      clearTimeout(loadDataTimeout);
+    }
   }, []);
 
   const random = (mn, mx) => Math.random() * (mx - mn) + mn;

@@ -1,11 +1,9 @@
 import * as React from "react";
 import "./CircularCounter.scss";
-import { firebaseInit } from "src/services/firebase";
+import { database } from "src/services/firebase";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import moment from 'moment';
 import { Link } from "react-router-dom";
-
-
 export interface ICircleProps {
   OnClick?: any;
   style?: any;
@@ -31,11 +29,10 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
 
   async componentDidMount() {
     const userId = getAuthId();
-    let dbRef = firebaseInit.database(getDbUrl());
     const date = moment().format("DD-MM-yyyy");
 
     try {
-      const data = await dbRef.ref(`users/${userId}/brew/brewData/${date}/avarage`).once('value');
+      const data = await database.ref(`users/${userId}/brew/brewData/${date}/avarage`).once('value');
       let avarage = data.val() || "0.0";
       this.setState({
         avarage: avarage
