@@ -89,23 +89,26 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     async recordAudio() {
         if (isMobile) {
             if (this.state.recordingState === "init") {
-                let id = Math.floor(Math.random() * 1000000);
-                this.processId = id;
+                this.processId = Math.floor(Math.random() * 1000000);
                 this.prediction = null;
                 this.process = false;
                 this.setState({ recordingState: 'in-progress' });
-                this.base64 = await speechService.recordAudioFromTeams();
-                if (this.processId === id) this.setState({ recordingState: "confirm" });
-                if (this.processId === id) this.base64 = await speechService.mp4ToMP3(this.base64);
-                let text: any = "";
-                if (this.processId === id) text = await speechService.translateSpeechToText(this.base64);
-                if (this.processId === id) this.prediction = await speechService.prediction(text);
-                if (this.processId === id) if (this.process) this.processPrediction();
+                let result: any = await speechService.recordAudioFromTeams(this.processId);
+                if (result.pid !== this.processId) return;
+                this.base64 = result.data;
+                this.setState({ recordingState: "confirm" });
+                let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
+                if (mp4ToMP3Result.pid !== this.processId) return;
+                let translateSpeechToTextResult: any = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
+                if (translateSpeechToTextResult.pid !== this.processId) return;
+                let predictionResult: any = await speechService.predictionEx(this.processId, translateSpeechToTextResult.data);
+                if (predictionResult.pid !== this.processId) return;
+                if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
                 if (this.prediction === null) this.process = true;
                 else this.processPrediction();
                 this.setState({ recordingState: "loading" });
-                setTimeout(() => this.setState({ pageState: 'loading' }), 4000);
+                setTimeout(() => this.setState({ pageState: 'loading' }), 8000);
             }
         } else {
             if (this.state.recordingState === "init") {
