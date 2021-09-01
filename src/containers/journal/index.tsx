@@ -119,7 +119,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
             console.log("showEverytime")
           } else {
             this.handleYesno();
-            console.log('not showing because showEverytime is', jounrnalCheckSaved)
+            console.log('not showing because showEverytime is', jounrnalCheckSaved, ' and journalcount is: ', this.state.journalCount);
             // this.props.history.push(`/dashboard`);
           }
         }
