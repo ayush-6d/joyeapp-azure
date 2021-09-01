@@ -16,6 +16,7 @@ export interface ICongratulationProps {
   route?: any;
   history?: any;
   openModal?: any;
+  navigate?: any;
 }
 export interface ICongratulationState {
   todaysFeeling?: string;
@@ -82,9 +83,10 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
   };
 
   renderShowDashboardContent = () => {
-    if (this.state.ShowDashboard) {
-      return <Dashboard />;
-    }
+    this.props.navigate();
+    // if (this.state.ShowDashboard) {
+    //   return <Dashboard />;
+    // }
   };
 
   setCounter(startCounter) {

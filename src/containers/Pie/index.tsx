@@ -28,25 +28,37 @@ export const Pie = () => {
   const [screenMessage, setScreenMessages] = React.useState([]);
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
-  const dbRef = firebaseInit.database(getDbUrl());
   const [showScreen, setShowScreen] = useState('1');
   useEffect(() => {
     setLoaderPie(true);
     const loadDataTimeout = setTimeout(async () => {
-      dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value').then(async (snapshot) => {
-        const brewData = snapshot.val();
-        if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
-          setAverage(brewData.current_avarage);
-          setAudio(brewData.podcast);
-          setDominentEmotion(brewData.dominantemotion);
-          setDominentEmotionType(brewData.type);
-        }
-        setData(brewData?.pieData);
-        setLoaderPie(false);
-      });
-    }, 3000);
+      const dbRef = firebaseInit.database(getDbUrl());
+      const snapshot = await dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value');
+      const brewData = snapshot.val();
+      console.log('brewData', brewData);
+      if (typeof brewData === 'object' && brewData && brewData.current_avarage) {
+        setAverage(brewData.current_avarage);
+        setAudio(brewData.podcast);
+        setDominentEmotion(brewData.dominantemotion);
+        setDominentEmotionType(brewData.type);
+      }
+      setData(brewData?.pieData);
+      setLoaderPie(false);
+    }, 5000);
     return () => {
       clearTimeout(loadDataTimeout);
+      setData([]);
+      setLoaderPie(true);
+      setAverage(0.0);
+      setDominentEmotion('');
+      setDominentEmotionType('');
+      setAudio('');
+      setPopup(false);
+      setScreenMessages([]);
+      setFireBaseUrl('');
+      setFireBaseStorage('');
+      setShowScreen('1');
+      console.log('Unmounted');
     }
   }, []);
 
@@ -56,7 +68,7 @@ export const Pie = () => {
     if (audio !== 'null') {
       const adObj: any = audio[Math.floor(random(1, audio.length - 1))];
       if (adObj && adObj.app_start_key) {
-        dbRef.ref(`users/${userId}/brew/brewData/${date}/podcast`).once('value')
+        database.ref(`users/${userId}/brew/brewData/${date}/podcast`).once('value')
           .then(async (snapshot) => {
             const audioData = snapshot.val();
             if (audioData) {
@@ -73,7 +85,7 @@ export const Pie = () => {
     setPopup(!popup);
   }
   async function getScreenMessages() {
-    const screenMessages = await dbRef.ref('/master/screen_messages/pie_graph').once('value');
+    const screenMessages = await database.ref('/master/screen_messages/pie_graph').once('value');
     setScreenMessages(screenMessages.val());
   }
   return (

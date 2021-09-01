@@ -47,10 +47,35 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
 
   componentDidMount() {
     const that = this;
-    console.log('EMOTIONS', EMOTIONS, this.props.emotion);
+    // console.log('EMOTIONS', EMOTIONS, this.props.emotion);
+    mySwiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      spaceBetween: 30,
+      loopedSlides: 3,
+      speed: 400,
+      longSwipes: false,
+      loop: true,
+    });
+
+    mySwiper.on('slideChange', () => {
+      const { realIndex, activeIndex, previousIndex } = mySwiper;
+      const cardDataIndex = realIndex ? that.state.cardData[realIndex].order : 1;
+
+      let direction = '';
+      if (previousIndex < activeIndex) {
+        direction = 'anticlock';
+      } else {
+        direction = 'clock';
+      }
+
+      that.setState({ prevIndex: that.state.index, index: cardDataIndex, direction });
+    });
   }
 
-  
+  handleClickPrev = () => {
+    mySwiper.slideNext();
+  };
 
   render() {
     const { data, average, onClickPopup, getScreenMessages, emotion } =
@@ -224,6 +249,9 @@ export const GetPies = (props) => {
     const targetHalf = data.find((e) => e.order === idToFocus).ratio / 2;
     newDegree = prevHalf + targetHalf;
     // newDegree = getFixedAnglePoints(newDegree)
+    console.log('degree', degree);
+    console.log('newDegree', newDegree);
+    console.log('direction', direction);
     if (direction === "clock") {
       setDegree(degree + newDegree);
     } else {
@@ -232,6 +260,8 @@ export const GetPies = (props) => {
   };
 
   useEffect(() => {
+    console.log('prevIndex', prevIndex);
+    console.log('idToFocus', idToFocus);
     if (idToFocus !== prevIndex) {
       getDegree();
     }

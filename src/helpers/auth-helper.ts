@@ -10,26 +10,30 @@ import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/l
 
 export default class AuthHelper {
 
-  public static IsUserLoggedIn(): boolean {
+  constructor(){
+
+  }
+
+  public IsUserLoggedIn(): boolean {
     if(localStorage.getItem("userId")){
-      AuthHelper.createTokenId(true)
+      this.createTokenId(true)
       return true;
     }else{
         if(!localStorage.getItem("active")){
-           setTimeout(()=>{AuthHelper.userLogin()}, 1000);
+          //  setTimeout(()=>{this.userLogin()}, 1000);
             
-          }
-            return false;
-          }
+    }
+      return false;
+    }
   }
 
-  public static async userLogin() {
+  public async userLogin() {
   console.log('userLogin');
-   AuthHelper.getAccessSSOToken()
+   this.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);
       localStorage.setItem("accessToken",clientSideToken)
-      return AuthHelper.getServerSideToken(clientSideToken);
+      return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
       // console.log("accessToken error")
       // console.log(err)
@@ -37,9 +41,9 @@ export default class AuthHelper {
   // }
   // localStorage.setItem("userId","42f19b36-aa73-4f26-babc-1bf7c6ccfd4a")
   // localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073")
-  // AuthHelper.createTokenId()
+  // this.createTokenId()
 }
-public static async getServerSideToken(clientSideToken) {
+public async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
     msTeams.getContext(async (context) => {
       try {
@@ -54,7 +58,7 @@ public static async getServerSideToken(clientSideToken) {
         if (ssoToken.data.sso) {
           // alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
-          AuthHelper.getUserProfile(ssoToken.data.sso, context.tid)
+          this.getUserProfile(ssoToken.data.sso, context.tid)
         }
 
       } catch (error) {
@@ -65,7 +69,7 @@ public static async getServerSideToken(clientSideToken) {
   });
 
 }
-private static async getAccessSSOToken() {
+private async getAccessSSOToken() {
   console.log('getAccessSSOToken');
   return new Promise((resolve, reject) => {
     msTeams.authentication.getAuthToken({
@@ -82,7 +86,7 @@ private static async getAccessSSOToken() {
 
 }
 
-private static getUserProfile(token, tid): Promise < string > {
+private getUserProfile(token, tid): Promise < string > {
   return new Promise < string > ((resolve, reject) => {
     var headers = new Headers();
     var bearer = "Bearer " + token;
@@ -117,7 +121,7 @@ private static getUserProfile(token, tid): Promise < string > {
                   // alert("user id"+ data.id);
                   setUserId(data.id)
                   setTid(tid ? tid : decoded.tid);
-                  AuthHelper.createTokenId()
+                  this.createTokenId()
                 }
             })
          
@@ -133,7 +137,7 @@ private static getUserProfile(token, tid): Promise < string > {
   })
 }
 
-private static async createTokenId(loginCheck:boolean=false) {
+private async createTokenId(loginCheck:boolean=false) {
   let userId = getUserId();
   let tid = getTId();
   if(tid && userId){
@@ -162,16 +166,16 @@ private static async createTokenId(loginCheck:boolean=false) {
             const organisationDetails= organisation.val();
             console.log('organisation', organisation);
             if(organisationDetails.paid_subscription){
-              AuthHelper.success(loginCheck,0);
+              this.success(loginCheck,0);
             } else {
               console.log('organisationDetails.pilot', organisationDetails.pilot);
                 if(organisationDetails.pilot){
-                  var datedifferece =await AuthHelper.numDaysBetween(organisationDetails.pilot, d2);
+                  var datedifferece =await this.numDaysBetween(organisationDetails.pilot, d2);
                   console.log('datedifferece', datedifferece);
                   if(datedifferece<=30){
-                      AuthHelper.success(loginCheck,datedifferece);
+                      this.success(loginCheck,datedifferece);
                   }else{
-                    AuthHelper.fail();
+                    this.fail();
                   }
                 } else {
                   console.log('createTokenId', createTokenId);
@@ -179,19 +183,19 @@ private static async createTokenId(loginCheck:boolean=false) {
                     const userDetails= user.val();
                     console.log('userDetails', userDetails);
                     if(userDetails.createdAt){
-                      var datedifferece = await AuthHelper.numDaysBetween(userDetails.createdAt, d2);
+                      var datedifferece = await this.numDaysBetween(userDetails.createdAt, d2);
                       console.log('datedifferece', datedifferece);
                       if(datedifferece<=30){
-                        AuthHelper.success(loginCheck,datedifferece);
+                        this.success(loginCheck,datedifferece);
                       }else{
-                        AuthHelper.fail();
+                        this.fail();
                       }
                     } else {
                       await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).set({
                         ...userDetails,
                         createdAt: new Date().getTime(),
                       })
-                      AuthHelper.success(loginCheck,0);
+                      this.success(loginCheck,0);
                     }
                 }   
             }
@@ -211,12 +215,12 @@ private static async createTokenId(loginCheck:boolean=false) {
   };
   }
 }
-  private static async numDaysBetween(d1, d2) { 
+  private async numDaysBetween(d1, d2) { 
   var today = d2.getTime();
   return Math.round(Math.abs(d1 - today)/(24 * 60 * 60 * 1000));
 };
 
- private static async success(loginCheck,datedifferece) { 
+ private async success(loginCheck,datedifferece) { 
  localStorage.removeItem("active");
  console.log('loginCheck', loginCheck);
  if(!loginCheck)
@@ -228,14 +232,14 @@ private static async createTokenId(loginCheck:boolean=false) {
   }
 };
 
-  private static async fail() { 
+  private async fail() { 
     alert("Your trial period is over")
     localStorage.clear()
     localStorage.setItem("active","false");
     window.location.replace(window.location.origin + '/');
   };
 
-  public static async setOrgData(user: any){
+  public async setOrgData(user: any){
     setAuthId(user.uid)
     setDbUrl('https://teams-768f7-e6e45.firebaseio.com');
   }

@@ -129,7 +129,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log("processAudio model", this.state.isModalOpen)
         let text = data;
         if (data === null) {
-            if (isMobile) this.base64 = await speechService.mp4ToMP3(this.base64);
+            if (isMobile) this.base64 = await speechService.mp4ToMP3("id",this.base64);
             text = await speechService.translateSpeechToText(this.base64);
         }
         this.setState({ pageState: 'loading' });

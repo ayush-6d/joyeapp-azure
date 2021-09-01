@@ -9,7 +9,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     super(props);
 
     this.state = {
-      loggedIn: AuthHelper.IsUserLoggedIn(),
+      loggedIn: new AuthHelper().IsUserLoggedIn(),
     };
 
     msTeams.initialize();

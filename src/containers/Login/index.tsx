@@ -3,42 +3,12 @@ import './login.scss';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { UserModel } from 'src/Models/UserModel';
-// import { createHash, parseJwt, saveUserDataForSession } from 'src/utilities/generalUtils';
 import { Logo, Brand, BasePage, PageImage } from 'components/index';
-import * as firebase from "firebase";
-import axios from "axios";
-import { API_ROOT } from "../../config";
 import "./login.scss";
 const privacy = require("../../resources/icons/Privacy_icon.png");
-// import { AccountInfo, PublicClientApplication } from "@azure/msal-browser";
-import { InteractionType } from "@azure/msal-browser";
-import { MsalAuthenticationTemplate, useMsal } from "@azure/msal-react";
-import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
-import { createHash, parseJwt, saveUserDataForSession } from "src/utilities/generalUtils";
-import { removeAlert } from "src/actions/alertAction";
-import * as microsoftTeams from "@microsoft/teams-js";
-import { AuthenticationContext, adalFetch, withAdalLogin } from "react-adal";
-// import {uuid} from 'uuid'
-import * as $ from "jquery";
-
-// import { authContext } from './adalConfig';
-// import auth from './auth'
-
-// import { loginUser } from 'src/actions/loginActions';
 import { Button } from 'src/components/FormComponents/Button';
-// import AzureAuthenticationButton from 'src/components/azure/azure-authentication-component';
-// import { firebaseInit } from 'src/services/firebase';
-// import WelcomeUser from './welcome';
-// import { WelcomeUser, SignInButton } from './welcome';
-// import { SampleAppButtonLaunch } from 'src/components/SPAAuthentication/authentication';
-import { AuthHelper } from 'src/helpers';
+import AuthHelper from 'src/helpers/auth-helper';
 import { firebaseInit } from 'src/services/firebase';
-import { loginUser } from 'src/actions/loginActions';
-// let authority = 'https://login.microsoftonline.com/common';
-// let authorizeEndpoint = '/oauth2/v2.0/authorize';
-// let tokenEndpoint = '/oauth2/v2.0/token';
-// let scope = 'Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access';
-import * as msTeams from '@microsoft/teams-js';
 import Popup from 'src/components/Popup';
 
 
@@ -96,9 +66,11 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   };
 
   userLogin =()=>{
+    console.log('clicked')
     this.setState({ isLoading: true });
     if(!this.state.isLoading){
-      AuthHelper.userLogin()
+      let auth = new AuthHelper();
+      auth.userLogin();
     }
   }
   togglePopup = () => {
@@ -140,22 +112,6 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               Easy and secure sign in with your Microsoft account
             </div>
         </div>
-        {/* <PageImage height="42px" width="42px" marginTop="72px" logo={shield} /> */}
-     {/*<span className="dont-have-account-text">
-          You have our promise for your privacy protection. We will use only an encrypted idenity as your unique 
-          identifier. We do not need any of your other personal details - no email address, no profile picture, no
-           employee ID.</span> */}
-        {/* <div className="text-container">
-          <div className="advertise-text">
-            <h3 className="advertise-text">Privacy poilicy</h3>
-          </div>
-          </div> */}
-
-          {/* <div className="button-wrapper">
-            <AzureAuthenticationButton onAuthenticated={this.handleSubmit} />
-          </div> */}
-
-          
         </BasePage>
 
         <BasePage className="login-form home-screen">
@@ -168,8 +124,6 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               textAlign: "center",
               minHeight: "600px",
               height: "auto",
-             // width: "70%",
-             // marginLeft: "16.5%",
               alignContent: "center",
               fontFamily: "Nunito-Regular",
               fontSize: "16px",

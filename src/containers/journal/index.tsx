@@ -1,16 +1,11 @@
 import * as React from "react";
-import { Route } from "react-router-dom";
 import { BasePage, Circle, PageImage } from "src/components";
 //import pageHeader from "src/resources/icons/pageHeader2.png";
 import processCompleted from "src/resources/icons/speakingcircle.png";
 import rightTick from "src/resources/icons/rightTick.png";
 
-import ExcellentTick from "src/resources/icons/ExcellentTick.png";
 import "../Dashboards/Categories/index.scss";
-import axios from "axios";
-import { createHash } from "src/utilities/generalUtils";
 import { firebaseInit } from "src/services/firebase";
-import * as firebase from "firebase";
 import moment from "moment";
 import { Yesno } from "src/containers/Yesno";
 import { withRouter, RouteComponentProps } from "react-router";
@@ -32,17 +27,12 @@ export interface IJournalState {
   jQuestion?: string;
   cQuestion?: string,
   journalCount?: any;
-  happinessCounter: string;
-  avg: string,
-  dominantemotion: string,
-  weekdata: string,
+  weekdata: object,
 }
 
-let isSkipSaved = false;
 let jounrnalCheckSaved = "";
 let todaysFeeling = "";
 let joyelevelscore = 0;
-let isOnceDay = false;
 let dbRef = firebaseInit.database(getDbUrl());
 export class Journalclass extends React.PureComponent<IJournalProps, IJournalState> {
   constructor(props: IJournalProps) {
@@ -56,10 +46,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       jQuestion: "",
       cQuestion: "",
       journalCount: 0,
-      happinessCounter: "",
-      avg: "",
-      dominantemotion: "",
-      weekdata: "",
+      weekdata: {},
     };
   }
 
@@ -67,7 +54,6 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     this.getJournalLogic();
   }
   setRadioBtn(event) {
-    console.log("event", event.target.value)
     this.setState({ jounrnalCheck: event.target.value });
   }
 
@@ -81,38 +67,35 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     snapshot = snapshot.val()
     console.log("snapshot", snapshot)
 
-    isSkipSaved = snapshot.isSkip
-    jounrnalCheckSaved = snapshot.jounrnalCheck
-    todaysFeeling = snapshot.todaysFeeling
-    joyelevelscore = snapshot.current_avarage
-    this.setState({
-      jQuestion: snapshot.journalQuestion,
-      cQuestion: snapshot.congratulationQuestion,
-      jounrnalCheck: jounrnalCheckSaved
-    });
-
-
-    console.log("todaysFeeling", todaysFeeling)
-    console.log("joyelevelscore", joyelevelscore)
-
+    jounrnalCheckSaved = snapshot.jounrnalCheck || "showEverytime";
+    todaysFeeling = snapshot.todaysFeeling;
+    joyelevelscore = snapshot.current_avarage;
+    
     const currentWeek: any = moment().format('w');
     const year = moment().format('yyyy');
     const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`);
     let data: any = await currentWeekData.once("value");
     data = data.val()
     console.log("data", data)
-    this.setState({ journalCount: data.journalCount });
-    this.setState({ avg: data.avg });
-    this.setState({ happinessCounter: data.happinessCounter });
-    this.setState({ dominantemotion: data.dominantemotion });
-    this.setState({ weekdata: data.weekdata });
+    this.setState({
+      jQuestion: snapshot.journalQuestion,
+      cQuestion: snapshot.congratulationQuestion,
+      jounrnalCheck: jounrnalCheckSaved || "showEverytime",
+      journalCount: data.journalCount || 0,
+      weekdata: data
+    });
 
 
     if (!todaysFeeling) {
-      if (joyelevelscore > 6 && joyelevelscore < 5 && this.state.journalCount <= 3) {
-        if (jounrnalCheckSaved === "donotShowEverytime") {
-          this.setState({ showJoyelevel: true });
-          console.log("donotShowEverytime")
+      if (jounrnalCheckSaved === "donotShowEverytime") {
+          if (joyelevelscore > 6 && joyelevelscore < 5 && this.state.journalCount <= 3) {
+            this.setState({ showJoyelevel: true });
+            console.log("donotShowEverytime")
+          } else {
+            this.handleYesno();
+            console.log('not showing because joyelevelscore is', joyelevelscore, ' and journalcount is: ', this.state.journalCount)
+            console.log("journalCount", this.state.journalCount)
+          }
         } else {
           if (jounrnalCheckSaved === "showEverytime" || jounrnalCheckSaved === undefined || jounrnalCheckSaved === "") {
             this.setState({ showJoyelevel: true });
@@ -120,19 +103,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
           } else {
             this.handleYesno();
             console.log('not showing because showEverytime is', jounrnalCheckSaved);
-            // this.props.history.push(`/dashboard`);
           }
         }
-      } else {
-        this.handleYesno();
-        console.log('not showing because joyelevelscore is', joyelevelscore, ' and journalcount is: ', this.state.journalCount)
-        console.log("journalCount", this.state.journalCount)
-        // this.props.history.push(`/dashboard`);
-      }
     } else {
       this.handleYesno();
       console.log('not showing because todaysFeeling is', todaysFeeling)
-      // this.props.history.push(`/dashboard`);
     }
   };
 
@@ -146,14 +121,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       this.setState({
         todaysFeeling: value
       });
-      // let todaysDate = moment(new Date()).format("DD-MM-YYYY");
-      //   const userId = getAuthId();
-      // dbRef
-      //   .ref(`users/${userId}/brew/brewData/${todaysDate}`)
-      //   .update({ journalText : value })
-      //   .catch(error => this.onFail(error));
     }
-
   };
 
 
@@ -163,12 +131,8 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
   }
 
   saveData = async isSkip => {
-    // debugger;
     let todaysDate = moment(new Date()).format("DD-MM-YYYY");
-
     const userId = getAuthId();
-    // let userId = await createHash("596ef7d8-f109-4c4e-9c91-81896baa9da5");
-
     let jounrnalDetalis = {
       isSkip: isSkip,
       todaysFeeling: this.state.todaysFeeling,
@@ -197,40 +161,23 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       .child("weeks_average")
       .update({
         [weekOfYear]: {
-          avg: this.state.avg,
-          dominantemotion: this.state.dominantemotion,
-          happinessCounter: this.state.happinessCounter,
-          weekdata: this.state.weekdata,
+          ...this.state.weekdata,
           journalCount: this.state.journalCount > 0 ? this.state.journalCount + 1 : 1
-
         },
       });
     this.saveData(true);
-    // this.props.history.push(`/dashboard`);
   };
   renderYesnoContent = () => {
     if (this.state.showYesno && this.state.cQuestion) {
       var congratulationQuestion = this.state.cQuestion.toString()
-      // console.log("Question", congratulationQuestion)
       return <Yesno data={{ congratulationQuestion: congratulationQuestion }} />;
     }
   };
   getRadioType = (value) => {
-    // let showEverytime=true;
-    // if(value?.target?.value) showEverytime = value?.target?.value
-    // else showEverytime = value
-    // const userId = getAuthId();
-    // dbRef
-    //   .ref(`users/${userId}/details`)
-    //   .update({ showEverytime })
-    //   .catch(error => this.onFail(error));
     this.setState({ showYesno: value.target.value === 'showEverytime' ? false : true });
-
   }
   render() {
-    const { todaysFeeling, showYesno, jQuestion, jounrnalCheck } = this.state;
-    const { route, history } = this.props;
-    const headers = ["tellusabout", "saysomething", "congratulation"];
+    const { todaysFeeling, showYesno, jQuestion, jounrnalCheck } = this.state; 
     return (
       <>
         {showYesno ? (
@@ -281,11 +228,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                     ) : (
                       <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
                         <div>
-                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" checked={this.state.jounrnalCheck === "donotShowEverytime" ? true : false} />
+                          <input type="radio" value="donotShowEverytime" name="jounrnalCheck" checked={jounrnalCheck === "donotShowEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show less often</span>
                         </div>
                         <div>
-                          <input type="radio" value="showEverytime" name="jounrnalCheck" checked={this.state.jounrnalCheck === "showEverytime" ? true : false} />
+                          <input type="radio" value="showEverytime" name="jounrnalCheck" checked={jounrnalCheck === "showEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show often</span>
                         </div>
                       </div>

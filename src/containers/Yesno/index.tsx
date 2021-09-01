@@ -1,13 +1,8 @@
 import * as React from "react";
-import { Route } from "react-router-dom";
+import { RouteComponentProps, withRouter } from "react-router";
 import { BasePage, Circle, PageImage } from "src/components";
-import pageHeader from "src/resources/icons/pageHeader2.png";
-import processCompleted from "src/resources/icons/speakingcircle.png";
-import rightTick from "src/resources/icons/rightTick.png";
 import "../Dashboards/Categories/index.scss";
-import { createHash } from "src/utilities/generalUtils";
 import { firebaseInit } from "src/services/firebase";
-import * as firebase from "firebase";
 import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import { Modal } from "src/components/Modal";
@@ -15,14 +10,14 @@ import { Congratulation } from "src/containers/congratulation";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import moment from 'moment';
 
-export interface IYesnoProps {
+export interface IYesNoProps extends RouteComponentProps {
   route?: any;
-  history?: any;
+  history: any;
   openModal?: any;
   data?: any;
 }
 
-export interface IYesnoState {
+export interface IYesNoState {
   todaysFeeling?: string;
   jounrnalCheck?: string;
   isSkip?: boolean;
@@ -43,8 +38,8 @@ export interface IYesnoState {
   journalCount: any
 }
 
-export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
-  constructor(props: IYesnoProps) {
+export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
+  constructor(props: IYesNoProps) {
     super(props);
     this.state = {
       modalData: {},
@@ -69,15 +64,10 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
   async componentDidMount() {
 
     const userId = getAuthId();
-    console.log("userId", userId)
     let dbRef = firebaseInit.database(getDbUrl());
     const year = moment().format('yyyy');
     const currentWeek: any = moment().format('w');
-    const week: any = parseInt(currentWeek, 10) - 1;
-    console.log("week", currentWeek);
-    console.log("year", year)
     try {
-
       const infoData = await dbRef.ref(`users/${userId}/info`).once('value');
       let info = infoData.val();
       console.log("info", info)
@@ -94,7 +84,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
       this.setState({ happinessCounter: data.happinessCounter ? data.happinessCounter + 1 : 1 });
       this.setState({ dominantemotion: data.dominantemotion });
       this.setState({ weekdata: data.weekdata });
-      this.setState({ journalCount: data.journalCount })
+      this.setState({ journalCount: data.journalCount || 0 })
     } catch (e) {
       console.log(e);
     }
@@ -144,9 +134,13 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
     }));
   };
 
+  navigateToDashboard = () => {
+    this.props.history.push(`/`);
+  }
+
   renderYesnoContent = () => {
     if (this.state.ShowCongratulation) {
-      return <Congratulation />;
+      return <Congratulation navigate={this.navigateToDashboard} />;
     }
   };
 
@@ -165,7 +159,7 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
             </div>*/}
             {openModal && (
               <div style={{ textAlign: "center", justifyContent: "space-around", display: "flex" }}>
-                <Modal openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
+                <Modal handleClose={this.navigateToDashboard} openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
               </div>
             )}
             <div
@@ -187,30 +181,14 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
               }}
             >
               <>
-                {/*<div className="advertise-text bold">
-                  <p>Express freely in a few sentences </p>
-                  <p>Do not hold back</p>
-                </div> */}
                 <div
                   className="render-component"
-                  style={{
-                    /*   background: "#1f00a4",
-                       color: "#fff",
-                       padding: "40px",
-                       textAlign: "center",
-                       minHeight: "700px",
-                       height: "auto",
-                       width: "100%",
-                       justifyContent: "space-around",
-                       display: "flex",
-                       flexDirection: "column"*/
-                  }}
+                  style={{}}
                 >
                   <>
                     <div className="text-container">
                       <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
                         <p>{congratulationQuestion}</p>
-                        {/* <p className="do-not-txt">Do not hold back</p> */}
                       </div>
                       <div>
                         <div className="yes-no-icon-group" style={{ marginTop: "150px" }}>
@@ -229,3 +207,5 @@ export class Yesno extends React.PureComponent<IYesnoProps, IYesnoState> {
     );
   }
 }
+
+export const Yesno = withRouter(YesNo);

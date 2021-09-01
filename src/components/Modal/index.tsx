@@ -75,8 +75,12 @@ export class Modal extends React.PureComponent<IDashboardProps, IDashboardState>
   modalToggle = () => {
     this.setState({ modalOpened: !this.state.modalOpened });
   };
-  handleSubmit = () => {
-    this.setState({ modalOpened: !this.state.modalOpened });
+  handleSubmit = (e) => {
+    if (this.props.handleClose) {
+      this.props.handleClose(e);
+    } else {
+      this.setState({ modalOpened: !this.state.modalOpened });
+    }
   };
   render() {
     console.log("emergencyData", this.state.emergencyData);
