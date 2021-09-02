@@ -11,9 +11,9 @@ import { Modal } from "src/components/Modal";
 import "src/resources/css/fonts/fonts.css";
 
 const modalData = {
-    title: "Caution",
-    header: "We sense that there could be an emergency, or that your language is not allowed",
-    content: "If there is an emergency, please contact your family, organization or help-line."
+    title: "Take Charge!",
+    header: "A random uote from database",
+    content: "Please contact below services"
 }
 export interface IPage {
     route?: any,
@@ -79,7 +79,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     processPrediction() {
         console.log('processPrediction');
-        if (this.prediction.data.success) this.props.history.push("/pie-chart");
+        if (this.prediction.data.success) this.props.history.push("/pre-pie-chart");
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (this.prediction.data.caution) {
@@ -96,7 +96,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 this.setState({ recordingState: 'in-progress' });
                 console.log(`${this.processId}: recordAudioFromTeams`);
                 let result: any = await speechService.recordAudioFromTeams(this.processId);
-                console.log(`${this.processId}: recordAudioFromTeams${result.pid}`);
+                console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
                 this.setState({ recordingState: "confirm" });
@@ -105,7 +105,12 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
                 if (mp4ToMP3Result.pid !== this.processId) return;
                 console.log(`${this.processId}: translateSpeechToTextEx`);
-                let translateSpeechToTextResult: any = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
+                let translateSpeechToTextResult: any;
+                try {
+                    translateSpeechToTextResult = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
+                } catch (e) {
+                    translateSpeechToTextResult = { pid: this.processId, data: '     ' }
+                }
                 console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
                 if (translateSpeechToTextResult.pid !== this.processId) return;
                 console.log(`${this.processId}: predictionEx`);
@@ -137,27 +142,24 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processAudio(data = null) {
-        console.log("processAudio model", this.state.isModalOpen)
         let text = data;
         if (data === null) {
-            if (isMobile) this.base64 = await speechService.mp4ToMP3("id",this.base64);
+            if (isMobile) this.base64 = await speechService.mp4ToMP3(this.base64);
             text = await speechService.translateSpeechToText(this.base64);
         }
         this.setState({ pageState: 'loading' });
         var output = await speechService.prediction(text);
         console.log(output);
         console.log(output.data);
-        if (output.data.success) this.props.history.push("/pie-chart");
+        if (output.data.success) this.props.history.push("/pre-pie-chart");
         else if (output.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (output.data.caution) {
             this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
-        console.log("processAudio model 2", this.state.isModalOpen)
     }
 
     render() {
-        console.log("model model", this.state.isModalOpen)
         return (<>
             {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
@@ -169,7 +171,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 </div>
             </BasePage> : null}
             {(this.state.pageState === 'tell-us-about') ? <TellUsAbout saveData={(x) => this.processAudio(x)} setIsTellusabout={this.onTellUsAboutClick} onCancel={this.onTellUsAboutCancelClick} /> : null}
-            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["Ok"]}></Modal>) : null}
+            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>) : null}
         </>)
     }
 }
