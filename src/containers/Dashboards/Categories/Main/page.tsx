@@ -144,8 +144,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     async processAudio(data = null) {
         let text = data;
         if (data === null) {
-            if (isMobile) this.base64 = await speechService.mp4ToMP3(this.base64);
-            text = await speechService.translateSpeechToText(this.base64);
+            try {
+                text = await speechService.translateSpeechToText(this.base64);
+            } catch (e) { text = "    " }
         }
         this.setState({ pageState: 'loading' });
         var output = await speechService.prediction(text);
