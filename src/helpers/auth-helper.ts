@@ -87,6 +87,7 @@ private async getAccessSSOToken() {
 }
 
 private getUserProfile(token, tid): Promise < string > {
+  var that = this;
   return new Promise < string > ((resolve, reject) => {
     var headers = new Headers();
     var bearer = "Bearer " + token;
@@ -121,7 +122,7 @@ private getUserProfile(token, tid): Promise < string > {
                   // alert("user id"+ data.id);
                   setUserId(data.id)
                   setTid(tid ? tid : decoded.tid);
-                  this.createTokenId()
+                  that.createTokenId()
                 }
             })
          
@@ -153,7 +154,7 @@ private async createTokenId(loginCheck:boolean=false) {
         "Content-Type": "application/json"
       }
     })
-    if (createTokenId.data.token) {
+    if (createTokenId && createTokenId.data.token) {
       firebaseInit
         .auth()
         .signInWithCustomToken(createTokenId.data.token)
