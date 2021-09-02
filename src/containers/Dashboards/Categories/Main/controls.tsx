@@ -73,11 +73,11 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
                                 </linearGradient>
                             </defs>
                             <circle id="pie" r="2.5" cx="10" cy="10" fill="none" stroke="white" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
-                            <circle id="pie01" r="2.5" cx="10" cy="10" fill="none" stroke="gray" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
+                            <circle id="pie01" r="2.5" cx="10" cy="10" fill="none" stroke="#E9E9E9" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
                             <circle id="pie02" r="2.5" cx="10" cy="10" fill="none" stroke="white" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
-                            <circle id="pie03" r="2.5" cx="10" cy="10" fill="none" stroke="gray" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
+                            <circle id="pie03" r="2.5" cx="10" cy="10" fill="none" stroke="#E9E9E9" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
                             <circle id="pie04" r="2.5" cx="10" cy="10" fill="none" stroke="white" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
-                            <circle id="pie05" r="2.5" cx="10" cy="10" fill="none" stroke="gray" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
+                            <circle id="pie05" r="2.5" cx="10" cy="10" fill="none" stroke="#E9E9E9" strokeWidth="10" strokeDasharray="0 31.4" transform="rotate(-90) translate(-20)" />
                             <animate id="animate01" xlinkHref="#pie" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="120s" begin="infinite" />
                             <animate id="animate02" xlinkHref="#pie" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="1.8s" begin="infinite" />
                             <animate id="animate03" xlinkHref="#pie01" attributeName="stroke-dasharray" repeatCount="1" fill="freeze" values="0 31.4;31.4 31.4" dur="1.8s" begin="infinite" />
