@@ -408,14 +408,29 @@ const Design = (props: any) => {
     if (orgTheme.toString().length < 2) {
       orgTheme = (0 + `${theme}`).slice(-2)
     }
-    console.log('getJournalQuestionTheme', orgTheme);
-    let journalQuestion: any = await database
-      .ref(
-        `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
-      )
-      .once("value");
-    journalQuestion = await journalQuestion.val();
-    return journalQuestion[Math.floor(random(1, journalQuestion.length || 0)) - 1];
+    const dbRef = firebaseInit.database(getDbUrl());
+    const userId = getAuthId();
+    let todaysDate = moment(new Date()).format("DD-MM-YYYY");
+    let query = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}`);
+    let snapshot: any = await query.once("value");
+    snapshot = snapshot.val()
+    let jQuestion = snapshot.journalQuestion;
+    let todaysFeeling = snapshot.todaysFeeling;
+
+    if (jQuestion.length > 0 && todaysFeeling.length > 0) {
+      return jQuestion;
+    } else {
+      console.log("else....")
+      console.log('getJournalQuestionTheme', orgTheme);
+      let journalQuestion: any = await database
+        .ref(
+          `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
+        )
+        .once("value");
+      journalQuestion = await journalQuestion.val();
+      console.log(journalQuestion)
+      return journalQuestion[Math.floor(random(1, journalQuestion.length || 0)) - 1];
+    }
   }
 
   async function getCongratulationQuestion(theme) {
