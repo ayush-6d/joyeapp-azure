@@ -79,7 +79,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     processPrediction() {
         console.log('processPrediction');
-        if (this.prediction.data.success) this.props.history.push("/pre-pie-chart");
+        if (this.prediction.data.success) this.props.history.push("/pie-chart");
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (this.prediction.data.caution) {
@@ -152,7 +152,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         var output = await speechService.prediction(text);
         console.log(output);
         console.log(output.data);
-        if (output.data.success) this.props.history.push("/pre-pie-chart");
+        if (output.data.success) this.props.history.push("/pie-chart");
         else if (output.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (output.data.caution) {
