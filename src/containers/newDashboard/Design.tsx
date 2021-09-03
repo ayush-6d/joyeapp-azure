@@ -414,8 +414,8 @@ const Design = (props: any) => {
     let query = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}`);
     let snapshot: any = await query.once("value");
     snapshot = snapshot.val()
-    let jQuestion = snapshot.journalQuestion;
-    let todaysFeeling = snapshot.todaysFeeling;
+    let jQuestion = snapshot?.journalQuestion || '';
+    let todaysFeeling = snapshot?.todaysFeeling || '';
 
     if (jQuestion.length > 0 && todaysFeeling.length > 0) {
       return jQuestion;
