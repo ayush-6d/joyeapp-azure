@@ -89,6 +89,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     async recordAudio() {
         if (isMobile) {
+            navigator.permissions.query({name:'microphone'}).then(function(result) {alert(result.state);});
             if (this.state.recordingState === "init") {
                 this.processId = Math.floor(Math.random() * 1000000);
                 this.prediction = null;
