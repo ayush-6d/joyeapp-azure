@@ -47,8 +47,13 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
-        if (!this.state.isMic) this.props.history.push("/dashboard");
-        else this.recordAudio();
+        if (this.state.recordingState === "init" && this.state.pageState === 'record')
+            this.props.history.push("/dashboard");
+        else 
+            this.recordAudio();
+        // if (!this.state.isMic) this.props.history.push("/dashboard");
+        // else this.recordAudio();
+
     }
 
     async onRightCircleClick() {
