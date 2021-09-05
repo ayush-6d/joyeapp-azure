@@ -18,8 +18,8 @@ export default class Note extends React.PureComponent<INote, INoteState> {
     title() {
         switch (this.props.recordingState) {
             case "init":
-                if (this.props.isMic) return <p>How are you feeling today?</p>;
-                else return <p>Try a deeper reflection</p>;
+                if (this.props.isMic) return <p>Try a deeper reflection</p>;
+                else return <p>How are you feeling today?</p>;
             case "in-progress":
             case "confirm":
             case "loading":

@@ -37,7 +37,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         super(props);
         this.prediction = null;
         this.processId = Math.floor(Math.random() * 1000000);
-        this.state = { pageState: 'record', recordingState: 'init', isMic: true, isModalOpen: false };
+        this.state = { pageState: 'record', recordingState: 'init', isMic: false, isModalOpen: false };
         this.onCenterCircleClick = this.onCenterCircleClick.bind(this);
         this.onRightCircleClick = this.onRightCircleClick.bind(this);
         this.onTellUsAboutClick = this.onTellUsAboutClick.bind(this);
@@ -52,7 +52,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onRightCircleClick() {
-        if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: true }, this.recordAudio);
+        if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: false }, this.recordAudio);
         else this.props.history.push("/dashboard");
     }
 
@@ -83,20 +83,21 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (this.prediction.data.caution) {
-            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
     }
 
     async recordAudio() {
         if (isMobile) {
-            navigator.permissions.query({name:'microphone'}).then(function(result) {alert(result.state);});
             if (this.state.recordingState === "init") {
                 this.processId = Math.floor(Math.random() * 1000000);
                 this.prediction = null;
                 this.process = false;
                 this.setState({ recordingState: 'in-progress' });
                 console.log(`${this.processId}: recordAudioFromTeams`);
-                let result: any = await speechService.recordAudioFromTeams(this.processId);
+                let result: any;
+                try { result = await speechService.recordAudioFromTeams(this.processId); }
+                catch (e) { alert(e); this.setState({ recordingState: 'init' }); return; }
                 console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
@@ -157,7 +158,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         else if (output.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
         } else if (output.data.caution) {
-            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
     }
 
