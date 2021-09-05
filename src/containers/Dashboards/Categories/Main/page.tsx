@@ -50,7 +50,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         if (this.state.recordingState === "init" && this.state.pageState === 'record')
             this.props.history.push("/dashboard");
         else 
-            this.recordAudio();
+        this.recordAudio();
         // if (!this.state.isMic) this.props.history.push("/dashboard");
         // else this.recordAudio();
 
@@ -102,7 +102,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 console.log(`${this.processId}: recordAudioFromTeams`);
                 let result: any;
                 try { result = await speechService.recordAudioFromTeams(this.processId); }
-                catch (e) { alert(e); this.setState({ recordingState: 'init' }); return; }
+                catch (e) { alert('Please allow microphone access to use this feature!'); this.setState({ recordingState: 'init' }); return; }
                 console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
