@@ -6,7 +6,7 @@ import { isMobile } from "react-device-detect";
 
 export interface INote {
     recordingState: string; //init,in-progress
-    isMic: boolean;
+    isGibberish: boolean;
 }
 export interface INoteState { }
 
@@ -18,7 +18,7 @@ export default class Note extends React.PureComponent<INote, INoteState> {
     title() {
         switch (this.props.recordingState) {
             case "init":
-                if (this.props.isMic) return <p>Try a deeper reflection</p>;
+                if (this.props.isGibberish) return <p>Try a deeper reflection</p>;
                 else return <p>How are you feeling today?</p>;
             case "in-progress":
             case "confirm":

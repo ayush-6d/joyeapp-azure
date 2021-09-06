@@ -24,6 +24,7 @@ export interface IPageState {
     pageState: string,//init, bottom-mic, recording, loading, sos, tell-us-about
     recordingState: string, //init, in-progress, confirm
     isMic: boolean,
+    isGibberish: boolean,
     isModalOpen: boolean,
 }
 export default class Page extends React.PureComponent<IPage, IPageState> {
@@ -37,7 +38,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         super(props);
         this.prediction = null;
         this.processId = Math.floor(Math.random() * 1000000);
-        this.state = { pageState: 'record', recordingState: 'init', isMic: false, isModalOpen: false };
+        this.state = { pageState: 'record', recordingState: 'init', isMic: false, isModalOpen: false, isGibberish: false };
         this.onCenterCircleClick = this.onCenterCircleClick.bind(this);
         this.onRightCircleClick = this.onRightCircleClick.bind(this);
         this.onTellUsAboutClick = this.onTellUsAboutClick.bind(this);
@@ -47,16 +48,18 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
+        this.setState({ isGibberish: false });
         if (this.state.recordingState === "init" && this.state.pageState === 'record')
             this.props.history.push("/dashboard");
-        else 
-        this.recordAudio();
+        else
+            this.recordAudio();
         // if (!this.state.isMic) this.props.history.push("/dashboard");
         // else this.recordAudio();
 
     }
 
     async onRightCircleClick() {
+        this.setState({ isGibberish: false });
         if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: false }, this.recordAudio);
         else this.props.history.push("/dashboard");
     }
@@ -86,7 +89,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log('processPrediction');
         if (this.prediction.data.success) this.props.history.push("/pie-chart");
         else if (this.prediction.data.gibberish) {
-            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
         } else if (this.prediction.data.caution) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
@@ -136,7 +139,11 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         } else {
             if (this.state.recordingState === "init") {
                 this.setState({ recordingState: 'in-progress' });
-                speechService.recordAudioFromWeb();
+                try {
+                    speechService.recordAudioFromWeb();
+                } catch (e) {
+                    alert('Please allow microphone access to use this feature!');
+                }
                 this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
             }
             if (this.state.recordingState === "in-progress") {
@@ -149,6 +156,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processAudio(data = null) {
+        this.setState({ isGibberish: false });
         let text = data;
         if (data === null) {
             try {
@@ -161,7 +169,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log(output.data);
         if (output.data.success) this.props.history.push("/pie-chart");
         else if (output.data.gibberish) {
-            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
         } else if (output.data.caution) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
@@ -172,7 +180,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
             {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
                 <div style={{ userSelect: "none" }}>
-                    <Note isMic={this.state.isMic} recordingState={this.state.recordingState}></Note>
+                    <Note isGibberish={this.state.isGibberish} recordingState={this.state.recordingState}></Note>
                     <Controls isMic={this.state.isMic} recordingState={this.state.recordingState} onClick={this.onCenterCircleClick} ></Controls>
                     <SpeakAgain isMic={this.state.isMic} recordingState={this.state.recordingState} onSpeakAgain={this.onSpeakAgain} onCancel={this.onCancel} />
                     <Actions isMic={this.state.isMic} recordingState={this.state.recordingState} onLeftCircleClick={this.onTellUsAboutClick} onRightCircleClick={this.onRightCircleClick}></Actions>
