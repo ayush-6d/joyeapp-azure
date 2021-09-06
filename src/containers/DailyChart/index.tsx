@@ -27,7 +27,7 @@ import { EMOTIONS_MASTER } from 'src/utilities/helper';
 import Popup from 'src/components/Popup';
 import LegendPopup from './LegendPopup';
 import "src/resources/css/global.css";
-import '../PrePieScreen/assets/styles/index.css';
+import '../Pie/assets/styles/prepie.css';
 
 export const DailyChart = () => {
   // eslint-disable-next-line no-restricted-globals

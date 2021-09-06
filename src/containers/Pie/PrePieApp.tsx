@@ -6,9 +6,6 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
-import "@reach/slider/styles.css";
-import "swiper/css/swiper.min.css";
-import "./assets/styles/prepie.css";
 import { EMOTIONS } from "src/utilities/helper";
 
 interface IPrePieProps {

@@ -13,7 +13,12 @@ import { Loader } from 'src/components/Loader';
 import PieApp from './PieApp';
 import PrePieApp from './PrePieApp';
 import Popup from 'src/components/Popup';
+import "@reach/slider/styles.css";
 import "src/resources/css/fonts/fonts.css";
+import 'swiper/css/swiper.min.css';
+import './assets/styles/prepie.css';
+import './assets/styles/index.css';
+
 
 export const Pie = () => {
   const [data, setData] = useState([]);
@@ -29,10 +34,10 @@ export const Pie = () => {
   const [fireBaseUrl, setFireBaseUrl] = useState('');
   const [fireBaseStorage, setFireBaseStorage] = useState('');
   const [showScreen, setShowScreen] = useState('1');
+  const dbRef = firebaseInit.database(getDbUrl());
   useEffect(() => {
     setLoaderPie(true);
-    const loadDataTimeout = setTimeout(async () => {
-      const dbRef = firebaseInit.database(getDbUrl());
+    setTimeout(async () => {
       const snapshot = await dbRef.ref(`users/${userId}/brew/brewData/${date}`).once('value');
       const brewData = snapshot.val();
       console.log('brewData', brewData);
@@ -45,21 +50,6 @@ export const Pie = () => {
       setData(brewData?.pieData);
       setLoaderPie(false);
     }, 5000);
-    return () => {
-      clearTimeout(loadDataTimeout);
-      setData([]);
-      setLoaderPie(true);
-      setAverage(0.0);
-      setDominentEmotion('');
-      setDominentEmotionType('');
-      setAudio('');
-      setPopup(false);
-      setScreenMessages([]);
-      setFireBaseUrl('');
-      setFireBaseStorage('');
-      setShowScreen('1');
-      console.log('Unmounted');
-    }
   }, []);
 
   const random = (mn, mx) => Math.random() * (mx - mn) + mn;
@@ -68,16 +58,9 @@ export const Pie = () => {
     if (audio !== 'null') {
       const adObj: any = audio[Math.floor(random(1, audio.length - 1))];
       if (adObj && adObj.app_start_key) {
-        database.ref(`users/${userId}/brew/brewData/${date}/podcast`).once('value')
-          .then(async (snapshot) => {
-            const audioData = snapshot.val();
-            if (audioData) {
-              const keys = Object.keys(audioData);
-              setFireBaseUrl(audioData[keys[Math.floor(random(1, audioData.length - 1))]].url);
-              const dataObj: any = { title: audioData[keys[Math.floor(random(1, audioData.length - 1))]].title, author: audioData[keys[Math.floor(random(1, audioData.length - 1))]].author };
-              setFireBaseStorage(dataObj);
-            }
-          });
+        console.log(adObj);
+        setFireBaseUrl(adObj.url);
+        setFireBaseStorage(adObj);
       }
     }
   }, [audio]);

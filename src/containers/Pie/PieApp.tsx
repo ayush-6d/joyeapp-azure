@@ -12,20 +12,8 @@ import {
   SliderHandle,
 } from '@reach/slider';
 import CloudGradient from "src/components/CloudGradientSvg";
-import cloud1 from './assets/media/cloud1.png';
-import cloud2 from './assets/media/cloud2.png';
 import InfoPic from 'src/resources/icons/infoIcon.png';
-
-import '@reach/slider/styles.css';
-
-import 'swiper/css/swiper.min.css';
-import '../PrePieScreen/assets/styles/index.css';
-import './assets/styles/index.css';
-
 import AudioPlayer from 'src/components/AudioPlayer';
-// import { storage } from '../../firebase/firebase.config';
-import btmShw from 'src/resources/icons/bottomShadow.png';
-import topShw from 'src/resources/icons/topShadow.png';
 import Tracker from './StyledTracker';
 import { EMOTIONS } from 'src/utilities/helper';
 

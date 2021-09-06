@@ -420,8 +420,6 @@ const Design = (props: any) => {
     if (jQuestion.length > 0 && todaysFeeling.length > 0) {
       return jQuestion;
     } else {
-      console.log("else....")
-      console.log('getJournalQuestionTheme', orgTheme);
       let journalQuestion: any = await database
         .ref(
           `joye_master_data/sprint_new/theme/${orgTheme}/journal_question`
@@ -790,7 +788,7 @@ const Design = (props: any) => {
       const currentWeek: any = moment().format('w');
       const query = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`);
       let snapshot: any = await query.once("value");
-      snapshot = snapshot.val()
+      snapshot = snapshot.val() || {};
       let happinessCounter = snapshot.happinessCounter
       let journalCount = snapshot.journalCount
 
