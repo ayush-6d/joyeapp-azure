@@ -549,7 +549,7 @@ const Design = (props: any) => {
       }
       let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
-        const { value } = slider[i];
+        const value = slider[i].weightvalue;
         if (Number(maxval) <= Number(value)) {
           dominantemotion = slider[i].name;
           maxval = slider[i].value;

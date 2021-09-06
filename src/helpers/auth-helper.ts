@@ -163,10 +163,9 @@ private async createTokenId(loginCheck:boolean=false) {
           this.setOrgData(userCredential.user);
           try {
             var d2 = new Date();
-            const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
+            const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");        
             const organisationDetails= organisation.val();
-            console.log('organisation', organisation);
-            if(organisationDetails.paid_subscription){
+            if(organisationDetails && organisationDetails.paid_subscription){
               this.success(loginCheck,0);
             } else {
               console.log('organisationDetails.pilot', organisationDetails.pilot);
@@ -200,6 +199,19 @@ private async createTokenId(loginCheck:boolean=false) {
                     }
                 }   
             }
+            // let details = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).once("value");
+            // details = details.val();
+            // const newDetails = JSON.parse(localStorage.getItem("userProfile"));
+            // if (details) {
+            //   await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).update({
+            //     ...details,
+            //     ...newDetails
+            //   })
+            // } else {
+            //   await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).set({
+            //     ...newDetails
+            //   })
+            // }
           } catch (e) {
             console.log("network error at firebaseInit.database");
             console.log(e);
@@ -221,7 +233,7 @@ private async createTokenId(loginCheck:boolean=false) {
   return Math.round(Math.abs(d1 - today)/(24 * 60 * 60 * 1000));
 };
 
- private async success(loginCheck,datedifferece) { 
+private async success(loginCheck,datedifferece) { 
  localStorage.removeItem("active");
  console.log('loginCheck', loginCheck);
  if(!loginCheck)
