@@ -138,15 +138,15 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
             }
         } else {
             if (this.state.recordingState === "init") {
-                this.setState({ recordingState: 'in-progress' });
                 try {
-                    speechService.recordAudioFromWeb();
+                    await speechService.recordAudioFromWeb();
+                    this.setState({ recordingState: 'in-progress' });
+                    this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
                 } catch (e) {
                     alert('Please allow microphone access to use this feature!');
+                    return;
                 }
-                this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
-            }
-            if (this.state.recordingState === "in-progress") {
+            } else if (this.state.recordingState === "in-progress") {
                 clearTimeout(this.stopTimer);
                 this.setState({ pageState: 'loading' });
                 this.base64 = await speechService.stopRecordingAudioFromWeb();
