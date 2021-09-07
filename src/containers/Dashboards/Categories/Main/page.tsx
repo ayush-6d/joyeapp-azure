@@ -105,7 +105,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 console.log(`${this.processId}: recordAudioFromTeams`);
                 let result: any;
                 try { result = await speechService.recordAudioFromTeams(this.processId); }
-                catch (e) { this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature! ${JSON.stringify(e)}`) }); return; }
+                catch (e) { if (!(JSON.stringify(e).includes("1000"))) return; this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature! ${JSON.stringify(e)}`) }); return; }
                 console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
