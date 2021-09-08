@@ -19,10 +19,7 @@ export default class AuthHelper {
       this.createTokenId(true)
       return true;
     }else{
-        if(!localStorage.getItem("active")){
-          //  setTimeout(()=>{this.userLogin()}, 1000);
-            
-    }
+      if(!localStorage.getItem("active")){}
       return false;
     }
   }
@@ -35,13 +32,8 @@ export default class AuthHelper {
       localStorage.setItem("accessToken",clientSideToken)
       return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
-      // console.log("accessToken error")
-      // console.log(err)
+      console.log("accessToken error", err)
     })
-  // }
-  // localStorage.setItem("userId","42f19b36-aa73-4f26-babc-1bf7c6ccfd4a")
-  // localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073")
-  // this.createTokenId()
 }
 public async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {

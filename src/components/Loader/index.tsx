@@ -12,8 +12,7 @@ export const Loader = (props) => {
 
   useEffect(() => {
     const id = setTimeout(() => {
-      setState(color === colors.length - 1 ? 0 : color + 1);
-      console.log(counter);
+      setState(color === colors.length - 1 ? 0 : color + 1);      
       setCounter(counter+1);
       if (counter===1){
         setMessage("Preparing your daily brew!");
