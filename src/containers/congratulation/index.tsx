@@ -141,8 +141,9 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                  textAlign: "center",
                  minHeight: "600px",
                  height: "auto",*/
+                 gap:"40px",
+                 height: "100vh",
                 width: "100%",
-                justifyContent: "space-around",
                 display: "flex",
                 flexDirection: "column",
                 position: "relative"
@@ -194,6 +195,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                 </div>
               </div> */}
             </div>
+          
           </BasePage>
         )}
       </>

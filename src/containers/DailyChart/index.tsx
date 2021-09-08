@@ -16,6 +16,7 @@ import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import Chart from './App2';
 import OvalPng from 'src/resources/icons/oval.png';
 import InfoPic from 'src/resources/icons/infoIcon.png';
+import Close from "src/resources/icons/Close.png";
 import prevArrow from 'src/resources/icons/prev-arrow.png';
 import nextArrow from 'src/resources/icons/next-arrow.png';
 import legend from 'src/resources/icons/stack_icon.png';
@@ -201,7 +202,7 @@ export const DailyChart = () => {
         {loading ? <Loader  style= {{display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", width:"100px", height:"200px", position:"relative"}} />
           : (
             <>
-              <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>
+              {/* <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>
                 <button
                   style={{
                     background: 'transparent',
@@ -221,7 +222,7 @@ export const DailyChart = () => {
                     style={{ height: 25 }}
                   />
                 </button>
-              </div>
+              </div> */}
               <div className="info">
                 <button
                   onClick={(e) => {
@@ -239,6 +240,23 @@ export const DailyChart = () => {
                   <img alt="info" src={InfoPic} />
                 </button>
               </div>
+              <div className="close-icon">
+          <button
+              onClick={(e) => {
+                e.preventDefault();
+                togglePopup();
+                getScreenMessages();
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "10px",
+              }}
+              type="button"
+            >
+              <img alt="Clsoe" src={Close} />
+            </button>
+          </div>
 
               {isCurrentWeek && piedata && piedata.length > 0 ? (
                 <>

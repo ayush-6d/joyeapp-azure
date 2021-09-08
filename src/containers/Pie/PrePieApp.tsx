@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
 import { EMOTIONS } from "src/utilities/helper";
+import Close from "src/resources/icons/Close.png";
 
 interface IPrePieProps {
   data?: any;
@@ -97,6 +98,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             height: "100%",
           }}
         >
+          
           <div className="info">
             <button
               onClick={(e) => {
@@ -112,6 +114,24 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               type="button"
             >
               <img alt="info" src={InfoPic} />
+             
+            </button>
+          </div>
+          <div className="close-icon">
+          <button
+              onClick={(e) => {
+                e.preventDefault();
+                onClickPopup();
+                getScreenMessages();
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "10px",
+              }}
+              type="button"
+            >
+              <img alt="Clsoe" src={Close} />
             </button>
           </div>
           <div>
