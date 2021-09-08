@@ -199,19 +199,19 @@ private async createTokenId(loginCheck:boolean=false) {
                     }
                 }   
             }
-            // let details = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).once("value");
-            // details = details.val();
-            // const newDetails = JSON.parse(localStorage.getItem("userProfile"));
-            // if (details) {
-            //   await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).update({
-            //     ...details,
-            //     ...newDetails
-            //   })
-            // } else {
-            //   await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).set({
-            //     ...newDetails
-            //   })
-            // }
+            let details = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).once("value");
+            details = details.val();
+            const newDetails = JSON.parse(localStorage.getItem("userProfile"));
+            if (details) {
+              await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).update({
+                ...details,
+                ...newDetails
+              })
+            } else {
+              await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).set({
+                ...newDetails
+              })
+            }
           } catch (e) {
             console.log("network error at firebaseInit.database");
             console.log(e);
