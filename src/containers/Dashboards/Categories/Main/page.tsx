@@ -4,7 +4,7 @@ import Actions from "./actions";
 import Controls from "./controls";
 import SpeakAgain from "./speakAgain";
 import { TellUsAbout } from "../Tellusabout";
-import { ImportLoader, BasePage } from "src/components";
+import { Loader, BasePage } from "src/components";
 import speechService from "./speechService";
 import { isMobile } from "react-device-detect";
 import { Modal } from "src/components/Modal";
@@ -177,7 +177,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     render() {
         return (<>
-            {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
+            {(this.state.pageState === 'loading') ? <Loader display="flex" /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
                 <div style={{ userSelect: "none" }}>
                     <Note isGibberish={this.state.isGibberish} recordingState={this.state.recordingState}></Note>

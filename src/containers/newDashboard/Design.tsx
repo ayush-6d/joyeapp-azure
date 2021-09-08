@@ -523,11 +523,9 @@ const Design = (props: any) => {
     const brewData: any = {
       date,
     };
-    let avg = 0;
-    let dominantemotion = "";
+    let avg = 0;  
     let maxval = 0;
     let pieData = [];
-    let type = "";
     let dayTotal = 0;
     const audio = [];
     // console.log("getDbUrl:: ", getDbUrl());
@@ -541,14 +539,14 @@ const Design = (props: any) => {
       if (prevDetail !== null && prevDetail.day_total) {
         dayTotal += Number(prevDetail.day_total);
       }
-      let oldDominant = '';
+      // let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
         const value = pieLogic[slider[i].value];
-        if (Number(maxval) <= Number(value)) {
-          dominantemotion = slider[i].name;
-          maxval = pieLogic[slider[i].value];
-          type = mappingMessages[slider[i].name][slider[i].value];
-        }
+        // if (Number(maxval) <= Number(value)) {
+        //   dominantemotion = slider[i].name;
+        //   maxval = pieLogic[slider[i].value];
+        //   type = mappingMessages[slider[i].name][slider[i].value];
+        // }
         let dayValueSum = 0;
         if (prevDetail !== null) {
           if (prevDetail[slider[i].slider]) {
@@ -571,8 +569,7 @@ const Design = (props: any) => {
         dayTotal += Number(slider[i].value);
         // @ts-ignore: Type 'string[]' cannot be used as an index type.
         brewData[[slider[i].slider]] = brewSlider;
-        brewData.dominantemotion = dominantemotion;
-        brewData.type = type;
+        
 
         const emotion = EMOTIONS_MASTER.filter(
           (em) => em.emotion.toLowerCase() === slider[i].slider.toLowerCase()
@@ -581,11 +578,11 @@ const Design = (props: any) => {
           x: slider[i].name,
           y: slider[i].value,
         });
-        if (oldDominant !== dominantemotion) {
-          brewData.theme = messages.theme;
-          oldDominant = dominantemotion;
-          console.log('dominantemotion', dominantemotion, messages.theme, brewData.theme);
-        }
+        // if (oldDominant !== dominantemotion) {
+        //   brewData.theme = messages.theme;
+        //   oldDominant = dominantemotion;
+        //   console.log('dominantemotion', dominantemotion, messages.theme, brewData.theme);
+        // }
         pieData.push({
           title: slider[i].name,
           color: emotion[0].color,
@@ -598,12 +595,10 @@ const Design = (props: any) => {
           desc: messages.desc,
           sColor: emotion[0].sColor,
           cColor: emotion[0].cColor,
+          theme: messages.theme,
+          type: mappingMessages[slider[i].name][slider[i].value]
         });
       }
-      brewData.journalQuestion = await getJournalQuestion(brewData.theme, prevDetail);
-      brewData.congratulationQuestion = await getCongratulationQuestion(brewData.theme);
-      brewData.podcast = await getPodcast(brewData.theme);
-
       for (let s = 0; s < slider.length; s += 1) {
         let dayValueSum = 0;
         if (prevDetail !== null) {
@@ -633,6 +628,12 @@ const Design = (props: any) => {
         ...o,
         order: i + 1,
       }));
+      brewData.dominantemotion = pieData[0].title;
+      brewData.type = pieData[0].type;
+      brewData.theme = pieData[0].theme;
+      brewData.journalQuestion = await getJournalQuestion(brewData.theme, prevDetail);
+      brewData.congratulationQuestion = await getCongratulationQuestion(brewData.theme);
+      brewData.podcast = await getPodcast(brewData.theme);
       brewData.pieData = pieData;
 
       let count: number | object = 1;
@@ -656,7 +657,7 @@ const Design = (props: any) => {
       brewData.count = count;
       brewData.current_avarage = current_avarage;
       brewData.audio = await getAudio({
-        x: dominantemotion,
+        x: brewData.dominantemotion,
         y: maxval,
       });
 
