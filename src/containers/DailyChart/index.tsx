@@ -198,7 +198,7 @@ export const DailyChart = () => {
       <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
         {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
         {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
-        {loading ? <Loader display="flex" />
+        {loading ? <Loader  style= {{display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", width:"100px", height:"200px", position:"relative"}} />
           : (
             <>
               <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>

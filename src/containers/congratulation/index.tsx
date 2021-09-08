@@ -128,7 +128,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
         {ShowDashboard ? (
           this.renderShowDashboardContent()
         ) : (
-          <BasePage  showInfoIcon className="login-form home-screen">
+          <BasePage withMenu showInfoIcon className="login-form home-screen">
             {/*  <div className="pageHeader">
               <img src={pageHeader} />
             </div>*/}

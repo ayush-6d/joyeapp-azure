@@ -4,7 +4,7 @@ import { BasePage, Circle, PageImage } from "src/components";
 import processCompleted from "src/resources/icons/speakingcircle.png";
 import rightTick from "src/resources/icons/rightTick.png";
 
-import "../Dashboards/Categories/index.scss";
+import "../Dashboards/Categories/Main/index.scss";
 import { firebaseInit } from "src/services/firebase";
 import moment from "moment";
 import { Yesno } from "src/containers/Yesno";
@@ -183,7 +183,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
         {showYesno ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage showInfoIcon className="login-form home-screen">
+          <BasePage withMenu showInfoIcon className="login-form home-screen">
             <div
               className="render-component"
               style={{

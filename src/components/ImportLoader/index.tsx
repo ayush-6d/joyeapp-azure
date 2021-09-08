@@ -17,7 +17,7 @@ export const ImportLoader = (props) => {
 
   return (
       <>
-            <div style={{"minHeight":"400px","verticalAlign":"middle","marginTop":"140px", 'textAlign':'center'}}>
+            <div style={{display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", width:"100px", height:"200px", position:"relative"}}>
               <SVGData key={`key${color}`} colors={colors[color]} />
             </div>
     </>

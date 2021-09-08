@@ -39,7 +39,7 @@ body {
     font-weight: 300;
     font-size: 20px;
     color: #808080;
-    /* text-align: center; */
+    font-weight: 700;
 }
 
 .desc {
@@ -115,7 +115,8 @@ body {
     font-size: 20px;
     padding: 0 15px;
     text-align: center;
-    line-height: 24px;
+    line-height: 24px;    
+    font-weight: 700;
   }
   a:hover
   {
