@@ -13,6 +13,7 @@ import {
 } from '@reach/slider';
 import CloudGradient from "src/components/CloudGradientSvg";
 import InfoPic from 'src/resources/icons/infoIcon.png';
+import Close from "src/resources/icons/Close.png";
 import AudioPlayer from 'src/components/AudioPlayer';
 import Tracker from './StyledTracker';
 import { EMOTIONS } from 'src/utilities/helper';
@@ -103,7 +104,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
         return description;
       }
       const descrip = desc.toString().replace(/\\n/g, '');
-      return `<div class="fff" style="fontSize: 16px">${descrip === "-" ? "We could not sense this mood" : descrip}</div>`;
+      return `<div class="fff" style="fontSize: 16px">${descrip}</div>`;
     };
     const pieAverage = average ? parseFloat(average.toString()).toFixed(1) : '0.0';
     const pieAverageVal = pieAverage.toString().split('.');
@@ -137,6 +138,23 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
               type="button"
             >
               <img alt="info" src={InfoPic} />
+            </button>
+          </div>
+          <div className="close-icon">
+          <button
+              onClick={(e) => {
+                e.preventDefault();
+                onClickPopup();
+                getScreenMessages();
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "10px",
+              }}
+              type="button"
+            >
+              <img alt="Clsoe" src={Close} />
             </button>
           </div>
           <div>
