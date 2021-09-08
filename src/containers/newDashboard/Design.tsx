@@ -403,19 +403,13 @@ const Design = (props: any) => {
     // return sprint
   };
 
-  async function getJournalQuestion(theme) {
+  async function getJournalQuestion(theme,prevDetail) {
     let orgTheme = theme;
     if (orgTheme.toString().length < 2) {
       orgTheme = (0 + `${theme}`).slice(-2)
     }
-    const dbRef = firebaseInit.database(getDbUrl());
-    const userId = getAuthId();
-    let todaysDate = moment(new Date()).format("DD-MM-YYYY");
-    let query = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}`);
-    let snapshot: any = await query.once("value");
-    snapshot = snapshot.val()
-    let jQuestion = snapshot?.journalQuestion || '';
-    let todaysFeeling = snapshot?.todaysFeeling || '';
+    let jQuestion = prevDetail?.journalQuestion || '';
+    let todaysFeeling = prevDetail?.todaysFeeling || '';
 
     if (jQuestion.length > 0 && todaysFeeling.length > 0) {
       return jQuestion;
@@ -549,10 +543,10 @@ const Design = (props: any) => {
       }
       let oldDominant = '';
       for (let i = 0; i < slider.length; i += 1) {
-        const { value } = slider[i];
+        const value = pieLogic[slider[i].value];
         if (Number(maxval) <= Number(value)) {
           dominantemotion = slider[i].name;
-          maxval = slider[i].value;
+          maxval = pieLogic[slider[i].value];
           type = mappingMessages[slider[i].name][slider[i].value];
         }
         let dayValueSum = 0;
@@ -606,7 +600,7 @@ const Design = (props: any) => {
           cColor: emotion[0].cColor,
         });
       }
-      brewData.journalQuestion = await getJournalQuestion(brewData.theme);
+      brewData.journalQuestion = await getJournalQuestion(brewData.theme, prevDetail);
       brewData.congratulationQuestion = await getCongratulationQuestion(brewData.theme);
       brewData.podcast = await getPodcast(brewData.theme);
 
