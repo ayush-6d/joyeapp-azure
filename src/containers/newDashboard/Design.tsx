@@ -403,7 +403,7 @@ const Design = (props: any) => {
     // return sprint
   };
 
-  async function getJournalQuestion(theme,prevDetail) {
+  async function getJournalQuestion(theme, prevDetail) {
     let orgTheme = theme;
     if (orgTheme.toString().length < 2) {
       orgTheme = (0 + `${theme}`).slice(-2)
@@ -523,7 +523,7 @@ const Design = (props: any) => {
     const brewData: any = {
       date,
     };
-    let avg = 0;  
+    let avg = 0;
     let maxval = 0;
     let pieData = [];
     let dayTotal = 0;
@@ -569,7 +569,7 @@ const Design = (props: any) => {
         dayTotal += Number(slider[i].value);
         // @ts-ignore: Type 'string[]' cannot be used as an index type.
         brewData[[slider[i].slider]] = brewSlider;
-        
+
 
         const emotion = EMOTIONS_MASTER.filter(
           (em) => em.emotion.toLowerCase() === slider[i].slider.toLowerCase()
@@ -1001,7 +1001,7 @@ const Design = (props: any) => {
       </div>
       {popup && (
         <Popup
-          text="My Daily Brew"
+          // text="My Daily Brew"
           screenMessage={screenMessage}
           closePopup={togglePopup}
         />
