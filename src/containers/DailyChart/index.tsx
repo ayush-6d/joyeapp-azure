@@ -189,14 +189,16 @@ export const DailyChart = () => {
     const screenMessages = isCurrentWeek
       ? await database.ref('/master/screen_messages/main_graph').once('value')
       : await database.ref('/master/screen_messages/prev_graph').once('value');
-    setScreenMessages(screenMessages.val());
+    setScreenMessages(["You can manage your daily joy with Joye-level analytics for days and weeks. This view gives you the average of the Joye-level during the day, assuming you have checked in more than once during the day.",
+      "In addition to the daily view, you will also be able to see your weekly Joye-level once you use Joye for over a week.",
+      "For some situations, Joye will ask you to plan some actions and journal them. These journal entries can be retrieved when you tap on the bar for that day."]);
   }
   // console.log('journalText', journalText);
   // console.log('journalQuestion', journalQuestion);
   return (
     <div id="slider" className="is-8 is-offset-2 dailyChart">
       <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
-        {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
+        {popup && (<Popup screenMessage={screenMessage} closePopup={togglePopup} />)}
         {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
         {loading ? <Loader display="flex" />
           : (

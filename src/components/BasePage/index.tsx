@@ -36,22 +36,29 @@ export class BasePage extends React.Component<{
   togglePopupOpen() {
     let screenMessage = [""];
     if (window.location.pathname === "/aboutus") {
-      screenMessage = ["About us Popup message Second message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about usSecond message for about us",
-      ];
+      screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
+        "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/faq") {
-      screenMessage = ["FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message FAQ Popup message"];
+      screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
+        "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/termsofservice") {
-      screenMessage = ["Terms Of Service Popup message"];
+      screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
+        "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/deepBreath") {
       screenMessage = ["Deep Breath Popup message"];
     } else if (window.location.pathname === "/") {
-      screenMessage = ["Home Popup message"];
+      screenMessage = ["Speak your mind freely - you can speak, write or take our guided reflection. No one is listening, express yourself freely.",
+        "Becoming aware of your emotions is the first step in managing your wellbeing. Make a conscious effort to check-in every day, and whenever you are in an emotional flux. Make this your mental fitness habit, your ‘10,000 steps’ of mental wellbeing!",
+        "You can now also manage your daily Joye-level. Tap on the number to see your Joye-level analytics and Journal entries."];
     } else if (window.location.pathname === "/journal") {
-      screenMessage = ["Journal message"];
+      screenMessage = ["Now that you have some good advice, you need to plan how you will act on it. It is best to write it down.",
+        "Journal it!",
+        "In the future, you can retrieve this. It serves as a contextual journal."];
     }
     this.setState({ popup: !this.state.popup, screenTitle: null, screenMessage });
   }
-  shieldMessage = ["This message is going to appear on the sheild popup"];
+  shieldMessage = ["No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information",
+    "Privacy policy"];
   toggleShieldPopup() {
     this.setState({ shieldPopup: !this.state.shieldPopup });
   }

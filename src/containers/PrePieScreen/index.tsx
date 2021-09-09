@@ -69,13 +69,14 @@ export const PrePie = () => {
   }
   async function getScreenMessages() {
     const screenMessages = await database.ref('/master/screen_messages/pie_graph').once('value');
-    setScreenMessages(screenMessages.val());
+    setScreenMessages(["Joye level is your wellbeing index at this moment - 10 being excellent, and 1 being low. This is a personal benchmark and is designed to make you aware of your emotions and behavior. The Self-reflection is the starting point to take charge of your wellbeing.",
+      "The five moods which constitute our overall wellbeing are: Joy-Sad continuum, Anxiety, Relationships, Motivation, and Anger. The pie-chart shows how they stack at this moment. One of these will be the dominant mood and may need the most attention."]);
   }
   return (
     <>
-    
+
       {load && (<Loader display="flex" />)}
-      {popup && (<Popup text="My Daily Brew" screenMessage={screenMessage} closePopup={togglePopup} />)}
+      {popup && (<Popup screenMessage={screenMessage} closePopup={togglePopup} />)}
       {data && data.length > 0
         && (
           <PrePieApp
