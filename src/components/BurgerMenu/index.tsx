@@ -1,19 +1,16 @@
 import * as React from "react";
 import "./burgerMenu.scss";
-import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router";
 import { baseGreen, baseBlack } from "../../constants/colors";
-import { getEvents } from "src/services/officeService";
 const shield = require("../../resources/icons/shield.png");
-const breathsCircle = require("../../resources/icons/433_breaths_circle.png");
 const termsofService = require("../../resources/icons/TermsofService.png");
 const faq = require("../../resources/icons/faq.png");
 const aboutUs = require("../../resources/icons/aboutus.svg");
-const heart = require("../../resources/icons/Heart.svg");
 const home = require("../../resources/icons/home.png");
 const brewicon = require("../../resources/icons/brewicon.png");
 const out = require("../../resources/icons/out.png");
 import { Button } from "../FormComponents";
+import * as microsoftTeams from "@microsoft/teams-js";
 
 
 export interface IBurgerMenuProps extends RouteComponentProps { }
@@ -32,6 +29,9 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
       isOpen: false,
       modalOpened: false
     };
+  }
+  componentDidMount(){
+    microsoftTeams.initialize();
   }
 
   handleSelect = activeKey => {
@@ -99,7 +99,9 @@ About us */}
                 </div>
               </Tab>
 
-              <Tab onClick={() => this.props.history.push("/deepBreath")} name="main">
+              <Tab onClick={() => {
+                microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/stressbuster")
+              }} name="main">
                 <img height="30px" width="28px" src={brewicon} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Stress Buster

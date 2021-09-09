@@ -8,6 +8,7 @@ import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router";
+import * as microsoftTeams from "@microsoft/teams-js";
 export interface IDeepBreathProps extends RouteComponentProps {
   history: any;
   route?: any;
@@ -32,6 +33,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   }
 
   componentDidMount() {
+    microsoftTeams.initialize();
     fetch(`${this.state.path}deep-bell01.mp3`).then(x => x.blob()).then(x => {
       (window as any).audio = new Audio(URL.createObjectURL(x));
       (window as any).audio.load();
@@ -84,7 +86,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
           </div>
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn" onClick={() => {
-              this.props.history.push("/")
+              microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
             }}>Daily Brew</div>
           </div>
         </BasePage>
