@@ -106,7 +106,7 @@ class V2 extends React.Component<IPieAppProps, IPieAppState> {
         return description;
       }
       const descrip = desc.toString().replace(/\\n/g, '');
-      return `<div class="fff" style="fontSize: 16px">${descrip}</div>`;
+      return `<div class="fff" style="fontSize: 16px">${descrip === "-" ? "We could not sense this mood" : descrip}</div>`;
     };
     const pieAverage = average ? parseFloat(average.toString()).toFixed(1) : '0.0';
     const pieAverageVal = pieAverage.toString().split('.');
