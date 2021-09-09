@@ -5,7 +5,7 @@ import Shield from "../../resources/icons/Privacyshield.png";
 import InfoIcon from "../../resources/icons/infoIcon.png";
 import { PageImage } from "src/components";
 import Popup from '../Popup';
-import { AboutUs } from 'src/routes';
+import * as microsoftTeams from "@microsoft/teams-js";
 import Close from "src/resources/icons/Close.png";
 export class BasePage extends React.Component<{
   className?: string;
@@ -30,6 +30,10 @@ export class BasePage extends React.Component<{
       screenTitle: "",
       shieldPopup: false
     };
+  }
+
+  componentDidMount() {
+    microsoftTeams.initialize();
   }
   onClickHandle() {
 
@@ -74,17 +78,19 @@ export class BasePage extends React.Component<{
           {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''}
           {withCross && localStorage.getItem("userId") ? (
             <div className="close-icon">
-              <a
+              <button
                 style={{
                   background: "transparent",
                   border: "none",
                   padding: "10px",
                 }}
                 type="button"
-                href="https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp"
+                onClick={() => {
+                  microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
+                }}
               >
                 <img alt="Clsoe" src={Close} />
-              </a>
+              </button>
             </div>
           ) : ''}
           {showShield ? (<div className="home-shield">
