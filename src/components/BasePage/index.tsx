@@ -5,8 +5,8 @@ import Shield from "../../resources/icons/Privacyshield.png";
 import InfoIcon from "../../resources/icons/infoIcon.png";
 import { PageImage } from "src/components";
 import Popup from '../Popup';
-import { AboutUs } from 'src/routes';
-
+import * as microsoftTeams from "@microsoft/teams-js";
+import Close from "src/resources/icons/Close.png";
 export class BasePage extends React.Component<{
   className?: string;
   withMenu?: boolean;
@@ -14,6 +14,7 @@ export class BasePage extends React.Component<{
   component?: boolean;
   showShield?: boolean;
   showInfoIcon?: boolean;
+  withCross?: boolean;
 },
   {
     popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean
@@ -29,6 +30,10 @@ export class BasePage extends React.Component<{
       screenTitle: "",
       shieldPopup: false
     };
+  }
+
+  componentDidMount() {
+    microsoftTeams.initialize();
   }
   onClickHandle() {
 
@@ -76,7 +81,7 @@ export class BasePage extends React.Component<{
     this.setState({ popup: !this.state.popup, screenTitle, screenMessage })
   }
   render() {
-    const { withMenu, className, children, style, component, showShield, showInfoIcon } = this.props;
+    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross } = this.props;
     !withMenu ? style.flexDirection = 'column' : style.flexDirection = 'column';
     !withMenu ? style.height = 'auto' : style.height = '100%';
     return (
@@ -86,6 +91,23 @@ export class BasePage extends React.Component<{
           {this.state.shieldPopup && (<Popup text={null} screenMessage={this.shieldMessage} closePopup={this.toggleShieldPopup.bind(this)} />)}
 
           {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''}
+          {withCross && localStorage.getItem("userId") ? (
+            <div className="close-icon">
+              <button
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  padding: "10px",
+                }}
+                type="button"
+                onClick={() => {
+                  microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
+                }}
+              >
+                <img alt="Clsoe" src={Close} />
+              </button>
+            </div>
+          ) : ''}
           {showShield ? (<div className="home-shield">
             <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.toggleShieldPopup()} />
           </div>) : ''}
