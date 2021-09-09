@@ -124,9 +124,9 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
   handleModal = () => {
     this.setState({
       modalData: {
-        title: "Take Charge!",
-        header: "A random uote from database",
-        content: "Please contact below services"
+        title: "Caution",
+        header: "We sense that there could be emergency, Please ask for help!",
+        content: "Contact your family, your manager, or other organisation and social help-lines."
       }
     });
     this.setState(prevState => ({

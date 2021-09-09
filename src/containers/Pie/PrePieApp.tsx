@@ -8,8 +8,8 @@ import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
 import { EMOTIONS } from "src/utilities/helper";
 import Close from "src/resources/icons/Close.png";
-
-interface IPrePieProps {
+import { RouteComponentProps, withRouter } from "react-router";
+export interface IPrePieProps extends RouteComponentProps {
   data?: any;
   average?: number;
   onClickPopup?: Function;
@@ -24,12 +24,13 @@ export interface IPrePieState {
   prevIndex?: number;
   direction?: string;
   cardData?: any;
+  history?: any;
 }
 
 let mySwiper;
 
-export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
-  constructor(props: IPrePieState) {
+class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
+  constructor(props) {
     super(props);
     this.state = {
       index: 1,
@@ -120,13 +121,8 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
           </div>
           <div className="close-icon">
             <button
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   togglePopup();
-              //   getScreenMessages();
-              // }}
               onClick={() => {
-                <Link to={"/"} />
+                this.props.history.push('/')
               }}
               style={{
                 background: "transparent",
@@ -375,3 +371,6 @@ export const GetPies = (props) => {
     </div>
   );
 };
+
+
+export default withRouter(PrePieApp);

@@ -17,8 +17,9 @@ import Close from "src/resources/icons/Close.png";
 import AudioPlayer from 'src/components/AudioPlayer';
 import Tracker from './StyledTracker';
 import { EMOTIONS } from 'src/utilities/helper';
+import { RouteComponentProps, withRouter } from "react-router";
 
-export interface IPieAppProps {
+export interface IPieAppProps extends RouteComponentProps {
   average: number;
   onClickPopup: any;
   getScreenMessages: any;
@@ -36,7 +37,7 @@ export interface IPieAppState {
   history?: any;
 }
 
-export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
+class V2 extends React.Component<IPieAppProps, IPieAppState> {
   constructor(props) {
     super(props);
     this.state = {
@@ -144,13 +145,8 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
           </div>
           <div className="close-icon">
             <button
-              // onClick={(e) => {
-              //   e.preventDefault();
-              //   togglePopup();
-              //   getScreenMessages();
-              // }}
               onClick={() => {
-                <Link to={"/"} />
+                this.props.history.push('/')
               }}
               style={{
                 background: "transparent",
@@ -392,3 +388,5 @@ export const GetPies = (props) => {
     </div>
   );
 };
+
+export default withRouter(V2);
