@@ -128,7 +128,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
         {ShowDashboard ? (
           this.renderShowDashboardContent()
         ) : (
-          <BasePage withMenu showInfoIcon className="login-form home-screen">
+          <BasePage showInfoIcon className="login-form home-screen">
             {/*  <div className="pageHeader">
               <img src={pageHeader} />
             </div>*/}
@@ -141,8 +141,8 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                  textAlign: "center",
                  minHeight: "600px",
                  height: "auto",*/
-                 gap:"40px",
-                 height: "100vh",
+                gap: "40px",
+                height: "100vh",
                 width: "100%",
                 display: "flex",
                 flexDirection: "column",
@@ -195,7 +195,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
                 </div>
               </div> */}
             </div>
-          
+
           </BasePage>
         )}
       </>
