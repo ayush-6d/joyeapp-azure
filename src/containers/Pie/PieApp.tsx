@@ -33,6 +33,7 @@ export interface IPieAppState {
   direction?: string;
   cardData?: any;
   showAudioPlayer?: boolean;
+  history?: any;
 }
 
 export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
@@ -92,7 +93,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
 
   render() {
     const {
-      data, average, onClickPopup, getScreenMessages, fireBaseUrl, fireBaseStorage,
+      data, average, onClickPopup, getScreenMessages, fireBaseUrl, fireBaseStorage
     } = this.props;
     const addDescription = (desc) => {
       let description = '';
@@ -113,6 +114,7 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
     } = this.state;
     // console.log('Datata: ', data);
     const indexData = data.find(e => e.order === index) || {};
+
     return (
       <>
 
@@ -141,11 +143,14 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
             </button>
           </div>
           <div className="close-icon">
-          <button
-              onClick={(e) => {
-                e.preventDefault();
-                onClickPopup();
-                getScreenMessages();
+            <button
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   togglePopup();
+              //   getScreenMessages();
+              // }}
+              onClick={() => {
+                <Link to={"/"} />
               }}
               style={{
                 background: "transparent",

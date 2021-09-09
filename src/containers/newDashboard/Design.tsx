@@ -840,7 +840,7 @@ const Design = (props: any) => {
     const screenMessages = await database
       .ref("/master/screen_messages/sliders")
       .once("value");
-    setScreenMessages(["Reflect on your feelings. Answer the five questions by sliding the scale left or right. The answers could be from 1 for ‘low or no’ to 10 for ‘high or yes’, and a lot of range in between. The questions will be varied over time, and designed to help you reflect on the emotions and behaviors which determine our wellbeing."]);
+    setScreenMessages(["Reflect on your feelings. Answer the five questions by sliding the scale left or right. The answers could be from 1 for ‘low or no’ to 10 for ‘high or yes’, and a lot of range in between. The questions will be varied over time, and designed to help you reflect on the emotions and behaviors which determine our wellbeing.", <a href={'/faq'}>FAQ</a>]);
   }
   // if (loading) {
   //   return <Loader display="flex" />;

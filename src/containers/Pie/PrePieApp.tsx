@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { Fragment, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
 import { EMOTIONS } from "src/utilities/helper";
@@ -83,6 +83,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
     const { index, prevIndex, direction, cardData } = this.state;
     // console.log('Datata: ', data);
     const indexData = data.find((e) => e.order === index) || {};
+
     return (
       <>
 
@@ -98,7 +99,7 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             height: "100%",
           }}
         >
-          
+
           <div className="info">
             <button
               onClick={(e) => {
@@ -114,15 +115,18 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               type="button"
             >
               <img alt="info" src={InfoPic} />
-             
+
             </button>
           </div>
           <div className="close-icon">
-          <button
-              onClick={(e) => {
-                e.preventDefault();
-                onClickPopup();
-                getScreenMessages();
+            <button
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   togglePopup();
+              //   getScreenMessages();
+              // }}
+              onClick={() => {
+                <Link to={"/"} />
               }}
               style={{
                 background: "transparent",

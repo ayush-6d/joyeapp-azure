@@ -128,12 +128,12 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
             </button>
           </div>
           <div className="close-icon">
-          <button
-              onClick={(e) => {
-                e.preventDefault();
-                onClickPopup();
-                getScreenMessages();
-              }}
+            <button
+              // onClick={(e) => {
+              //   e.preventDefault();
+              //   onClickPopup();
+              //   getScreenMessages();
+              // }}
               style={{
                 background: "transparent",
                 border: "none",

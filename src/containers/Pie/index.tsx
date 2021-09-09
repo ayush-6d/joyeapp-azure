@@ -20,6 +20,7 @@ import './assets/styles/prepie.css';
 import './assets/styles/index.css';
 
 
+
 export const Pie = () => {
   const [data, setData] = useState([]);
   const [load, setLoaderPie] = useState(true);
@@ -67,11 +68,16 @@ export const Pie = () => {
   function togglePopup() {
     setPopup(!popup);
   }
+  const stack = require("../../resources/icons/stack_i.png");
   async function getScreenMessages() {
     const screenMessages = await database.ref('/master/screen_messages/pie_graph').once('value');
-    setScreenMessages(["Joye level is your wellbeing index at this moment - 10 being excellent, and 1 being low. This is a personal benchmark and is designed to make you aware of your emotions and behavior. The Self-reflection is the starting point to take charge of your wellbeing.",
-      "The five moods which constitute our overall wellbeing are: Joy-Sad continuum, Anxiety, Relationships, Motivation, and Anger. The pie-chart shows how they stack at this moment. One of these will be the dominant mood and may need the most attention."]);
+    setScreenMessages(["Joye level is your wellbeing index at this moment - 10 being excellent, and 1 being low. This is a personal benchmark and is designed to make you aware of your emotions and behaviour. ThSelf-reflection is the starting point to take charge of your wellbeing.",
+      "The five moods which constitute our overall wellbeing are: Joy-Sad continuum, Anxiety, Relationships, Motivation and Anger. The pie-chart shows how they stack at this moment. One of these will be the dominant mood and may need the most attention.",
+      <img height="30px" width="28px" src={stack} />,
+      "Take charge of your wellbeing!",
+      <a href={'/faq'}>FAQ</a>]);
   }
+
   return (
     <>
       {load && (<Loader display="flex" />)}

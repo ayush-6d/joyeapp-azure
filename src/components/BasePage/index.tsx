@@ -35,7 +35,11 @@ export class BasePage extends React.Component<{
   }
   togglePopupOpen() {
     let screenMessage = [""];
+
     if (window.location.pathname === "/aboutus") {
+      screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
+        "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
+    } else if (window.location.pathname === "/privacypolicy") {
       screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
         "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/faq") {
@@ -61,7 +65,8 @@ export class BasePage extends React.Component<{
     this.setState({ popup: !this.state.popup, screenTitle: null, screenMessage });
   }
   shieldMessage = ["No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information",
-    "Privacy policy"];
+    <a href={'/privacypolicy'}>Privacy policy</a>
+  ];
   toggleShieldPopup() {
     this.setState({ shieldPopup: !this.state.shieldPopup });
   }

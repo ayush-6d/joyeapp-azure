@@ -10,7 +10,7 @@
 /* eslint-disable react/jsx-indent */
 import React, { Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { database, firebaseInit } from 'src/services/firebase';
 import { getAuthId, getDbUrl } from 'src/services/localStorage.service';
 import Chart from './App2';
@@ -196,12 +196,14 @@ export const DailyChart = () => {
   }
   // console.log('journalText', journalText);
   // console.log('journalQuestion', journalQuestion);
+  const history = useHistory();
+
   return (
     <div id="slider" className="is-8 is-offset-2 dailyChart">
       <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
         {popup && (<Popup screenMessage={screenMessage} closePopup={togglePopup} />)}
         {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
-        {loading ? <Loader  style= {{display:"flex", alignItems:"center", justifyContent:"center", margin:"0 auto", width:"100px", height:"200px", position:"relative"}} />
+        {loading ? <Loader style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto", width: "100px", height: "200px", position: "relative" }} />
           : (
             <>
               {/* <div className="legend" style={{ zIndex: 20, position: 'absolute' }}>
@@ -243,22 +245,25 @@ export const DailyChart = () => {
                 </button>
               </div>
               <div className="close-icon">
-          <button
-              onClick={(e) => {
-                e.preventDefault();
-                togglePopup();
-                getScreenMessages();
-              }}
-              style={{
-                background: "transparent",
-                border: "none",
-                padding: "10px",
-              }}
-              type="button"
-            >
-              <img alt="Clsoe" src={Close} />
-            </button>
-          </div>
+                <button
+                  // onClick={(e) => {
+                  //   e.preventDefault();
+                  //   togglePopup();
+                  //   getScreenMessages();
+                  // }}
+                  onClick={() => {
+                    history.push(`/`)
+                  }}
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    padding: "10px",
+                  }}
+                  type="button"
+                >
+                  <img alt="Clsoe" src={Close} />
+                </button>
+              </div>
 
               {isCurrentWeek && piedata && piedata.length > 0 ? (
                 <>
