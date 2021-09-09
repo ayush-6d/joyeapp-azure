@@ -97,7 +97,7 @@ export class BasePage extends React.Component<{
                 style={{
                   background: "transparent",
                   border: "none",
-                  padding: "10px",
+                  // padding: "10px",
                 }}
                 type="button"
                 onClick={() => {
