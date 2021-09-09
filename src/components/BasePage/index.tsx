@@ -45,7 +45,10 @@ export class BasePage extends React.Component<{
       screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
         "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/deepBreath") {
-      screenMessage = ["Deep Breath Popup message"];
+      screenMessage = ["Excessive stress and anxiety affect our mind, body, and even decision making capability.",
+        "Joye’s Stress Buster is a technique of 10 breaths with gradual lengthening of the exhale cycle. The visuals are inspired by the colors of the vedic energy chakras.",
+        "We are sure you will find this easy and effective during those stressful moments - after a call or before that critical meeting.",
+        "Get your energy streamlined for effective decision making!"];
     } else if (window.location.pathname === "/") {
       screenMessage = ["Speak your mind freely - you can speak, write or take our guided reflection. No one is listening, express yourself freely.",
         "Becoming aware of your emotions is the first step in managing your wellbeing. Make a conscious effort to check-in every day, and whenever you are in an emotional flux. Make this your mental fitness habit, your ‘10,000 steps’ of mental wellbeing!",
