@@ -12,20 +12,9 @@ import {
   SliderHandle,
 } from '@reach/slider';
 import CloudGradient from "src/components/CloudGradientSvg";
-import cloud1 from './assets/media/cloud1.png';
-import cloud2 from './assets/media/cloud2.png';
 import InfoPic from 'src/resources/icons/infoIcon.png';
-
-import '@reach/slider/styles.css';
-
-import 'swiper/css/swiper.min.css';
-import '../PrePieScreen/assets/styles/index.css';
-import './assets/styles/index.css';
-
+import Close from "src/resources/icons/Close.png";
 import AudioPlayer from 'src/components/AudioPlayer';
-// import { storage } from '../../firebase/firebase.config';
-import btmShw from 'src/resources/icons/bottomShadow.png';
-import topShw from 'src/resources/icons/topShadow.png';
 import Tracker from './StyledTracker';
 import { EMOTIONS } from 'src/utilities/helper';
 
@@ -149,6 +138,23 @@ export default class V2 extends React.Component<IPieAppProps, IPieAppState> {
               type="button"
             >
               <img alt="info" src={InfoPic} />
+            </button>
+          </div>
+          <div className="close-icon">
+          <button
+              onClick={(e) => {
+                e.preventDefault();
+                onClickPopup();
+                getScreenMessages();
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "10px",
+              }}
+              type="button"
+            >
+              <img alt="Clsoe" src={Close} />
             </button>
           </div>
           <div>

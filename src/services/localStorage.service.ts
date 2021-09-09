@@ -53,7 +53,7 @@ function getUserId() {
 }
 
 function setUserId(id) {
-  localStorage.setItem("userId", JSON.stringify(id));
+  localStorage.setItem("userId", id);
 }
 
 function getTId() {
@@ -61,7 +61,7 @@ function getTId() {
 }
 
 function setTid(id) {
-  localStorage.setItem("tid", JSON.stringify(id));
+  localStorage.setItem("tid", id);
 }
 export {
   getAuthToken,

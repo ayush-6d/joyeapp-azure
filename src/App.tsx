@@ -23,7 +23,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     // debugger
     return (
       <Provider theme={teamsTheme}>
-        <React.Suspense fallback={<Loader />}>
+        <React.Suspense fallback={<Loader display="flex" />}>
           {this.state.loggedIn ? (
             <RouterHelper.AuthenticatedRoutes />
           ) : (

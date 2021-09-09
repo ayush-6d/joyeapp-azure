@@ -71,7 +71,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       const infoData = await dbRef.ref(`users/${userId}/info`).once('value');
       let info = infoData.val();
       console.log("info", info)
-      this.setState({ createdAt: info.createdAt });
+      this.setState({ createdAt: info.createdAt || new Date().getTime() });
       this.setState({ employee_id: info.employee_id });
       this.setState({ organisation_id: info.organisation_id });
       this.setState({ sub_organisation_id: info.sub_organisation_id });

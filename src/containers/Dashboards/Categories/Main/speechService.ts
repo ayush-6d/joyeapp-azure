@@ -45,7 +45,7 @@ export default class SpeechService {
       microsoftTeams.media.selectMedia(mediaInput, (error: microsoftTeams.SdkError, attachments: microsoftTeams.media.Media[]) => {
         if (error) reject(error.message ? `${error.errorCode} ${error.message}` : error.errorCode);
         let audioResult = attachments[0];
-        if (audioResult.preview.length > 0) resolve(audioResult.preview);
+        if (audioResult.preview.length > 0) resolve({ pid: procId, data: audioResult.preview });
         else {
           audioResult.getMedia((error: microsoftTeams.SdkError, blob: Blob) => {
             if (blob) {

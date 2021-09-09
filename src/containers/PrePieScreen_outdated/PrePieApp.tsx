@@ -6,6 +6,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Swiper from "swiper";
 import InfoPic from "src/resources/icons/infoIcon.png";
+import Close from "src/resources/icons/Close.png";
 import "@reach/slider/styles.css";
 import "swiper/css/swiper.min.css";
 import "./assets/styles/index.css";
@@ -124,6 +125,23 @@ export default class PrePieApp extends React.PureComponent<IPrePieProps, IPrePie
               type="button"
             >
               <img alt="info" src={InfoPic} />
+            </button>
+          </div>
+          <div className="close-icon">
+          <button
+              onClick={(e) => {
+                e.preventDefault();
+                onClickPopup();
+                getScreenMessages();
+              }}
+              style={{
+                background: "transparent",
+                border: "none",
+                padding: "10px",
+              }}
+              type="button"
+            >
+              <img alt="Clsoe" src={Close} />
             </button>
           </div>
           <div>

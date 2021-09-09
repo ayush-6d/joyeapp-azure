@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BasePage, Circle, ImportLoader } from "src/components";
+import { BasePage, Circle } from "src/components";
 //import pageHeader from '../../../resources/icons/pageHeader.png';
 //import pageHeader2 from "../../../resources/icons/pageHeader2.png";
 import { InputField, CheckboxField, Button } from "components/FormComponents/index";

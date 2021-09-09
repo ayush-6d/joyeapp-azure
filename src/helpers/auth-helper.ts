@@ -19,10 +19,7 @@ export default class AuthHelper {
       this.createTokenId(true)
       return true;
     }else{
-        if(!localStorage.getItem("active")){
-          //  setTimeout(()=>{this.userLogin()}, 1000);
-            
-    }
+      if(!localStorage.getItem("active")){}
       return false;
     }
   }
@@ -35,13 +32,8 @@ export default class AuthHelper {
       localStorage.setItem("accessToken",clientSideToken)
       return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
-      // console.log("accessToken error")
-      // console.log(err)
+      console.log("accessToken error", err)
     })
-  // }
-  // localStorage.setItem("userId","42f19b36-aa73-4f26-babc-1bf7c6ccfd4a")
-  // localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073")
-  // this.createTokenId()
 }
 public async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
@@ -87,6 +79,7 @@ private async getAccessSSOToken() {
 }
 
 private getUserProfile(token, tid): Promise < string > {
+  var that = this;
   return new Promise < string > ((resolve, reject) => {
     var headers = new Headers();
     var bearer = "Bearer " + token;
@@ -121,7 +114,7 @@ private getUserProfile(token, tid): Promise < string > {
                   // alert("user id"+ data.id);
                   setUserId(data.id)
                   setTid(tid ? tid : decoded.tid);
-                  this.createTokenId()
+                  that.createTokenId()
                 }
             })
          
@@ -153,7 +146,7 @@ private async createTokenId(loginCheck:boolean=false) {
         "Content-Type": "application/json"
       }
     })
-    if (createTokenId.data.token) {
+    if (createTokenId && createTokenId.data.token) {
       firebaseInit
         .auth()
         .signInWithCustomToken(createTokenId.data.token)
@@ -162,10 +155,9 @@ private async createTokenId(loginCheck:boolean=false) {
           this.setOrgData(userCredential.user);
           try {
             var d2 = new Date();
-            const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");
+            const organisation = await database.ref(`master/organisation/-MHUPaNmo_p85_DR3ABC/suborganisation/${tid}`).once("value");        
             const organisationDetails= organisation.val();
-            console.log('organisation', organisation);
-            if(organisationDetails.paid_subscription){
+            if(organisationDetails && organisationDetails.paid_subscription){
               this.success(loginCheck,0);
             } else {
               console.log('organisationDetails.pilot', organisationDetails.pilot);
@@ -199,6 +191,19 @@ private async createTokenId(loginCheck:boolean=false) {
                     }
                 }   
             }
+            let details = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).once("value");
+            details = details.val();
+            const newDetails = JSON.parse(localStorage.getItem("userProfile"));
+            if (details) {
+              await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).update({
+                ...details,
+                ...newDetails
+              })
+            } else {
+              await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).set({
+                ...newDetails
+              })
+            }
           } catch (e) {
             console.log("network error at firebaseInit.database");
             console.log(e);
@@ -220,7 +225,7 @@ private async createTokenId(loginCheck:boolean=false) {
   return Math.round(Math.abs(d1 - today)/(24 * 60 * 60 * 1000));
 };
 
- private async success(loginCheck,datedifferece) { 
+private async success(loginCheck,datedifferece) { 
  localStorage.removeItem("active");
  console.log('loginCheck', loginCheck);
  if(!loginCheck)

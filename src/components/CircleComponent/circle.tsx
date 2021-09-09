@@ -16,7 +16,8 @@ export interface ICircleProps {
 }
 
 export interface ICircleState {
-  avarage?: string
+  avarage?: string;
+  allUserData?: object;
 }
 
 
@@ -25,7 +26,8 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
   constructor(props: ICircleProps) {
     super(props);
     this.state = {
-      avarage: ""
+      avarage: "0.0",
+      allUserData: null,
     };
   }
 
@@ -35,11 +37,17 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
     const date = moment().format("DD-MM-yyyy");
 
     try {
-      const data = await dbRef.ref(`users/${userId}/brew/brewData/${date}/avarage`).once('value');
-      let avarage = data.val() || "0.0";
-      this.setState({
-        avarage: (Math.round(avarage * 10) / 10).toString()
-      });
+      let allData = await dbRef.ref(`users/${userId}/brew/brewData`).once('value');
+      let avarage:any = "0.0";
+      allData = allData?.val();
+      if (allData && !Array.isArray(allData)) {
+        this.setState({allUserData: allData});
+        const data = await dbRef.ref(`users/${userId}/brew/brewData/${date}/avarage`).once('value');    
+        avarage = data.val() || "0.0";
+        this.setState({
+          avarage: avarage !== "0.0" ? (Math.round(avarage * 10) / 10).toString() : avarage
+        });
+      }
 
     } catch (e) {
       console.log(e);
@@ -48,7 +56,7 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
 
   render() {
     const { style, img, showImg, imgStyle, className, OnClick } = this.props;
-    const { avarage } = this.state;
+    const { avarage, allUserData } = this.state;
 
     return (
       <div className={`${className}`} style={style} onClick={OnClick}>
@@ -56,7 +64,7 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
           <img style={imgStyle} src={img} />
         ) : (
           <div className="circe-text">
-            <Link to="/daily-chart?fromDashboard=true">
+            <Link to={allUserData === null ? "/" : "/daily-chart?fromDashboard=true"}>
               <p>{avarage}</p>
             </Link>
           </div>

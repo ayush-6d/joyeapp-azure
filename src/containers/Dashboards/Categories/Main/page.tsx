@@ -4,16 +4,16 @@ import Actions from "./actions";
 import Controls from "./controls";
 import SpeakAgain from "./speakAgain";
 import { TellUsAbout } from "../Tellusabout";
-import { ImportLoader, BasePage } from "src/components";
+import { Loader, BasePage } from "src/components";
 import speechService from "./speechService";
 import { isMobile } from "react-device-detect";
 import { Modal } from "src/components/Modal";
 import "src/resources/css/fonts/fonts.css";
 
 const modalData = {
-    title: "Caution",
-    header: "We sense that there could be an emergency, or that your language is not allowed",
-    content: "If there is an emergency, please contact your family, organization or help-line."
+    title: "Take Charge!",
+    header: "A random uote from database",
+    content: "Please contact below services"
 }
 export interface IPage {
     route?: any,
@@ -24,6 +24,7 @@ export interface IPageState {
     pageState: string,//init, bottom-mic, recording, loading, sos, tell-us-about
     recordingState: string, //init, in-progress, confirm
     isMic: boolean,
+    isGibberish: boolean,
     isModalOpen: boolean,
 }
 export default class Page extends React.PureComponent<IPage, IPageState> {
@@ -37,7 +38,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         super(props);
         this.prediction = null;
         this.processId = Math.floor(Math.random() * 1000000);
-        this.state = { pageState: 'record', recordingState: 'init', isMic: true, isModalOpen: false };
+        this.state = { pageState: 'record', recordingState: 'init', isMic: false, isModalOpen: false, isGibberish: false };
         this.onCenterCircleClick = this.onCenterCircleClick.bind(this);
         this.onRightCircleClick = this.onRightCircleClick.bind(this);
         this.onTellUsAboutClick = this.onTellUsAboutClick.bind(this);
@@ -47,12 +48,19 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async onCenterCircleClick() {
-        if (!this.state.isMic) this.props.history.push("/dashboard");
-        else this.recordAudio();
+        this.setState({ isGibberish: false });
+        if (this.state.recordingState === "init" && this.state.pageState === 'record')
+            this.props.history.push("/dashboard");
+        else
+            this.recordAudio();
+        // if (!this.state.isMic) this.props.history.push("/dashboard");
+        // else this.recordAudio();
+
     }
 
     async onRightCircleClick() {
-        if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: true }, this.recordAudio);
+        this.setState({ isGibberish: false });
+        if (!this.state.isMic) this.setState({ recordingState: 'init', pageState: 'record', isMic: false }, this.recordAudio);
         else this.props.history.push("/dashboard");
     }
 
@@ -78,11 +86,12 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     processPrediction() {
+        console.log('processPrediction');
         if (this.prediction.data.success) this.props.history.push("/pie-chart");
         else if (this.prediction.data.gibberish) {
-            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
         } else if (this.prediction.data.caution) {
-            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
     }
 
@@ -93,18 +102,35 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 this.prediction = null;
                 this.process = false;
                 this.setState({ recordingState: 'in-progress' });
-                let result: any = await speechService.recordAudioFromTeams(this.processId);
+                console.log(`${this.processId}: recordAudioFromTeams`);
+                let result: any;
+                try { result = await speechService.recordAudioFromTeams(this.processId); }
+                catch (e) { if (!(JSON.stringify(e).includes("1000"))) return; this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature!`) }); return; }
+                console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
                 this.setState({ recordingState: "confirm" });
+                console.log(`${this.processId}: mp4ToMP3`);
                 let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
+                console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
                 if (mp4ToMP3Result.pid !== this.processId) return;
-                let translateSpeechToTextResult: any = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
+                console.log(`${this.processId}: translateSpeechToTextEx`);
+                let translateSpeechToTextResult: any;
+                try {
+                    translateSpeechToTextResult = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
+                } catch (e) {
+                    translateSpeechToTextResult = { pid: this.processId, data: '     ' }
+                }
+                console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
                 if (translateSpeechToTextResult.pid !== this.processId) return;
+                console.log(`${this.processId}: predictionEx`);
                 let predictionResult: any = await speechService.predictionEx(this.processId, translateSpeechToTextResult.data);
+                console.log(`${this.processId}: predictionEx ${predictionResult.pid}`);
                 if (predictionResult.pid !== this.processId) return;
+                this.prediction = predictionResult.data;
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
+                console.log(`${this.prediction}: prediction`);
                 if (this.prediction === null) this.process = true;
                 else this.processPrediction();
                 this.setState({ recordingState: "loading" });
@@ -112,11 +138,15 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
             }
         } else {
             if (this.state.recordingState === "init") {
-                this.setState({ recordingState: 'in-progress' });
-                speechService.recordAudioFromWeb();
-                this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
-            }
-            if (this.state.recordingState === "in-progress") {
+                try {
+                    await speechService.recordAudioFromWeb();
+                    this.setState({ recordingState: 'in-progress' });
+                    this.stopTimer = setTimeout(() => this.recordAudio(), 60000);
+                } catch (e) {
+                    alert('Please allow microphone access to use this feature!');
+                    return;
+                }
+            } else if (this.state.recordingState === "in-progress") {
                 clearTimeout(this.stopTimer);
                 this.setState({ pageState: 'loading' });
                 this.base64 = await speechService.stopRecordingAudioFromWeb();
@@ -126,11 +156,12 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processAudio(data = null) {
-        console.log("processAudio model", this.state.isModalOpen)
+        this.setState({ isGibberish: false });
         let text = data;
         if (data === null) {
-            if (isMobile) this.base64 = await speechService.mp4ToMP3("id",this.base64);
-            text = await speechService.translateSpeechToText(this.base64);
+            try {
+                text = await speechService.translateSpeechToText(this.base64);
+            } catch (e) { text = "    " }
         }
         this.setState({ pageState: 'loading' });
         var output = await speechService.prediction(text);
@@ -138,27 +169,25 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log(output.data);
         if (output.data.success) this.props.history.push("/pie-chart");
         else if (output.data.gibberish) {
-            this.setState({ isMic: false, recordingState: 'init', pageState: 'record' });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
         } else if (output.data.caution) {
-            this.setState({ isMic: true, recordingState: 'init', pageState: 'record', isModalOpen: true });
+            this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isModalOpen: true });
         }
-        console.log("processAudio model 2", this.state.isModalOpen)
     }
 
     render() {
-        console.log("model model", this.state.isModalOpen)
         return (<>
-            {(this.state.pageState === 'loading') ? <ImportLoader /> : null}
+            {(this.state.pageState === 'loading') ? <Loader display="flex" /> : null}
             {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
                 <div style={{ userSelect: "none" }}>
-                    <Note isMic={this.state.isMic} recordingState={this.state.recordingState}></Note>
+                    <Note isGibberish={this.state.isGibberish} recordingState={this.state.recordingState}></Note>
                     <Controls isMic={this.state.isMic} recordingState={this.state.recordingState} onClick={this.onCenterCircleClick} ></Controls>
                     <SpeakAgain isMic={this.state.isMic} recordingState={this.state.recordingState} onSpeakAgain={this.onSpeakAgain} onCancel={this.onCancel} />
                     <Actions isMic={this.state.isMic} recordingState={this.state.recordingState} onLeftCircleClick={this.onTellUsAboutClick} onRightCircleClick={this.onRightCircleClick}></Actions>
                 </div>
             </BasePage> : null}
             {(this.state.pageState === 'tell-us-about') ? <TellUsAbout saveData={(x) => this.processAudio(x)} setIsTellusabout={this.onTellUsAboutClick} onCancel={this.onTellUsAboutCancelClick} /> : null}
-            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["Ok"]}></Modal>) : null}
+            {this.state.isModalOpen ? (<Modal openModal={this.state.isModalOpen} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>) : null}
         </>)
     }
 }
