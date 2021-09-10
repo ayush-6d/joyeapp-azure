@@ -13,7 +13,7 @@ $t: 700;
 /* -- CIRCLE -- */
 .circles {
   border-radius: 50%;
-  padding: 23%;
+  padding: 0;
   background: #8E7AEC;
   width: 30%;
   height: 0px;
@@ -26,7 +26,7 @@ $t: 700;
     position: absolute;
     top: 50%;
     right: 50%;
-    transform: translate(50%, -50%);
+    transform: translate(0%, -50%);
   }
   &.box-shadow {
     //box-shadow: 0 0 0 25px #4329b2;

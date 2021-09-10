@@ -13,7 +13,7 @@ $t: 700;
 /* -- CIRCLE -- */
 .circles {
   border-radius: 50%;
-  padding: 23%;
+  padding:0;
   background: #8E7AEC;
   width: 30%;
   height: 0px;
@@ -26,7 +26,7 @@ $t: 700;
     position: absolute;
     top: 50%;
     right: 50%;
-    transform: translate(50%, -50%);
+    transform: translate(0%, -50%);
   }
   &.box-shadow {
     //box-shadow: 0 0 0 25px #4329b2;
@@ -49,7 +49,7 @@ $t: 700;
   50% {
     box-shadow: 0 0 0 25px rgba(149, 31, 255, 0.8), 0 0 0 50px rgba(99, 64, 225, 0.8), 0 0 0 75px rgba(36, 14, 206, 0.8);
   }
-  100% {
+  90% {
     box-shadow: 0 0 0 15px rgba(149, 31, 255, 0.8), 0 0 0 30px rgba(99, 64, 225, 0.8), 0 0 0 45px rgba(36, 14, 206, 0.8);
   }
 }
