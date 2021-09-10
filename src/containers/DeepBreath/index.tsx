@@ -9,6 +9,7 @@ import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router";
+import * as microsoftTeams from "@microsoft/teams-js";
 export interface IDeepBreathProps extends RouteComponentProps {
   history: any;
   route?: any;
@@ -61,6 +62,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   }
 
   componentWillUnmount() {
+    microsoftTeams.initialize();
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
