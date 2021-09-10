@@ -231,7 +231,7 @@ class V2 extends React.Component<IPieAppProps, IPieAppState> {
                       <div style={{ width: '100%' }}>
                         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                           <div style={{ width: '50%' }}>
-                            <p className="fff cardHeading">
+                            <p className="fff cardHeading" style={{ fontSize: '17px' }}>
                               {EMOTIONS[e.title.toLowerCase()].pie}
                             </p>
                           </div>

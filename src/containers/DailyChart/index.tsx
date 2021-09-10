@@ -328,7 +328,7 @@ export const DailyChart = () => {
                   {journalQuestion && journalText ?
                     <p className="average-score">
                       <div className="advertise-text bold text-blue">
-                        <span className="text-blue" style={{ fontSize: '20px' }}>{journalQuestion}</span>
+                        <span className="text-blue" style={{ fontSize: '20px', fontFamily:'Nunito-Regular', }}>{journalQuestion}</span>
                       </div>
                       <span>{journalText}</span>
                     </p>
