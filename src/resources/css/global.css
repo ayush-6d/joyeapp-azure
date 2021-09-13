@@ -375,7 +375,7 @@ div.level-item {
 }
 .card.article {
   /* background: #201397; */
-  max-width: 400px;
+  max-width: 768px;
   position: relative;
   border: #bfbbcf thin solid;
   /* overflow: hidden; */
