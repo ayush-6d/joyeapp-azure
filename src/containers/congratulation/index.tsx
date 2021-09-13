@@ -41,7 +41,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       happinessCounterLifetime: "",
       congratulationImg: confetti_00,
       timer: null,
-      ShowDashboard: false,
+      ShowDashboard: false
     };
   }
 
