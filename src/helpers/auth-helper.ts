@@ -26,6 +26,7 @@ export default class AuthHelper {
 
   public async userLogin() {
   console.log('userLogin');
+  msTeams.initialize();
    this.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);

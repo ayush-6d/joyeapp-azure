@@ -85,8 +85,8 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           text="Welcome to Joye. It’s as easy as 1-2-3!"
           screenMessage={[
             "1: Speak your mind. You can speak, write or try guided reflection.",
-            "2: Joye will understand you and give you some good advice - just like your mentor or a dear friend would have guided you. You can also manage your daily joy level.</p>",
-            "3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.</p>",
+            "2: Joye will understand you and give you some good advice - just like your mentor or a dear friend would have guided you. You can also manage your daily joy level.",
+            "3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.",
             "Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!"
           ]}
           closePopup={this.togglePopup} />)}
