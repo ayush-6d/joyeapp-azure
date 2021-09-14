@@ -26,7 +26,7 @@ export default class AuthHelper {
 
   public async userLogin() {
   console.log('userLogin');
-  msTeams.initialize();
+  await msTeams.initialize();
    this.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);
@@ -34,7 +34,7 @@ export default class AuthHelper {
       return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
       console.log("accessToken error", err)
-      alert("Someting went wrong, Error Code- 001");
+      // alert("Someting went wrong, Error Code- 001");
     })
 }
 public async getServerSideToken(clientSideToken) {
