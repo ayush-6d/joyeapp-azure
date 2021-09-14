@@ -18,7 +18,7 @@ export class Brand extends React.PureComponent<IBrandProps, {}> {
       <div className='brand'
       >
         <div>Welcome to Joye</div>
-        <div>It’s as easy as 1-2-3!</div>
+        <div>Make happiness a habit</div>
       </div>
     );
   }

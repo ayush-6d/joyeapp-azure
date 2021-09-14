@@ -81,18 +81,22 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     const { isLoading } = this.state;
     return (
       <div>
-        {this.state.popup && (<Popup text="Welcome to Joye" screenMessage={["Please wait while we load your app!"]} closePopup={this.togglePopup} />)}
+        {this.state.popup && (<Popup
+          text="Welcome to Joye. It’s as easy as 1-2-3!"
+          screenMessage={[
+            "1: Speak your mind. You can speak, write or try guided reflection.",
+            "2: Joye will understand you and give you some good advice - just like your mentor or a dear friend would have guided you. You can also manage your daily joy level.</p>",
+            "3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.</p>",
+            "Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!"
+          ]}
+          closePopup={this.togglePopup} />)}
         <BasePage withMenu showInfoIcon className="login-form home-screen">
           <Logo height="76px" width="76px" marginTop="72px" />
           <Brand fontSize="42px" />
           <div className="text-container">
             <div className="advertise-text">
-              <p>1: Speak your mind. You can speak, write or try guided reflection.</p><br></br>
-              <p>2: Joye will understand you and give you some good advice - just like your mentor or a dear friend would have guided you. You can also manage your daily joy level.</p><br></br>
-              <p>3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.</p><br></br>
-              <p>Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!</p>
+              <p>Speak your mind and Joye will keep you positive and productive amidst your emotional flux</p>
             </div>
-
           </div>
           <div className="button-wrapper">
 
