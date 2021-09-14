@@ -33,6 +33,7 @@ export default class AuthHelper {
       return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
       console.log("accessToken error", err)
+      alert("Someting went wrong, Error Code- 001");
     })
 }
 public async getServerSideToken(clientSideToken) {
@@ -56,6 +57,7 @@ public async getServerSideToken(clientSideToken) {
       } catch (error) {
         // console.log("sso token error");
         console.log(JSON.stringify(error));
+        alert("Someting went wrong, Error Code- 002");
       }
     })
   });
@@ -71,6 +73,7 @@ private async getAccessSSOToken() {
       },
       failureCallback: function(error) {
         console.log('error', error);
+        alert("Someting went wrong, Error Code- 003");
         reject("Error getting token: " + error);
       }
     });
@@ -125,6 +128,7 @@ private getUserProfile(token, tid): Promise < string > {
 
       }).catch(err => {
         // console.log("network error getUserProfile");
+        alert("Someting went wrong, Error Code- 004");
         console.log(JSON.stringify(err));
       });
   })
@@ -212,11 +216,13 @@ private async createTokenId(loginCheck:boolean=false) {
         .catch(e => {
           console.log(" error at signInWithCustomToken");
           console.log(JSON.stringify(e));
+          alert("Someting went wrong, Error Code- 005");
         });
     }
   } catch (err) {
     console.log("network error at createTokenId");
     console.log(JSON.stringify(err));
+    alert("Someting went wrong, Error Code- 006");
   };
   }
 }
