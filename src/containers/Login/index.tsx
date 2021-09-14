@@ -29,7 +29,7 @@ export interface ILoginState {
 
 class LoginImpl extends React.Component<ILoginProps, ILoginState> {
   _isMounted = false;
-   
+
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
@@ -65,16 +65,16 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
     return queryParams;
   };
 
-  userLogin =()=>{
+  userLogin = () => {
     console.log('clicked')
     this.setState({ isLoading: true });
-    if(!this.state.isLoading){
+    if (!this.state.isLoading) {
       let auth = new AuthHelper();
       auth.userLogin();
     }
   }
   togglePopup = () => {
-    this.setState({popup: !this.state.popup});
+    this.setState({ popup: !this.state.popup });
   }
 
   render() {
@@ -87,31 +87,35 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
           <Brand fontSize="42px" />
           <div className="text-container">
             <div className="advertise-text">
-              <p>Speak your mind and Joye will keep you positive and productive amidst your emotional flux</p>
+              <p>1: Speak your mind. You can speak, write or try guided reflection.</p><br></br>
+              <p>2: Joye will understand you and give you some good advice - just like your mentor or a dear friend would have guided you. You can also manage your daily joy level.</p><br></br>
+              <p>3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.</p><br></br>
+              <p>Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!</p>
             </div>
+
           </div>
-        <div className="button-wrapper">
-        
-        <Button
-          Loader={null}
-          type="button"
-          disabled={isLoading}
-          onClick={() =>{
-            this.togglePopup();
-            this.userLogin();
-          }}
-          marginBottom={'20px'}
-          fontWeight={600}
-          fontSize="16.67px"
-        >
-          {isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in
-        </Button>
-        </div>
-        <div className="text-container">
-            <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px",}}>
+          <div className="button-wrapper">
+
+            <Button
+              Loader={null}
+              type="button"
+              disabled={isLoading}
+              onClick={() => {
+                this.togglePopup();
+                this.userLogin();
+              }}
+              marginBottom={'20px'}
+              fontWeight={600}
+              fontSize="16.67px"
+            >
+              {isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in
+            </Button>
+          </div>
+          <div className="text-container">
+            <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px", }}>
               Easy and secure sign in with your Microsoft account
             </div>
-        </div>
+          </div>
         </BasePage>
 
         <BasePage className="login-form home-screen">
@@ -128,22 +132,22 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               fontFamily: "Nunito-Regular",
               fontSize: "16px",
               lineHeight: "24px",
-              position:"relative"
+              position: "relative"
             }}
           >
-          
-            <div style={{ alignContent: "center"}}>
+
+            <div style={{ alignContent: "center" }}>
               <img height="125px" width="93px" src={privacy} />
             </div>
 
-            
+
             <p style={{ marginTop: "10px" }}>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
-            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3"}} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3" }} href="https://firebase.google.com/support/privacy">More Details</a> </p>
             <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
 
             <div className="text-container">
               <div className="advertise-text">
-                <h3 className="advertise-text body-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px",}}>
+                <h3 className="advertise-text body-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px", }}>
                   <a href="#" style={{ color: "#1E00A3" }}>Privacy poilicy</a> &nbsp;|&nbsp; <a href="#" style={{ color: "#1E00A3" }}>Terms of service</a>
                 </h3>
               </div>
@@ -162,7 +166,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               </a>
             </div>
           </div>
-      </BasePage>
+        </BasePage>
       </div>
     );
   }
