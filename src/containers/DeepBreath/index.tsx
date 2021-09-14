@@ -3,6 +3,7 @@ import "./index.scss";
 import { BasePage } from "src/components";
 import playIcon from "src/resources/icons/play.png";
 import stopIcon from "src/resources/icons/stop.png";
+import loading from "src/resources/icons/loading.gif";
 import Circles from "./circles";
 import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
@@ -24,19 +25,20 @@ export interface IDeepBreathState {
   isPlaying: boolean;
   isStop?: boolean;
   path: string;
+  isLoaded:boolean
 }
 export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
   constructor(props: IDeepBreathProps) {
     super(props);
     let path = ((window as any).location.hostname === "localhost") ? "/public/" : '/';
-    this.state = { isPlaying: false, audioMute: false, path: path };
+    this.state = { isPlaying: false, audioMute: false, path: path, isLoaded: false };
   }
 
   componentDidMount() {
-    microsoftTeams.initialize();
     fetch(`${this.state.path}deep-bell01.mp3`).then(x => x.blob()).then(x => {
       (window as any).audio = new Audio(URL.createObjectURL(x));
       (window as any).audio.load();
+      this.setState({ isLoaded: true });
     });
   }
 
@@ -60,6 +62,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   }
 
   componentWillUnmount() {
+    microsoftTeams.initialize();
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
@@ -82,7 +85,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
           </div>
           <br />
           <div onClick={this.onPlay} className="btn-play">
-            <img src={this.state.isPlaying ? stopIcon : playIcon} />
+            <img src={!this.state.isLoaded ? loading : this.state.isPlaying ? stopIcon : playIcon} />
           </div>
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn" onClick={() => {

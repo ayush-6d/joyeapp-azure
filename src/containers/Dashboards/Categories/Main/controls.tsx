@@ -45,8 +45,9 @@ export default class Controls extends React.PureComponent<IControls, IControlsSt
     render() {
         return (
             <>
-                <div className="center-button" onClick={() => isMobile && this.props.recordingState === 'in-progress' ? null : this.props.onClick()}>
-                    <div><img src={speakingcircle} style={{ borderRadius: "150px", width: "250px", height: "250px" }} width="250" /></div>
+                <div className="center-button circle-ripple-position" onClick={() => isMobile && this.props.recordingState === 'in-progress' ? null : this.props.onClick()}>
+                <div className={this.props.recordingState === 'in-progress'?"circles ripple":""}>
+                        <img src={speakingcircle} style={{ borderRadius: "150px", width: "250px", height: "250px" }} width="250" /></div>
                     <div>
                         <svg id="circlesSvg" height="200" width="200" viewBox="0 0 20 20" fill="green">
 
