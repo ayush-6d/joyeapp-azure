@@ -74,6 +74,7 @@ private async getAccessSSOToken() {
       failureCallback: function(error) {
         console.log('error', error);
         alert("Someting went wrong, Error Code- 003");
+        alert(error);
         reject("Error getting token: " + error);
       }
     });
