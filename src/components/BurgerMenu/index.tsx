@@ -162,7 +162,7 @@ About us */}
 
             </div>
             <div className={containerClass}>
-              <div className="text-container">
+              <div className="text-container center-items">
                 <div
                   className="advertise-text bold"
                   style={{
