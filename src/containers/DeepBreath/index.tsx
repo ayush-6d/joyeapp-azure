@@ -3,7 +3,6 @@ import "./index.scss";
 import { BasePage } from "src/components";
 import playIcon from "src/resources/icons/play.png";
 import stopIcon from "src/resources/icons/stop.png";
-import loading from "src/resources/icons/loading.gif";
 import Circles from "./circles";
 import "../Dashboards/Categories/Main/index.scss";
 import "src/resources/css/fonts/fonts.css";
@@ -85,7 +84,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
           </div>
           <br />
           <div onClick={this.onPlay} className="btn-play">
-            <img src={!this.state.isLoaded ? loading : this.state.isPlaying ? stopIcon : playIcon} />
+            <img src={this.state.isPlaying ? stopIcon : playIcon} />
           </div>
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn" onClick={() => {

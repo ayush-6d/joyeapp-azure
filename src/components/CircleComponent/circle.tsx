@@ -64,9 +64,11 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
           <img style={imgStyle} src={img} />
         ) : (
           <div className="circe-text">
-            <Link to={allUserData === null ? "/" : "/daily-chart?fromDashboard=true"}>
-              <p>{avarage}</p>
-            </Link>
+            {allUserData !== null && (
+              <Link to={allUserData === null ? "/" : "/daily-chart?fromDashboard=true"}>
+                <p>{avarage}</p>
+              </Link>
+            )}
           </div>
         )}
       </div>
