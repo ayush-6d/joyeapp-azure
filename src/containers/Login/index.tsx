@@ -146,13 +146,13 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
 
 
             <p style={{ marginTop: "10px" }}>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
-            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a style={{ color: "#1E00A3" }} href="https://firebase.google.com/support/privacy">More Details</a> </p>
+            <p style={{ marginTop: "20px" }}>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level.</p>
             <p style={{ marginTop: "20px" }}>Joye’s data is independently managed by Joye Pte Ltd Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
 
             <div className="text-container">
               <div className="advertise-text">
                 <h3 className="advertise-text body-text" style={{ fontSize: "18px", color: "#1E00A3", marginTop: "50px", }}>
-                  <a href="#" style={{ color: "#1E00A3" }}>Privacy poilicy</a> &nbsp;|&nbsp; <a href="#" style={{ color: "#1E00A3" }}>Terms of service</a>
+                  <a href="https://joye.ai/privacy" target="_blank" style={{ color: "#1E00A3" }}>Privacy policy</a> &nbsp;|&nbsp; <a href="https://joye.ai/terms" target="_blank" style={{ color: "#1E00A3" }}>Terms of service</a>
                 </h3>
               </div>
             </div>
@@ -165,7 +165,7 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
               </div>
             </div> */}
             <div className="copy-right-text" style={{ marginTop: "20px" }}>
-              <a href="www.joye.ai" style={{ color: "#1E00A3" }}>
+              <a href="https://joye.ai" target="_blank" style={{ color: "#1E00A3" }}>
                 www.joye.ai
               </a>
             </div>
