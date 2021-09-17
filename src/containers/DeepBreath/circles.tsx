@@ -6,22 +6,27 @@ export interface ICircle {
 }
 export interface ICircleState {
   counter: number;
+  freeze: boolean;
 }
 
 export default class Circles extends React.PureComponent<ICircle, ICircleState> {
 
   constructor(props: ICircle) {
     super(props);
-    this.state = { counter: 0 };
+    this.state = { counter: 0, freeze: false };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.isPlaying === this.props.isPlaying) return;
     if (nextProps.isPlaying) {
-      (document.getElementById("circlesSvg") as any).setCurrentTime(0);
-      (document.getElementById("circlesSvg") as any).unpauseAnimations();
-      for (let i = 10; i < 22; i++)(document.getElementById(`a11${i}`) as any).beginElement();
-      this.startCounter();
+      this.setState({ freeze: true },()=>{
+        this.setState({ freeze: false },()=>{
+          (document.getElementById("circlesSvg") as any).setCurrentTime(0);
+          (document.getElementById("circlesSvg") as any).unpauseAnimations();
+          for (let i = 10; i < 22; i++)(document.getElementById(`a11${i}`) as any).beginElement();
+          this.startCounter();
+        });
+      });
     } else {
       if ((window as any).timer) clearTimeout((window as any).timer);
       this.setState({ counter: 0 });
@@ -45,6 +50,7 @@ export default class Circles extends React.PureComponent<ICircle, ICircleState> 
 
   render() {
     return (
+      this.state.freeze ? null :
       <svg id="circlesSvg" xmlnsXlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12000 12000">
         <defs>
           <style type="text/css">@import url('https://fonts.googleapis.com/css?family=Lato|Open+Sans|Oswald|Raleway|Roboto|Indie+Flower|Gamja+Flower');</style>
