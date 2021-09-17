@@ -84,7 +84,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
           </div>
           <br />
           <div onClick={this.onPlay} className="btn-play">
-            <img src={this.state.isPlaying ? stopIcon : playIcon} />
+            <img src={!this.state.isLoaded ? '' : this.state.isPlaying ? stopIcon : playIcon} />
           </div>
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn" onClick={() => {
