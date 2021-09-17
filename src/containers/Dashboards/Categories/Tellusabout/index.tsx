@@ -83,9 +83,11 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
               </div>
             )}
           </div>
-          <div className="" onClick={setIsTellusabout}>
-            <div className="n-btn" onClick={this.props.onCancel}> Cancel</div>
-          </div>
+          {todaysFeeling.length < 1 && (
+            <div className="" onClick={setIsTellusabout}>
+              <div className="n-btn" onClick={this.props.onCancel}> Cancel</div>
+            </div>
+          )}
         </div>
       </BasePage>
     );

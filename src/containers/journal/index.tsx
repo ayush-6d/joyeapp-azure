@@ -238,11 +238,11 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                       </div>
                     )}
                   </div>
-                  <div>
+                  {todaysFeeling.length < 1 && (
                     <div className="n-btn" onClick={() => this.handleYesno()} style={{ cursor: "pointer" }}>
                       Skip
                     </div>
-                  </div>
+                  )}
                 </div>
               </>
             </div>

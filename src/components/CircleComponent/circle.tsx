@@ -33,6 +33,7 @@ export class Circle extends React.PureComponent<ICircleProps, ICircleState> {
 
   async componentDidMount() {
     const userId = getAuthId();
+    console.log('getDbUrl()', getDbUrl());
     let dbRef = firebaseInit.database(getDbUrl());
     const date = moment().format("DD-MM-yyyy");
 
