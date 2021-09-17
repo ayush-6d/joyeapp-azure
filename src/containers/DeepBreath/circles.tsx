@@ -40,7 +40,7 @@ export default class Circles extends React.PureComponent<ICircle, ICircleState> 
       else self.setState({ counter: self.state.counter - 1 });
       if (i < timings.length - 3) (window as any).timer = setTimeout(() => recurse(i + 2), timings[i + 1] + timings[i + 2]);
     }
-    setTimeout(x => recurse(0), timings[0]);
+    (window as any).timer = setTimeout(x => recurse(0), timings[0]);
   }
 
   render() {
