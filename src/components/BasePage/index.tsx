@@ -91,7 +91,7 @@ export class BasePage extends React.Component<{
           {this.state.shieldPopup && (<Popup text={null} screenMessage={this.shieldMessage} closePopup={this.toggleShieldPopup.bind(this)} />)}
 
           {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''}
-          {withCross && localStorage.getItem("userId") ? (
+          {withCross ? (
             <div className="close-icon">
               <button
                 style={{
@@ -104,7 +104,7 @@ export class BasePage extends React.Component<{
                   microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
                 }}
               >
-                <img alt="Clsoe" src={Close} />
+                <img alt="Close" src={Close} />
               </button>
             </div>
           ) : ''}
