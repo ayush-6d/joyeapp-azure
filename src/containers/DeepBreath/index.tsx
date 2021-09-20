@@ -88,6 +88,11 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
           </div>
           <div className="" style={{ cursor: "pointer", marginTop: "35px" }}>
             <div className="n-btn" onClick={() => {
+              if (this.state.isPlaying) {
+                (window as any).audio.pause();
+                (window as any).audio.currentTime = 0;
+                this.setState({ isPlaying: false });
+              }
               microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
             }}>Daily Brew</div>
           </div>
