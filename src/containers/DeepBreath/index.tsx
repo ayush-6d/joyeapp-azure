@@ -78,7 +78,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   render() {
     return (
       <>
-        <BasePage withCross showInfoIcon className="login-form home-screen deepbreath-page" unload={this.componentCleanup}>
+        <BasePage withCross showInfoIcon className="login-form home-screen deepbreath-page" unload={() => this.componentCleanup}>
           <div style={{ width: "100%" }}>
             <div style={{ width: "100%", margin: "auto" }}>
               <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>

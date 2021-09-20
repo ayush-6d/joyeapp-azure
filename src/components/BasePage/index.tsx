@@ -82,7 +82,7 @@ export class BasePage extends React.Component<{
     this.setState({ popup: !this.state.popup, screenTitle, screenMessage })
   }
   render() {
-    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross } = this.props;
+    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross, unload } = this.props;
     !withMenu ? style.flexDirection = 'column' : style.flexDirection = 'column';
     !withMenu ? style.height = 'auto' : style.height = '100%';
     return (
@@ -102,7 +102,7 @@ export class BasePage extends React.Component<{
                 }}
                 type="button"
                 onClick={() => {
-                  this.props.unload();
+                  unload();
                   microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
                 }}
               >
