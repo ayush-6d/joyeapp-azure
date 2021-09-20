@@ -15,6 +15,7 @@ export class BasePage extends React.Component<{
   showShield?: boolean;
   showInfoIcon?: boolean;
   withCross?: boolean;
+  unload?: Function;
 },
   {
     popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean
@@ -101,6 +102,7 @@ export class BasePage extends React.Component<{
                 }}
                 type="button"
                 onClick={() => {
+                  this.props.unload();
                   microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
                 }}
               >
