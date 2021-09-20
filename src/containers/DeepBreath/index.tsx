@@ -40,6 +40,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
       (window as any).audio.load();
       this.setState({ isLoaded: true });
     });
+    window.addEventListener('beforeunload', this.componentCleanup);
   }
 
   onPlay = (e) => {
@@ -61,12 +62,17 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
     (window as any).audio.muted = !this.state.audioMute;
   }
 
-  componentWillUnmount() {
+  componentCleanup() { // this will hold the cleanup code
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
       this.setState({ isPlaying: false });
     }
+  }
+
+  componentWillUnmount() {
+    this.componentCleanup();
+    window.removeEventListener('beforeunload', this.componentCleanup); // remove the event handler for normal unmounting
   }
 
   render() {
