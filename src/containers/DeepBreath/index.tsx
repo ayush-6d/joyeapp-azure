@@ -34,6 +34,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   }
 
   componentDidMount() {
+    microsoftTeams.initialize();
     fetch(`${this.state.path}deep-bell01.mp3`).then(x => x.blob()).then(x => {
       (window as any).audio = new Audio(URL.createObjectURL(x));
       (window as any).audio.load();
@@ -61,7 +62,6 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   }
 
   componentWillUnmount() {
-    microsoftTeams.initialize();
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
