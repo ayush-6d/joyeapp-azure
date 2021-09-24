@@ -9,6 +9,8 @@ import { Modal } from "src/components/Modal";
 import { Congratulation } from "src/containers/congratulation";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import moment from 'moment';
+import InfoIcon from "../../resources/icons/infoIcon.png";
+import Popup from '../../components/Popup';
 
 export interface IYesNoProps extends RouteComponentProps {
   route?: any;
@@ -35,7 +37,9 @@ export interface IYesNoState {
   employee_id: string,
   organisation_id: string,
   sub_organisation_id: string
-  journalCount: any
+  journalCount: any;
+  popup: boolean;
+  screenMessage: string[];
 }
 
 export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
@@ -55,7 +59,9 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       employee_id: "",
       organisation_id: "",
       sub_organisation_id: "",
-      journalCount: 0
+      journalCount: 0,
+      popup: false,
+      screenMessage: [""],
     };
     // var cQuestion = this.props
     //   console.log(123,cQuestion);
@@ -144,6 +150,16 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
     }
   };
 
+  togglePopupOpen() {
+    const screenMessage = ["Take a moment to assess if you are feeling positive and productive as you finish this session."];
+    this.setState({ popup: !this.state.popup, screenMessage });
+  }
+
+  togglePopupClose() {
+    const screenMessage = [""];
+    this.setState({ popup: !this.state.popup, screenMessage })
+  }
+
   render() {
     const { openModal, modalData, ShowCongratulation } = this.state;
     const { data: { congratulationQuestion } } = this.props;
@@ -153,10 +169,16 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
         {ShowCongratulation ? (
           this.renderYesnoContent()
         ) : (
-          <BasePage showInfoIcon className="login-form home-screen">
-            {/*<div className="pageHeader">
-              <img src={pageHeader} />
-            </div>*/}
+          <BasePage className="login-form home-screen">
+            <div style={{ position: "absolute", right: 10, top: 10, zIndex: 105 }}>
+              <PageImage height="22px" width="22px" style={{ cursor: "pointer", position: "absolute", top: 5, backgroundColor: "red" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.togglePopupOpen()} />
+            </div>
+            {this.state.popup && (
+              <Popup
+                screenMessage={this.state.screenMessage}
+                closePopup={this.togglePopupClose.bind(this)}
+              />
+            )}
             {openModal && (
               <div style={{ textAlign: "center", justifyContent: "space-around", display: "flex" }}>
                 <Modal handleClose={this.navigateToDashboard} openModal={openModal} modalData={modalData} HelpLineServices={["SOS", "HelpLine", "Cancel"]}></Modal>
