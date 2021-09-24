@@ -51,7 +51,7 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
     this.setState({ modalOpened: !this.state.modalOpened });
     setTimeout(() => {
       window.localStorage.clear();
-      window.location.reload();
+      // window.location.reload();
       this.props.history.push("/");
     }, 1000);
 
