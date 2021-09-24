@@ -86,7 +86,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     processPrediction() {
-        console.log('processPrediction');
+        // console.log('processPrediction');
         if (this.prediction.data.success) this.props.history.push("/pie-chart");
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
@@ -102,35 +102,35 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 this.prediction = null;
                 this.process = false;
                 this.setState({ recordingState: 'in-progress' });
-                console.log(`${this.processId}: recordAudioFromTeams`);
+                // console.log(`${this.processId}: recordAudioFromTeams`);
                 let result: any;
                 try { result = await speechService.recordAudioFromTeams(this.processId); }
                 catch (e) { if (!(JSON.stringify(e).includes("1000"))) return; this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature!`) }); return; }
-                console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
+                // console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
                 this.setState({ recordingState: "confirm" });
-                console.log(`${this.processId}: mp4ToMP3`);
+                // console.log(`${this.processId}: mp4ToMP3`);
                 let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
-                console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
+                // console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
                 if (mp4ToMP3Result.pid !== this.processId) return;
-                console.log(`${this.processId}: translateSpeechToTextEx`);
+                // console.log(`${this.processId}: translateSpeechToTextEx`);
                 let translateSpeechToTextResult: any;
                 try {
                     translateSpeechToTextResult = await speechService.translateSpeechToTextEx(this.processId, mp4ToMP3Result.data);
                 } catch (e) {
                     translateSpeechToTextResult = { pid: this.processId, data: '     ' }
                 }
-                console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
+                // console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
                 if (translateSpeechToTextResult.pid !== this.processId) return;
-                console.log(`${this.processId}: predictionEx`);
+                // console.log(`${this.processId}: predictionEx`);
                 let predictionResult: any = await speechService.predictionEx(this.processId, translateSpeechToTextResult.data);
-                console.log(`${this.processId}: predictionEx ${predictionResult.pid}`);
+                // console.log(`${this.processId}: predictionEx ${predictionResult.pid}`);
                 if (predictionResult.pid !== this.processId) return;
                 this.prediction = predictionResult.data;
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
-                console.log(`${this.prediction}: prediction`);
+                // console.log(`${this.prediction}: prediction`);
                 if (this.prediction === null) this.process = true;
                 else this.processPrediction();
                 this.setState({ recordingState: "loading" });

@@ -8,7 +8,7 @@ const privacy = require("../../resources/icons/Privacy_icon.png");
 export class FAQS extends React.PureComponent {
   render() {
     return (
-      <BasePage withMenu showInfoIcon className="login-form home-screen">
+      <BasePage withCross showInfoIcon className="login-form home-screen">
         <div
           className="render-component"
           style={{

@@ -7,16 +7,22 @@ import "bulma/css/bulma.min.css";
 export default class App extends React.Component<IAppProps, IAppState> {
   constructor(props: IAppProps) {
     super(props);
-
     this.state = {
       loggedIn: new AuthHelper().IsUserLoggedIn(),
     };
-
+    
     msTeams.initialize();
     msTeams.registerOnThemeChangeHandler(this.updateTheme.bind(this));
     msTeams.getContext((context) => {
       this.updateTheme(context.theme);
     });
+  }
+  
+  componentDidMount() {   
+    const isLoggedIn = new AuthHelper().IsUserLoggedIn();
+    if (!isLoggedIn) {
+      this.setState({loggedIn: isLoggedIn})
+    }
   }
 
   render() {

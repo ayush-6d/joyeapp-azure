@@ -38,26 +38,17 @@ export class BurgerMenuImpl extends React.PureComponent<IBurgerMenuProps, IBurge
     this.setState({ activeKey });
   };
 
-  onClickHandle = () => {
-    window.localStorage.clear();
-    this.props.history.push("/");
-  };
-
   modalToggle = () => {
     this.setState({ modalOpened: !this.state.modalOpened });
   };
 
   handleSubmit = () => {
-    this.setState({ modalOpened: !this.state.modalOpened });
+    window.localStorage.clear();
     setTimeout(() => {
-      window.localStorage.clear();
-      // window.location.reload();
+      this.setState({ modalOpened: !this.state.modalOpened });
       this.props.history.push("/");
-    }, 1000);
-
-    // this.onClickHandle()
-    // window.localStorage.clear();
-    // this.props.history.push("/");
+      window.location.reload();
+    }, 500);
   };
 
   render() {
@@ -127,7 +118,9 @@ About us */}
                   Terms of Service
                 </div>
               </Tab>
-              <Tab onClick={() => this.props.history.push("/faq")} name="reports">
+              <Tab onClick={() => {
+                microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/faq")
+              }} name="reports">
                 <img height="25px" width="25px" src={faq} />
                 <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
                   FAQ
