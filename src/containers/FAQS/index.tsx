@@ -1,11 +1,15 @@
 import * as React from "react";
+import * as microsoftTeams from "@microsoft/teams-js";
+
 import { BasePage } from "components/BasePage/index";
 import "../Dashboards/Categories/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
-const shield = require("../../resources/icons/shield.png");
 const privacy = require("../../resources/icons/Privacy_icon.png");
 
 export class FAQS extends React.PureComponent {
+  componentDidMount() {
+    microsoftTeams.initialize();
+  }
   componentCleanup() {    
     microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
   }
