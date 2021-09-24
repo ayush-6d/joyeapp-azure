@@ -119,7 +119,7 @@ About us */}
                 </div>
               </Tab>
               <Tab onClick={() => {
-                microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/faq")
+                microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/help")
               }} name="reports">
                 <img height="25px" width="25px" src={faq} />
                 <div className="item-label" style={{ marginLeft: "30px", fontSize: "18px" }}>
