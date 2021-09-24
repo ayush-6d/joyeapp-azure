@@ -11,6 +11,8 @@ import "../Dashboards/Categories/index.scss";
 import { Dashboard } from "src/containers/Dashboards/Categories";
 import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import moment from 'moment';
+import InfoIcon from "../../resources/icons/infoIcon.png";
+import Popup from '../../components/Popup';
 
 export interface ICongratulationProps {
   route?: any;
@@ -28,6 +30,8 @@ export interface ICongratulationState {
   counterStart?: boolean;
   congratulationImg?: any;
   ShowDashboard?: boolean;
+  popup: boolean;
+  screenMessage: string[];
 }
 let timer = null;
 export class Congratulation extends React.PureComponent<ICongratulationProps, ICongratulationState> {
@@ -41,7 +45,9 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       happinessCounterLifetime: "",
       congratulationImg: confetti_00,
       timer: null,
-      ShowDashboard: false
+      ShowDashboard: false,
+      popup: false,
+      screenMessage: [""],
     };
   }
 
@@ -84,9 +90,6 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
 
   renderShowDashboardContent = () => {
     this.props.navigate();
-    // if (this.state.ShowDashboard) {
-    //   return <Dashboard />;
-    // }
   };
 
   setCounter(startCounter) {
@@ -121,6 +124,16 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       });
     }
   };
+
+  togglePopupOpen() {
+    const screenMessage = ["It is finally you who has to manage your own wellbeing. Congratulate and reward yourself for every step in managing your mental fitness, however small it may seem."];
+    this.setState({ popup: !this.state.popup, screenMessage });
+  }
+
+  togglePopupClose() {
+    const screenMessage = [""];
+    this.setState({ popup: !this.state.popup, screenMessage })
+  }
   render() {
     const { todaysFeeling, counter, congratulationImg, happinessCounter, happinessCounterLifetime, counterStart, ShowDashboard } = this.state;
     return (
@@ -128,19 +141,19 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
         {ShowDashboard ? (
           this.renderShowDashboardContent()
         ) : (
-          <BasePage showInfoIcon className="login-form home-screen">
-            {/*  <div className="pageHeader">
-              <img src={pageHeader} />
-            </div>*/}
+          <BasePage className="login-form home-screen">
+            <div style={{ position: "absolute", right: 10, top: 10, zIndex: 105 }}>
+              <PageImage height="22px" width="22px" style={{ cursor: "pointer", position: "absolute", top: 5, backgroundColor: "red" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.togglePopupOpen()} />
+            </div>
+            {this.state.popup && (
+              <Popup
+                screenMessage={this.state.screenMessage}
+                closePopup={this.togglePopupClose.bind(this)}
+              />
+            )}
             <div
               className="render-component right-arrow-sec"
               style={{
-                /* background: "#1f00a4",
-                 color: "#fff",
-                 padding: "40px",
-                 textAlign: "center",
-                 minHeight: "600px",
-                 height: "auto",*/
                 gap: "40px",
                 height: "100vh",
                 width: "100%",
@@ -165,35 +178,6 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
               <div className="contrats-boom-img">
                 <PageImage height="100%" width="100%" logo={congratulationImg} />
               </div>
-
-              {/* <div
-                className="render-component"
-                style={{
-                  background: "#1f00a4",
-                  color: "#fff",
-                  padding: "40px",
-                  textAlign: "center",
-                  minHeight: "700px",
-                  height: "auto",
-                  width: "100%",
-                  justifyContent: "space-around",
-                  display: "flex",
-                  flexDirection: "column"
-                }}
-              >
-                <div className="advertise-text bold" style={{ fontSize: "16px", marginTop: "-18px", color: "ffffff", lineHeight: "13px" }}>
-                  <p>Congrats for taking charge</p>
-                  <p>of your happiness!</p>
-                </div>
-                <PageImage height="360px" width="360px" marginTop="-200px" marginLeft="-40px" logo={congratulationImg} />
-                <div style={{ marginTop: "238px", lineHeight: "28px", fontSize: "18px" }}>
-                  <div> Week to date: {happinessCounter}</div>
-                  <div>Lifetime: {happinessCounterLifetime}</div>
-                </div>
-                <div>
-                  <PageImage height="82px" width="82px" marginTop="-63px" marginLeft="96px" logo={rightArrow} setCounter={e => this.handleCongratulation()} />
-                </div>
-              </div> */}
             </div>
 
           </BasePage>
