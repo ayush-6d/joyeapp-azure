@@ -6,9 +6,12 @@ const shield = require("../../resources/icons/shield.png");
 const privacy = require("../../resources/icons/Privacy_icon.png");
 
 export class FAQS extends React.PureComponent {
+  componentCleanup() {    
+    microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp");
+  }
   render() {
     return (
-      <BasePage withCross showInfoIcon className="login-form home-screen">
+      <BasePage withCross showInfoIcon className="login-form home-screen" unload={this.componentCleanup.bind(this)}>
         <div
           className="render-component"
           style={{
