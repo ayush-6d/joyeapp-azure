@@ -58,7 +58,11 @@ public async getServerSideToken(clientSideToken) {
       } catch (error) {
         // console.log("sso token error");
         console.log(JSON.stringify(error));
-        alert("Someting went wrong, Error Code- 002");
+        if (error.indexOf('invalid_grant') > -1) {
+          alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
+        } else {
+          alert("Something went wrong, Error Code- 002");
+        }
       }
     })
   });
