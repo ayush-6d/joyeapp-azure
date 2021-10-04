@@ -75,7 +75,7 @@ private async getAccessSSOToken() {
       },
       failureCallback: function(error) {
         console.log('error', error);
-        if (error.indexOf("resourceRequiresConsent") > -1){
+        if (error.indexOf("resourceRequiresConsent") > -1 || error.indexOf("CancelledByUser") > -1){
           alert("Joye requires basic profile permission to continue. Check Privacy Policy for more details")
         } else {
           alert(`Something went wrong, Error Code- 003 - ${error}`);
