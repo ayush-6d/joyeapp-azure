@@ -69,13 +69,19 @@ private async getAccessSSOToken() {
   return new Promise((resolve, reject) => {
     msTeams.authentication.getAuthToken({
       successCallback: (result) => {
+        localStorage.setItem('error', '');
         console.log('result', result);
         resolve(result);
       },
       failureCallback: function(error) {
         console.log('error', error);
-        alert("Someting went wrong, Error Code- 003");
-        alert(error);
+        if (error.indexOf("resourceRequiresConsent") > -1){
+          alert("Joye requires basic profile permission to continue. Check Privacy Policy for more details")
+        } else {
+          alert(`Something went wrong, Error Code- 003 - ${error}`);
+        }
+        localStorage.setItem('error', 'Something went wrong, please try again');
+        window.location.replace(window.location.origin + '/');
         reject("Error getting token: " + error);
       }
     });

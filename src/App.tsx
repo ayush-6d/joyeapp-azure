@@ -10,7 +10,7 @@ export default class App extends React.Component<IAppProps, IAppState> {
     this.state = {
       loggedIn: new AuthHelper().IsUserLoggedIn(),
     };
-    
+    localStorage.setItem('error', '');
     msTeams.initialize();
     msTeams.registerOnThemeChangeHandler(this.updateTheme.bind(this));
     msTeams.getContext((context) => {
