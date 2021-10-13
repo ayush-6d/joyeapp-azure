@@ -119,6 +119,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px", }}>
               Easy and secure sign in with your Microsoft account
             </div>
+            <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px", }}>
+              Your Teams administrator needs to approve permissions for Joye
+            </div>
           </div>
         </BasePage>
 

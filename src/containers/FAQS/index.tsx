@@ -51,6 +51,7 @@ export class FAQS extends React.PureComponent {
             <p style={{ marginBottom: "10px", marginTop: "20px" }}>In addition, Joye will intelligently prompt you with notifications when we sense you need a break in your busy schedule. Joye's Stress buster will help you to recharge and boost your productivity again!</p>
             <p style={{ marginBottom: "10px", marginTop: "20px" }}>At every stage of the journey in Joye, you will see an info icon, which has detailed information on every feature and how to make the most of it!</p>
             <p style={{ marginBottom: "10px", marginTop: "20px" }}>Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!</p>
+            <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>Note: Your Teams administrator needs to approve permissions for you to use Joye in Teams. Please request your Teams administrator to do so.</p>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>How does Joye help my wellbeing?</p>
             <p>Positive Psychology has the power to make you think and behave in ways which will change the world around you. Joye has converted the science of Positive Psychology and Cognitive Behavior Therapy into an intelligent software for you to manage the emotional flux of your day to day work-life. Speak your mind and Joye will help you to stay positive and productive amidst your emotional flux.</p>
             <p>Some inspiring research:</p>
