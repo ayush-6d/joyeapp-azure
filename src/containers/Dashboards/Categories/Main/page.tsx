@@ -178,8 +178,8 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     render() {
         return (<>
             {(this.state.pageState === 'loading') ? <Loader display="flex" /> : null}
-            {(this.state.pageState === 'record') ? <BasePage withMenu={true} showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'}>
-                <div style={{ userSelect: "none" }}>
+            {(this.state.pageState === 'record') ? <BasePage showShield={this.state.pageState === 'record'} showInfoIcon={this.state.pageState === 'record'} showSignout={true}>
+                <div style={{ userSelect: "none" }}> 
                     <Note isGibberish={this.state.isGibberish} recordingState={this.state.recordingState}></Note>
                     <Controls isMic={this.state.isMic} recordingState={this.state.recordingState} onClick={this.onCenterCircleClick} ></Controls>
                     <SpeakAgain isMic={this.state.isMic} recordingState={this.state.recordingState} onSpeakAgain={this.onSpeakAgain} onCancel={this.onCancel} />

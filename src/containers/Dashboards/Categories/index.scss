@@ -1,10 +1,12 @@
 $color: #7866c8;
 @keyframes ripple {
   0% {
-    box-shadow: 0 0 0 0 rgba($color, 0.3), 0 0 0 1em rgba($color, 0.3), 0 0 0 3em rgba($color, 0.3), 0 0 0 5em rgba($color, 0.3);
+    box-shadow: 0 0 0 0 rgba($color, 0.3), 0 0 0 1em rgba($color, 0.3),
+      0 0 0 3em rgba($color, 0.3), 0 0 0 5em rgba($color, 0.3);
   }
   100% {
-    box-shadow: 0 0 0 1em rgba($color, 0.3), 0 0 0 3em rgba($color, 0.3), 0 0 0 5em rgba($color, 0.3), 0 0 0 8em rgba($color, 0);
+    box-shadow: 0 0 0 1em rgba($color, 0.3), 0 0 0 3em rgba($color, 0.3),
+      0 0 0 5em rgba($color, 0.3), 0 0 0 8em rgba($color, 0);
   }
 }
 @font-face {
@@ -37,13 +39,11 @@ $color: #7866c8;
     justify-content: center;
     align-items: center;
     height: 100%;
-   /* overflow-y: scroll;
+    /* overflow-y: scroll;
     overflow-x: hidden;*/
     width: 100%;
-   
   }
-  .circle-box-container .circle-box
-  {
+  .circle-box-container .circle-box {
     height: 180px;
     display: block;
   }
@@ -148,29 +148,30 @@ $color: #7866c8;
   letter-spacing: -1.32504px;
 }
 
-
-.burger-menu-container
-{
+.burger-menu-container {
   z-index: 500;
 }
 
-.home-screen .home-shield
-{
+.home-screen .home-shield {
   position: absolute;
-  right:50px;
-  top:-5px;
+  right: 40px;
+  top: -5px;
 }
-.home-info
-{
+.home-info {
   position: absolute;
   right: 0px;
   top: -5px;
   z-index: 105;
 }
-.right-arrow-sec
-{
+.home-signout {
+  position: absolute;
+  right: 75px;
+  top: -5px;
+  z-index: 105;
+}
+.right-arrow-sec {
   position: relative;
-    z-index: 100;
+  z-index: 100;
 }
 .text-container {
   margin-bottom: 30px;
@@ -193,9 +194,8 @@ $color: #7866c8;
   height: 165px;
   box-shadow: 0 0 0 15px #4329b2;
 }
-a:hover
-{
-    text-decoration: none;
+a:hover {
+  text-decoration: none;
 }
 .circle_main {
   display: block;
@@ -232,7 +232,7 @@ a:hover
     color: #fff;
     font-size: 19px;
     margin: auto;
-    font-family:"Mont-HeavyDEMO";
+    font-family: "Mont-HeavyDEMO";
     letter-spacing: -2px;
   }
 }
@@ -263,7 +263,6 @@ a:hover
     flex-direction: row;
   }
   @media (min-width: 480px) {
-    
     .circle__content {
       // font-size: 2em;
     }

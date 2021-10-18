@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import './basePage.scss';
 import { BurgerMenu } from 'src/components/BurgerMenu';
 import Shield from "../../resources/icons/Privacyshield.png";
@@ -7,6 +8,9 @@ import { PageImage } from "src/components";
 import Popup from '../Popup';
 import * as microsoftTeams from "@microsoft/teams-js";
 import Close from "src/resources/icons/Close.png";
+import { Button } from "../FormComponents";
+const out = require("../../resources/icons/logout.png");
+
 export class BasePage extends React.Component<{
   className?: string;
   withMenu?: boolean;
@@ -16,9 +20,11 @@ export class BasePage extends React.Component<{
   showInfoIcon?: boolean;
   withCross?: boolean;
   unload?: any;
+  showSignout?: boolean;
+  history?: any;
 },
   {
-    popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean
+    popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean, isOpen: boolean, modalOpened: boolean,
   }> {
   static defaultProps = {
     style: {}
@@ -29,7 +35,9 @@ export class BasePage extends React.Component<{
       popup: false,
       screenMessage: [""],
       screenTitle: "",
-      shieldPopup: false
+      shieldPopup: false,
+      isOpen: false,
+      modalOpened: false
     };
   }
 
@@ -81,17 +89,32 @@ export class BasePage extends React.Component<{
     const screenMessage = [""];
     this.setState({ popup: !this.state.popup, screenTitle, screenMessage })
   }
+
+  modalToggle = () => {
+    this.setState({ modalOpened: !this.state.modalOpened });
+  };
+
+  handleSubmit = () => {
+    window.localStorage.clear();
+    setTimeout(() => {
+      this.setState({ modalOpened: !this.state.modalOpened });
+      // this.props.history.push("/");
+      window.location.reload();
+    }, 500);
+  };
   render() {
-    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross, unload } = this.props;
+    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross, unload, showSignout} = this.props;
     !withMenu ? style.flexDirection = 'column' : style.flexDirection = 'column';
     !withMenu ? style.height = 'auto' : style.height = '100%';
+    const containerClass = this.state.modalOpened ? "modal__container modal__container-active" : "modal__container";
+    const coverClass = this.state.modalOpened ? "modal__cover modal__cover-active" : "modal__cover";
     return (
       <div className={`base-page-main login-form ${className || ``}`}>
         <div className="position-relative" style={{ height: '40px' }}>
           {this.state.popup && (<Popup text={this.state.screenTitle} screenMessage={this.state.screenMessage} closePopup={this.togglePopupClose.bind(this)} />)}
           {this.state.shieldPopup && (<Popup text={null} screenMessage={this.shieldMessage} closePopup={this.toggleShieldPopup.bind(this)} />)}
 
-          {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''}
+          {/* {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''} */}
           {withCross ? (
             <div className="close-icon">
               <button
@@ -99,19 +122,84 @@ export class BasePage extends React.Component<{
                   background: "transparent",
                   border: "none",
                   // padding: "10px",
+                  zIndex: 15
                 }}
                 type="button"
-                onClick={unload}
+                onClick={() => this.props.history.push("/")}
               >
-                <img alt="Close" src={Close} />
+                <img alt="Close" src={Close} style={{color: "grey"}} />
               </button>
             </div>
           ) : ''}
+          
           {showShield ? (<div className="home-shield">
-            <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={e => this.toggleShieldPopup()} />
+            <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={() => this.toggleShieldPopup()} />
           </div>) : ''}
+          
 
           {showInfoIcon ? (<div className="home-info"><PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.togglePopupOpen()} /> </div>) : ''}
+          {showSignout ? (
+            <div className="home-signout">
+              <button
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  // padding: "10px",
+                  height:"32px",
+                  width:"32px"
+                }}
+                type="button"
+                onClick={this.modalToggle}
+              >
+                <img alt="Close" src={out} />
+              </button>
+            </div>
+          ) : ''}
+          {/* modal start */}
+        {this.state.modalOpened &&
+          <React.Fragment>
+            <div className="modal__button" onClick={this.modalToggle}>
+
+            </div>
+            <div className={containerClass}>
+              <div className="text-container center-items">
+                <div
+                  className="advertise-text bold"
+                  style={{
+                    fontSize: "16px",
+                    lineHeight: "24px",
+                    textAlign: "center",
+                    marginBottom: "20px",
+
+                    color: "#1E00A3"
+                  }}
+                >
+                  Wait
+                </div>
+                <div
+                  className="advertise-text bold journal-title"
+                  style={{
+                  }}
+                >
+                  Do you really want to logout?
+                </div>
+
+                <div className="cancel-btn margin-top-10" >
+                  <Button Loader={null} type="button" onClick={this.handleSubmit} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                    Yes
+                  </Button>
+                </div>
+                <div className="cancel-btn margin-top-10" >
+                  <Button Loader={null} type="button" onClick={this.modalToggle} marginBottom={"20px"} fontWeight={600} fontSize="16.67px">
+                    No
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className={coverClass} onClick={this.modalToggle}></div>
+          </React.Fragment>
+        }
+        {/* modal end */}
         </div>
         <div className="layout-children">{children}</div>
       </div>
