@@ -50,7 +50,7 @@ public async getServerSideToken(clientSideToken) {
           }
         })
         if (ssoToken.data.error && ssoToken.data.error == 'invalid_grant') {
-          alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
+          // alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
           let queryParams = {
               client_id: "#{clientId}",
               response_type: "id_token token",
@@ -64,7 +64,8 @@ public async getServerSideToken(clientSideToken) {
           // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")
           // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest. 
           let authorizeEndpoint = `https://login.microsoftonline.com/${context.tid}/oauth2/v2.0/authorize?${toQueryString(queryParams)}`;
-          window.top.location.href = authorizeEndpoint;
+          alert("Access denied, Please give permissions on " + authorizeEndpoint)
+          // window.top.location.href = authorizeEndpoint;
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
