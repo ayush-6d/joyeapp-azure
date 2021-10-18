@@ -55,7 +55,7 @@ public async getServerSideToken(clientSideToken) {
               client_id: "b083d035-a374-45ea-911c-5ddf8569b0f5",
               response_type: "id_token token",
               response_mode: "fragment",
-              scope: "https://graph.microsoft.com/User.Read email openid profile offline_access",
+              scope: "https://graph.microsoft.com/Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access",
               redirect_uri: window.location.origin + "/auth/auth-end",
               // nonce: _guid(),
               // state: state,
