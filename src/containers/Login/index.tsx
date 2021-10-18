@@ -114,7 +114,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             >
               {isLoading && <i className="fa fa-refresh fa-spin"></i>}Sign in
             </Button>
-            <a id="permission-url" target="_blank" href="#">Errors with permission, Please click here to grant permissions</a>
+            <div>
+              <a id="permission-url" target="_blank" href="#" style={{color: "b62e2e", display: "none"}}>Errors with permission, Please click here to grant permissions</a>
+            </div>
           </div>
           <div className="text-container">
             <div className="advertise-text small-text" style={{ color: "#808080", fontSize: "16px", }}>

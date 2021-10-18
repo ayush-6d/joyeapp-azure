@@ -67,6 +67,7 @@ public async getServerSideToken(clientSideToken) {
           console.log(authorizeEndpoint)
           let aTag:any = document.getElementById('permission-url');
           aTag.href = authorizeEndpoint;
+          aTag.style.display  = 'inline';
           // window.top.location.href = authorizeEndpoint;
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
