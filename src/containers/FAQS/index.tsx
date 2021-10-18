@@ -2,7 +2,7 @@ import * as React from "react";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 import { BasePage } from "components/BasePage/index";
-import "../Dashboards/Categories/index.scss";
+import "../Dashboards/Categories/Main/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
 const privacy = require("../../resources/icons/Privacy_icon.png");
 

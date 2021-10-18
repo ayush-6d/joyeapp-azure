@@ -1,15 +1,13 @@
 import * as React from "react";
 import { BasePage } from "components/BasePage/index";
-import "../Dashboards/Categories/index.scss";
-import { relative } from "path";
+import "../Dashboards/Categories/Main/index.scss";
 const logo = require("../../resources/icons/LOGO_Square white_border.png");
-const shield = require("../../resources/icons/shield.png");
 
 export class AboutUs extends React.PureComponent {
   render() {
     let Date = "01 July 2021";
     return (
-      <BasePage withMenu showInfoIcon className="login-form home-screen">
+      <BasePage withCross showInfoIcon className="login-form home-screen">
         <div
           className="render-component"
           style={{
