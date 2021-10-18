@@ -68,6 +68,7 @@ public async getServerSideToken(clientSideToken) {
           let aTag:any = document.getElementById('permission-url');
           aTag.href = authorizeEndpoint;
           aTag.style.display  = 'inline';
+          aTag.style.color  = '#b62e2e';
           // window.top.location.href = authorizeEndpoint;
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
