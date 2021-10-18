@@ -64,6 +64,7 @@ public async getServerSideToken(clientSideToken) {
           // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")
           // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest. 
           let authorizeEndpoint = `https://login.microsoftonline.com/${context.tid}/oauth2/v2.0/authorize?${toQueryString(queryParams)}`;
+          console.log(authorizeEndpoint)
           alert("Access denied, Please give permissions on " + authorizeEndpoint)
           // window.top.location.href = authorizeEndpoint;
         } else if (ssoToken.data.error){
