@@ -49,7 +49,7 @@ public async getServerSideToken(clientSideToken) {
             "Content-Type": "application/json"
           }
         })
-        console.log(ssoToken)
+        console.log(1233456, ssoToken)
         if (ssoToken.data.sso) {
           // alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
