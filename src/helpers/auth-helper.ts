@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit, database } from '../services/firebase';
 import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/localStorage.service';
-
+import toQueryString from 'to-querystring'
 export default class AuthHelper {
 
   constructor(){
@@ -49,13 +49,26 @@ public async getServerSideToken(clientSideToken) {
             "Content-Type": "application/json"
           }
         })
-        console.log(1233456, ssoToken)
         if (ssoToken.data.error && ssoToken.data.error == 'invalid_grant') {
           alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
+          let queryParams = {
+              client_id: "#{clientId}",
+              response_type: "id_token token",
+              response_mode: "fragment",
+              scope: "https://graph.microsoft.com/User.Read email openid profile offline_access",
+              redirect_uri: window.location.origin + "/auth/auth-end",
+              // nonce: _guid(),
+              // state: state,
+              login_hint: context.loginHint,
+          };
+          // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")
+          // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest. 
+          let authorizeEndpoint = `https://login.microsoftonline.com/${context.tid}/oauth2/v2.0/authorize?${toQueryString(queryParams)}`;
+          window.location.assign(authorizeEndpoint);
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
-        
+
         if (ssoToken.data.sso) {
           // alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
