@@ -50,6 +50,12 @@ public async getServerSideToken(clientSideToken) {
           }
         })
         console.log(1233456, ssoToken)
+        if (ssoToken.data.error && ssoToken.data.error == 'invalid_grant') {
+          alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
+        } else if (ssoToken.data.error){
+          alert("Something went wrong, Error Code- 002");
+        }
+        
         if (ssoToken.data.sso) {
           // alert("got ssoToken");
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
