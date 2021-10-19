@@ -12,21 +12,21 @@ import { firebaseInit } from 'src/services/firebase';
 import Popup from 'src/components/Popup';
 
 
-class authEnd extends React.Component {
-  _isMounted = false;
+export const AuthEndComp = () => {
+//   let _isMounted = false;
 
-  containerEl = null;
-  externalWindow = null;
+//   let containerEl = null;
+//   let externalWindow = null;
 
-  componentDidMount() {
-    firebaseInit;
-  }
+//   let componentDidMount = () => {
+//     firebaseInit;
+//   }
 
-  componentWillMount() {
-    this._isMounted = false;
-  }
+//   let componentWillMount =() => {
+//     _isMounted = false;
+//   }
 
-  getQueryParameters = () => {
+  let getQueryParameters = () => {
     let queryParams = {};
     location.search
       .substr(1)
@@ -40,14 +40,12 @@ class authEnd extends React.Component {
     return queryParams;
   };
 
-  render() {
     return (
       <div>
           Hello
       </div>
     );
-  }
 }
 
 
-export const authEndComp = authEnd
+// export const authEndComp = authEnd
