@@ -99,7 +99,7 @@ const routes: RouteDefinition[] = [
   {
     route: "/auth/auth-end",
     component: <AuthEndComp />,
-    authenticated: true,
+    authenticated: false,
   },
 ];
 
