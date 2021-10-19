@@ -7,7 +7,8 @@ import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit, database } from '../services/firebase';
 import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/localStorage.service';
-import toQueryString from 'to-querystring'
+import toQueryString from 'to-querystring';
+import * as uuid from 'uuid';
 export default class AuthHelper {
 
   constructor(){
@@ -57,7 +58,7 @@ public async getServerSideToken(clientSideToken) {
               response_mode: "fragment",
               scope: "https://graph.microsoft.com/Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access User.Read email openid profile offline_access",
               redirect_uri: window.location.origin + "/auth/auth-end",
-              // nonce: _guid(),
+              nonce: uuid.v4(),
               // state: state,
               login_hint: context.loginHint,
           };
