@@ -14,9 +14,6 @@ export const AuthEndComp = () => {
 //   let componentWillMount =() => {
 //     _isMounted = false;
 //   }
-    if(location.href.indexOf('#access_token') >= 0){
-        location.href = location.href.replace('#access_token', '?access_token') 
-    }
 
     msTeams.initialize();
     localStorage.removeItem("auth.error");
