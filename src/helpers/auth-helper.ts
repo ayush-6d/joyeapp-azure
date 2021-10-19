@@ -70,18 +70,18 @@ public async getServerSideToken(clientSideToken) {
           // aTag.href = authorizeEndpoint;
           // aTag.style.display  = 'inline';
           // aTag.style.color  = '#b62e2e';
-          // window.open(authorizeEndpoint, '_blank', `toolbar=no,
-          //                           location=no,
-          //                           status=no,
-          //                           menubar=no,
-          //                           scrollbars=yes,
-          //                           resizable=no,
-          //                           width=500,
-          //                           height=600`);
+          window.open(authorizeEndpoint, '_blank', `toolbar=no,
+                                    location=no,
+                                    status=no,
+                                    menubar=no,
+                                    scrollbars=yes,
+                                    resizable=no,
+                                    width=500,
+                                    height=600`);
           // window.top.location.href = authorizeEndpoint;
-          let iframe:any = document.getElementById('popup-iframe');
-          iframe.src = authorizeEndpoint;
-          iframe.style.display  = 'block';
+          // let iframe:any = document.getElementById('popup-iframe');
+          // iframe.src = authorizeEndpoint;
+          // iframe.style.display  = 'block';
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
