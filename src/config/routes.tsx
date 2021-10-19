@@ -95,6 +95,11 @@ const routes: RouteDefinition[] = [
     component: <DailyChart />,
     authenticated: true,
   },
+  {
+    route: "/auth/auth-end",
+    component: <DailyChart />,
+    authenticated: true,
+  },
 ];
 
 export default routes;
