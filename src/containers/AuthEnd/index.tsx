@@ -14,6 +14,9 @@ export const AuthEndComp = () => {
 //   let componentWillMount =() => {
 //     _isMounted = false;
 //   }
+    if(location.href.indexOf('#access_token')){
+        location.href = location.href.replace('#access_token', '?access_token') 
+    }
 
   let getQueryParameters = () => {
     let queryParams = {};
@@ -28,10 +31,11 @@ export const AuthEndComp = () => {
       });
     return queryParams;
   };
+  let x:any = getQueryParameters();
 
     return (
       <div>
-          Hello
+          Hello {x.xyz}
       </div>
     );
 }
