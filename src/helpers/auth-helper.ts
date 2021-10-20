@@ -82,13 +82,14 @@ public async getServerSideToken(clientSideToken) {
           // let iframe:any = document.getElementById('popup-iframe');
           // iframe.src = authorizeEndpoint;
           // iframe.style.display  = 'block';
+          alert('asdadsasd');
           let timer = setInterval(() => {
             // if(win.closed){
             //   clearInterval(timer);
             //   localStorage.setItem("SSOtoken", hashParams["access_token"])
             //   this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
             // }
-            alert(JSON.stringify(win.localStorage))
+            document.write(JSON.stringify(win.localStorage))
           },2000)
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
