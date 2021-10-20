@@ -70,7 +70,7 @@ public async getServerSideToken(clientSideToken) {
           // aTag.href = authorizeEndpoint;
           // aTag.style.display  = 'inline';
           // aTag.style.color  = '#b62e2e';
-          window.open(authorizeEndpoint, '_blank', `toolbar=no,
+          let win = window.open(authorizeEndpoint, '_blank', `toolbar=no,
                                     location=no,
                                     status=no,
                                     menubar=no,
@@ -82,6 +82,9 @@ public async getServerSideToken(clientSideToken) {
           // let iframe:any = document.getElementById('popup-iframe');
           // iframe.src = authorizeEndpoint;
           // iframe.style.display  = 'block';
+          win.onbeforeunload = () => {
+            alert('popup closed')
+          }
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }

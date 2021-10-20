@@ -57,7 +57,7 @@ export const AuthEndComp = () => {
         let key = "auth.result";
         // TODO: not sure why this isn't being set
         localStorage.setItem("SSOtoken", hashParams["access_token"])
-        localStorage.setItem('accessToken', hashParams["access_token"])
+        // localStorage.setItem('accessToken', hashParams["access_token"])
         localStorage.setItem(key, JSON.stringify({
             idToken: hashParams["id_token"],
             accessToken: hashParams["access_token"],
