@@ -91,7 +91,7 @@ public async getServerSideToken(clientSideToken) {
           //   }
           //   document.write(win.localStorage.getItem("SSOtoken"))
           // },2000)
-          axios.get("localhost:8080/tempData/" + queryParams["state"], {
+          axios.get("https://b3bd-110-224-167-251.ngrok.io/tempData/" + queryParams["state"], {
             headers: {
               "Content-Type": "application/json"
             }

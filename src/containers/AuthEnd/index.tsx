@@ -34,7 +34,7 @@ export const AuthEndComp = () => {
     if (hashParams["error"]) {
         // Authentication/authorization failed
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
-        axios.post("localhost:8080/tempData/" + hashParams["state"], hashParams, 
+        axios.post("https://b3bd-110-224-167-251.ngrok.io/tempData/" + hashParams["state"], hashParams, 
         {
           headers: {
             "Content-Type": "application/json"
@@ -75,7 +75,7 @@ export const AuthEndComp = () => {
             tokenType: hashParams["token_type"],
             expiresIn: hashParams["expires_in"]
         }));
-        axios.post("localhost:8080/tempData/" + hashParams["state"], {
+        axios.post("https://b3bd-110-224-167-251.ngrok.io/tempData/" + hashParams["state"], {
             idToken: hashParams["id_token"],
             accessToken: hashParams["access_token"],
             tokenType: hashParams["token_type"],
@@ -92,7 +92,7 @@ export const AuthEndComp = () => {
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
-        axios.post("localhost:8080/tempData/" + hashParams["state"], hashParams, 
+        axios.post("https://b3bd-110-224-167-251.ngrok.io/tempData/" + hashParams["state"], hashParams, 
         {
           headers: {
             "Content-Type": "application/json"
