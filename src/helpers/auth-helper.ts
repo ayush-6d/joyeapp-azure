@@ -85,9 +85,9 @@ public async getServerSideToken(clientSideToken) {
           let timer = setInterval(() => {
             if(win.closed){
               clearInterval(timer);
-              alert('popup closed');
+              this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
             }
-          },1000)
+          },2000)
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
