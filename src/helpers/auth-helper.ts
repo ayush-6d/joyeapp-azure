@@ -82,9 +82,12 @@ public async getServerSideToken(clientSideToken) {
           // let iframe:any = document.getElementById('popup-iframe');
           // iframe.src = authorizeEndpoint;
           // iframe.style.display  = 'block';
-          win.onbeforeunload = () => {
-            alert('popup closed')
-          }
+          let timer = setInterval(() => {
+            if(win.closed){
+              clearInterval(timer);
+              alert('popup closed');
+            }
+          },1000)
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
