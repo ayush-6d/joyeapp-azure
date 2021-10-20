@@ -59,7 +59,7 @@ public async getServerSideToken(clientSideToken) {
               scope: "https://graph.microsoft.com/Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access User.Read email openid profile offline_access",
               redirect_uri: window.location.origin + "/auth/auth-end",
               nonce: uuid.v4(),
-              state: 'abcd',
+              state: uuid.v4(),
               login_hint: context.loginHint,
           };
           // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")
@@ -82,15 +82,24 @@ public async getServerSideToken(clientSideToken) {
           // let iframe:any = document.getElementById('popup-iframe');
           // iframe.src = authorizeEndpoint;
           // iframe.style.display  = 'block';
-          let timer = setInterval(() => {
-            if(win.closed){
-              clearInterval(timer);
-              alert('closed');
-              // localStorage.setItem("SSOtoken", hashParams["access_token"])
-              // this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
+          // let timer = setInterval(() => {
+          //   if(win.closed){
+          //     clearInterval(timer);
+          //     alert('closed');
+          //     // localStorage.setItem("SSOtoken", hashParams["access_token"])
+          //     // this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
+          //   }
+          //   document.write(win.localStorage.getItem("SSOtoken"))
+          // },2000)
+          axios.get("localhost:8080/tempData/" + queryParams["state"], {
+            headers: {
+              "Content-Type": "application/json"
             }
-            document.write(win.localStorage.getItem("SSOtoken"))
-          },2000)
+          })
+            .then(async data => {
+              localStorage.setItem("SSOtoken", data.data["accessToken"])
+              this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
+            })
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }

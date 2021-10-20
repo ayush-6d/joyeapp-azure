@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as msTeams from '@microsoft/teams-js';
+import axios from "axios";
 
 export const AuthEndComp = () => {
 //   let _isMounted = false;
@@ -33,7 +34,16 @@ export const AuthEndComp = () => {
     if (hashParams["error"]) {
         // Authentication/authorization failed
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
-        msTeams.authentication.notifyFailure(hashParams["error"]);
+        axios.post("localhost:8080/tempData/" + hashParams["state"], hashParams, 
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+            .then(async data => {
+                await msTeams.authentication.notifyFailure("UnexpectedFailure");
+                window.close();
+            })
         // window.close();
     } else if (hashParams["access_token"]) {
         // Get the stored state parameter and compare with incoming state
@@ -65,18 +75,38 @@ export const AuthEndComp = () => {
             tokenType: hashParams["token_type"],
             expiresIn: hashParams["expires_in"]
         }));
-        msTeams.authentication.notifySuccess(key);
-        // window.close();
+        axios.post("localhost:8080/tempData/" + hashParams["state"], {
+            idToken: hashParams["id_token"],
+            accessToken: hashParams["access_token"],
+            tokenType: hashParams["token_type"],
+            expiresIn: hashParams["expires_in"]
+        }, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+            .then(async data => {
+                await msTeams.authentication.notifySuccess(key);
+                window.close();
+            })
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
-        msTeams.authentication.notifyFailure("UnexpectedFailure");
-        // window.close();
+        axios.post("localhost:8080/tempData/" + hashParams["state"], hashParams, 
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+            .then(async data => {
+                await msTeams.authentication.notifyFailure("UnexpectedFailure");
+                window.close();
+            })
     }
 
     return (
       <div>
-          Hello {hashParams.access_token} {document.referrer}
+          Hello {hashParams.access_token}
       </div>
     );
 }
