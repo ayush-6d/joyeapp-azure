@@ -76,7 +76,7 @@ export const AuthEndComp = () => {
 
     return (
       <div>
-          Hello {hashParams.access_token}
+          Hello {hashParams.access_token} {document.referrer}
       </div>
     );
 }
