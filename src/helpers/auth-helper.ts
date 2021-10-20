@@ -83,10 +83,12 @@ public async getServerSideToken(clientSideToken) {
           // iframe.src = authorizeEndpoint;
           // iframe.style.display  = 'block';
           let timer = setInterval(() => {
-            if(win.closed){
-              clearInterval(timer);
-              this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
-            }
+            // if(win.closed){
+            //   clearInterval(timer);
+            //   localStorage.setItem("SSOtoken", hashParams["access_token"])
+            //   this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
+            // }
+            alert(win.localStorage.SSOtoken)
           },2000)
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");

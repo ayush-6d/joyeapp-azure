@@ -34,6 +34,7 @@ export const AuthEndComp = () => {
         // Authentication/authorization failed
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
         msTeams.authentication.notifyFailure(hashParams["error"]);
+        // window.close();
     } else if (hashParams["access_token"]) {
         // Get the stored state parameter and compare with incoming state
         // let expectedState = localStorage.getItem("auth.state");
@@ -65,10 +66,12 @@ export const AuthEndComp = () => {
             expiresIn: hashParams["expires_in"]
         }));
         msTeams.authentication.notifySuccess(key);
+        // window.close();
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
         msTeams.authentication.notifyFailure("UnexpectedFailure");
+        // window.close();
     }
 
     return (
