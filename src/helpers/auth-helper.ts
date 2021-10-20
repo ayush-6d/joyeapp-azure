@@ -59,6 +59,7 @@ public async getServerSideToken(clientSideToken) {
               scope: "https://graph.microsoft.com/Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access User.Read email openid profile offline_access",
               redirect_uri: window.location.origin + "/auth/auth-end",
               nonce: uuid.v4(),
+              state: 'abcd',
               login_hint: context.loginHint,
           };
           // Go to the AzureAD authorization endpoint (tenant-specific endpoint, not "common")
