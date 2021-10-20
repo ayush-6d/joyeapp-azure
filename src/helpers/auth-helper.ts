@@ -57,7 +57,7 @@ public async getServerSideToken(clientSideToken) {
               response_type: "id_token token",
               response_mode: "fragment",
               scope: "https://graph.microsoft.com/Calendars.ReadWrite.Shared Contacts.ReadWrite.Shared offline_access User.Read email openid profile offline_access",
-              redirect_uri: window.location.origin + "/auth/auth-end#uKey="+ uuid.v4(),
+              redirect_uri: window.location.origin + "/auth/auth-end",
               nonce: uuid.v4(),
               login_hint: context.loginHint,
           };
