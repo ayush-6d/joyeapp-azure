@@ -42,7 +42,7 @@ public async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
     msTeams.getContext(async (context) => {
       try {
-        const ssoToken = await axios.post("https://joye-backend-service-dot-joye-768f7.uc.r.appspot.com/auth/token", {
+        const ssoToken = await axios.post("https://express-app-328308.as.r.appspot.com/auth/token", {
           token: clientSideToken,
           tid: context.tid
         }, {
