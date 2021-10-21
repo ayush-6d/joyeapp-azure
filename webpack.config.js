@@ -21,6 +21,9 @@ module.exports = {
     devtool: 'source-map',
     devServer: {
         historyApiFallback: true,
+        headers: {
+            'X-Frame-Options': 'ALLOW-FROM https://teams.microsoft.com/'
+        }
     },
     mode: 'production',
     optimization: {
