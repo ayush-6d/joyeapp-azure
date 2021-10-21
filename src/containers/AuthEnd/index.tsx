@@ -33,16 +33,7 @@ export const AuthEndComp = () => {
     if (hashParams["error"]) {
         // Authentication/authorization failed
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
-        axios.post("https://b3bd-110-224-167-251.ngrok.io/tempData/" + hashParams["state"], hashParams, 
-        {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-            .then(async data => {
-                await msTeams.authentication.notifyFailure("UnexpectedFailure");
-                window.close();
-            })
+        msTeams.authentication.notifyFailure("UnexpectedFailure");
         // window.close();
     } else if (hashParams["access_token"]) {
         let key = "auth.result";
@@ -56,13 +47,12 @@ export const AuthEndComp = () => {
           expiresIn: hashParams["expires_in"]
         }));
         console.log('key', key);
-        msTeams.authentication.notifySuccess(key);
-        window.close();
+        const success = msTeams.authentication.notifySuccess(key);
+        console.log('success', success);
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
         msTeams.authentication.notifyFailure("UnexpectedFailure");
-        window.close();
     }
 
     return (

@@ -66,34 +66,17 @@ public async getServerSideToken(clientSideToken) {
           // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest. 
           let authorizeEndpoint = `https://login.microsoftonline.com/${context.tid}/oauth2/v2.0/authorize?${toQueryString(queryParams)}`;
           console.log(authorizeEndpoint)
-          window.location.assign(authorizeEndpoint);
-          // let aTag:any = document.getElementById('permission-url');
-          // aTag.href = authorizeEndpoint;
-          // aTag.style.display  = 'inline';
-          // aTag.style.color  = '#b62e2e';
-          // let win = window.open(authorizeEndpoint, '_blank', `toolbar=no,
-          //                           location=no,
-          //                           status=no,
-          //                           menubar=no,
-          //                           scrollbars=yes,
-          //                           resizable=no,
-          //                           width=500,
-          //                           height=600`);
-          // window.top.location.href = authorizeEndpoint;
-          // let iframe:any = document.getElementById('popup-iframe');
-          // iframe.src = authorizeEndpoint;
-          // iframe.style.display  = 'block';
-          // let timer = setInterval(() => {
-          //   if(win.closed){
-          //     clearInterval(timer);
-          //     alert('closed');
-          //     // localStorage.setItem("SSOtoken", hashParams["access_token"])
-          //     // this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
-          //   }
-          //   document.write(win.localStorage.getItem("SSOtoken"))
-          // },2000)
-          // localStorage.setItem("SSOtoken", data.data["accessToken"])
-          // this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
+          window.location.assign(authorizeEndpoint);         
+          window.open(
+            authorizeEndpoint, '_blank', `toolbar=no,
+            location=no,
+            status=no,
+            menubar=no,
+            scrollbars=yes,
+            resizable=no,
+            width=500,
+            height=600`
+          );
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
