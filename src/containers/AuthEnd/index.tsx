@@ -14,8 +14,7 @@ export const AuthEndComp = () => {
 
 //   let componentWillMount =() => {
 //     _isMounted = false;
-//   }
-
+//   
     msTeams.initialize();
     localStorage.removeItem("auth.error");
 
@@ -70,25 +69,26 @@ export const AuthEndComp = () => {
         localStorage.setItem("SSOtoken", hashParams["access_token"])
         // localStorage.setItem('accessToken', hashParams["access_token"])
         localStorage.setItem(key, JSON.stringify({
-            idToken: hashParams["id_token"],
-            accessToken: hashParams["access_token"],
-            tokenType: hashParams["token_type"],
-            expiresIn: hashParams["expires_in"]
+          idToken: hashParams["id_token"],
+          accessToken: hashParams["access_token"],
+          tokenType: hashParams["token_type"],
+          expiresIn: hashParams["expires_in"]
         }));
-        axios.post("https://b3bd-110-224-167-251.ngrok.io/tempData/" + hashParams["state"], {
-            idToken: hashParams["id_token"],
-            accessToken: hashParams["access_token"],
-            tokenType: hashParams["token_type"],
-            expiresIn: hashParams["expires_in"]
-        }, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-            .then(async data => {
-                await msTeams.authentication.notifySuccess(key);
+        console.log('key', key);
+        // axios.post("https://1fc8-110-224-187-24.ngrok.io/tempData/" + hashParams["state"], {
+        //     idToken: hashParams["id_token"],
+        //     accessToken: hashParams["access_token"],
+        //     tokenType: hashParams["token_type"],
+        //     expiresIn: hashParams["expires_in"]
+        // }, {
+        //   headers: {
+        //     "Content-Type": "application/json"
+        //   }
+        // })
+        //     .then(async data => {
+                msTeams.authentication.notifySuccess(key);
                 window.close();
-            })
+            // })
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));

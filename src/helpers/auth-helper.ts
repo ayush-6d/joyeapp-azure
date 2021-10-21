@@ -91,15 +91,8 @@ public async getServerSideToken(clientSideToken) {
           //   }
           //   document.write(win.localStorage.getItem("SSOtoken"))
           // },2000)
-          axios.get("https://b3bd-110-224-167-251.ngrok.io/tempData/" + queryParams["state"], {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          })
-            .then(async data => {
-              localStorage.setItem("SSOtoken", data.data["accessToken"])
-              this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
-            })
+          // localStorage.setItem("SSOtoken", data.data["accessToken"])
+          this.getUserProfile(localStorage.getItem("SSOtoken"), context.tid)
         } else if (ssoToken.data.error){
           alert("Something went wrong, Error Code- 002");
         }
