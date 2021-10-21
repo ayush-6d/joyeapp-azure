@@ -66,7 +66,7 @@ public async getServerSideToken(clientSideToken) {
           // For guest users, we want an access token for the tenant we are currently in, not the home tenant of the guest. 
           let authorizeEndpoint = `https://login.microsoftonline.com/${context.tid}/oauth2/v2.0/authorize?${toQueryString(queryParams)}`;
           console.log(authorizeEndpoint)
-          window.location.assign(authorizeEndpoint);         
+          // window.location.assign(authorizeEndpoint);         
           window.open(
             authorizeEndpoint, '_blank', `toolbar=no,
             location=no,
