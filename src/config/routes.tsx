@@ -1,6 +1,7 @@
 import * as React from "react";
 import { lazily } from "react-lazily";
 import { AuthEndComp } from "src/containers/AuthEnd";
+import { AuthStartComp } from "src/containers/AuthStart";
 
 import { RouteDefinition } from "src/Models/route-definition";
 
@@ -95,6 +96,11 @@ const routes: RouteDefinition[] = [
     route: "/daily-chart",
     component: <DailyChart />,
     authenticated: true,
+  },
+  {
+    route: "/auth/auth-start",
+    component: <AuthStartComp />,
+    authenticated: false,
   },
   {
     route: "/auth/auth-end",
