@@ -76,7 +76,7 @@ public async getServerSideToken(clientSideToken) {
 
 private async requestConsent(context) {
   return new Promise((resolve, reject) => {
-    microsoftTeams.authentication.authenticate({
+    msTeams.authentication.authenticate({
         url: window.location.origin + "/auth/auth-start",
         width: 600,
         height: 535,
