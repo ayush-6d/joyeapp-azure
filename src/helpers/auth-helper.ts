@@ -31,8 +31,10 @@ export default class AuthHelper {
    this.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);
-      localStorage.setItem("accessToken",clientSideToken)
-      return this.getServerSideToken(clientSideToken);
+      localStorage.setItem("accessToken",clientSideToken);
+      alert("Client side token completed");
+      window.location.replace('/aboutus');
+      // return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
       console.log("accessToken error", err)
       // alert("Someting went wrong, Error Code- 001");
@@ -87,7 +89,6 @@ public async getServerSideToken(clientSideToken) {
           localStorage.setItem("SSOtoken",ssoToken.data.sso)
           this.getUserProfile(ssoToken.data.sso, context.tid)
         }
-
       } catch (error) {
         // console.log("sso token error");
         console.log(JSON.stringify(error));
@@ -99,7 +100,6 @@ public async getServerSideToken(clientSideToken) {
       }
     })
   });
-
 }
 private async getAccessSSOToken() {
   console.log('getAccessSSOToken');
