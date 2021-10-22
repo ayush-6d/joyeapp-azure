@@ -58,16 +58,16 @@ export class FAQS extends React.PureComponent {
 
             <p style={{ marginBottom: "10px", marginTop: "20px" }}>Authentic Happiness, Dr Martin Seligman, University of Pennsylvania</p>
             <div style={{ marginTop: "-10px" }}>
-              <a href="https://www.authentichappiness.sas.upenn.edu/">https://www.authentichappiness.sas.upenn.edu/</a>
+              <a target="_blank" href="https://www.authentichappiness.sas.upenn.edu/">https://www.authentichappiness.sas.upenn.edu/</a>
             </div>
 
             <p style={{ marginBottom: "10px", marginTop: "20px" }}>Atlas of Emotions, Dr Paul Ekman and Dalai Lama</p>
             <div style={{ marginTop: "-10px" }}>
-              <a href="http://atlasofemotions.org/">http://atlasofemotions.org/</a>
+              <a target="_blank" href="http://atlasofemotions.org/">http://atlasofemotions.org/</a>
             </div>
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>What information we collect from you, and how we use it</p>
             <p>No one is listening. You have our promise to protect your privacy with advanced technology and strict privacy policy.</p>
-            <p>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a href="https://firebase.google.com/support/privacy">More Details</a></p>
+            <p>When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Not only this, Joye’s technology is EU General Data Protection Regulation (GDPR) and California Consumer Privacy Act (CCPA) compliant, to protect your privacy at the highest level. <a target="_blank" href="https://firebase.google.com/support/privacy">More Details</a></p>
             <p>Joye’s data is independently managed by Joye Pte Ltd, Singapore, and your organisation will not be able to see your private information. They will only see a high-level overview of the organisation’s wellbeing. This will enable your organisation to make more empathetic and responsive policy decisions to better serve the emotional needs of your organisation. Individual level information will not be visible to your organisation.</p>
 
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>Disclosure of your information to third parties</p>
@@ -85,7 +85,7 @@ export class FAQS extends React.PureComponent {
             <p style={{ fontWeight: "bold", marginBottom: "10px", marginTop: "40px" }}>How can I get more information?</p>
             <p>
               You can read more about our Privacy policy and Terms of service. We may also choose to write to your organisation contacts. You may also write to us at{" "}
-              <a href="connect@joye.ai" style={{ color: "#1E00A3" }}>
+              <a href="mailto:connect@joye.ai" style={{ color: "#1E00A3" }}>
                 connect@joye.ai
               </a>
               . Please mention your employer name as a reference.
