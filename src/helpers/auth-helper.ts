@@ -56,6 +56,7 @@ public async getServerSideToken(clientSideToken) {
               client_id: "b083d035-a374-45ea-911c-5ddf8569b0f5",
               response_type: "id_token token",
               response_mode: "fragment",
+              prompt: "consent",
               scope: "https://graph.microsoft.com/Calendars.Read offline_access User.Read email openid profile MailboxSettings.Read TeamsActivity.Send",
               redirect_uri: window.location.origin + "/auth/auth-end",
               nonce: uuid.v4(),
