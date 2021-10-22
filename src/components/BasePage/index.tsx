@@ -125,7 +125,7 @@ export class BasePage extends React.Component<{
                   zIndex: 15
                 }}
                 type="button"
-                onClick={() => this.props.history.push("/")}
+                onClick={() => microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/")}
               >
                 <img alt="Close" src={Close} style={{color: "grey"}} />
               </button>
