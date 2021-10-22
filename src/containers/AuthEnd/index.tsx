@@ -49,7 +49,7 @@ export const AuthEndComp = () => {
         console.log('key', key);
         try {
             msTeams.authentication.notifySuccess(key);
-            alert(`notifySuccess key: ${key}`);
+            alert(`notifySuccess key: ${key} & token: ${hashParams.access_token}`);
         } catch (e){
             alert(`notifySuccess error: ${e}`);
         }
