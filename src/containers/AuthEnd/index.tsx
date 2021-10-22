@@ -48,7 +48,7 @@ export const AuthEndComp = () => {
         }));
         console.log('key', key);
         const success = msTeams.authentication.notifySuccess(key);
-        console.log('success', success);
+        alert(`notifySuccess: ${success}`);
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
