@@ -84,7 +84,7 @@ private async requestConsent(context) {
             let data = localStorage.getItem(result);
             console.log('data', data);
             if (data) {
-              this.getUserProfile(JSON.parse(data).idToken, context.tid)
+              this.getUserProfile(JSON.parse(data).accessToken, context.tid)
             }
         },
         failureCallback: (reason) => {
