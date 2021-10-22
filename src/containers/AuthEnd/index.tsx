@@ -47,8 +47,12 @@ export const AuthEndComp = () => {
           expiresIn: hashParams["expires_in"]
         }));
         console.log('key', key);
-        const success = msTeams.authentication.notifySuccess(key);
-        alert(`notifySuccess: ${success}`);
+        try {
+            const success = msTeams.authentication.notifySuccess(key);
+            alert(`notifySuccess: ${success}`);
+        } catch (e){
+            alert(`notifySuccess error: ${e}`);
+        }
     } else {
         // Unexpected condition: hash does not contain error or access_token parameter
         localStorage.setItem("auth.error", JSON.stringify(hashParams));
