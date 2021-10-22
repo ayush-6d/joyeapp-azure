@@ -83,7 +83,7 @@ About us */}
               &times;
             </a>
             <div className="sidebar-container">
-              <Tab onClick={() => microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/stressbuster")} name="main">
+              <Tab onClick={() => microsoftTeams.executeDeepLink("https://teams.microsoft.com/l/entity/6c75be83-05a8-4515-9c7b-b5f759b99b7f/joyeapp")} name="main">
                 <img height="30px" width="28px" src={home} />
                 <div className="item-label" style={{ marginLeft: "25px", fontSize: "18px" }}>
                   Home
