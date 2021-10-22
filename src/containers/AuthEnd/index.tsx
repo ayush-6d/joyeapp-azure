@@ -48,8 +48,8 @@ export const AuthEndComp = () => {
         }));
         console.log('key', key);
         try {
-            const success = msTeams.authentication.notifySuccess(key);
-            alert(`notifySuccess: ${success}`);
+            msTeams.authentication.notifySuccess(key);
+            alert(`notifySuccess key: ${key}`);
         } catch (e){
             alert(`notifySuccess error: ${e}`);
         }
