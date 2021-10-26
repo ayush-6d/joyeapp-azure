@@ -38,7 +38,7 @@ export class AboutUs extends React.PureComponent {
             <p style={{ marginTop: "20px" }}>The team at Joye brings together expertise in business management, psychology and technology. We are anchored in Singapore, with teams working across the globe.</p>
             <p style={{ marginTop: "20px" }}>
             For enquiries please contact us at{" "}
-              <a href="connect@joye.ai" style={{ color: "#1E00A3" }}>
+              <a href="mailto:connect@joye.ai" style={{ color: "#1E00A3" }}>
               connect@joye.ai
               </a>
             </p>
