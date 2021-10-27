@@ -2,6 +2,7 @@ import * as React from "react";
 import { lazily } from "react-lazily";
 import { AuthEndComp } from "src/containers/AuthEnd";
 import { AuthStartComp } from "src/containers/AuthStart";
+import ErrorPage from "src/containers/ErrorScreen";
 
 import { RouteDefinition } from "src/Models/route-definition";
 
@@ -105,6 +106,11 @@ const routes: RouteDefinition[] = [
   {
     route: "/auth/auth-end",
     component: <AuthEndComp />,
+    authenticated: false,
+  },
+  {
+    route: "/error",
+    component: <ErrorPage />,
     authenticated: false,
   },
 ];

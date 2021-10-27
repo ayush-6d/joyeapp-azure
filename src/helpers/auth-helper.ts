@@ -33,7 +33,7 @@ export default class AuthHelper {
       return this.getServerSideToken(clientSideToken);
     }).catch(err=>{
       console.log("accessToken error", err)
-      // alert("Someting went wrong, Error Code- 001");
+      // alert("Something went wrong, Error Code- 001");
     })
 }
 public async getServerSideToken(clientSideToken) {
@@ -52,7 +52,8 @@ public async getServerSideToken(clientSideToken) {
           // alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
           this.requestConsent(context);
         } else if (ssoToken.data.error){
-          alert("Something went wrong, Error Code- 002");
+          // alert("Something went wrong, Error Code- 002");
+          window.location.replace(window.location.origin + '/error?errorCode=002');
         }
 
         if (ssoToken.data.sso) {
@@ -64,9 +65,11 @@ public async getServerSideToken(clientSideToken) {
         // console.log("sso token error");
         console.log(JSON.stringify(error));
         if (error.indexOf('invalid_grant') > -1) {
-          alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
+          window.location.replace(window.location.origin + '/error?errorCode=invalid_grant');
+          // alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
         } else {
-          alert("Something went wrong, Error Code- 002");
+          window.location.replace(window.location.origin + '/error?errorCode=002');
+          // alert("Something went wrong, Error Code- 002");
         }
       }
     })
@@ -104,9 +107,13 @@ private async getAccessSSOToken() {
       failureCallback: function(error) {
         console.log('error', error);
         if (error.indexOf("resourceRequiresConsent") > -1 || error.indexOf("CancelledByUser") > -1){
-          alert("Joye requires basic profile permission to continue. Check Privacy Policy for more details")
+          // alert("Joye requires basic profile permission to continue. Check Privacy Policy for more details")
+          window.location.replace(window.location.origin + '/error?errorCode=cancelledByUser');
+        } else if (error.indexOf("unknownAuthError") > -1) {
+          window.location.replace(window.location.origin + '/error?errorCode=unknownAuthError');
         } else {
-          alert(`Something went wrong, Error Code- 003 - ${error}`);
+          window.location.replace(window.location.origin + '/error?errorCode=003');
+          // alert(`Something went wrong, Error Code- 003 - ${error}`);
         }
         localStorage.setItem('error', 'Something went wrong, please try again');
         window.location.replace(window.location.origin + '/');
@@ -164,7 +171,8 @@ private getUserProfile(token, tid): Promise < string > {
 
       }).catch(err => {
         // console.log("network error getUserProfile");
-        alert("Someting went wrong, Error Code- 004");
+        // alert("Something went wrong, Error Code- 004");
+        window.location.replace(window.location.origin + '/error?errorCode=004');
         console.log(JSON.stringify(err));
       });
   })
@@ -252,13 +260,15 @@ private async createTokenId(loginCheck:boolean=false) {
         .catch(e => {
           console.log(" error at signInWithCustomToken");
           console.log(JSON.stringify(e));
-          alert("Someting went wrong, Error Code- 005");
+          window.location.replace(window.location.origin + '/error?errorCode=005');
+          // alert("Something went wrong, Error Code- 005");
         });
     }
   } catch (err) {
     console.log("network error at createTokenId");
     console.log(JSON.stringify(err));
-    alert("Someting went wrong, Error Code- 006");
+    window.location.replace(window.location.origin + '/error?errorCode=006');
+    // alert("Something went wrong, Error Code- 006");
   };
   }
 }
@@ -280,7 +290,8 @@ private async success(loginCheck,datedifferece) {
 };
 
   private async fail() { 
-    alert("Your trial period is over")
+    // alert("Your trial period is over")
+    window.location.replace(window.location.origin + '/error?errorCode=expired');
     localStorage.clear()
     localStorage.setItem("active","false");
     window.location.replace(window.location.origin + '/');

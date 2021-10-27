@@ -37,7 +37,7 @@ class AuthStartComp extends React.PureComponent {
     }
 
     render () {
-        return <p>Auth start</p>        
+        return <p>Loading...</p>        
     }
 }
 
