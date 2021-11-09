@@ -175,7 +175,7 @@ private async createTokenId(loginCheck:boolean=false) {
   let tid = getTId();
   if(tid && userId){
     try {
-    const createTokenId = await axios.post(`${API_ROOT}/createTokenId`, {
+    const createTokenId = await axios.post(`https://joye-backend-service-dot-joye-768f7.uc.r.appspot.com/backend/createTokenId`, {
       organisationId: "-MHUPaNmo_p85_DR3ABC",
       subOrganisationId: tid,
       empId: userId,
