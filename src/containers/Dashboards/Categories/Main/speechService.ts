@@ -162,7 +162,7 @@ export default class SpeechService {
       };
       console.log(data);
       axios
-        .post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config)
+        .post("https://joye-backend-service-dot-joye-768f7.uc.r.appspot.com/backend/predictionService", data, config)
         .then((x) => {
           resolve({ pid: procId, data: x });
         })
@@ -179,6 +179,6 @@ export default class SpeechService {
       text: todaysFeelingText,
     };
     console.log(data);
-    return await axios.post("https://us-central1-joye-768f7.cloudfunctions.net/predictionService", data, config);
+    return await axios.post("https://joye-backend-service-dot-joye-768f7.uc.r.appspot.com/backend/predictionService", data, config);
   }
 }
