@@ -3,6 +3,7 @@ import { lazily } from "react-lazily";
 import { AuthEndComp } from "src/containers/AuthEnd";
 import { AuthStartComp } from "src/containers/AuthStart";
 import ErrorPage from "src/containers/ErrorScreen";
+import ExpiryWarning from "src/containers/ExpiryWarning";
 
 import { RouteDefinition } from "src/Models/route-definition";
 
@@ -111,6 +112,11 @@ const routes: RouteDefinition[] = [
   {
     route: "/error",
     component: <ErrorPage />,
+    authenticated: false,
+  },
+  {
+    route: "/expiry",
+    component: <ExpiryWarning />,
     authenticated: false,
   },
 ];

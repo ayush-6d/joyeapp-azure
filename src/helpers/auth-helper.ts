@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit, database } from '../services/firebase';
 import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/localStorage.service';
+const DEVELOPMENT_MODE = true;
 export default class AuthHelper {
 
   constructor(){
@@ -24,9 +25,13 @@ export default class AuthHelper {
   }
 
   public async userLogin() {
-  console.log('userLogin');
-  await msTeams.initialize();
-   this.getAccessSSOToken()
+  if (DEVELOPMENT_MODE===true){
+    localStorage.setItem("userId","d342467b-6e26-47f7-91b5-5b3314f08cca")
+    localStorage.setItem("tid", "c93aeb09-e175-49b2-8982-9f00f6f8c073")
+    this.createTokenId();
+  } else {
+    await msTeams.initialize();
+    this.getAccessSSOToken()
     .then((clientSideToken:any) => {
       console.log('clientSideToken', clientSideToken);
       localStorage.setItem("accessToken",clientSideToken);
@@ -35,6 +40,7 @@ export default class AuthHelper {
       console.log("accessToken error", err)
       // alert("Something went wrong, Error Code- 001");
     })
+  }
 }
 public async getServerSideToken(clientSideToken) {
   return new Promise((resolve, reject) => {
@@ -280,11 +286,15 @@ private async createTokenId(loginCheck:boolean=false) {
 private async success(loginCheck,datedifferece) { 
  localStorage.removeItem("active");
  console.log('loginCheck', loginCheck);
- if(!loginCheck)
-  window.location.replace(window.location.origin + '/');
+  if(!loginCheck && (datedifferece && 30-datedifferece>7))
+    window.location.replace(window.location.origin + '/');
   else{
-    if(datedifferece && 30-datedifferece<7){
-      alert("You have "+Math.round(30-datedifferece)+" days left")
+    const warned = localStorage.getItem('warned');
+    const warnedDiff = await this.numDaysBetween(new Date(), new Date(warned));
+    console.log('warnedDiff', warnedDiff);
+    if(datedifferece && 30-datedifferece<7 && warnedDiff > 0){
+      window.location.replace(window.location.origin + `/expiry?daysLeft=${30-datedifferece}`);
+      // alert("You have "+Math.round(30-datedifferece)+" days left")
     }
   }
 };
@@ -294,7 +304,7 @@ private async success(loginCheck,datedifferece) {
     window.location.replace(window.location.origin + '/error?errorCode=expired');
     localStorage.clear()
     localStorage.setItem("active","false");
-    window.location.replace(window.location.origin + '/');
+    // window.location.replace(window.location.origin + '/');
   };
 
   public async setOrgData(user: any){
