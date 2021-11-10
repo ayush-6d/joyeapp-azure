@@ -295,6 +295,8 @@ private async success(loginCheck,datedifferece) {
     if(datedifferece && 30-datedifferece<7 && warnedDiff > 0){
       window.location.replace(window.location.origin + `/expiry?daysLeft=${30-datedifferece}`);
       // alert("You have "+Math.round(30-datedifferece)+" days left")
+    } else {
+      window.location.replace(window.location.origin + '/');
     }
   }
 };
