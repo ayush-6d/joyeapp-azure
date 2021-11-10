@@ -225,24 +225,26 @@ private async createTokenId(loginCheck:boolean=false) {
                   }
                 } else {
                   console.log('createTokenId', createTokenId);
-                    const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
-                    const userDetails= user.val();
-                    console.log('userDetails', userDetails);
-                    if(userDetails.createdAt){
-                      var datedifferece = await this.numDaysBetween(userDetails.createdAt, d2);
-                      console.log('datedifferece', datedifferece);
-                      if(datedifferece<=30){
-                        this.success(loginCheck,datedifferece);
-                      }else{
-                        this.fail();
-                      }
-                    } else {
-                      await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).set({
-                        ...userDetails,
-                        createdAt: new Date().getTime(),
-                      })
-                      this.success(loginCheck,0);
+                  const user = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).once("value");
+                  console.log('user', user);
+                  const userDetails= user.val();
+                  console.log('userDetails', userDetails);
+                  if(userDetails.createdAt){
+                    var datedifferece = await this.numDaysBetween(userDetails.createdAt, d2);
+                    console.log('datedifferece', datedifferece);
+                    if(datedifferece<=30){
+                      this.success(loginCheck,datedifferece);
+                    }else{
+                      this.fail();
                     }
+                  } else {
+                    console.log('createdAt not found setting it', new Date().getTime());
+                    await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/info`).set({
+                      ...userDetails,
+                      createdAt: new Date().getTime(),
+                    })
+                    this.success(loginCheck,0);
+                  }
                 }   
             }
             let details = await firebaseInit.database(getDbUrl()).ref(`users/${createTokenId.data.uid}/details`).once("value");
