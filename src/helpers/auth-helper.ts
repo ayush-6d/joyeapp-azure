@@ -284,22 +284,16 @@ private async createTokenId(loginCheck:boolean=false) {
 };
 
 private async success(loginCheck,datedifferece) { 
- localStorage.removeItem("active");
- console.log('loginCheck', loginCheck);
-  if(!loginCheck && (datedifferece && 30-datedifferece>7))
-    window.location.replace(window.location.origin + '/');
-  else{
-    const warned = localStorage.getItem('warned');
-    const warnedDiff = await this.numDaysBetween(new Date(), new Date(warned));
-    console.log('warnedDiff', warnedDiff);
-    if(datedifferece && 30-datedifferece<7 && warnedDiff > 0){
-      window.location.replace(window.location.origin + `/expiry?daysLeft=${30-datedifferece}`);
-      // alert("You have "+Math.round(30-datedifferece)+" days left")
-    } else {
-      window.location.replace(window.location.origin + '/');
-    }
-  }
-};
+  localStorage.removeItem("active");
+  console.log('loginCheck', loginCheck);
+  if(!loginCheck)
+   window.location.replace(window.location.origin + '/');
+   else{
+     if(datedifferece && 30-datedifferece<7){
+       alert("You have "+Math.round(30-datedifferece)+" days left")
+     }
+   }
+ };
 
   private async fail() { 
     // alert("Your trial period is over")
