@@ -7,7 +7,7 @@ import axios from "axios";
 import { API_ROOT } from "../config";
 import { firebaseInit, database } from '../services/firebase';
 import { setAuthId, setDbUrl, getAuthId, getUserId, getTId } from '../services/localStorage.service';
-const DEVELOPMENT_MODE = true;
+const DEVELOPMENT_MODE = false;
 export default class AuthHelper {
 
   constructor(){
