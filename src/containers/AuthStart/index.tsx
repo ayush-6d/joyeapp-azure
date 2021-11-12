@@ -13,7 +13,7 @@ class AuthStartComp extends React.PureComponent {
                 response_type: "id_token token",
                 response_mode: "fragment",
                 prompt: "consent",
-                scope: "https://graph.microsoft.com/Calendars.Read offline_access User.Read email openid profile MailboxSettings.Read TeamsActivity.Send",
+                scope: "https://graph.microsoft.com/Calendars.Read access_as_user offline_access User.Read email openid profile MailboxSettings.Read TeamsActivity.Send",
                 redirect_uri: window.location.origin + "/auth/auth-end",
                 nonce: uuid.v4(),
                 state: uuid.v4(),
