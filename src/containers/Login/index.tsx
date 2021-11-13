@@ -89,7 +89,9 @@ class LoginImpl extends React.Component<ILoginProps, ILoginState> {
             "3: Now you have a plan! Congratulations! You are ready to take on the rest of your day.",
             "Let’s make mental wellbeing into a habit, the mental fitness habit - your ‘10,000 steps’ of mental wellbeing!"
           ]}
-          closePopup={this.togglePopup} />)}
+          closePopup={this.togglePopup}
+          showCloseButton={true}
+          margin="auto" />)}
         <BasePage withMenu showInfoIcon className="login-form home-screen">
           <Logo height="76px" width="76px" marginTop="72px" />
           <Brand fontSize="42px" />

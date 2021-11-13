@@ -207,13 +207,13 @@ export const EMOTIONS = {
   },
   joyful: {
     slider: ["Joyful", "Happy", "Excited"],
-    pie: ["Joy-Sad"],
+    pie: ["Joyful"],
     dailyChart: ["Joyful", "Sad", "Happy"],
     prePieMessage: ["while higher state of Joy is good feeling and enjoyment, the lower state of Joy is sadness"],
   },
   optimistic: {
     slider: ["Optimistic", "Positive"],
-    pie: ["Joy-Sad"],
+    pie: ["Joyful"],
     dailyChart: ["Joyful", "Sad", "Happy"],
     prePieMessage: ["while higher state of Joy is good feeling and enjoyment, the lower state of Joy is sadness"],
   },

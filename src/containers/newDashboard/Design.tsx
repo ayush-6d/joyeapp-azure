@@ -33,6 +33,7 @@ import { getAuthId, getDbUrl } from "src/services/localStorage.service";
 import { Loader } from "src/components/Loader";
 import "src/resources/css/fonts/fonts.css";
 import HandPic from "src/resources/icons/hand1.gif";
+import PressHold from "src/resources/icons/pressHoldslide.png";
 import ArrowPic from "src/resources/icons/arrow.png";
 // import InfoPic from "src/resources/icons/info.svg";
 import InfoPic from "src/resources/icons/whiteinfo.png";
@@ -942,8 +943,13 @@ const Design = (props: any) => {
             id="present__value"
             ref={props.sliderRef[counter]}
             className="range__value range__value--bottom"
-          >
-            <img className={`${imgClassName}`} alt="img" src={HandPic} />
+            style={{
+              display: 'flex',
+              flexDirection: 'column-reverse'
+            }}
+          >            
+            <img className={`${imgClassName}`} alt="pressholdslide" src={HandPic} style={{ marginTop: 30 }} />
+            <img className={`${imgClassName}`} alt="img" src={PressHold} style={{ marginTop: 85, width: 240 }} />
             <span
               className={`range__value__number range__value__number--bottom ${spanRefClassName}`}
               ref={rangeValueNumberBottom}

@@ -11,6 +11,9 @@ export interface IButtonProps {
   fontSize?: string;
   marginRight?: string;
   marginBottom?: string;
+  marginTop?: string;
+  display?: string;
+  justifyContent?: string;
   id?: string;
   fontFamily?: string;
   isLoading?: boolean;
@@ -30,9 +33,9 @@ export class Button extends React.Component<IButtonProps, {}> {
   };
 
   render() {
-    const { isLoading, Loader, bgColor, height, width, onClick, type, id, fontWeight, marginBottom, fontSize, marginRight, fontFamily, disabled } = this.props;
+    const { isLoading, Loader, bgColor, height, width, onClick, type, id, fontWeight, marginBottom, marginTop, display, justifyContent, fontSize, marginRight, fontFamily, disabled } = this.props;
     return (
-      <div id={id} className="margin-top-10">
+      <div id={id} className="margin-top-10" style={{ marginTop, display,justifyContent }}>
         {Loader}
         <button
           disabled={disabled}
