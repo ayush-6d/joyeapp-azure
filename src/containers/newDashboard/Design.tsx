@@ -927,10 +927,8 @@ const Design = (props: any) => {
           className="slide_pagination"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-        <h3 className="hdngTitle">
-          How <span>{sliders.length > 0 && sliders[counter].showName}</span> are
-          you
-          <br /> feeling today?
+        <h3 className="hdngTitle" >
+          {sliders.length > 0 &&(<p dangerouslySetInnerHTML={{__html:sliders[counter].showName}} ></p>)}
         </h3>
         <div className="range__values" ref={rangeValues}>
           <div className="range__value range__value--top">
