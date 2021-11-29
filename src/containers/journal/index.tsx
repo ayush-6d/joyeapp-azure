@@ -226,7 +226,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                         </div>
                       </div>
                     ) : (
-                      <div className="checkbox journal-checkbox" style={{ marginTop: "1px" }} onChange={this.setRadioBtn.bind(this)}>
+                      <div className="checkbox journal-checkbox" style={{ marginTop: "1px",display:"none" }} onChange={this.setRadioBtn.bind(this)}>
                         <div>
                           <input type="radio" value="donotShowEverytime" name="jounrnalCheck" checked={jounrnalCheck === "donotShowEverytime" ? true : false} />
                           <span className="index-advertise-text font-15"> Show less often</span>
