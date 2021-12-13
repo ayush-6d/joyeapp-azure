@@ -28,8 +28,8 @@ export interface IYesNoState {
   modalData?: any;
   HelpLine?: any;
   ShowCongratulation?: boolean;
-  happinessCounter: string;
-  happinessCounterLifetime: string,
+  happinessCounter: any;
+  happinessCounterLifetime: any,
   avg: string,
   dominantemotion: string,
   weekdata: string,
@@ -50,8 +50,8 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       HelpLine: ["SOS", "HelpLine", "Cancel"],
       openModal: false,
       ShowCongratulation: false,
-      happinessCounter: "",
-      happinessCounterLifetime: "",
+      happinessCounter: {},
+      happinessCounterLifetime: {},
       avg: "",
       dominantemotion: "",
       weekdata: "",
@@ -81,13 +81,27 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       this.setState({ employee_id: info.employee_id });
       this.setState({ organisation_id: info.organisation_id });
       this.setState({ sub_organisation_id: info.sub_organisation_id });
-      this.setState({ happinessCounterLifetime: info.happinessCounterLifetime ? info.happinessCounterLifetime + 1 : 1 });
+      if(info.happinessCounterLifetime && info.happinessCounterLifetime.yesCount !== undefined){
+        this.setState({ happinessCounterLifetime: info.happinessCounterLifetime });
+      } else {
+        this.setState({ happinessCounterLifetime: {
+          yesCount: 0,
+          noCount: 0
+        } });
+      }
 
       const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`).once('value');
       let data = currentWeekData.val();
       console.log("data", data)
       this.setState({ avg: data.avg });
-      this.setState({ happinessCounter: data.happinessCounter ? data.happinessCounter + 1 : 1 });
+      if(data.happinessCounter && data.happinessCounter.yesCount !== undefined){
+        this.setState({ happinessCounter: data.happinessCounter });
+      } else {
+        this.setState({ happinessCounter: {
+          yesCount: 0,
+          noCount: 0
+        } });
+      }
       this.setState({ dominantemotion: data.dominantemotion });
       this.setState({ weekdata: data.weekdata });
       this.setState({ journalCount: data.journalCount || 0 })
@@ -96,11 +110,20 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
     }
   }
 
-  handleCongratulation = () => {
+  handleCongratulation = (yesNoValue:boolean) => {
     const userId = getAuthId();
     let dbRef = firebaseInit.database(getDbUrl());
     const weekOfYear = moment().format("w_yyyy");
     const date = moment().format("DD-MM-yyyy");
+    let tempHappinessCounterLifetime = JSON.parse(JSON.stringify(this.state.happinessCounterLifetime))
+    let tempHappinessCounter = JSON.parse(JSON.stringify(this.state.happinessCounter))
+    if(yesNoValue){
+      tempHappinessCounterLifetime.yesCount = tempHappinessCounterLifetime.yesCount + 1
+      tempHappinessCounter.yesCount = tempHappinessCounter.yesCount + 1
+    } else {
+      tempHappinessCounterLifetime.noCount = tempHappinessCounterLifetime.noCount + 1
+      tempHappinessCounter.noCount = tempHappinessCounter.noCount + 1
+    }
     dbRef
       .ref(`users/${userId}/brew`)
       .child("weeks_average")
@@ -108,7 +131,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
         [weekOfYear]: {
           avg: this.state.avg,
           dominantemotion: this.state.dominantemotion,
-          happinessCounter: this.state.happinessCounter,
+          happinessCounter: tempHappinessCounter,
           journalCount: this.state.journalCount,
           weekdata: this.state.weekdata,
         },
@@ -121,10 +144,14 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
         employee_id: this.state.employee_id,
         organisation_id: this.state.organisation_id,
         sub_organisation_id: this.state.sub_organisation_id,
-        happinessCounterLifetime: this.state.happinessCounterLifetime
+        happinessCounterLifetime: tempHappinessCounterLifetime
       });
-
-    this.setState({ ShowCongratulation: true });
+    if(yesNoValue){
+      this.setState({ ShowCongratulation: true });
+    } else { 
+      this.handleModal();
+    }
+    
   };
 
   handleModal = () => {
@@ -214,8 +241,8 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
                       </div>
                       <div>
                         <div className="yes-no-icon-group" style={{ marginTop: "150px" }}>
-                          <PageImage height="82px" width="82px" logo={wrong} OnClick={e => this.handleModal()} />
-                          <PageImage height="82px" width="82px" setCounter={e => this.handleCongratulation()} logo={right} />
+                          <PageImage height="82px" width="82px" logo={wrong} OnClick={e => this.handleCongratulation(false)} />
+                          <PageImage height="82px" width="82px" setCounter={e => this.handleCongratulation(true)} logo={right} />
                         </div>
                       </div>
                     </div>

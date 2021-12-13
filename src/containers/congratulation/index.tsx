@@ -23,8 +23,8 @@ export interface ICongratulationProps {
 export interface ICongratulationState {
   todaysFeeling?: string;
   counter?: number;
-  happinessCounter?: string;
-  happinessCounterLifetime?: string;
+  happinessCounter?: any;
+  happinessCounterLifetime?: any;
   timer?: object;
   route?: any;
   counterStart?: boolean;
@@ -41,8 +41,8 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
       todaysFeeling: "",
       counter: 10,
       counterStart: false,
-      happinessCounter: "",
-      happinessCounterLifetime: "",
+      happinessCounter: {},
+      happinessCounterLifetime: {},
       congratulationImg: confetti_00,
       timer: null,
       ShowDashboard: false,
@@ -168,8 +168,8 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
               </div>
               <div className="do-not-txt ">
                 <div className="yes-no-week-txt">
-                  <div> Week to date: <span className="font-size">{happinessCounter}</span></div>
-                  <div>Lifetime:<span className="font-size"> {happinessCounterLifetime}</span></div>
+                  <div> Week to date: <span className="font-size">{happinessCounter.yesCount}</span></div>
+                  <div>Lifetime:<span className="font-size"> {happinessCounterLifetime.yesCount}</span></div>
                 </div>
                 <div>
                   <PageImage height="82px" width="82px" marginTop="54px" logo={rightArrow} setCounter={e => this.handleCongratulation()} />
