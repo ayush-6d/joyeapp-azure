@@ -7,7 +7,7 @@ import right from "src/resources/icons/right.png";
 import wrong from "src/resources/icons/wrong.png";
 import { Modal } from "src/components/Modal";
 import { Congratulation } from "src/containers/congratulation";
-import { getAuthId, getDbUrl } from "src/services/localStorage.service";
+import { getAuthId, getDbUrl, getTId } from "src/services/localStorage.service";
 import moment from 'moment';
 import InfoIcon from "../../resources/icons/infoIcon.png";
 import Popup from '../../components/Popup';
@@ -30,6 +30,7 @@ export interface IYesNoState {
   ShowCongratulation?: boolean;
   happinessCounter: any;
   happinessCounterLifetime: any,
+  happinessCounterSubOrg: any,
   avg: string,
   dominantemotion: string,
   weekdata: string,
@@ -52,6 +53,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       ShowCongratulation: false,
       happinessCounter: {},
       happinessCounterLifetime: {},
+      happinessCounterSubOrg: {},
       avg: "",
       dominantemotion: "",
       weekdata: "",
@@ -70,6 +72,8 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
   async componentDidMount() {
 
     const userId = getAuthId();
+    const tid = getTId();
+    const date = moment().format("DD-MM-yyyy");
     let dbRef = firebaseInit.database(getDbUrl());
     const year = moment().format('yyyy');
     const currentWeek: any = moment().format('w');
@@ -85,6 +89,16 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
         this.setState({ happinessCounterLifetime: info.happinessCounterLifetime });
       } else {
         this.setState({ happinessCounterLifetime: {
+          yesCount: 0,
+          noCount: 0
+        } });
+      }
+      const subOrgDataFetch = await dbRef.ref(`users/all_users_subOrg_brew_data/${tid}/${date}`).once('value');
+      const subOrgData = subOrgDataFetch.val();
+      if(subOrgData.happinessCounter && subOrgData.happinessCounter.yesCount !== undefined){
+        this.setState({ happinessCounterSubOrg: subOrgData.happinessCounter });
+      } else {
+        this.setState({ happinessCounterSubOrg: {
           yesCount: 0,
           noCount: 0
         } });
@@ -112,17 +126,21 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
 
   handleCongratulation = (yesNoValue:boolean) => {
     const userId = getAuthId();
+    const tid = getTId();
     let dbRef = firebaseInit.database(getDbUrl());
     const weekOfYear = moment().format("w_yyyy");
     const date = moment().format("DD-MM-yyyy");
     let tempHappinessCounterLifetime = JSON.parse(JSON.stringify(this.state.happinessCounterLifetime))
     let tempHappinessCounter = JSON.parse(JSON.stringify(this.state.happinessCounter))
+    let tempHappinessCounterSubOrg = JSON.parse(JSON.stringify(this.state.happinessCounterSubOrg))
     if(yesNoValue){
       tempHappinessCounterLifetime.yesCount = tempHappinessCounterLifetime.yesCount + 1
       tempHappinessCounter.yesCount = tempHappinessCounter.yesCount + 1
+      tempHappinessCounterSubOrg.yesCount = tempHappinessCounterSubOrg.yesCount + 1
     } else {
       tempHappinessCounterLifetime.noCount = tempHappinessCounterLifetime.noCount + 1
       tempHappinessCounter.noCount = tempHappinessCounter.noCount + 1
+      tempHappinessCounterSubOrg.noCount = tempHappinessCounterSubOrg.noCount + 1
     }
     dbRef
       .ref(`users/${userId}/brew`)
@@ -145,6 +163,12 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
         organisation_id: this.state.organisation_id,
         sub_organisation_id: this.state.sub_organisation_id,
         happinessCounterLifetime: tempHappinessCounterLifetime
+      });
+
+    dbRef
+      .ref(`users/all_users_subOrg_brew_data/${tid}/${date}`)
+      .update({
+        happinessCounter: tempHappinessCounterSubOrg
       });
     if(yesNoValue){
       this.setState({ ShowCongratulation: true });
