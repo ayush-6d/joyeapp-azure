@@ -75,6 +75,7 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
             <ReactAudioPlayer
               src={audioSrc}
               ref={(element) => { this.aPlayer = element; }}
+              preload='auto'
               onEnded={
                 () => {
                   this.setState({ playing: Sound.status.PLAYING });
