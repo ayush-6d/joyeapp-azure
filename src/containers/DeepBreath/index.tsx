@@ -9,6 +9,9 @@ import "src/resources/css/fonts/fonts.css";
 import { withRouter } from "react-router";
 import { RouteComponentProps } from "react-router";
 import * as microsoftTeams from "@microsoft/teams-js";
+import { firebaseInit } from "src/services/firebase";
+import { getAuthId, getDbUrl } from "src/services/localStorage.service";
+import moment from "moment";
 export interface IDeepBreathProps extends RouteComponentProps {
   history: any;
   route?: any;
@@ -26,6 +29,7 @@ export interface IDeepBreathState {
   path: string;
   isLoaded:boolean
 }
+
 export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
   constructor(props: IDeepBreathProps) {
     super(props);
@@ -54,7 +58,39 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
       try { (navigator as any).wakeLock.request('screen'); } catch (e) { }
       (window as any).audio.play();
       this.setState({ isPlaying: true });
+      this.updateUserActivity()
     }
+  }
+
+  updateUserActivity = async () => {
+    const userId = getAuthId();
+    if(!userId){
+      console.log("assdasd");
+      return false;
+    }
+    let dbUrl = getDbUrl();
+    let dbRef = firebaseInit.database(dbUrl);
+    let todaysDate = moment(new Date()).format("DD-MM-YYYY");
+    let oldBrew = await dbRef.ref(`users/${userId}/brew/brewData/${todaysDate}`).once('value');
+    let oldBrewData = oldBrew.val()
+    if(!oldBrewData){
+      oldBrewData = {
+        Anxious: { sub_slider: 'Anxious', value: 0, weightvalue: 0 },
+        Irritable: { sub_slider: 'Irritable', value: 0, weightvalue: 0 },
+        Joyful: { sub_slider: 'Optimistic', value: 0, weightvalue: 0 },
+        Motivated: { sub_slider: 'Active', value: 0, weightvalue: 0 },
+        Social: { sub_slider: 'Social', value: 0, weightvalue: 0 },
+        total: 0,
+        count: 0,
+        avarage: 0,
+        date: todaysDate,
+        users: {},
+      }
+    }
+    dbRef
+      .ref(`users/${userId}/brew/brewData/${todaysDate}`)
+      .set(oldBrewData)
+    return true;
   }
 
   onMute = (e) => {
@@ -66,7 +102,6 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
     if (e) {
       e.preventDefault();
     }
-    console.log('called')
     if (this.state.isPlaying) {
       (window as any).audio.pause();
       (window as any).audio.currentTime = 0;
