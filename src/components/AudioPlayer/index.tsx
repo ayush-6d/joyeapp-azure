@@ -66,7 +66,7 @@ class AudioPlayer extends React.Component<IAudioPlayerProps, IAudioPlayerState> 
           {this.state.playing
             && (
               <Sound
-                url="https://firebasestorage.googleapis.com/v0/b/joye-dev2018/o/Master%20Data%2Fsounds%2Fding.wav?alt=media&token=692f0fa4-afa6-429d-8805-76ea4a7294fc"
+                url="https://firebasestorage.googleapis.com/v0/b/joye-768f7.appspot.com/o/audio%2Fding%20clean.mp3?alt=media&token=91e9a06e-8c07-464d-9f92-a9dc4e3e0d10"
                 playStatus={this.state.playing}
                 onFinishedPlaying={() => this.setState({ playing: Sound.status.STOPPED })}
               />
