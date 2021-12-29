@@ -272,7 +272,7 @@ export const EMOTIONS = {
       pie: ["Motivated"],
       prePieMessage: ["feeling inspired, engaged and driven helps us to achieve our goals and be successful. Looks like you’re ready to go after them!"],
     },
-    slider:["How <span>Healthy<span/> <br/>are you feeling today?"/*, "How <span>Active</span> <br/>are you feeling today?", "How <span>Fresh</span> <br/>are you feeling today?","How <span>Fit</span> <br/>are you feeling today?","How well did you <span>Sleep</span> <br/>last night?","How good is your <span>Diet</span> <br/>these days?","How much are you <span>Exercising</span> <br/>these days?","How good is your <span>Fitness</span> <br/>level these days?"*/],
+    slider:["How <span>Healthy</span> <br/>are you feeling today?"/*, "How <span>Active</span> <br/>are you feeling today?", "How <span>Fresh</span> <br/>are you feeling today?","How <span>Fit</span> <br/>are you feeling today?","How well did you <span>Sleep</span> <br/>last night?","How good is your <span>Diet</span> <br/>these days?","How much are you <span>Exercising</span> <br/>these days?","How good is your <span>Fitness</span> <br/>level these days?"*/],
     pie: ["Motivation"],
     dailyChart: ["Motivated", "Low", "Active"],
     prePieMessage: [" behaving positive, healthy, engaged and working towards success helps us feel happier and successful. A larger pie size is helping your wellbeing and a smaller one needs attention!"],
