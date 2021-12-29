@@ -62,10 +62,17 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
     }
   }
 
+  redirectToYesNo = async () => {
+    const userId = getAuthId();
+    if(!userId){
+      return false;
+    }
+    return window.location.href = "/journal?yesNo=true"
+  }
+
   updateUserActivity = async () => {
     const userId = getAuthId();
     if(!userId){
-      console.log("assdasd");
       return false;
     }
     let dbUrl = getDbUrl();
@@ -121,7 +128,10 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
         <BasePage withCross showInfoIcon className="login-form home-screen deepbreath-page" unload={this.componentCleanup.bind(this)}>
           <div style={{ width: "100%" }}>
             <div style={{ width: "100%", margin: "auto" }}>
-              <Circles isPlaying={this.state.isPlaying} complete={() => { this.setState({ isPlaying: false }); }}></Circles>
+              <Circles isPlaying={this.state.isPlaying} complete={() => { 
+                this.setState({ isPlaying: false });
+                this.redirectToYesNo();
+              }}></Circles>
             </div>
           </div>
           <div className="display-flex">

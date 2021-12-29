@@ -25,9 +25,9 @@ export interface IJournalState {
   showJoyelevel?: boolean;
   showYesno?: boolean;
   jQuestion?: string;
-  cQuestion?: string,
+  cQuestion?: string;
   journalCount?: any;
-  weekdata: object,
+  weekdata: object;
 }
 
 let jounrnalCheckSaved = "";
@@ -42,7 +42,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
       jounrnalCheck: "showEverytime",
       isSkip: false,
       showJoyelevel: true,
-      showYesno: false,
+      showYesno: ((this.queryParams.yesNo && this.queryParams.yesNo == "true")?true:false),
       jQuestion: "",
       cQuestion: "",
       journalCount: 0,
@@ -53,6 +53,23 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
   async componentDidMount() {
     this.getJournalLogic();
   }
+
+  getQueryParameters = () => {
+    let queryParams = {};
+    location.search
+      .substr(1)
+      .split("&")
+      .forEach(function (item) {
+        let s = item.split("="),
+          k = s[0],
+          v = s[1] && decodeURIComponent(s[1]);
+        queryParams[k] = v;
+      });
+    return queryParams;
+  };
+
+  queryParams:any = this.getQueryParameters();
+
   setRadioBtn(event) {
     this.setState({ jounrnalCheck: event.target.value });
   }
@@ -67,9 +84,9 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     snapshot = snapshot.val()
     console.log("snapshot", snapshot)
 
-    jounrnalCheckSaved = snapshot.jounrnalCheck || "showEverytime";
-    todaysFeeling = snapshot.todaysFeeling;
-    joyelevelscore = snapshot.current_avarage;
+    jounrnalCheckSaved = snapshot?.jounrnalCheck || "showEverytime";
+    todaysFeeling = snapshot?.todaysFeeling;
+    joyelevelscore = snapshot?.current_avarage;
     
     const currentWeek: any = moment().format('w');
     const year = moment().format('yyyy');
@@ -78,10 +95,10 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     data = data.val()
     console.log("data", data)
     this.setState({
-      jQuestion: snapshot.journalQuestion,
-      cQuestion: snapshot.congratulationQuestion,
+      jQuestion: snapshot?.journalQuestion,
+      cQuestion: snapshot?.congratulationQuestion,
       jounrnalCheck: jounrnalCheckSaved || "showEverytime",
-      journalCount: data.journalCount || 0,
+      journalCount: data?.journalCount || 0,
       weekdata: data
     });
 
@@ -168,9 +185,12 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     this.saveData(true);
   };
   renderYesnoContent = () => {
-    if (this.state.showYesno && this.state.cQuestion) {
-      var congratulationQuestion = this.state.cQuestion.toString()
-      return <Yesno data={{ congratulationQuestion: congratulationQuestion }} />;
+    if (this.state.showYesno) {
+      var congratulationQuestion = this.state.cQuestion?.toString()
+      return <Yesno data={{ 
+        congratulationQuestion: ((this.queryParams.yesNo && this.queryParams.yesNo == "true")?"Are you feeling better?":congratulationQuestion),
+        fromStressBuster:((this.queryParams.yesNo && this.queryParams.yesNo == "true")?true:false)
+      }} />;
     }
   };
   getRadioType = (value) => {

@@ -170,10 +170,17 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
       .update({
         happinessCounter: tempHappinessCounterSubOrg
       });
+
+    const { data: { fromStressBuster } } = this.props;
     if(yesNoValue){
       this.setState({ ShowCongratulation: true });
     } else { 
-      this.handleModal();
+      if(fromStressBuster){
+        this.props.history.push(`/dashboard`);  
+      }
+      else{
+        this.handleModal();
+      }
     }
     
   };
@@ -192,7 +199,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
   };
 
   navigateToDashboard = () => {
-    this.props.history.push(`/`);
+    this.props.history.push(`/`);    
   }
 
   renderYesnoContent = () => {
@@ -213,7 +220,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
 
   render() {
     const { openModal, modalData, ShowCongratulation } = this.state;
-    const { data: { congratulationQuestion } } = this.props;
+    const { data: { congratulationQuestion, fromStressBuster } } = this.props;
 
     return (
       <>
