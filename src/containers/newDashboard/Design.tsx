@@ -520,7 +520,7 @@ const Design = (props: any) => {
     // console.log("Submit::: ", slider);
     const userId = getAuthId();
     const date = moment().format("DD-MM-yyyy");
-    const weekOfYear = moment().format("w_yyyy");
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
     const brewData: any = {
       date,
     };
@@ -782,7 +782,7 @@ const Design = (props: any) => {
 
       const year = moment().format('yyyy');
       const currentWeek: any = moment().format('w');
-      const query = await dbRef.ref(`users/${userId}/brew/weeks_average/${currentWeek}_${year}`);
+      const query = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`);
       let snapshot: any = await query.once("value");
       snapshot = snapshot.val() || {};
       let happinessCounter = snapshot.happinessCounter

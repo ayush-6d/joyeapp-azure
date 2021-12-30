@@ -107,7 +107,8 @@ export const DailyChart = () => {
     // } else {
     //   setIsPreviousWeek(true);
     // }
-    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekNumber}_${year}`)
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`)
       .once('value');
     weekAvarageDetail = await weekAvarageDetail.val();
     setWeekAvarage(weekAvarageDetail);
