@@ -34,7 +34,7 @@ export const DailyChart = () => {
   // eslint-disable-next-line no-restricted-globals
   const screenHeight = screen.height;
   const location = useLocation();
-  const currentWeek: any = moment().format('w');
+  const currentWeek: any = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? "53" : moment().format('w');
   const weekdata = [
     ['Week', 'Avarage', 'Joyful', 'Motivated', 'Irritable', 'Anxious', 'Social', 'Day Avarage', 'date'],
     ['Sun', 0, 0, 0, 0, 0, 0, 0],
@@ -55,7 +55,7 @@ export const DailyChart = () => {
   const [APIData, setApiData] = useState([]);
   const [startOfWeek, setStartOfWeek] = useState(moment().startOf('week').format('DD-MM-yyyy'));
   const [weekAvarage, setWeekAvarage] = useState(null);
-  const [weekNumber, setWeekNumber] = useState(moment().format('w'));
+  const [weekNumber, setWeekNumber] = useState((parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? "53" : moment().format('w'));
   const [popup, setPopup] = React.useState(false);
   const [legendPopup, setLegendPopup] = React.useState(false);
   const [screenMessage, setScreenMessages] = React.useState([]);
@@ -108,7 +108,7 @@ export const DailyChart = () => {
     //   setIsPreviousWeek(true);
     // }
     const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
-    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`)
+    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekNumber}_${year}`)
       .once('value');
     weekAvarageDetail = await weekAvarageDetail.val();
     setWeekAvarage(weekAvarageDetail);
