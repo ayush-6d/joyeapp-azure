@@ -197,10 +197,17 @@ class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
                   <div style={{ width: "100%" }}>
                     <div>
                       <div>
-                        <p className="cardHeading">
-                          Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
-                          is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()][data[0].type].pie} </span>- {EMOTIONS[emotion.toLowerCase()][data[0].type].prePieMessage}
-                        </p>
+                        { data[0].type? (
+                          <p className="cardHeading">
+                            Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
+                            is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()][data[0].type].pie} </span>- {EMOTIONS[emotion.toLowerCase()][data[0].type].prePieMessage}
+                          </p>
+                        ):(
+                          <p className="cardHeading">
+                            Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
+                            is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()].pie} </span>- {EMOTIONS[emotion.toLowerCase()].prePieMessage}
+                          </p>
+                        ) }
                       </div>
                     </div>
 
