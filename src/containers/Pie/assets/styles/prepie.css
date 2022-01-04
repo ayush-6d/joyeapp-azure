@@ -178,6 +178,36 @@ body {
 {
     font-family: "Mont-HeavyDEMO";
 }
+.avenier-font-bold.Joyful{
+  color:#000dff;
+}
+.avenier-font-bold.Gloomy{
+  color:#6b8fbf;
+}
+.avenier-font-bold.Calm{
+  color:#BA81FF;
+}
+.avenier-font-bold.Anxiety{
+  color:#6A2EDF;
+}
+.avenier-font-bold.Motivated{
+  color:#07e342;
+}
+.avenier-font-bold.Deflated{
+  color:#65a37a;
+}
+.avenier-font-bold.Angry{
+  color:#F00046;
+}
+.avenier-font-bold.Composed{
+  color:#ffc400;
+}
+.avenier-font-bold.Loved{
+  color:#FF07BF;
+}
+.avenier-font-bold.Lonely{
+  color:#FD83F2;
+}
 .margin-top-50
 {
     margin-top:50px !important;

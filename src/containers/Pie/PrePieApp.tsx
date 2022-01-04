@@ -200,7 +200,7 @@ class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
                         { data[0].type? (
                           <p className="cardHeading">
                             Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
-                            is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()][data[0].type].pie} </span>- {EMOTIONS[emotion.toLowerCase()][data[0].type].prePieMessage}
+                            is <span className={"avenier-font-bold " + EMOTIONS[emotion.toLowerCase()][data[0].type].pie}>{EMOTIONS[emotion.toLowerCase()][data[0].type].pie} </span> - {EMOTIONS[emotion.toLowerCase()][data[0].type].prePieMessage}
                           </p>
                         ):(
                           <p className="cardHeading">
