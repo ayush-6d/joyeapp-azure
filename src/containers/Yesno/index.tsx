@@ -103,7 +103,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
           noCount: 0
         } });
       }
-      const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+      const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
       const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`).once('value');
       let data = currentWeekData.val();
       console.log("data", data)
@@ -128,7 +128,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
     const userId = getAuthId();
     const tid = getTId();
     let dbRef = firebaseInit.database(getDbUrl());
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
     const date = moment().format("DD-MM-yyyy");
     let tempHappinessCounterLifetime = JSON.parse(JSON.stringify(this.state.happinessCounterLifetime))
     let tempHappinessCounter = JSON.parse(JSON.stringify(this.state.happinessCounter))

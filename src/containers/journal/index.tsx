@@ -90,7 +90,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
     
     const currentWeek: any = moment().format('w');
     const year = moment().format('yyyy');
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
     const currentWeekData = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`);
     let data: any = await currentWeekData.once("value");
     data = data.val()
@@ -173,7 +173,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
 
   setRoute = () => {
     const userId = getAuthId();
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
     dbRef
       .ref(`users/${userId}/brew`)
       .child("weeks_average")

@@ -62,7 +62,7 @@ export class Congratulation extends React.PureComponent<ICongratulationProps, IC
     const year = moment().format('yyyy');
     const currentWeek: any = moment().format('w');
     const week: any = parseInt(currentWeek, 10) - 1;
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
     console.log("week", currentWeek);
     console.log("year", year)
     try {

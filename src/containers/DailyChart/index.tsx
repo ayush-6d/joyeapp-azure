@@ -34,7 +34,7 @@ export const DailyChart = () => {
   // eslint-disable-next-line no-restricted-globals
   const screenHeight = screen.height;
   const location = useLocation();
-  const currentWeek: any = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? "53" : moment().format('w');
+  const currentWeek: any = moment().format('w');
   const weekdata = [
     ['Week', 'Avarage', 'Joyful', 'Motivated', 'Irritable', 'Anxious', 'Social', 'Day Avarage', 'date'],
     ['Sun', 0, 0, 0, 0, 0, 0, 0],
@@ -55,7 +55,7 @@ export const DailyChart = () => {
   const [APIData, setApiData] = useState([]);
   const [startOfWeek, setStartOfWeek] = useState(moment().startOf('week').format('DD-MM-yyyy'));
   const [weekAvarage, setWeekAvarage] = useState(null);
-  const [weekNumber, setWeekNumber] = useState((parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? "53" : moment().format('w'));
+  const [weekNumber, setWeekNumber] = useState(moment().format('w'));
   const [popup, setPopup] = React.useState(false);
   const [legendPopup, setLegendPopup] = React.useState(false);
   const [screenMessage, setScreenMessages] = React.useState([]);
@@ -72,7 +72,7 @@ export const DailyChart = () => {
     setLoader(true);
 
     const userId = getAuthId();
-    const year = moment().format('yyyy');
+    const year = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('yyyy') : moment().format('yyyy');
     const stdate = moment().format('DD-MM-yyyy');
     const dbRef = firebaseInit.database(getDbUrl());
 
@@ -107,7 +107,7 @@ export const DailyChart = () => {
     // } else {
     //   setIsPreviousWeek(true);
     // }
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('53_yyyy') : moment().format('w_yyyy');
+    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
     let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekNumber}_${year}`)
       .once('value');
     weekAvarageDetail = await weekAvarageDetail.val();
