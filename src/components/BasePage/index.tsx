@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import './basePage.scss';
 import { BurgerMenu } from 'src/components/BurgerMenu';
 import Shield from "../../resources/icons/Privacyshield.png";
@@ -22,6 +21,7 @@ export class BasePage extends React.Component<{
   unload?: any;
   showSignout?: boolean;
   history?: any;
+  stressBusterAudio?: string
 },
   {
     popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean, isOpen: boolean, modalOpened: boolean,
@@ -103,7 +103,7 @@ export class BasePage extends React.Component<{
     }, 500);
   };
   render() {
-    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross, unload, showSignout} = this.props;
+    const { withMenu, className, children, style, component, showShield, showInfoIcon, withCross, unload, showSignout, stressBusterAudio } = this.props;
     !withMenu ? style.flexDirection = 'column' : style.flexDirection = 'column';
     !withMenu ? style.height = 'auto' : style.height = '100%';
     const containerClass = this.state.modalOpened ? "modal__container modal__container-active" : "modal__container";
@@ -131,11 +131,12 @@ export class BasePage extends React.Component<{
               </button>
             </div>
           ) : ''}
-          
+          {stressBusterAudio? (
+            <div className='stressBusterAudioTitle'>{stressBusterAudio}</div>
+          ): ''}
           {showShield ? (<div className="home-shield">
             <PageImage height="24px" width="21px" style={{ cursor: "pointer" }} isFromMain={true} logo={Shield} OnClick={() => this.toggleShieldPopup()} />
           </div>) : ''}
-          
 
           {showInfoIcon ? (<div className="home-info"><PageImage height="22px" width="22px" style={{ cursor: "pointer" }} isFromMain={true} logo={InfoIcon} OnClick={e => this.togglePopupOpen()} /> </div>) : ''}
           {showSignout ? (

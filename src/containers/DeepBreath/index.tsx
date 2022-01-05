@@ -27,19 +27,54 @@ export interface IDeepBreathState {
   isPlaying: boolean;
   isStop?: boolean;
   path: string;
-  isLoaded:boolean
+  isLoaded:boolean;
+  audioTitle: string;
+  audioFile: string;
 }
 
 export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeepBreathState> {
   constructor(props: IDeepBreathProps) {
     super(props);
     let path = ((window as any).location.hostname === "localhost") ? "/public/" : '/';
-    this.state = { isPlaying: false, audioMute: false, path: path, isLoaded: false };
+    let randomAudio = this.getRandomAudio();
+    let audioTitle = randomAudio.title
+    let audioFile = randomAudio.file
+    this.state = { isPlaying: false, audioMute: false, path: path, isLoaded: false, audioTitle, audioFile };
+  }
+
+  getRandomAudio = () => {
+    let ret:{title: string, file: string};
+    let random = Math.random() * (5 - 0) + 1;
+    random = Math.floor( random - 1);
+    let audios = [
+      {
+        title: "Deep Bell Music",
+        file: "Deep_bell_music.mp3"
+      },
+      {
+        title: "Deep Bell Nature",
+        file: "deep_bell_nature.mp3"
+      },
+      {
+        title: "Ocean",
+        file: "Ocean.mp3"
+      },
+      {
+        title: "Tibetian Dong Music",
+        file: "Tibetian_dong_music.mp3"
+      },
+      {
+        title: "Tibetian Dong Nature",
+        file: "Tibetian_dong_nature.mp3"
+      }
+    ]
+    ret = audios[random]
+    return ret;
   }
 
   componentDidMount() {
     microsoftTeams.initialize();
-    fetch(`${this.state.path}deep-bell01.mp3`).then(x => x.blob()).then(x => {
+    fetch(`${this.state.path}${this.state.audioFile}`).then(x => x.blob()).then(x => {
       (window as any).audio = new Audio(URL.createObjectURL(x));
       (window as any).audio.load();
       this.setState({ isLoaded: true });
@@ -125,7 +160,7 @@ export class DeepBreathClass extends React.PureComponent<IDeepBreathProps, IDeep
   render() {
     return (
       <>
-        <BasePage withCross showInfoIcon className="login-form home-screen deepbreath-page" unload={this.componentCleanup.bind(this)}>
+        <BasePage stressBusterAudio={this.state.audioTitle} withCross showInfoIcon className="login-form home-screen deepbreath-page" unload={this.componentCleanup.bind(this)}>
           <div style={{ width: "100%" }}>
             <div style={{ width: "100%", margin: "auto" }}>
               <Circles isPlaying={this.state.isPlaying} complete={() => { 
