@@ -159,6 +159,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
     }
 
     async processAudio(data = null) {
+        alert(3);
         this.setState({ isGibberish: false });
         let text = data;
         if (data === null) {
@@ -170,7 +171,6 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         var output = await speechService.prediction(text);
         console.log(output);
         console.log(output.data);
-        alert(3);
         if (output.data.success){ 
             alert(4);
             this.props.history.push("/pie-chart");}
