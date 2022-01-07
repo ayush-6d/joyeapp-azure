@@ -146,7 +146,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 //     alert(123)
                 //     this.process = true;}
                 // else this.processPrediction();
-                this.processPrediction();
+                this.processAudio();
                 this.setState({ recordingState: "loading" });
                 setTimeout(() => this.setState({ pageState: 'loading' }), 8000);
             }
