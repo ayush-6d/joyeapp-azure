@@ -134,6 +134,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
                 // console.log(`${this.prediction}: prediction`);
+                alert();
                 if (this.prediction === null) this.process = true;
                 else this.processPrediction();
                 this.setState({ recordingState: "loading" });
@@ -153,7 +154,6 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 clearTimeout(this.stopTimer);
                 this.setState({ pageState: 'loading' });
                 this.base64 = await speechService.stopRecordingAudioFromWeb();
-                alert()
                 this.processAudio();
             }
         }
