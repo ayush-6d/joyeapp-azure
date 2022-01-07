@@ -87,8 +87,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     processPrediction() {
         // console.log('processPrediction');
+        alert(1);
         if (this.prediction.data.success){ 
-            alert();
+            alert(2);
             this.props.history.push("/pie-chart");}
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
@@ -169,8 +170,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         var output = await speechService.prediction(text);
         console.log(output);
         console.log(output.data);
+        alert(3);
         if (output.data.success){ 
-            alert();
+            alert(4);
             this.props.history.push("/pie-chart");}
         else if (output.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
