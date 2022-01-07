@@ -107,15 +107,18 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 this.setState({ recordingState: 'in-progress' });
                 // console.log(`${this.processId}: recordAudioFromTeams`);
                 let result: any;
+                alert('step 1')
                 try { result = await speechService.recordAudioFromTeams(this.processId); }
                 catch (e) { if (!(JSON.stringify(e).includes("1000"))) return; this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature!`) }); return; }
                 // console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
+                alert('step 2')
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
                 this.setState({ recordingState: "confirm" });
                 // console.log(`${this.processId}: mp4ToMP3`);
                 let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
                 // console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
+                alert('step 3')
                 if (mp4ToMP3Result.pid !== this.processId) return;
                 // console.log(`${this.processId}: translateSpeechToTextEx`);
                 let translateSpeechToTextResult: any;
@@ -124,6 +127,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 } catch (e) {
                     translateSpeechToTextResult = { pid: this.processId, data: '     ' }
                 }
+                alert('step 4')
                 // console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
                 if (translateSpeechToTextResult.pid !== this.processId) return;
                 // console.log(`${this.processId}: predictionEx`);
