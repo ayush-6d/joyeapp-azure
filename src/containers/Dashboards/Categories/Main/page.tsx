@@ -127,9 +127,11 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 // console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
                 if (translateSpeechToTextResult.pid !== this.processId) return;
                 // console.log(`${this.processId}: predictionEx`);
+                alert("x")
                 let predictionResult: any = await speechService.predictionEx(this.processId, translateSpeechToTextResult.data);
+                alert("y")
                 // console.log(`${this.processId}: predictionEx ${predictionResult.pid}`);
-                if (predictionResult.pid !== this.processId) return;
+                if (predictionResult.pid !== this.processId){alert("asdasd"); return;}
                 this.prediction = predictionResult.data;
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
