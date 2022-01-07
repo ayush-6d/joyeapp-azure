@@ -134,8 +134,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
                 // console.log(`${this.prediction}: prediction`);
-                alert();
-                if (this.prediction === null) this.process = true;
+                if (this.prediction === null){ 
+                    alert(123)
+                    this.process = true;}
                 else this.processPrediction();
                 this.setState({ recordingState: "loading" });
                 setTimeout(() => this.setState({ pageState: 'loading' }), 8000);
