@@ -100,6 +100,7 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     async recordAudio() {
         if (isMobile) {
+            alert(this.state.recordingState);
             if (this.state.recordingState === "init") {
                 this.processId = Math.floor(Math.random() * 1000000);
                 this.prediction = null;
@@ -112,14 +113,14 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 catch (e) { if (!(JSON.stringify(e).includes("1000"))) return; this.setState({ recordingState: 'init' }, () => { alert(`Please allow microphone access to use this feature!`) }); return; }
                 // console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 alert('step 2')
-                if (result.pid !== this.processId) return;
+                // if (result.pid !== this.processId) return;
                 this.base64 = result.data;
                 this.setState({ recordingState: "confirm" });
                 // console.log(`${this.processId}: mp4ToMP3`);
                 let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
                 // console.log(`${this.processId}: mp4ToMP3 ${mp4ToMP3Result.pid}`);
                 alert('step 3')
-                if (mp4ToMP3Result.pid !== this.processId) return;
+                // if (mp4ToMP3Result.pid !== this.processId) return;
                 // console.log(`${this.processId}: translateSpeechToTextEx`);
                 let translateSpeechToTextResult: any;
                 try {
@@ -129,14 +130,15 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 }
                 alert('step 4')
                 // console.log(`${this.processId}: translateSpeechToTextEx ${translateSpeechToTextResult.pid}`);
-                if (translateSpeechToTextResult.pid !== this.processId) return;
+                // if (translateSpeechToTextResult.pid !== this.processId) return;
                 // console.log(`${this.processId}: predictionEx`);
                 alert("x")
                 let predictionResult: any = await speechService.predictionEx(this.processId, translateSpeechToTextResult.data);
                 alert("y")
                 // console.log(`${this.processId}: predictionEx ${predictionResult.pid}`);
-                if (predictionResult.pid !== this.processId){alert("asdasd"); return;}
+                // if (predictionResult.pid !== this.processId){alert("asdasd"); return;}
                 this.prediction = predictionResult.data;
+                return;
                 if (this.process) this.processPrediction();
             } else if (this.state.recordingState === "confirm") {
                 // console.log(`${this.prediction}: prediction`);
