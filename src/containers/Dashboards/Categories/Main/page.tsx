@@ -110,7 +110,6 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 // console.log(`${this.processId}: recordAudioFromTeams ${result.pid}`);
                 if (result.pid !== this.processId) return;
                 this.base64 = result.data;
-                alert();
                 this.setState({ recordingState: "confirm" });
                 // console.log(`${this.processId}: mp4ToMP3`);
                 let mp4ToMP3Result: any = await speechService.mp4ToMP3(this.processId, this.base64);
