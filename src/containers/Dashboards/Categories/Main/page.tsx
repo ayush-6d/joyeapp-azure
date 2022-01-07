@@ -153,13 +153,13 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
                 clearTimeout(this.stopTimer);
                 this.setState({ pageState: 'loading' });
                 this.base64 = await speechService.stopRecordingAudioFromWeb();
+                alert()
                 this.processAudio();
             }
         }
     }
 
     async processAudio(data = null) {
-        alert(3);
         this.setState({ isGibberish: false });
         let text = data;
         if (data === null) {
@@ -172,7 +172,6 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
         console.log(output);
         console.log(output.data);
         if (output.data.success){ 
-            alert(4);
             this.props.history.push("/pie-chart");}
         else if (output.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
