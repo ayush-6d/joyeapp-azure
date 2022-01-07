@@ -87,7 +87,9 @@ export default class Page extends React.PureComponent<IPage, IPageState> {
 
     processPrediction() {
         // console.log('processPrediction');
-        if (this.prediction.data.success) this.props.history.push("/pie-chart");
+        if (this.prediction.data.success){ 
+            alert();
+            this.props.history.push("/pie-chart");}
         else if (this.prediction.data.gibberish) {
             this.setState({ isMic: false, recordingState: 'init', pageState: 'record', isGibberish: true });
         } else if (this.prediction.data.caution) {
