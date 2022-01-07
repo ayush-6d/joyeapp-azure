@@ -85,11 +85,9 @@ export const DailyChart = () => {
       // const newArray = keysOfObject.map(obj => Number(obj.replace('_', '')));
       const result = {};
       const leng = keysOfObject.length;
-      let weekYear = keysOfObject[0].split('_')
-      let minValue = Number(`${weekYear[1]}${(weekYear[0].length === 1)? 0 + weekYear[0]:weekYear[0] }`);
+      let minValue = Number(keysOfObject[0].replace('_', ''));
       for (let i = 0; i < leng; i += 1) {
-        let tempWeekYear = keysOfObject[i].split('_');
-        const stringInNum = Number(`${tempWeekYear[1]}${(tempWeekYear[0].length === 1)? 0 + tempWeekYear[0]: tempWeekYear[0] }`);
+        const stringInNum = Number(keysOfObject[i].replace('_', ''));
         minValue = stringInNum < minValue ? stringInNum : minValue;
         result[keysOfObject[i]] = stringInNum;
       }
