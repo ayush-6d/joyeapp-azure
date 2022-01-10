@@ -56,6 +56,7 @@ export const DailyChart = () => {
   const [startOfWeek, setStartOfWeek] = useState(moment().startOf('week').format('DD-MM-yyyy'));
   const [weekAvarage, setWeekAvarage] = useState(null);
   const [weekNumber, setWeekNumber] = useState(moment().format('w'));
+  const [weekOfYear, setWeekOfYear] = useState((parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().format('w') + moment().add(1, 'year').format('_yyyy') : moment().format('w_yyyy'));
   const [popup, setPopup] = React.useState(false);
   const [legendPopup, setLegendPopup] = React.useState(false);
   const [screenMessage, setScreenMessages] = React.useState([]);
@@ -91,7 +92,7 @@ export const DailyChart = () => {
         minValue = stringInNum < minValue ? stringInNum : minValue;
         result[keysOfObject[i]] = stringInNum;
       }
-      if (Number(`${weekNumber}${year}`) === minValue) {
+      if (Number(weekOfYear.replace('_', '')) === minValue) {
         setIsPreviousWeek(false);
       } else {
         setIsPreviousWeek(true);
@@ -107,8 +108,7 @@ export const DailyChart = () => {
     // } else {
     //   setIsPreviousWeek(true);
     // }
-    const weekOfYear = (parseInt(moment().format('DD')) > 20 && moment().format('w') === "1")? moment().add(1, 'year').format('w_yyyy') : moment().format('w_yyyy');
-    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekNumber}_${year}`)
+    let weekAvarageDetail: any = await dbRef.ref(`users/${userId}/brew/weeks_average/${weekOfYear}`)
       .once('value');
     weekAvarageDetail = await weekAvarageDetail.val();
     setWeekAvarage(weekAvarageDetail);
@@ -152,12 +152,14 @@ export const DailyChart = () => {
     dbRef.ref(`users/${userId}`).on('child_changed', () => {
       getBarChartData();
     });
-  }, [weekNumber]);
+  }, [weekNumber, weekOfYear]);
 
   function onPrevious() {
     const week: any = parseInt(weekNumber, 10) - 1;
     const changeWeek = currentWeek - week;
+    const subtractMoment = moment().subtract(changeWeek, 'weeks');
     const startDate = moment().subtract(changeWeek, 'weeks').startOf('week').format('DD-MM-yyyy');
+    let tempWeekOfYear = (parseInt(subtractMoment.startOf('week').format('DD')) > 20 && subtractMoment.startOf('week').format('w') === "1")? subtractMoment.startOf('week').format('w') + subtractMoment.startOf('week').add(1, 'year').format('_yyyy') : subtractMoment.startOf('week').format('w_yyyy');
     if (changeWeek > 0) {
       setIsCurrentWeek(false);
     } else {
@@ -165,12 +167,15 @@ export const DailyChart = () => {
     }
     setStartOfWeek(startDate);
     setWeekNumber(week);
+    setWeekOfYear(tempWeekOfYear)
   }
 
   function onNext() {
     const week: any = parseInt(weekNumber, 10) + 1;
     const changeWeek = currentWeek - week;
+    const subtractMoment = moment().subtract(changeWeek, 'weeks');
     const startDate = moment().subtract(changeWeek, 'weeks').startOf('week').format('DD-MM-yyyy');
+    let tempWeekOfYear = (parseInt(subtractMoment.startOf('week').format('DD')) > 20 && subtractMoment.startOf('week').format('w') === "1")? subtractMoment.startOf('week').format('w') + subtractMoment.startOf('week').add(1, 'year').format('_yyyy') : subtractMoment.startOf('week').format('w_yyyy');
     if (changeWeek > 0) {
       setIsCurrentWeek(false);
     } else {
@@ -178,6 +183,7 @@ export const DailyChart = () => {
     }
     setStartOfWeek(startDate);
     setWeekNumber(week);
+    setWeekOfYear(tempWeekOfYear)
   }
 
   function setTitle(val) {
@@ -344,7 +350,7 @@ export const DailyChart = () => {
                   >
                     <div className="tags has-addons level-item">
                       <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position: 'absolute', bottom: '46%', left: '0', right: '0' }}>
-                        {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
+                        <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>
                         {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
                       </div>
                       {APIData.length !== 0 && (
