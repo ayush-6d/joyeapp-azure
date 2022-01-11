@@ -86,13 +86,16 @@ export const DailyChart = () => {
       // const newArray = keysOfObject.map(obj => Number(obj.replace('_', '')));
       const result = {};
       const leng = keysOfObject.length;
-      let minValue = Number(keysOfObject[0].replace('_', ''));
+      let wY = keysOfObject[0].split('_');
+      let minValue = Number(`${wY[1]}${(wY[0].length === 1)? '0' + wY[0] : wY[0]}`);
       for (let i = 0; i < leng; i += 1) {
-        const stringInNum = Number(keysOfObject[i].replace('_', ''));
+        let wYt = keysOfObject[i].split('_');
+        const stringInNum = Number(`${wYt[1]}${(wYt[0].length === 1)? '0' + wYt[0] : wYt[0]}`);
         minValue = stringInNum < minValue ? stringInNum : minValue;
         result[keysOfObject[i]] = stringInNum;
       }
-      if (Number(weekOfYear.replace('_', '')) === minValue) {
+      let wOy = weekOfYear.split('_');
+      if (Number(`${wOy[1]}${(wOy[0].length === 1)? '0' + wOy[0] : wOy[0]}`) === minValue) {
         setIsPreviousWeek(false);
       } else {
         setIsPreviousWeek(true);
@@ -350,7 +353,7 @@ export const DailyChart = () => {
                   >
                     <div className="tags has-addons level-item">
                       <div className="btn-arrow-group" style={{ overflow: 'hidden', padding: '0 10px', position: 'absolute', bottom: '46%', left: '0', right: '0' }}>
-                        <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>
+                        {isPreviousWeek && <button type="button" className="button is-primary back" onClick={onPrevious}><img alt="previous" src={prevArrow} /></button>}
                         {!isCurrentWeek && <button type="button" className="button is-primary next" onClick={onNext}><img alt="next" src={nextArrow} /></button>}
                       </div>
                       {APIData.length !== 0 && (
