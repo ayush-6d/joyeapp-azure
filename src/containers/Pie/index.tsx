@@ -76,10 +76,10 @@ export const Pie = () => {
     setScreenMessages([/*"Joye level is your wellbeing index at this moment - 10 being excellent, and 1 being low. This is a personal benchmark and is designed to make you aware of your emotions and behaviour. ThSelf-reflection is the starting point to take charge of your wellbeing.",
       "The five moods which constitute our overall wellbeing are: Joy-Sad continuum, Anxiety, Relationships, Motivation and Anger. The pie-chart shows how they stack at this moment. One of these will be the dominant mood and may need the most attention.",
       <img height="30px" width="28px" src={stack} />,*/
-      <img width="500px" src={pie_chart_info} />,
+      <img width="100%" src={pie_chart_info} />,
       "This is your state of wellbeing at a moment in time. It is your personal benchmark, on a scale of 10. It is natural for the joy-level to be low from time to time - that is when Joye could help you the most with contextual suggestions to take charge of your behaviour and emotions. Though if your joy-level is consistently low for days and weeks, it is time to seek help from your family, friends, manager and other support services - it is recommended to ask for help!",
       "Wellbeing is a mix of the desirable and not-so-desirable emotions and behaviours. Joye has simplified the science of wellbeing to show your state of mind as a mix of 5 mega moods - the pies in the circle: Joyful, Anxiety, Motivation, Relationships, Anger. As you can guess, within each of these there will be a desirable and not-so-desirable state.",
-      <img width="500px" src={dominant_mood_info} />,
+      <img width="100%" src={dominant_mood_info} />,
       "Self-awareness is the starting point to do something about the not-so-desirable state of mind. Joye will help you to measure, understand and behave in ways which will help you to be positive and productive. It will suggest to you how to be in-charge of your wellbeing - as your mentor or a dear friend may have guided you! ",
       "Take charge of your wellbeing!",
       <a href={'/faq'}>FAQ</a>]);
