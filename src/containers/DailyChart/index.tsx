@@ -197,12 +197,11 @@ export const DailyChart = () => {
     setPopup(!popup);
   }
   async function getScreenMessages() {
+    const bar_chart = require("../../resources/icons/bar_chart.png");
     const screenMessages = isCurrentWeek
       ? await database.ref('/master/screen_messages/main_graph').once('value')
       : await database.ref('/master/screen_messages/prev_graph').once('value');
-    setScreenMessages(["You can manage your daily joy with Joye-level analytics for days and weeks. This view gives you the average of the Joye-level during the day, assuming you have checked in more than once during the day.",
-      "In addition to the daily view, you will also be able to see your weekly Joye-level once you use Joye for over a week.",
-      "For some situations, Joye will ask you to plan some actions and journal them. These journal entries can be retrieved when you tap on the bar for that day."]);
+    setScreenMessages([<img src={bar_chart} width="100%"></img>,"You can track your daily and weekly joy-level - just like the convenience of your weighing scale for your physical health. This is purely your personal benchmark and a tool to manage your own wellbeing. We will also encourage you to plan your wellbeing actions and enter in the journal (next page view). You can retrieve your  journal entries by the dates here."]);
   }
   // console.log('journalText', journalText);
   // console.log('journalQuestion', journalQuestion);
@@ -211,7 +210,7 @@ export const DailyChart = () => {
   return (
     <div id="slider" className="is-8 is-offset-2 dailyChart">
       <div className="card article" style={{ height: `${screenHeight}px`, border: '0px' }}>
-        {popup && (<Popup screenMessage={screenMessage} closePopup={togglePopup} />)}
+        {popup && (<Popup screenMessage={screenMessage} alignStart={true} closePopup={togglePopup} />)}
         {legendPopup && (<LegendPopup closePopup={() => setLegendPopup(false)} />)}
         {loading ? <Loader style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto", width: "100px", height: "200px", position: "relative" }} />
           : (
