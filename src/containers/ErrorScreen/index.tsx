@@ -18,8 +18,9 @@ const errors = {
         <p style={{marginBottom: 20 }}>Please ask your organization admin to provide access or if you're the organization admin please <a href="https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5">click here</a> to provide consent.</p>
     ],
     "expired": [
-        <p>Your 30 days trail period is over</p>,
-        <p style={{marginBottom: 20 }}>Please write to us at <a href="mailto:connect@joye.ai" style={{ color: "#1E00A3" }}>connect@joye.ai</a></p>
+        <p>Your 30 days free trial is over. We will love for you to continue with Joye's mental fitness habit.</p>,
+        <p style={{marginBottom: 20 }}>Please write to us at <a href="mailto:connect@joye.ai" style={{ color: "#1E00A3" }}>connect@joye.ai</a> to extend your free trial.</p>,
+        <p>Please also refer Joye to your HR leader and we can activate Joye for you and all your colleagues. More information at <a href='https://joye.ai/subscribe/'>https://joye.ai/subscribe/</a></p>
     ],
     "default": [
         <p>Please try again.</p>,
