@@ -9,7 +9,7 @@ class AuthStartComp extends React.PureComponent {
         msTeams.initialize();
         msTeams.getContext(async (context) => {
             let queryParams = {
-                client_id: "b21b4641-0dee-43e8-b37e-a4ba3f5637f8",
+                client_id: "b083d035-a374-45ea-911c-5ddf8569b0f5",
                 response_type: "id_token token",
                 response_mode: "fragment",
                 prompt: "consent",

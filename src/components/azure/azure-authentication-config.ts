@@ -2,7 +2,7 @@ import { Configuration, LogLevel } from "@azure/msal-browser";
 
 const AzureActiveDirectoryAppClientId: any =
   process.env.REACT_APP_AZURE_ACTIVE_DIRECTORY_APP_CLIENT_ID ||
-  "b21b4641-0dee-43e8-b37e-a4ba3f5637f8";
+  "b172c03f-be43-42e9-b17a-34fe50574266";
 
 console.log("sadas", AzureActiveDirectoryAppClientId);
 export const MSAL_CONFIG: Configuration = {
