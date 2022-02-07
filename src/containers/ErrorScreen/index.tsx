@@ -15,7 +15,7 @@ const errors = {
     ],
     "invalid_grant": [
         <p>Access denied.</p>,
-        <p style={{marginBottom: 20 }}>Please ask your organization admin to provide access or if you're the organization admin please <a href="https://login.microsoftonline.com/common/adminconsent?client_id=27a087a7-f40f-4b6f-8eea-c40b56e58882">click here</a> to provide consent.</p>
+        <p style={{marginBottom: 20 }}>Please ask your organization admin to provide access or if you're the organization admin please <a href="https://login.microsoftonline.com/common/adminconsent?client_id=b21b4641-0dee-43e8-b37e-a4ba3f5637f8">click here</a> to provide consent.</p>
     ],
     "expired": [
         <p>Your 30 days free trial is over. We will love for you to continue with Joye's mental fitness habit.</p>,

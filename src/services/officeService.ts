@@ -59,7 +59,7 @@ export const getAuthUrl = () => {
     authority +
     authorizeEndpoint +
     "?client_id=" +
-    "27a087a7-f40f-4b6f-8eea-c40b56e58882" +
+    "b21b4641-0dee-43e8-b37e-a4ba3f5637f8" +
     "&response_type=code" +
     "&scope=" +
     scope +
