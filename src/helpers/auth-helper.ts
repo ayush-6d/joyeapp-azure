@@ -58,6 +58,7 @@ export default class AuthHelper {
             // alert("Access denied, Please ask your organization admin to provide access or if you're the organization admin please visit this url to provide consent- https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5")
             this.requestConsent(context);
           } else if (ssoToken.data.error) {
+            console.log("ssoToken.data.error", ssoToken.data.error)
             // alert("Something went wrong, Error Code- 002");
             window.location.replace(window.location.origin + '/error?errorCode=002');
           }
