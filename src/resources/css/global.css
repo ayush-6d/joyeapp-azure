@@ -246,6 +246,8 @@ h3.hdngTitle {
   position: absolute;
   top: calc(50% - 250px);
   letter-spacing: -0.66px;
+  margin-top: 10px;
+  line-height: 1.2;
 }
 
 h3.hdngTitle span {
@@ -367,6 +369,22 @@ div.level-item {
   width: 120px;
   margin-top: 110px;
 }
+
+.range__value img.upDownImages {
+  margin-top: 0px;
+  width: 35px;
+  position: absolute;
+  top: 51%;
+}
+
+.range__value img.upDownImages.left{
+  left: 20px;
+}
+
+.range__value img.upDownImages.right{
+  right: 20px;
+}
+
 .card-txt {
   line-height: 20px;
 }

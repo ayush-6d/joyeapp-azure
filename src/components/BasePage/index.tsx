@@ -24,7 +24,7 @@ export class BasePage extends React.Component<{
   stressBusterAudio?: string
 },
   {
-    popup: boolean, screenMessage: string[], screenTitle: string, shieldPopup: boolean, isOpen: boolean, modalOpened: boolean,
+    popup: boolean, screenMessage: any[], screenTitle: string, shieldPopup: boolean, isOpen: boolean, modalOpened: boolean,
   }> {
   static defaultProps = {
     style: {}
@@ -33,7 +33,7 @@ export class BasePage extends React.Component<{
     super(props);
     this.state = {
       popup: false,
-      screenMessage: [""],
+      screenMessage: [],
       screenTitle: "",
       shieldPopup: false,
       isOpen: false,
@@ -48,7 +48,7 @@ export class BasePage extends React.Component<{
 
   }
   togglePopupOpen() {
-    let screenMessage = [""];
+    let screenMessage = [];
 
     if (window.location.pathname === "/aboutus") {
       screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
@@ -63,10 +63,17 @@ export class BasePage extends React.Component<{
       screenMessage = ["Joye is an engaging mental wellbeing service for everyone, every day. Let’s make mental wellbeing into a habit, the mental fitness habit, the ‘10,000 steps’ of mental wellbeing!",
         "No one is listening. When you speak or write, we immediately anonymise your expression and no one can ever know what you spoke. Your data is independently managed by Joye, and your employer or anyone else will not be able to see your private information."];
     } else if (window.location.pathname === "/deepBreath") {
-      screenMessage = ["Excessive stress and anxiety affect our mind, body, and even decision making capability.",
-        "Joye’s Stress Buster is a technique of 10 breaths with gradual lengthening of the exhale cycle. The visuals are inspired by the colors of the vedic energy chakras.",
-        "We are sure you will find this easy and effective during those stressful moments - after a call or before that critical meeting.",
-        "Get your energy streamlined for effective decision making!"];
+      const energy_chakra = require("../../resources/icons/energy_chakra.png");
+      const breaths = require("../../resources/icons/10_breaths.png");
+      const yesNoImg = require("../../resources/icons/yes_no.png");
+      screenMessage = [
+        <img src={energy_chakra} width="100%" ></img>,
+        <img src={breaths} width="100%" ></img>,
+        "There is a variety of music to help you with the rhythm of the breaths.",
+        "We are sure you will find this easy and effective - after a call or before that critical meeting. Get your energy streamlined and make better decisions. These 2 minutes could be a great investment of your time!",
+        "Do complete the full sequence of 10 breaths - and at the end reflect how it made you feel.",
+        <img src={yesNoImg} width="100%" ></img>
+      ];
     } else if (window.location.pathname === "/") {
       screenMessage = ["Speak your mind freely - you can speak, write or take our guided reflection. No one is listening, express yourself freely.",
         "Becoming aware of your emotions is the first step in managing your wellbeing. Make a conscious effort to check-in every day, and whenever you are in an emotional flux. Make this your mental fitness habit, your ‘10,000 steps’ of mental wellbeing!",
@@ -89,7 +96,7 @@ export class BasePage extends React.Component<{
     const screenMessage = [""];
     this.setState({ popup: !this.state.popup, screenTitle, screenMessage })
   }
-
+  
   modalToggle = () => {
     this.setState({ modalOpened: !this.state.modalOpened });
   };
@@ -111,7 +118,7 @@ export class BasePage extends React.Component<{
     return (
       <div className={`base-page-main login-form ${className || ``}`}>
         <div className="position-relative" style={{ height: '40px' }}>
-          {this.state.popup && (<Popup text={this.state.screenTitle} screenMessage={this.state.screenMessage} closePopup={this.togglePopupClose.bind(this)} />)}
+          {this.state.popup && (<Popup text={this.state.screenTitle} screenMessage={this.state.screenMessage} alignStart={true} closePopup={this.togglePopupClose.bind(this)} />)}
           {this.state.shieldPopup && (<Popup text={null} screenMessage={this.shieldMessage} closePopup={this.toggleShieldPopup.bind(this)} />)}
 
           {/* {withMenu && localStorage.getItem("userId") ? <BurgerMenu /> : ''} */}

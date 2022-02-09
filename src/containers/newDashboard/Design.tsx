@@ -35,6 +35,8 @@ import "src/resources/css/fonts/fonts.css";
 import HandPic from "src/resources/icons/hand1.gif";
 import PressHold from "src/resources/icons/pressHoldslide.png";
 import ArrowPic from "src/resources/icons/arrow.png";
+import upDownLeft from "src/resources/icons/up_down_left.png";
+import upDownRight from "src/resources/icons/up_down_right.png";
 // import InfoPic from "src/resources/icons/info.svg";
 import InfoPic from "src/resources/icons/whiteinfo.png";
 
@@ -946,8 +948,10 @@ const Design = (props: any) => {
               flexDirection: 'column-reverse'
             }}
           >            
-            <img className={`${imgClassName}`} alt="pressholdslide" src={HandPic} style={{ marginTop: 30 }} />
-            <img className={`${imgClassName}`} alt="img" src={PressHold} style={{ marginTop: 85, width: 240 }} />
+            <img className={`${imgClassName}`} alt="pressholdslide" src={HandPic} style={{ marginTop: 50 }} />
+            <img className={`${imgClassName}`} alt="img" src={PressHold} style={{ marginTop: 75, width: 205 }} />
+            <img className={`${imgClassName} upDownImages left`} alt="left" src={upDownLeft} />
+            <img className={`${imgClassName} upDownImages right`} alt="right" src={upDownRight} />
             <span
               className={`range__value__number range__value__number--bottom ${spanRefClassName}`}
               ref={rangeValueNumberBottom}
