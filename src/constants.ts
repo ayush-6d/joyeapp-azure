@@ -3,9 +3,8 @@ export const TeamsThemes = {
   dark: "dark",
   default: "default",
 };
-
 export const Auth = {
-  appId: process.env.REACT_APP_APP_ID || "b083d035-a374-45ea-911c-5ddf8569b0f5",
+  appId: process.env.REACT_APP_APP_ID,
   cacheLocation: "localStorage",
   signInStartPage: "auth/signinstart",
   signInEndPage: "auth/signinend",

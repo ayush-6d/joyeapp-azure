@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router';
 import { Logo, BasePage } from 'src/components'
 import { Button } from 'src/components/FormComponents/Button';
 
-
+console.log("process.env.REACT_APP_APP_ID 6", process.env)
 const errors = {
     "unknownAuthError": [
         <p>To sign into Joye, please use the same email as you have used to sign in to Teams.</p>,
@@ -15,7 +15,7 @@ const errors = {
     ],
     "invalid_grant": [
         <p>Access denied.</p>,
-        <p style={{marginBottom: 20 }}>Please ask your organization admin to provide access or if you're the organization admin please <a href="https://login.microsoftonline.com/common/adminconsent?client_id=b083d035-a374-45ea-911c-5ddf8569b0f5">click here</a> to provide consent.</p>
+        <p style={{marginBottom: 20 }}>Please ask your organization admin to provide access or if you're the organization admin please <a href={`https://login.microsoftonline.com/common/adminconsent?client_id=${process.env.REACT_APP_APP_ID}`}>click here</a> to provide consent.</p>
     ],
     "expired": [
         <p>Your 30 days free trial is over. We will love for you to continue with Joye's mental fitness habit.</p>,

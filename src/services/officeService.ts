@@ -53,13 +53,13 @@ export const hasAccessTokenExpired = (e) => {
   }
   return expired;
 };
-
+console.log("process.env.REACT_APP_APP_ID 56", process.env.REACT_APP_APP_ID)
 export const getAuthUrl = () => {
   return (
     authority +
     authorizeEndpoint +
     "?client_id=" +
-    "b083d035-a374-45ea-911c-5ddf8569b0f5" +
+    process.env.REACT_APP_APP_ID +
     "&response_type=code" +
     "&scope=" +
     scope +
