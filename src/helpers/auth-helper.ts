@@ -330,6 +330,6 @@ export default class AuthHelper {
 
   public async setOrgData(user: any) {
     setAuthId(user.uid)
-    setDbUrl('https://teams-768f7-e6e45.firebaseio.com');
+    setDbUrl(process.env.databaseURL);
   }
 }
