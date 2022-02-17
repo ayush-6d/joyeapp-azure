@@ -945,11 +945,11 @@ const Design = (props: any) => {
             className="range__value range__value--bottom"
             style={{
               display: 'flex',
-              flexDirection: 'column-reverse'
+              flexDirection: 'column'
             }}
           >            
-            <img className={`${imgClassName}`} alt="pressholdslide" src={HandPic} style={{ marginTop: 50 }} />
-            <img className={`${imgClassName}`} alt="img" src={PressHold} style={{ marginTop: 75, width: 205 }} />
+            <img className={`${imgClassName}`} alt="pressholdslide" src={HandPic} style={{ marginTop: 75 }} />
+            <img className={`${imgClassName}`} alt="img" src={PressHold} style={{ marginTop: 25, width: 205 }} />
             <img className={`${imgClassName} upDownImages left`} alt="left" src={upDownLeft} />
             <img className={`${imgClassName} upDownImages right`} alt="right" src={upDownRight} />
             <span
