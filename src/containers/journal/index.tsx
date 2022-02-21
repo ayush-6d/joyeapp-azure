@@ -224,7 +224,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                 <div className="text-container">
                   {todaysFeeling.length <= 150 ? (
                     <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
-                      <p>{jQuestion}</p>
+                      <p className="extrabold">{jQuestion}</p>
                     </div>
                   ) :
                     (

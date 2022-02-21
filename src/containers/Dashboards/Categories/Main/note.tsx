@@ -19,11 +19,11 @@ export default class Note extends React.PureComponent<INote, INoteState> {
         switch (this.props.recordingState) {
             case "init":
                 if (this.props.isGibberish) return <p>Try a deeper reflection</p>;
-                else return <p>What’s your joy level today?</p>;
+                else return <p className="extrabold">What’s your joy level today?</p>;
             case "in-progress":
             case "confirm":
             case "loading":
-                return <p>Express freely for a few seconds</p>;
+                return <p className="extrabold">Express freely for a few seconds</p>;
         }
     }
 
