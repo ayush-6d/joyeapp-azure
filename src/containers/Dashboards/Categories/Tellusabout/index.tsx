@@ -47,7 +47,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
             <div>
               <div>
                 <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
-                  <p>Express freely in a few sentences</p>
+                  <p className="extrabold">Express freely in a few sentences</p>
                   <p className="do-not-txt">
                     Tap &nbsp;&nbsp;
                     <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />
@@ -59,7 +59,7 @@ export class TellUsAbout extends React.PureComponent<ITellUsAboutProps, ITellUsA
           ) : (
             <div className="text-container">
               <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
-                <p>Express freely in a few sentences</p>
+                <p className="extrabold">Express freely in a few sentences</p>
                 <p className="do-not-txt">
                   Tap &nbsp;&nbsp;
                   <img height="17.9px" width="18px" style={{ marginTop: "-5px" }} src={ExcellentTick} />

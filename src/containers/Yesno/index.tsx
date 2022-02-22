@@ -268,7 +268,7 @@ export class YesNo extends React.PureComponent<IYesNoProps, IYesNoState> {
                   <>
                     <div className="text-container">
                       <div className="advertise-text bold text-blue" style={{ marginTop: "35px", height: "62px" }}>
-                        <p>{congratulationQuestion}</p>
+                        <p className="extrabold">{congratulationQuestion}</p>
                       </div>
                       <div>
                         <div className="yes-no-icon-group" style={{ marginTop: "150px" }}>
