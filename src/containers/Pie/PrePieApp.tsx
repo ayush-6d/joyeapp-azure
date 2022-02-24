@@ -17,6 +17,7 @@ export interface IPrePieProps extends RouteComponentProps {
   emotion?: string;
   index?: number;
   setShowScreen?: Function;
+  messageType?:string;
 }
 
 export interface IPrePieState {
@@ -77,7 +78,7 @@ class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
   };
 
   render() {
-    const { data, average, onClickPopup, getScreenMessages, emotion } =
+    const { data, average, onClickPopup, getScreenMessages, emotion, messageType } =
       this.props;
     const pieAverage = average ? parseFloat(average.toString()).toFixed(1) : "0.0";
     const pieAverageVal = pieAverage.toString().split(".");
@@ -203,10 +204,17 @@ class PrePieApp extends React.PureComponent<IPrePieProps, IPrePieState> {
                             is <span className={"avenier-font-bold " + EMOTIONS[emotion.toLowerCase()][data[0].type].pie}>{EMOTIONS[emotion.toLowerCase()][data[0].type].pie} </span> - {EMOTIONS[emotion.toLowerCase()][data[0].type].prePieMessage}
                           </p>
                         ):(
-                          <p className="cardHeading">
-                            Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
-                            is <span className="avenier-font-bold">{EMOTIONS[emotion.toLowerCase()].pie} </span>- {EMOTIONS[emotion.toLowerCase()].prePieMessage}
-                          </p>
+                            messageType? (
+                              <p className="cardHeading">
+                                Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
+                                is <span className={"avenier-font-bold " + EMOTIONS[emotion.toLowerCase()].voice[messageType].pie}>{EMOTIONS[emotion.toLowerCase()].voice[messageType].pie} </span>- {EMOTIONS[emotion.toLowerCase()].voice[messageType].prePieMessage}
+                              </p>
+                            ):(
+                              <p className="cardHeading">
+                                Your Joye-level is <span className="avenier-font-bold">{pieAverage}</span> and your dominant mood
+                                is <span className={"avenier-font-bold " + EMOTIONS[emotion.toLowerCase()].pie}>{EMOTIONS[emotion.toLowerCase()].pie} </span>- {EMOTIONS[emotion.toLowerCase()].prePieMessage}
+                              </p>
+                            )
                         ) }
                       </div>
                     </div>

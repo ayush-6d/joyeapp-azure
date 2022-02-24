@@ -23,6 +23,7 @@ import './assets/styles/index.css';
 
 export const Pie = () => {
   const [data, setData] = useState([]);
+  const [messageType, setMessageType] = useState('');
   const [load, setLoaderPie] = useState(true);
   const [average, setAverage] = useState(0.0);
   const [emotion, setDominentEmotion] = useState('');
@@ -49,6 +50,7 @@ export const Pie = () => {
         setDominentEmotionType(brewData.type);
       }
       setData(brewData?.pieData);
+      setMessageType(brewData?.type);
       setLoaderPie(false);
     }, 5000);
   }, []);
@@ -99,6 +101,7 @@ export const Pie = () => {
               getScreenMessages={getScreenMessages}
               emotion={emotion}
               setShowScreen={setShowScreen}
+              messageType={messageType}
             />
           )
             :
