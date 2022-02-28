@@ -235,7 +235,7 @@ export class Journalclass extends React.PureComponent<IJournalProps, IJournalSta
                   }
                 </div>
                 <div className="target__body">
-                  <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and start writing" onChange={this.handleChange} className="target__textarea about-textarea" />
+                  <textarea value={todaysFeeling} rows={6} cols={40} maxLength={150} placeholder="Tap here and write a short journal" onChange={this.handleChange} className="target__textarea about-textarea" />
                 </div>
                 <div className="circle-box-container">
                   <div className="circle-box">
