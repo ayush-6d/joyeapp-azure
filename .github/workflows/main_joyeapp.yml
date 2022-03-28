@@ -25,8 +25,7 @@ jobs:
         run: |
           yarn add react --network-timeout 100000
           yarn 
-          yarn run build 
-          yarn start
+          yarn build 
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
