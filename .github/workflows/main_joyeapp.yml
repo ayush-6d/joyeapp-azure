@@ -23,6 +23,7 @@ jobs:
 
       - name: yarn install, build, and test
         run: |
+          yarn add react --network-timeout 100000
           yarn 
           yarn run build 
           yarn start
