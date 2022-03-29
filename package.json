@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --open --progress --inline --hot --config config/webpack.config.dev.js",
-    "build": "CI=false && node scripts/build.js",
+    "build": "node scripts/build.js",
     "lint": "eslint",
     "serve": "serve -s build"
   },
