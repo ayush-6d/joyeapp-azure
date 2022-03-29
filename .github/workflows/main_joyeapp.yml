@@ -22,8 +22,7 @@ jobs:
           node-version: '14.x'
   
       - name : bulid
-        run : |   
-         - CI=false
+        run : |
           yarn
           yarn run build
       
