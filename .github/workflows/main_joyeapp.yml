@@ -21,12 +21,11 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name:  yarn, build, and test
+      - name:  yarn, build,
         run: |
           yarn add react --network-timeout 100000
           yarn install
           yarn run build --if-present
-          yarn run test --if-present
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
