@@ -21,9 +21,11 @@ jobs:
         with:
           node-version: '14.x'
 
-      - name:  yarn, build,
+      - name:  yarn,
         run: |
-          yarn install
+          yarn install 
+      - name : bulid
+        run : | 
           yarn add react --network-timeout 100000
           yarn run build --if-present
       
