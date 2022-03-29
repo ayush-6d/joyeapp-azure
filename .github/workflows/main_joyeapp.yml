@@ -23,8 +23,8 @@ jobs:
 
       - name:  yarn, build,
         run: |
-          yarn add react --network-timeout 100000
           yarn install
+          yarn add react --network-timeout 100000
           yarn run build --if-present
       
       - name: Upload artifact for deployment job
