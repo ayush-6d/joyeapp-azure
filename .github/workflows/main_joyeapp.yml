@@ -20,11 +20,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-
+  
       - name : bulid
-        run : | 
+        run : |   
+         - CI=false
           yarn
-          - CI=false yarn run build
+          yarn run build
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
