@@ -24,7 +24,7 @@ jobs:
       - name : bulid
         run : | 
           yarn
-          CI=false yarn run build
+          yarn run build
       
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
