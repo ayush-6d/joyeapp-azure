@@ -120,7 +120,7 @@ function build(previousFileSizes) {
       if (
         process.env.CI &&
         (typeof process.env.CI !== 'string' ||
-          process.env.CI.toLowerCase() !== 'false') &&
+          process.env.CI.toLowerCase() !== 'ture') &&
         messages.warnings.length
       ) {
         console.log(
