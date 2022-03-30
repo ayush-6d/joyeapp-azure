@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -20,12 +20,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '14.x'
-
-      - name: yarn install and build
-        run: |
+  
+      - name : bulid
+        run : |
           yarn
           yarn run build
-
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
@@ -46,10 +46,10 @@ jobs:
           name: node-app
 
       - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
+        id: deploy-to-webapp
         with:
           app-name: 'joye-webapp-dev'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6DE8FB432F814FDDBC69DC081AE54A95 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_0EFE3038434D4776ADDFBED9111CD575 }}
           package: .
